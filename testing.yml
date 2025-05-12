@@ -1,0 +1,6 @@
+---
+ - name: Testing CyberArk Credentials
+   hosts: localhost
+   tasks:
+   - debug: 
+        msg: "Hello World!"
