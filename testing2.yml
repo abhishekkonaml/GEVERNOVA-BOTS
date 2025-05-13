@@ -2,6 +2,6 @@
  - name: Testing GEV Servicenow
    hosts: localhost
    tasks:
-   - shell: python3 ./GEV_Servicenow/GEV_DEV_Servicenow.py 
+   - shell: python ./GEV_Servicenow/GEV_DEV_Servicenow.py 
      register: output
    - debug: var=output.stdout 
