@@ -1,5 +1,5 @@
 import requests
-import json
+
 class Incidents:
     def __init__(self):
         url = "https://fssfed.stage.ge.com/fss/as/token.oauth2?grant_type=client_credentials&scope=api"
