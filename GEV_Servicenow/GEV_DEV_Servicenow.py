@@ -104,7 +104,7 @@ class Incidents:
             if response.status_code == 201:
                return (response.json()['result'])
             else:
-               return ("Failed - {}".format(response.json()))
+               return ("Failed - {}".format(response.json()['error']['message']))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
     def get_incident_details_by_query(self,query):
