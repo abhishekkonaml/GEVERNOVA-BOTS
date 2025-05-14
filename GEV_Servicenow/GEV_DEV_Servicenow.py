@@ -164,6 +164,6 @@ work_notes="This is a test. This is only a test."
 
 close_notes="Closed/Resolved by Caller"
 close_code = "Duplicate"
-print(incobj.close_ticket("GEVINC0017969",close_notes,close_code))
+print(incobj.close_ticket("GEVINC0017970",close_notes,close_code))
 
         
