@@ -192,6 +192,22 @@ class CMDB:
                   return ("Failed - {}".format(response.json()['error']['message']))
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
+      def get_ci_by_query(self,query):
+          url="https://stage.api.gevernova.com/servicenow_task_cmdb/custom_query?{}".format(query)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.microwhiz',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json()['result'])
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
 
 
 #incobj=Incidents()
@@ -218,7 +234,9 @@ work_notes="This is a test. This is only a test."
 cmdbobj=CMDB()
 #print(cmdbobj.get_ci_details("crpwcedzalgie91"))
 #print(cmdbobj.get_ci_full_details("crpwcedzalgie91"))
-print(cmdbobj.get_ci_details_by_id("1004209415"))
+#print(cmdbobj.get_ci_details_by_id("1004209415"))
+#field=owned_by&value=Korsós, Balázs
+query2="field=owned_by&value={}".format("Korsós, Balázs")
 
-
+print(cmdbobj.get_ci_by_query(query2))
         
