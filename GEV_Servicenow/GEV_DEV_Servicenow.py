@@ -78,6 +78,35 @@ class Incidents:
                return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
+    def close_ticket(self,incidentnumber,close_notes,close_code):
+        token='Bearer {}'.format(self.access_token)
+        url1="https://stage.api.gevernova.com/servicenow_incident/" 
+        payload = json.dumps({
+                              "update": {
+                                "partnerInfo": {
+                                  "name": "com.gevn.servicenow",
+                                  "externalRecord": ""
+                                },
+                                "number": incidentnumber,
+                                "state" : "6",
+                                "assigned_to" : 212493581,
+                                "close_notes" : close_notes,
+                                "close_code" : close_code
+                              }
+                            })
+        headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                    'Cookie': 'glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("PUT", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 201:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
     def get_incident_details_by_query(self,query):
           url1="https://stage.api.gevernova.com/servicenow_incident/query/{}".format(query)
           token='Bearer {}'.format(self.access_token)
@@ -112,6 +141,10 @@ urgency="3"
 work_notes="This is a test. This is only a test."
 #print(incobj.get_incident_details_by_query(query2))
 #print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
-print(incobj.update_notes("GEVINC0017971",work_notes))
+#print(incobj.update_notes("GEVINC0017971",work_notes))
+
+close_notes="Closed/Resolved by Caller"
+close_code = "Duplicate"
+print(incobj.close_ticket("GEVINC0017971",close_notes,close_code))
 
         
