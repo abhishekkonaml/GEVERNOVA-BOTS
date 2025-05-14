@@ -46,10 +46,10 @@ class Incidents:
                   }
         try: 
             response = requests.request("POST", url1, headers=headers,verify=False,data=payload)
-            if response.status_code == 200:
+            if response.status_code == 201:
                return (response.json()['result'])
             else:
-               return ("Failed - {}".format(response.json()['error']['message']))
+               return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
     def get_incident_details_by_query(self,query):
