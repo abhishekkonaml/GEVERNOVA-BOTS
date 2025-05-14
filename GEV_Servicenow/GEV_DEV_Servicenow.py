@@ -52,12 +52,38 @@ class Incidents:
                return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
+    def update_notes(self,incidentnumber,work_notes):
+        token='Bearer {}'.format(self.access_token)
+        url1="https://stage.api.gevernova.com/servicenow_incident/" 
+        payload = json.dumps({
+                              "update": {
+                                "partnerInfo": {
+                                  "name": "com.gevn.servicenow",
+                                  "externalRecord": ""
+                                },
+                                "number": incidentnumber,
+                                "work_notes": work_notes
+                              }
+                            })
+        headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                    'Cookie': 'glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("PUT", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 201:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
     def get_incident_details_by_query(self,query):
           url1="https://stage.api.gevernova.com/servicenow_incident/query/{}".format(query)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
-               'tradingPartner': 'com.microland.microwhiz',
+               'tradingPartner': 'com.microland.intelligenie',
                'Content-Type': 'application/json'
               }
           try: 
@@ -85,7 +111,7 @@ description="This is only a test"
 urgency="3"
 work_notes="This is a test. This is only a test."
 #print(incobj.get_incident_details_by_query(query2))
-print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
-
+#print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
+print(incobj.update_notes("GEVINC0017971",work_notes))
 
         
