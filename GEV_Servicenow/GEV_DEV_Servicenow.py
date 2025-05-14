@@ -39,6 +39,19 @@ class Incidents:
                                  "work_notes": work_notes
                              }
                             })
+        headers = {
+                   'Content-Type': 'application/json',
+                   'Authorization': 'Bearer 0005qzJ6EmlBksBJBDD1KVOpXXeq',
+                   'Cookie': 'BIGipServerpool_gevernovaqa=e50c24c05607137134b987b035fe487d; JSESSIONID=9E63CEC62D27553D912E725D31E66FBD; glide_node_id_for_js=089cab321ff39bfe74597e963c0c2334b85df218538922fe5f14561ed8de96d7; glide_session_store=0BEBC7B03BE922107BFECBC964E45A75; glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("POST", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 200:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()['error']['message']))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
     def get_incident_details_by_query(self,query):
           url1="https://stage.api.gevernova.com/servicenow_incident/query/{}".format(query)
           token='Bearer {}'.format(self.access_token)
@@ -71,7 +84,8 @@ short_description="This is a test Please Ignore"
 description="This is only a test"
 urgency="3"
 work_notes="This is a test. This is only a test."
-print(incobj.get_incident_details_by_query(query2))
+#print(incobj.get_incident_details_by_query(query2))
+print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
 
 
         
