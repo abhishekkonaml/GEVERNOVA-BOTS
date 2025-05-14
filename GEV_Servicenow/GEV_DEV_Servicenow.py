@@ -41,7 +41,8 @@ class Incidents:
 
 incobj=Incidents()
 query1="number={}?sso={}".format("GEVINC0016024","503437104")
-print(incobj.get_incident_details_by_query(query1))
+query2="active=true^assignment_groupGE Vernova DT CTO Network?sso={}".format("503437104")
+print(incobj.get_incident_details_by_query(query2))
 
 
         
