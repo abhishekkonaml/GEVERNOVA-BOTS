@@ -237,6 +237,5 @@ cmdbobj=CMDB()
 #print(cmdbobj.get_ci_details_by_id("1004209415"))
 #field=owned_by&value=Korsós, Balázs
 query2="field=owned_by&value={}".format("Korsós, Balázs")
-
 print(cmdbobj.get_ci_by_query(query2))
         
