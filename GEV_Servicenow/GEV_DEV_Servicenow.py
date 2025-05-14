@@ -161,7 +161,7 @@ class CMDB:
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
       def get_ci_details_by_id(self,id):
-          url="https://stage.api.gevernova.com/servicenow_task_cmdb/name/{}".format(id)
+          url="https://stage.api.gevernova.com/servicenow_task_cmdb/id/{}".format(id)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
