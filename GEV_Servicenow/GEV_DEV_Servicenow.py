@@ -20,9 +20,28 @@ class Incidents:
               self.access_token="Failed to fetch the access token"
         except Exception as e:
               self.access_token="Failed to fetch the access token-{}".format(str(e))
+    def get_incident_details_by_query(self,query):
+          url1="https://stage.api.gevernova.com/servicenow_incident/query/{}".format(query)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.microwhiz',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url1, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json()['result'])
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
+
 
 
 incobj=Incidents()
-print(incobj.access_token)
+query1="number={}?sso={}".format("GEVINC0016024","503437104")
+print(incobj.get_incident_details_by_query(query1))
+
 
         
