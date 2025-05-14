@@ -200,6 +200,7 @@ work_notes="This is a test. This is only a test."
 #print(incobj.close_ticket("GEVINC0017970",close_notes,close_code))
 
 cmdbobj=CMDB()
-print(cmdbobj.get_ci_details("crpwcedzalgie91"))
+#print(cmdbobj.get_ci_details("crpwcedzalgie91"))
+print(cmdbobj.get_ci_full_details("crpwcedzalgie91"))
 
         
