@@ -160,6 +160,22 @@ class CMDB:
                   return ("Failed - {}".format(response.json()['error']['message']))
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
+      def get_ci_details_by_id(self,id):
+          url="https://stage.api.gevernova.com/servicenow_task_cmdb/name/{}".format(id)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.microwhiz',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json()['result'])
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
       def get_ci_full_details(self,hostname):
           url="https://stage.api.gevernova.com/servicenow_task_cmdb/full/{}".format(hostname)
           token='Bearer {}'.format(self.access_token)
@@ -201,6 +217,8 @@ work_notes="This is a test. This is only a test."
 
 cmdbobj=CMDB()
 #print(cmdbobj.get_ci_details("crpwcedzalgie91"))
-print(cmdbobj.get_ci_full_details("crpwcedzalgie91"))
+#print(cmdbobj.get_ci_full_details("crpwcedzalgie91"))
+print(cmdbobj.get_ci_details_by_id("1004209415"))
+
 
         
