@@ -210,8 +210,8 @@ class CMDB:
                   return ("Failed - Something went wrong - {}".format(str(e)))
 
 
-#incobj=Incidents()
-query1="number={}?sso={}".format("GEVINC0016024","503437104")
+incobj=Incidents()
+query1="number={}?sso={}".format("GEVINC0018079","503437104")
 query2="active=true^assignment_groupGE Vernova DT CTO Network?sso={}".format("503437104")
 
 opened_by="503437104"
@@ -223,6 +223,7 @@ short_description="This is a test Please Ignore"
 description="This is only a test"
 urgency="3"
 work_notes="This is a test. This is only a test."
+print(incobj.get_incident_details_by_query(query1))
 #print(incobj.get_incident_details_by_query(query2))
 #print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
 #print(incobj.update_notes("GEVINC0017971",work_notes))
@@ -231,10 +232,10 @@ work_notes="This is a test. This is only a test."
 #close_code = "Duplicate"
 #print(incobj.close_ticket("GEVINC0017970",close_notes,close_code))
 
-cmdbobj=CMDB()
+#cmdbobj=CMDB()
 #print(cmdbobj.access_token)
 #print(cmdbobj.get_ci_details("crpwcedzalgie91"))
-print(cmdbobj.get_ci_full_details("crpwcedzalgie91"))
+#print(cmdbobj.get_ci_full_details("crpwcedzalgie91"))
 #print(cmdbobj.get_ci_details_by_id("1004209415"))
 #field=owned_by&value=Korsós, Balázs
 #query2="field=owned_by&value={}".format("Korsós, Balázs")
