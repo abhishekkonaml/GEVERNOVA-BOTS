@@ -1,25 +1,26 @@
 import requests
 import json
+from requests.auth import HTTPBasicAuth
 class Incidents:
     def __init__(self):
-        url = "https://fssfed.ge.com/fss/as/token.oauth2?grant_type=client_credentials&scope=api"
-        headers = {
-          'Authorization': 'Basic c2x2TmZYYUFOV3JMUXhTbUhoUjN2ZWdKSkxUMnA1dFVNeXFXd2JBVWh6RVZCdTQ4OlJzNlpOZWo1eFFBV3hBMGJ2d2x5aGFPdERhSG9jbUVUc0kxU0hBZWtMWmx4T3FYYVlXYUJMekhaOGpsMXpRdEM=',
-          
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Cookie': 'PF=sik00c41SHydQDFbtEpjhx'
-
-        }
-        
-        try: 
-           response = requests.request("POST", url, headers=headers, verify=False)
+          self.url="https://fssfed.ge.com/fss/as/token.oauth2?grant_type=client_credentials&scope=api"
+          username='slvNfXaANWrLQxSmHhR3vegJJLT2p5tUMyqWwbAUhzEVBu48'
+          password='Rs6ZNej5xQAWxA0bvwlyhaOtDaHocmETsI1SHAekLZlxOqXaYWaBLzHZ8jl1zQtC'
+          payload={}
+          headers = {
+                     'Content-Type': 'application/json',
+                     'Accept': 'application/json',
+                     'Cookie': 'PF=AvKeI0z1JjyimQVUejoyav'
+                    }
+          try: 
+           response = requests.request("POST", self.url, headers=headers, auth=HTTPBasicAuth(username, password),verify=False)
            if response.status_code == 200:
               self.access_token=response.json()["access_token"]
            else: 
               self.access_token="Failed to fetch the access token"
-        except Exception as e:
+          except Exception as e:
               self.access_token="Failed to fetch the access token-{}".format(str(e))
+
     def incident_creation(self,opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes):
         url1="https://api.gevernova.com/servicenow_incident/"
         payload = json.dumps({
