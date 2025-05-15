@@ -127,23 +127,22 @@ class Incidents:
 
 class CMDB:
       def __init__(self):
-        url = "https://fssfed.ge.com/fss/as/token.oauth2?grant_type=client_credentials&scope=api"
-        headers = {
-          'Authorization': 'Basic ckdnMVd4V280Rko2SnpZZ2lUY3VnU1pqVzEzdmk1UVBjYnZjTnUxTUF0ZkZRM0xBOjA5enR1UUk4NlZMcVV5TEFOYW5taERuNGRaQXc1UTlYeENkSE5Pb0FpcTAxd0lOTU5JMTdDZFVibXMwRzRNMXQ=',
-          
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Cookie': 'PF=AvKeI0z1JjyimQVUejoyav'
-
-        }
-        
-        try: 
-           response = requests.request("POST", url, headers=headers, verify=False)
+          self.url="https://fssfed.ge.com/fss/as/token.oauth2?grant_type=client_credentials&scope=api"
+          username='slvNfXaANWrLQxSmHhR3vegJJLT2p5tUMyqWwbAUhzEVBu48'
+          password='Rs6ZNej5xQAWxA0bvwlyhaOtDaHocmETsI1SHAekLZlxOqXaYWaBLzHZ8jl1zQtC'
+          payload={}
+          headers = {
+                     'Content-Type': 'application/json',
+                     'Accept': 'application/json',
+                     'Cookie': 'PF=AvKeI0z1JjyimQVUejoyav'
+                    }
+          try: 
+           response = requests.request("POST", self.url, headers=headers, auth=HTTPBasicAuth(username, password),verify=False)
            if response.status_code == 200:
               self.access_token=response.json()["access_token"]
            else: 
               self.access_token="Failed to fetch the access token"
-        except Exception as e:
+          except Exception as e:
               self.access_token="Failed to fetch the access token-{}".format(str(e))
       def get_ci_details(self,hostname):
           url="https://api.gevernova.com/servicenow_task_cmdb/name/{}".format(hostname)
