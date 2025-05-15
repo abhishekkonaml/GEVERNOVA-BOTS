@@ -60,7 +60,7 @@ class Incidents:
         payload = json.dumps({
                               "update": {
                                 "partnerInfo": {
-                                  "name": "com.gevn.servicenow",
+                                  "name": "com.microland.intelligenie",
                                   "externalRecord": ""
                                 },
                                 "number": incidentnumber,
@@ -86,7 +86,7 @@ class Incidents:
         payload = json.dumps({
                               "update": {
                                 "partnerInfo": {
-                                  "name": "com.gevn.servicenow",
+                                  "name": "com.microland.intelligenie",
                                   "externalRecord": ""
                                 },
                                 "number": incidentnumber,
