@@ -223,8 +223,8 @@ short_description="This is a test Please Ignore"
 description="This is only a test"
 urgency="3"
 work_notes="This is a test. This is only a test."
-print(incobj.get_incident_details_by_query(query1))
-#print(incobj.get_incident_details_by_query(query2))
+#print(incobj.get_incident_details_by_query(query1))
+print(incobj.get_incident_details_by_query(query2))
 #print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
 #print(incobj.update_notes("GEVINC0017971",work_notes))
 
