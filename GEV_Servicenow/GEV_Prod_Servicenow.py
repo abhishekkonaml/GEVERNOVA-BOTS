@@ -233,8 +233,8 @@ work_notes="This is a test. This is only a test."
 
 cmdbobj=CMDB()
 #print(cmdbobj.access_token)
-print(cmdbobj.get_ci_details("crpwcedzalgie91"))
-#print(cmdbobj.get_ci_full_details("crpwcedzalgie91"))
+#print(cmdbobj.get_ci_details("crpwcedzalgie91"))
+print(cmdbobj.get_ci_full_details("crpwcedzalgie91"))
 #print(cmdbobj.get_ci_details_by_id("1004209415"))
 #field=owned_by&value=Korsós, Balázs
 #query2="field=owned_by&value={}".format("Korsós, Balázs")
