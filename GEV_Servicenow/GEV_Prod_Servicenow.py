@@ -28,7 +28,7 @@ class Incidents:
                              "insert": {
                                  "partnerInfo": {
                                    "externalRecord": "",
-                                   "name": "com.gevn.servicenow"
+                                   "name": "com.microland.intelligenie"
                                  },
                                  "opened_by": opened_by,
                                  "caller_id": caller_id,
