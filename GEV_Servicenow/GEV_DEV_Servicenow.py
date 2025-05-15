@@ -22,11 +22,12 @@ class Incidents:
               self.access_token="Failed to fetch the access token-{}".format(str(e))
     def incident_creation(self,opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes):
         url1="https://stage.api.gevernova.com/servicenow_incident/"
+        token='Bearer {}'.format(self.access_token)
         payload = json.dumps({
                              "insert": {
                                  "partnerInfo": {
                                    "externalRecord": "",
-                                   "name": "com.gevn.servicenow"
+                                   "name": "com.microland.intelligenie"
                                  },
                                  "opened_by": opened_by,
                                  "caller_id": caller_id,
@@ -41,7 +42,7 @@ class Incidents:
                             })
         headers = {
                    'Content-Type': 'application/json',
-                   'Authorization': 'Bearer 0005qzJ6EmlBksBJBDD1KVOpXXeq',
+                   'Authorization': token,
                    'Cookie': 'BIGipServerpool_gevernovaqa=e50c24c05607137134b987b035fe487d; JSESSIONID=9E63CEC62D27553D912E725D31E66FBD; glide_node_id_for_js=089cab321ff39bfe74597e963c0c2334b85df218538922fe5f14561ed8de96d7; glide_session_store=0BEBC7B03BE922107BFECBC964E45A75; glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
                   }
         try: 
@@ -58,7 +59,7 @@ class Incidents:
         payload = json.dumps({
                               "update": {
                                 "partnerInfo": {
-                                  "name": "com.gevn.servicenow",
+                                  "name": "com.microland.intelligenie",
                                   "externalRecord": ""
                                 },
                                 "number": incidentnumber,
@@ -84,7 +85,7 @@ class Incidents:
         payload = json.dumps({
                               "update": {
                                 "partnerInfo": {
-                                  "name": "com.gevn.servicenow",
+                                  "name": "com.microland.intelligenie",
                                   "externalRecord": ""
                                 },
                                 "number": incidentnumber,
@@ -149,7 +150,7 @@ class CMDB:
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
-               'tradingPartner': 'com.microland.microwhiz',
+               'tradingPartner': 'com.microland.intelligenie',
                'Content-Type': 'application/json'
               }
           try: 
@@ -165,7 +166,7 @@ class CMDB:
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
-               'tradingPartner': 'com.microland.microwhiz',
+               'tradingPartner': 'com.microland.intelligenie',
                'Content-Type': 'application/json'
               }
           try: 
@@ -181,7 +182,7 @@ class CMDB:
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
-               'tradingPartner': 'com.microland.microwhiz',
+               'tradingPartner': 'com.microland.intelligenie',
                'Content-Type': 'application/json'
               }
           try: 
@@ -197,7 +198,7 @@ class CMDB:
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
-               'tradingPartner': 'com.microland.microwhiz',
+               'tradingPartner': 'com.microland.intelligenie',
                'Content-Type': 'application/json'
               }
           try: 

@@ -150,7 +150,7 @@ class CMDB:
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
-               'tradingPartner': 'com.microland.microwhiz',
+               'tradingPartner': 'com.microland.intelligenie',
                'Content-Type': 'application/json'
               }
           try: 
@@ -166,7 +166,7 @@ class CMDB:
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
-               'tradingPartner': 'com.microland.microwhiz',
+               'tradingPartner': 'com.microland.intelligenie',
                'Content-Type': 'application/json'
               }
           try: 
@@ -182,7 +182,7 @@ class CMDB:
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
-               'tradingPartner': 'com.microland.microwhiz',
+               'tradingPartner': 'com.microland.intelligenie',
                'Content-Type': 'application/json'
               }
           try: 
@@ -198,7 +198,7 @@ class CMDB:
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
-               'tradingPartner': 'com.microland.microwhiz',
+               'tradingPartner': 'com.microland.intelligenie',
                'Content-Type': 'application/json'
               }
           try: 
@@ -229,9 +229,9 @@ work_notes="This is a test. This is only a test."
 #print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
 #print(incobj.update_notes("GEVINC0018081",work_notes))
 
-close_notes="Closed/Resolved by Caller"
-close_code = "Duplicate"
-print(incobj.close_ticket("GEVINC0018081",close_notes,close_code))
+#close_notes="Closed/Resolved by Caller"
+#close_code = "Duplicate"
+#print(incobj.close_ticket("GEVINC0018081",close_notes,close_code))
 
 #cmdbobj=CMDB()
 #print(cmdbobj.access_token)
