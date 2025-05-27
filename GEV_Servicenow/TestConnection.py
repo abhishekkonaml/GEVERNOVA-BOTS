@@ -8,7 +8,7 @@ import csv
 import os
 
 print(os.getcwd())
-exit()
+
 df=pd.read_csv('hostnames.csv')
 hostnames=df['Hostname'].to_list()[0:10]
 
