@@ -43,7 +43,7 @@ def test_connection(hostname):
              w.writerow(result57)
 
 
-import csv
+
 
 my_dict = {'Hostname': '','Result': ''}
 
