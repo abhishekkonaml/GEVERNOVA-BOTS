@@ -2,5 +2,6 @@
  - name: TestConnection
    hosts: localhost
    tasks:
-   - debug:
-       msg: "TestConnection"
+   - shell: python3 ./GEV_Servicenow/TestConnection.py 
+     register: output
+   - debug: msg="Execution completed"
