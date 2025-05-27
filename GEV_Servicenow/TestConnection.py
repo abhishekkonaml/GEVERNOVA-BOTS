@@ -10,7 +10,7 @@ import os
 print(os.getcwd())
 
 df=pd.read_csv('hostnames.csv')
-hostnames=df['Hostname'].to_list()[0:10]
+hostnames=df['Hostname'].to_list()[2]
 
 #filepath="/tmp/Reports/Outcome.csv"
 
@@ -48,7 +48,7 @@ def test_connection(hostname):
         #     w.writerow(result57)
 
 
-
+test_connection(hostnames)
 
 #my_dict = {'Hostname': '','Result': ''}
 
@@ -57,9 +57,9 @@ def test_connection(hostname):
 #    w.writeheader()
 
 
-def pool_handler():
-    p = Pool(10)
-    p.map(test_connection, hostnames)
-    
-pool_handler()
-
+#def pool_handler():
+#    p = Pool(10)
+#    p.map(test_connection, hostnames)
+#    
+#pool_handler()
+#
