@@ -6,7 +6,7 @@ import pandas as pd
 from multiprocessing import Pool
 import csv
 df=pd.read_csv('hostnames.csv')
-hostnames=df['Hostname'].to_list()
+hostnames=df['Hostname'].to_list()[0:10]
 
 
 
@@ -47,7 +47,7 @@ import csv
 
 my_dict = {'Hostname': '','Result': ''}
 
-with open("ManualIntervention.csv", "w", newline="") as f:
+with open("Outcome.csv", "w", newline="") as f:
     w = csv.DictWriter(f, my_dict.keys())
     w.writeheader()
     w.writerow(my_dict)
