@@ -12,7 +12,7 @@ print(os.getcwd())
 df=pd.read_csv('hostnames.csv')
 hostnames=df['Hostname'].to_list()[0:10]
 
-filepath="/tmp/Reports/Outcome.csv"
+#filepath="/tmp/Reports/Outcome.csv"
 
 def test_connection(hostname):
     try:
@@ -34,26 +34,27 @@ def test_connection(hostname):
         
         result57={'Hostname': hostname, 'Result': 'Success'}
     
-            
-        with open(filepath, "a", newline="") as f:
-             w = csv.DictWriter(f, result57.keys())
-             w.writerow(result57)
+        print(result57)   
+        #with open(filepath, "a", newline="") as f:
+        #     w = csv.DictWriter(f, result57.keys())
+        #     w.writerow(result57)
     except Exception as e:
         ChartserverConnection.close()
         #print("Failed - Error! - {}".format(str(e)))
         result57={'Hostname': hostname, 'Result': "Failed - Error! - {}".format(str(e)) }
-        with open(filepath, "a", newline="") as f:
-             w = csv.DictWriter(f, result57.keys())
-             w.writerow(result57)
+        print(result57)
+        #with open(filepath, "a", newline="") as f:
+        #     w = csv.DictWriter(f, result57.keys())
+        #     w.writerow(result57)
 
 
 
 
-my_dict = {'Hostname': '','Result': ''}
+#my_dict = {'Hostname': '','Result': ''}
 
-with open(filepath, "w", newline="") as f:
-    w = csv.DictWriter(f, my_dict.keys())
-    w.writeheader()
+##with open(filepath, "w", newline="") as f:
+#    w = csv.DictWriter(f, my_dict.keys())
+#    w.writeheader()
 
 
 def pool_handler():
