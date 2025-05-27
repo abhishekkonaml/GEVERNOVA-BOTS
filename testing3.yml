@@ -1,0 +1,6 @@
+---
+ - name: TestConnection
+   hosts: localhost
+   tasks:
+   - debug:
+       msg: "TestConnection"
