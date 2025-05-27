@@ -5,6 +5,6 @@
    #- shell: python ./GEV_Servicenow/GEV_Prod_Servicenow.py 
    #  register: output
    #- debug: var=output.stdout 
-   - shell: python ./GEV_Servicenow/TestConnection.py "RNWsaSCNtianj37"
+   - shell: python ./GEV_Servicenow/TestConnection.py "RNWsaSCNtianj37.gdn.ge.com"
      register: output
    - debug: var=output.stdout 
