@@ -8,7 +8,7 @@ import csv
 df=pd.read_csv('hostnames.csv')
 hostnames=df['Hostname'].to_list()[0:10]
 
-
+filepath="/tmp/Reports/Outcome.csv"
 
 def test_connection(hostname):
     try:
@@ -17,7 +17,7 @@ def test_connection(hostname):
         hostname=hostname+".gdn.ge.com"
         ChartserverConnection = paramiko.SSHClient()
         ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password)
+        ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
         channel = ChartserverConnection.invoke_shell()
         out= channel.recv(10000000000000000) 
         command="show clock"  
@@ -27,18 +27,18 @@ def test_connection(hostname):
         result=str(out.decode()).replace(command,"")
         
         ChartserverConnection.close()
-        print(result)
+        
         result57={'Hostname': hostname, 'Result': 'Success'}
     
             
-        with open("Outcome.csv", "a", newline="") as f:
+        with open(filepath, "a", newline="") as f:
              w = csv.DictWriter(f, result57.keys())
              w.writerow(result57)
     except Exception as e:
         ChartserverConnection.close()
-        print("Failed - Error! - {}".format(str(e)))
-        result57={'Hostname': hostname, 'Result': 'Failed'}
-        with open("Outcome.csv", "a", newline="") as f:
+        #print("Failed - Error! - {}".format(str(e)))
+        result57={'Hostname': hostname, 'Result': "Failed - Error! - {}".format(str(e)) }
+        with open(filepath, "a", newline="") as f:
              w = csv.DictWriter(f, result57.keys())
              w.writerow(result57)
 
@@ -47,10 +47,9 @@ import csv
 
 my_dict = {'Hostname': '','Result': ''}
 
-with open("Outcome.csv", "w", newline="") as f:
+with open(filepath, "w", newline="") as f:
     w = csv.DictWriter(f, my_dict.keys())
     w.writeheader()
-    w.writerow(my_dict)
 
 
 def pool_handler():
