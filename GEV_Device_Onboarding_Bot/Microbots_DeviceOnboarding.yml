@@ -1,0 +1,265 @@
+---
+
+- name: Device Onboarding
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    check_duplicates_on: ["Hostname","OS","CustomerID"]
+    check_missing_fields_on: ["Hostname","OS","CustomerID","HostGroup","InventoryID"]
+    src_type: 'local'
+    base_url: '{{base_url}}'
+    src_path: '{{src_path}}'
+    awx_url: '{{awx_url}}'
+    out_report_base_path: '{{out_report_base_path}}'
+    out_folder_path: "{{out_report_base_path}}/device/onboard/report"
+    out_csv_full_path_failed: ''
+    out_csv_full_path_success: ''
+    generic_send_mail: "../microbots_tasks/generic_send_mail.yml"
+    db_insert_failure: 0 
+    db_update_failure: 0 
+    db_insert_success: 0
+    db_update_success: 0
+    mapping_data_output: {
+      result_list: {}
+    }
+    awx_update_success: 0
+    awx_insert_failure: 0 
+    awx_update_failure: 0 
+    awx_insert_success: 0
+    AWX_data_onboarding: {
+      result_awx: {}
+    }
+
+  tasks:
+    - block:
+      # Fetching email details from lookup
+      - name: Fetching email details from lookup
+        action: generic_lookup type='{{bot_name}}' group='{{group}}'
+        register: email_lookup_output
+        run_once: yes
+        ignore_errors: yes
+        delegate_to: localhost
+        no_log: yes
+        tags: sendemail
+ 
+      - name: Validate CSV File
+        action: device_onboard_validate_csv check_duplicates_on="{{check_duplicates_on}}" check_missing_fields_on="{{check_missing_fields_on}}"
+        register: validation_output
+        ignore_errors: yes
+        tags: validatecsv
+       
+      - name: CSV validation failed
+        block: 
+          - name: set facts - CSV validation failed
+            set_fact: 
+              err_msg: "CSV validation failed: {{validation_output.error}}"
+
+          - name: CSV validation failed
+            debug: 
+              msg: "{{err_msg}}"
+
+          # Call send mail tasks
+          - name: Call send mail tasks - Failure
+            block:
+              - name: Set send mail arguments
+                set_fact:
+                  email_subject: "Failed: Device Onboarding - {{bot_name}}"
+                  email_body: "Hi Team\n\nThe automated process for {{bot_name}} is failed due to failure while validating CSV file. Please refer the job log.\n\nRegards\nMicrobot"
+                  is_attachment: no
+                  attach_files: []
+                delegate_to: localhost
+
+              - name: Call send mail tasks
+                include_tasks: '{{generic_send_mail}}'
+            tags: sendemail
+
+          - name: Failing Play - CSV validation failed
+            fail: 
+              msg: "{{err_msg}}"
+        when: validation_output.failed == True
+        tags: validatecsv
+
+      - name: No CSV files to process
+        block:
+          - name: No CSV files to process
+            debug: 
+              msg: "No CSV files to process"
+
+          - meta: end_host
+        when: '"There are no CSV files to process" in validation_output.msg'
+        tags: validatecsv
+
+      - debug: 
+          msg: "{{validation_output}}"
+        tags: validatecsv
+
+      - name: Device Onboarding in DB
+        action: device_onboard_database out_data={{validation_output.out_data}}
+        register: mapping_data_output
+        ignore_errors: yes
+        tags: onboardindb
+        
+      - debug: 
+          msg: "{{mapping_data_output}}"
+        tags: onboardindb
+ 
+      - name: Device Onboarding in DB failed
+        block:
+          - name: set facts - Device Onboarding in DB failed
+            set_fact:
+              err_msg: "Device Onboarding in DB failed: {{mapping_data_output.error}}"
+
+          - name: Device Onboarding in DB failed
+            debug:
+              msg: "{{err_msg}}"
+
+        when: mapping_data_output.failed == True
+        tags: onboardindb
+
+      - name: Onboarding data to Ansible Inventory 
+        action: device_onboard_awx out_data={{validation_output.out_data}}
+        register: AWX_data_onboarding
+        ignore_errors: yes
+        tags: onboardinawx
+
+      - name: Ansible Inventory data onboarding failed
+        block:
+          - name: set facts - Ansible Inventory data onboarding failed
+            set_fact:
+              err_msg: "Ansible Inventory data onboarding failed : {{AWX_data_onboarding.error}}"
+
+          - name: Ansible Inventory data onboarding failed
+            debug:
+              msg: "{{err_msg}}"
+            
+        when: AWX_data_onboarding.failed == True
+        tags: onboardinawx
+
+      - name: Set fact - Summary Onboarding in Database
+        set_fact:
+          db_total_to_insert: "{{mapping_data_output.result.to_insert_count}}"
+          db_total_to_update: "{{mapping_data_output.result.to_update_count}}"
+          db_insert_success: "{{mapping_data_output.result.insert_count}}"
+          db_insert_failure: "{{mapping_data_output.result.failed_to_insert_count}}"
+          db_update_success: "{{mapping_data_output.result.update_count}}"
+          db_update_failure: "{{mapping_data_output.result.failed_to_insert_count}}"
+        register: onboard_summary_db
+        ignore_errors: yes
+        tags: onboardindb
+
+      - name: Set fact - Summary Onboarding in Ansible Inventory
+        set_fact:
+          awx_total_to_insert: "{{AWX_data_onboarding.result_awx.AWX_to_insert_count}}"
+          awx_total_to_update: "{{AWX_data_onboarding.result_awx.AWX_to_update_count}}"
+          awx_insert_success: "{{AWX_data_onboarding.result_awx.AWX_insert_success}}"
+          awx_insert_failure: "{{AWX_data_onboarding.result_awx.AWX_insert_failed}}"
+          awx_update_success: "{{AWX_data_onboarding.result_awx.AWX_update_success}}"
+          awx_update_failure: "{{AWX_data_onboarding.result_awx.AWX_update_failed}}"
+        register: onboard_summary_awx
+        ignore_errors: yes
+        tags: onboardinawx
+        
+      - name: Summary - Onboarding in Database
+        debug:
+          msg: "{{onboard_summary_db}}"
+        tags: onboardindb
+
+      - name: Summary - Onboarding in Ansible Inventory
+        debug:
+          msg: "{{onboard_summary_awx}}"
+        tags: onboardinawx   
+      
+      # Create output csv file
+      - name: Create output csv file
+        block:
+        - name: Create output folder path if does not exist
+          file: 
+            path: "{{out_folder_path}}"
+            state: directory
+          
+        - name: Output file name - Success
+          set_fact:
+            out_file_success: "success_device_onboard_{{lookup('pipe', 'date +%FT%H-%M-%S')}}.csv"
+          
+        - name: Output file name - Failure
+          set_fact:
+            out_file_failed: "failed_device_onboard_{{lookup('pipe', 'date +%FT%H-%M-%S')}}.csv"
+          
+        - name: Output csv full path - Success
+          set_fact:
+            out_csv_full_path_success: "{{out_folder_path}}/{{out_file_success}}"
+          
+        - name: Output csv full path - Failed
+          set_fact:
+            out_csv_full_path_failed: "{{out_folder_path}}/{{out_file_failed}}"
+        tags: createcsvreport
+          
+      - name: Generate CSV Report
+        action: device_onboard_report out_data={{validation_output.out_data}} result_list={{mapping_data_output.result_list}} result_awx={{AWX_data_onboarding.result_awx}} 
+        register: csv_report_output
+        ignore_errors: yes
+        tags: createcsvreport
+
+      # Call send mail tasks
+      - name: Call send mail tasks - Success
+        block:
+          - name: Set send mail arguments
+            set_fact:
+              email_subject: "Device Onboarding Report - {{bot_name}}"
+              email_body: "Hi Team\n\nThe automated process for {{bot_name}} is completed. Please find the attached details of the onboarded devices.\n\nRegards\nMicrobot"
+              is_attachment: yes
+              attach_files: ["{{out_csv_full_path_success}}"]
+            delegate_to: localhost
+
+          - name: Call send mail tasks 
+            include_tasks: '{{generic_send_mail}}'
+        when: db_insert_success|int > 0 or db_update_success|int > 0 or awx_insert_success|int > 0 or awx_update_success|int > 0
+        tags: sendemail
+
+      # Call send mail tasks
+      - name: Call send mail tasks - Failure
+        block:
+          - name: Set send mail arguments
+            set_fact:
+              email_subject: "Failed: Device Onboarding Report - {{bot_name}}"
+              email_body: "Hi Team\n\nThe automated process for {{bot_name}} is completed. Please find the attached device onboarding status report.\n\nRegards\nMicrobot"
+              is_attachment: yes
+              attach_files: ["{{out_csv_full_path_failed}}"]
+            delegate_to: localhost
+
+          - name: Call send mail tasks
+            include_tasks: '{{generic_send_mail}}'
+        when: db_insert_failure|int > 0 or db_update_failure|int > 0 or awx_insert_failure|int > 0 or awx_update_failure|int > 0
+        tags: sendemail
+      
+      rescue:
+        - debug:
+            msg: "An unknown error occurred"
+
+        # Call send mail tasks
+        - name: Call send mail tasks - Failure
+          block:
+            - name: Set send mail arguments
+              set_fact:
+                email_subject: "Failed: Device Onboarding - {{bot_name}}"
+                email_body: "Hi Team\n\nThe automated process for {{bot_name}} is failed. Please refer the job log.\n\nRegards\nMicrobot"
+                is_attachment: no
+                attach_files: []
+              delegate_to: localhost
+
+            - name: Call send mail tasks
+              include_tasks: '{{generic_send_mail}}'
+          tags: sendemail
+
+        - name: Failing Play - An unknown error occurred
+          fail: 
+            msg: "An unknown error occurred"
+              
+      always: 
+        - name: Move CSV file to Processed CSV File directory
+          command: mv "{{validation_output.out_data.csv_path}}" "{{src_path}}/Processed_CSV_Files/{{lookup('pipe', 'date +%FT%H-%M-%S')}}_{{validation_output.out_data.csv_file_name}}"
+          when: validation_output.out_data is defined and validation_output.out_data.csv_path is defined
+          ignore_errors: yes
+          tags: movefile
