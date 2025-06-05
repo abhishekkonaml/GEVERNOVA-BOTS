@@ -48,7 +48,7 @@ def test_connection(hostname):
         #     w.writerow(result57)
 
 
-test_connection('RNWsaSCNTianj11.gdn.ge.com')
+test_connection('RNWsaSCNTianj11')
 
 #my_dict = {'Hostname': '','Result': ''}
 
