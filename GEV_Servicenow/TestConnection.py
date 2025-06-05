@@ -32,7 +32,7 @@ def test_connection(hostname):
         
         ChartserverConnection.close()
         
-        result57={'Hostname': hostname, 'Result': 'Success'}
+        result57={'Hostname': hostname, 'Result': 'Success','Output':result}
     
         print(result57)   
         #with open(filepath, "a", newline="") as f:
