@@ -4,4 +4,5 @@
    tasks:
    - shell: python3 ./GEV_Servicenow/TestConnection.py 
      register: output
+   - debug: var=output.stdout
    - debug: msg="Execution completed"
