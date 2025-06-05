@@ -220,13 +220,32 @@ caller_id="503437104"
 business_service="Monitoring"
 service_offering="Network monitoring"
 assignment_group="GE Vernova DT CTO Network"
-short_description="This is a test Please Ignore"
-description="This is only a test"
+short_description="Ticket Created for Bot- No action required-LMD7432213 critical - EMTsaEFRmontp05 Network Interfaces-GigabitEthernet2/0/36 [ID:10636] OperStateHost: EMTsaEFRmontp05Datasource: Network Interfaces-Gigabit"
+description='''
+Ticket Created for Bot- No action required-
+LMD7432213 critical - EMTsaEFRmontp05 Network Interfaces-GigabitEthernet2/0/36 [ID:10636] OperState
+Host: EMTsaEFRmontp05
+Datasource: Network Interfaces-GigabitEthernet2/0/36 [ID:10636]
+InstanceGroup: @default
+Datapoint: OperState
+Level: critical
+Start: 2025-06-05 07:39:30 UTC
+Duration: 0h 0m
+Value: 2.0
+ClearValue: 
+Reason: OperState != 1 1 1
+
+Alert Rule: This alert matches the rule Critical
+Recipients: Alert now is going to stage 1 recipients:  Service Now
+https://gev.logicmonitor.com/santaba/uiv4/alert#detail~id=LMD7432213&type=alert
+
+
+'''
 urgency="3"
 work_notes="This is a test. This is only a test."
-print(incobj.get_incident_details_by_query(query1))
+#print(incobj.get_incident_details_by_query(query1))
 #print(incobj.get_incident_details_by_query(query2))
-#print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
+print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
 #print(incobj.update_notes("GEVINC0017971",work_notes))
 
 #close_notes="Closed/Resolved by Caller"
