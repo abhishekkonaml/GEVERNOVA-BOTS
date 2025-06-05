@@ -8,4 +8,13 @@
      action: Incident_details_extraction incident_no='{{ incident_no }}'
      register: fetched_details
    - debug: var=fetched_details
+   - block:
+     - set_fact:
+          hostname: "{{ fetched_details.hostname }}"
+          interface: "{{ fetched_details.interface }}"
+          description: "{{ fetched_details.interface }}"
+     - name: Command
+       action: Incident_details_extraction incident_no='{{ incident_no }}'
+       register: fetched_details 
+     when: "'success' in fetched_details.status"
    

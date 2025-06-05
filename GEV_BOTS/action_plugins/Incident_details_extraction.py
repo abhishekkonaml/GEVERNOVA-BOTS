@@ -35,8 +35,8 @@ class ActionModule(ActionBase):
                   interface=re.findall(interface_pattern,description)[0]
                else:
                   interface=''
-               return {'status':'success','hostname':hostname,'interface':interface}
+               return {'status':'success','hostname':hostname,'interface':interface,'description':description}
             else:
-               return {'status':'failed','hostname':'Incident not found','interface':'Incident not found'}
+               return {'status':'failed','hostname':'Incident not found','interface':'Incident not found','description':''}
         except:
-           return  {'status':'failed','hostname':'Error in Incident Extraction','interface':'Error in Incident Extraction'}  
+           return  {'status':'failed','hostname':'Error in Incident Extraction','interface':'Error in Incident Extraction','description':''}  
