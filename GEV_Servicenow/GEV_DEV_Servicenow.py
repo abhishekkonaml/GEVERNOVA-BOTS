@@ -20,7 +20,7 @@ class Incidents:
               self.access_token="Failed to fetch the access token"
         except Exception as e:
               self.access_token="Failed to fetch the access token-{}".format(str(e))
-    def incident_creation(self,opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes):
+    def incident_creation(self,opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes,cmdb_ci):
         url1="https://stage.api.gevernova.com/servicenow_incident/"
         token='Bearer {}'.format(self.access_token)
         payload = json.dumps({
@@ -37,7 +37,8 @@ class Incidents:
                                  "short_description": short_description,
                                  "description": description,
                                  "urgency": urgency,
-                                 "work_notes": work_notes
+                                 "work_notes": work_notes,
+                                 "cmdb_ci":cmdb_ci
                              }
                             })
         headers = {
@@ -243,9 +244,10 @@ https://gev.logicmonitor.com/santaba/uiv4/alert#detail~id=LMD7432213&type=alert
 '''
 urgency="3"
 work_notes="This is a test. This is only a test."
+cmdb_ci='EMTsaEFRmontp05'
 #print(incobj.get_incident_details_by_query(query1))
 #print(incobj.get_incident_details_by_query(query2))
-print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
+print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes,cmdb_ci))
 #print(incobj.update_notes("GEVINC0017971",work_notes))
 
 #close_notes="Closed/Resolved by Caller"
