@@ -212,7 +212,7 @@ class CMDB:
 
 
 incobj=Incidents()
-query1="number={}?sso={}".format("GEVINC0020484","503437104")
+query1="number={}?sso={}".format("GEVINC0018079","503437104")
 query2="active=true^assignment_groupGE Vernova DT CTO Network?sso={}".format("503437104")
 
 opened_by="503437104"
@@ -224,7 +224,7 @@ short_description="This is a test Please Ignore"
 description="This is only a test"
 urgency="3"
 work_notes="This is a test. This is only a test."
-print(incobj.get_incident_details_by_query(query1))
+#print(incobj.get_incident_details_by_query(query1))
 #print(incobj.get_incident_details_by_query(query2))
 #print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes))
 #print(incobj.update_notes("GEVINC0018081",work_notes))
