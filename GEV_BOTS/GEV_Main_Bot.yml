@@ -1,0 +1,8 @@
+---
+ - name: GEV Bots
+   hosts: localhost
+   vars:
+      incident_no: "{{ incident_no}}"
+      
+   tasks:
+   
