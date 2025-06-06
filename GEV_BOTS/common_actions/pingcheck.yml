@@ -4,11 +4,11 @@
  - name: Source Ping check 
    action: CommandExecution hostname=incident_hostname command=command1
    register: ping_result_register
-   until: ("64 bytes" in ping_result_register.stdout)
+   until: ("64 bytes" in ping_result_register.Output)
    retries: 3
    delay: 1 
    ignore_errors: true
  - set_fact: 
-    ping_result: "{{ ping_result_register.stdout }}"
+    ping_result: "{{ ping_result_register.Output }}"
  - debug: var=ping_result
  
