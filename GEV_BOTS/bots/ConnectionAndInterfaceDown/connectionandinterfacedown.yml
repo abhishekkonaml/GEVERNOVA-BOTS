@@ -1,7 +1,11 @@
 ---
  - debug:
       msg: "Running the Connection Down Role"
- - name: Ping Check for the hostname
-   include_tasks: common_actions/pingcheck.yml   
+ - name: Step1 Ping Check for the hostname
+   include_tasks: common_actions/pingcheck.yml
+   vars: 
+     frequency: 3
+     delay_time: 1
+
 
 
