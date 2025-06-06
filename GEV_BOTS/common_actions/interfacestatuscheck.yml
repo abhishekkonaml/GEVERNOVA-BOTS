@@ -11,8 +11,8 @@
 - set_fact:
     Interfaceresult: "{{ interface_status_register.Output }}"
 - block:
-   - debug:    
+  - debug:    
       msg: "Interface is down"
    
-   when: "('is up' not in Interfaceresult)"
+  when: "('is up' not in Interfaceresult)"
 
