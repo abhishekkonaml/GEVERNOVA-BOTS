@@ -1,6 +1,6 @@
 ---
  - set_fact:
-      hostname1: "{{ incident_hostname }}.gdn.ge.com"
+      hostname1: "{{ incident_hostname }}.gd.ge.com"
  
  - name: Source Ping check 
    shell: ping -c 2 {{ hostname1 }}
@@ -16,5 +16,6 @@
  - block:
    - debug:
        msg: "Device is not reachable"
+   - meta: end_play
    when: "'64 bytes' not in ping_result" 
  

@@ -8,4 +8,11 @@
   retries: "{{ interfacefrequency}}"
   delay: "{{ interfacedelay }}"
 
-- debug: var=interface_status_register.Output
+- set_fact:
+    Interfaceresult: interface_status_register.Output
+- block:
+   - debug:    
+      msg: "Interface is down"
+   
+   when: "('is up' not in Interfaceresult)"
+
