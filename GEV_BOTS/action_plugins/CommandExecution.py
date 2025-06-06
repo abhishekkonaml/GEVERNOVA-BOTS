@@ -21,11 +21,11 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-            hostname=self._task.args["hostname"]
+            hostname1=self._task.args["hostname"]
             command=self._task.args["command"]
             cisco_username=decoding1.decoding1('NTAxNTI5NTI4')
             cisco_password=decoding1.decoding1('V2hpejIwMTJDMTBzZQ==')
-            hostname=hostname+".gdn.ge.com"
+            hostname=hostname1+".gdn.ge.com"
             ChartserverConnection = paramiko.SSHClient()
             ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
@@ -35,7 +35,7 @@ class ActionModule(ActionBase):
             time.sleep(5)
             out= channel.recv(math.inf)
             result=str(out.decode()).replace(command,"")
-            result=result.replace(hostname,"")
+            result=result.replace(hostname1,"")
             result=result.replace('>',"")
             ChartserverConnection.close()
             
