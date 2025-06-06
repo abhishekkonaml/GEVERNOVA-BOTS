@@ -4,6 +4,7 @@
    vars:
       incident_no: "GEVINC0018288"
    tasks:
+   # Fetching Incident Details
    - name: Bot Execution started
      action: Incident_details_extraction incident_no='{{ incident_no }}'
      register: fetched_details
@@ -12,10 +13,20 @@
      - set_fact:
           hostname: "{{ fetched_details.hostname }}"
           interface: "{{ fetched_details.interface }}"
-          description: "{{ fetched_details.description }}"
+          description: "{{ fetched_details.description | lower }}"
      - debug: var=hostname
      - debug: var=interface
      - debug: var=description
+     
+     # Bot Classification based on the description
+     - block:
+       - set_fact:
+             usecase: 'Connection Down'
+       - debug: var=usecase
+       when: "'network interface' in description and 'operstate' in description"
+       
+
+
      when: "'success' in fetched_details.status"
    - block:
      - debug: msg='No Records found with the given Incident number'
