@@ -23,7 +23,7 @@
        - set_fact:
              usecase: 'Connection Down'
        - debug: var=usecase
-       - include_tasks: bots\ConnectionAndInterfaceDown\connectionandinterfacedown.yml
+       - include_tasks: bots/ConnectionAndInterfaceDown/connectionandinterfacedown.yml
        when: "'network interface' in description and 'operstate' in description"
        
 
