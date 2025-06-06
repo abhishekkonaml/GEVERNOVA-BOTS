@@ -1,10 +1,9 @@
 ---
  - set_fact:
       hostname1: "{{ incident_hostname }}.gdn.ge.com"
- - set_fact:
-       command1: "ping -c 1 {{ hostname1 }}"
+ 
  - name: Source Ping check 
-   shell: ping -c 2 {{ incident_hostname }}
+   shell: ping -c 2 {{ hostname1 }}
    register: ping_result_register
    until: ("64 bytes" in ping_result_register.stdout)
    retries: 1
