@@ -1,3 +1,4 @@
+
 - set_fact:
     command2: "sh cdp nei {{ incident_interface }} detail | in Device"
 
@@ -18,3 +19,8 @@
     when: "('wd' in temp[1]) or ('wa' in temp[1]) or ('wg' in temp[1]) or ('wn' in temp[1])"
   when: "(bypass_result != '') and ('entries displayed : 0' not in bypass_result) and ( 'invalid' not in bypass_result )"
 - debug: var=final_status
+
+- block:
+  - debug:
+      msg: "Closing the ticket"
+  when: "'Bypass' in final_status"
