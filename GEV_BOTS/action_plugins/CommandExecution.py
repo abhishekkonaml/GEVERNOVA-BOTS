@@ -35,7 +35,8 @@ class ActionModule(ActionBase):
             time.sleep(5)
             out= channel.recv(math.inf)
             result=str(out.decode()).replace(command,"")
-            
+            result=result.replace(hostname,"")
+            result=result.replace('>',"")
             ChartserverConnection.close()
             
             result={'Hostname': hostname, 'Result': 'success','Output':result}
