@@ -37,6 +37,7 @@ class ActionModule(ActionBase):
             result=str(out.decode()).replace(command,"")
             result=result.replace(hostname1,"")
             result=result.replace('>',"")
+            result=result.replace('\r\n',"")
             ChartserverConnection.close()
             
             result={'Hostname': hostname, 'Result': 'success','Output':result}
