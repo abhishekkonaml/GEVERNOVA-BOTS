@@ -2,10 +2,10 @@
  - set_fact:
        command1: "ping -c 1 {{ incident_hostname }}"
  - name: Source Ping check 
-   action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}'
+   shell: ping -c 2 {{ incident_hostname }}
    register: ping_result_register
    until: ("64 bytes" in ping_result_register.Output)
-   retries: 3
+   retries: 1
    delay: 1 
    ignore_errors: true
  - set_fact: 
