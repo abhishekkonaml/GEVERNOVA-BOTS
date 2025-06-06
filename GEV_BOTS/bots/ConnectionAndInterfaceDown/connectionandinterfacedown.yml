@@ -1,5 +1,7 @@
 ---
  - debug:
-      msg: "Inside the usecase"
+      msg: "Running the Connection Down Role"
+ - name: Ping Check for the hostname
+   include_tasks: common_actions/pingcheck.yml   
 
 

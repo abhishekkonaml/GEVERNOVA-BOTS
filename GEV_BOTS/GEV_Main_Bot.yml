@@ -11,8 +11,8 @@
    - debug: var=fetched_details
    - block:
      - set_fact:
-          hostname: "{{ fetched_details.hostname }}"
-          interface: "{{ fetched_details.interface }}"
+          incident_hostname: "{{ fetched_details.hostname }}"
+          incident_interface: "{{ fetched_details.interface }}"
           description: "{{ fetched_details.description | lower }}"
      - debug: var=hostname
      - debug: var=interface
