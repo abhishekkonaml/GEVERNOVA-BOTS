@@ -38,5 +38,5 @@ class ActionModule(ActionBase):
                return {'status':'success','hostname':hostname,'interface':interface,'description':description}
             else:
                return {'status':'failed','hostname':'Incident not found','interface':'Incident not found','description':''}
-        except:
-           return  {'status':'failed','hostname':'Error in Incident Extraction','interface':'Error in Incident Extraction','description':''}  
+        except Exception as e:
+           return  {'status':'error','hostname':'Error in Incident Extraction','interface':'Error in Incident Extraction','description':str(e)}  

@@ -12,9 +12,15 @@
      - set_fact:
           hostname: "{{ fetched_details.hostname }}"
           interface: "{{ fetched_details.interface }}"
-          description: "{{ fetched_details.interface }}"
-     - name: Command
-       action: Incident_details_extraction incident_no='{{ incident_no }}'
-       register: fetched_details 
+          description: "{{ fetched_details.description }}"
+     - debug: var=hostname
+     - debug: var=interface
+     - debug: var=description
      when: "'success' in fetched_details.status"
+   - block:
+     - debug: msg='No Records found with the given Incident number'
+     when: "'failed' in fetched_details.status"
+   - block:
+     - debug: msg='Parsing Error'
+     when: "'error' in fetched_details.status"
    
