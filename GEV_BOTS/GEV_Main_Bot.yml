@@ -14,8 +14,8 @@
           incident_hostname: "{{ fetched_details.hostname }}"
           incident_interface: "{{ fetched_details.interface }}"
           description: "{{ fetched_details.description | lower }}"
-     - debug: var=hostname
-     - debug: var=interface
+     - debug: var=incident_hostname
+     - debug: var=incident_interface
      - debug: var=description
      
      # Bot Classification based on the description
