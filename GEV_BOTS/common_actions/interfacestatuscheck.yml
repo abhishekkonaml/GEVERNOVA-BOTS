@@ -1,0 +1,11 @@
+- set_fact:
+     command1: "sh int {{ incident_interface }}"
+- name: Interface status check
+  action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}'
+  register: interface_status_register
+  until: ("is up" in interface_status_register.Output)
+  ignore_errors: true
+  retries: "{{ interfacefrequency}}"
+  delay: "{{ interfacedelay }}"
+
+- debug: var=interface_status_register.Output
