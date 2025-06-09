@@ -18,7 +18,7 @@
  - block:
    - debug:
        msg: "Device is not reachable"
-   - action: update_notes incident='{{ incident_no }}' work_notes='Device is unreachable after three attempts hence reassigned'
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Device is unreachable after three attempts hence reassigned</h3>[/code]'
      register: update_notes
    - debug: var=update_notes
    - meta: end_play
