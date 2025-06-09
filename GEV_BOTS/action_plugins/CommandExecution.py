@@ -31,6 +31,8 @@ class ActionModule(ActionBase):
             cisco_password=decoding1.decoding1('V2hpejIwMTJDMTBzZQ==')
             if "gdn" not in hostname1:
                hostname=hostname1+".gdn.ge.com"
+            else:
+                hostname=hostname1
             ChartserverConnection = paramiko.SSHClient()
             ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
