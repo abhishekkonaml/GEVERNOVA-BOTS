@@ -252,7 +252,7 @@ cmdb_ci='EMTsaEFRmontp05'
 
 close_notes="Closed/Resolved by Caller"
 close_code = "Duplicate"
-print(incobj.close_ticket("GEVINC0017970",close_notes,close_code))
+print(incobj.close_ticket("GEVINC0018494",close_notes,close_code))
 
 #cmdbobj=CMDB()
 #print(cmdbobj.get_ci_details("crpwcedzalgie91"))
