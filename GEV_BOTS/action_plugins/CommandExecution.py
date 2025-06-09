@@ -29,7 +29,8 @@ class ActionModule(ActionBase):
             notesupdate=self._task.args['notesupdate']
             cisco_username=decoding1.decoding1('NTAxNTI5NTI4')
             cisco_password=decoding1.decoding1('V2hpejIwMTJDMTBzZQ==')
-            hostname=hostname1+".gdn.ge.com"
+            if "gdn" not in hostname1:
+               hostname=hostname1+".gdn.ge.com"
             ChartserverConnection = paramiko.SSHClient()
             ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
