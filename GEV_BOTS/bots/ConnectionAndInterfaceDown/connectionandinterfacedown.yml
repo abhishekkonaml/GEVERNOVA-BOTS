@@ -37,8 +37,8 @@
    vars:
      interfacefrequency: 1
      interfacedelay: 1
- #- name: Step3 - Bypassing B side Validation
- #  include_tasks: bots/ConnectionAndInterfaceDown/bypass_b_side_validation.yml
+ - name: Step3 - Bypassing B side Validation
+   include_tasks: bots/ConnectionAndInterfaceDown/bypass_b_side_validation.yml
 
 
 
