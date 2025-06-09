@@ -63,7 +63,7 @@
                   
                   [code]
                   
-                  <h3> Destination Details <h3>
+                  <h3> B side Details <h3>
                   <table border="1"> 
                     <tr>
                       <th style="text-align:center;background-color:#008080;color:white"> Destination Hostname  </th> 
