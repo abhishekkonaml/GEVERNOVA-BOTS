@@ -4,7 +4,7 @@
      command2: 'sh cdp nei {{ incident_interface }} detail | in Port ID'
  # Fetching Destination Device
  - name: Fetching Destination device
-   action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' 
+   action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='no'
    register: destination_register
  - set_fact:
      destination_result: "{{ destination_register.Output }}"
@@ -12,28 +12,44 @@
  # Finding Destination Device
  # Stopping when B side validation failed
  - block:
-   - debug: msg="Bot Failed to validate the B side"
-   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot Failed to validate the B side</h3>[/code]'
+   - debug: msg="Bot Failed to validate the B side as it unable to extract the B side details"
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot failed to validate the B side as it unable to extract the B side details</h3>[/code]'
      register: update_notes
    - debug: var=update_notes
    - meta: end_play
-   when:  ('failed' in destination_register.status)"
+   when:  "('failed' in destination_register.status)"
+ 
  - set_fact:
-     final_status: "Bypass"
-   when: "( destination_register.Output == '' ) or ( 'entries displayed : 0' in destination_register.Output )
+      final_status: ''
+ - set_fact:
+     final_status: 'Bypass'
+   when: "( destination_register.Output == '' ) or ( 'entries displayed : 0' in destination_register.Output )"
  - block:
    - set_fact:
       temp: "{{ destination_result.split(':') }}"
    - set_fact: 
       final_status: "Bypass"
      when: "('wd' in temp[1]) or ('wa' in temp[1]) or ('wg' in temp[1]) or ('wn' in temp[1])"
-   when: "(destination_register.Output != '') or ('entries displayed : 0' not in destination_register.Output)
+   when: "(destination_register.Output != '') or ('entries displayed : 0' not in destination_register.Output)"
+   
+ - block:
+   - action: closeincident incident='{{ incident_no }}'
+     register: closeregister
+   - debug: var=closeregister
+   when: "'Bypass' in final_status"
+ 
 
 
-
-
- - action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' 
+ - action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' notesupdate='no' incidentno='{{ incident_no }}'
    register: dest_interface_register
+
+ - block:
+   - debug: msg="Bot Failed to validate the B side as it unable to extract the B side interface details"
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot failed to validate the B side as it unable to extract the B side interface details</h3>[/code]'
+     register: update_notes
+   - debug: var=update_notes
+   - meta: end_play
+   when:  "('failed' in dest_interface_register.status)"
  - set_fact: 
      Dest_interface: "{{ dest_interface_register.Output.split(',')[1].split(':')[1].strip() }}"
  - debug: var=Dest_interface
@@ -41,8 +57,28 @@
      destination: "{{ destination_result.split(':')[1].strip() }}"
  - debug: var=destination
  - set_fact:
+      bot_notes: |-
+                  
+                  [code]
+                  
+                  <h3> Destination Details <h3>
+                  <table border="1"> 
+                    <tr>
+                      <th style="text-align:center;background-color:#008080;color:white"> Destination Hostname  </th> 
+                      <td> {{ destination }} </td>
+                    </tr>
+                    <tr>
+                      <th style="text-align:center;background-color:#008080;color:white"> Destination Interface  </th> 
+                      <td> {{ Dest_interface }} </td>
+                    </tr>
+
+                  </table>
+                  [/code]
+
+
+ - set_fact:
       dest_int_command: "show interface {{ Dest_interface }}"
- - action: CommandExecution  hostname="{{ destination }}" command='{{ dest_int_command }}'
+ - action: CommandExecution  hostname="{{ destination }}" command='{{ dest_int_command }}' notesupdate='no' incidentno='{{ incident_no }}'
    register: base_register
  - set_fact:
      base_result: "{{ base_register.Output }}"
@@ -50,7 +86,9 @@
  - debug: var=base_result
  - block:
    - debug: msg="SSH to Destination Device is failed"
-   
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>SSH to Destination Device is failed</h3>[/code]'
+     register: update_notes
+   - debug: var=update_notes
 
    - meta: end_play
 
@@ -61,9 +99,13 @@
  - set_fact: 
      DestinationDeviceInterfaceMAC1: "{{ DestinationDeviceInterfaceMAC.split('.')[0]+'.'+DestinationDeviceInterfaceMAC.split('.')[1] }}" 
  - debug: var=DestinationDeviceInterfaceMAC1
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+   register: update_notes
+ - debug: var=update_notes
+
  - set_fact:
       des_command: 'sh mac address-table interface {{ incident_interface }} | i {{ DestinationDeviceInterfaceMAC1 }}'
- - action: CommandExecution hostname="{{ incident_hostname }}" command=des_command
+ - action: CommandExecution hostname="{{ incident_hostname }}" command=des_command notesupdate='yes' incidentno='{{ incident_no }}'
    register: val_mac_status
    
  - name: MAC Address Table Data
@@ -71,14 +113,26 @@
      SourceHasDestMac: "{{ val_mac_status.Output }}"
  - debug: var=SourceHasDestMac
  
- - name: Dest MAC Exists In Source
-   set_fact:
-     SourceMACStatus: "Exists"
+ - block:
+   - set_fact:
+        SourceMACStatus: "Exists"
+   - debug: var=SourceMACStatus
+   - action: closeincident incident='{{ incident_no }}'
+     register: closeregister
+   - debug: var=closeregister
+
+   
    when: 'DestinationDeviceInterfaceMAC1 in SourceHasDestMac'
 
- - name: Dest MAC Not Exists In Source
-   set_fact:
-     SourceMACStatus: "Not Exists"
+ - block:
+   - name: Dest MAC Not Exists In Source
+     set_fact:
+      SourceMACStatus: "Not Exists"
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC not exist in Source MAC address table hence reassigned.</h3>[/code]'
+     register: update_notes
+   - debug: var=update_notes
+   - meta: end_play 
+
    when: 'DestinationDeviceInterfaceMAC1 not in SourceHasDestMac'
 
 
