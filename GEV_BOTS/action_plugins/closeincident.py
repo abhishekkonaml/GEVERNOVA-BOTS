@@ -17,7 +17,7 @@ class ActionModule(ActionBase):
            close_notes="Closed/Resolved by Caller"
            close_code = "Duplicate"
            incobj=Incidents()
-           return {'status': 'success', 'result': incobj.update_notes(incident,close_notes,close_code)}
+           return {'status': 'success', 'result': incobj.close_ticket(incident,close_notes,close_code)}
         except Exception as e:
            return {'status': 'failed', 'result': str(e)}
 
