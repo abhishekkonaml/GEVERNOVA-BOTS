@@ -9,12 +9,27 @@
  - set_fact:
      destination_result: "{{ destination_register.Output }}"
  - debug: var=destination_result
-
- # Stopping when SSH failed
+ # Finding Destination Device
+ # Stopping when B side validation failed
  - block:
-   - debug: msg="SSH to Source Device is failed"
+   - debug: msg="Bot Failed to validate the B side"
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot Failed to validate the B side</h3>[/code]'
+     register: update_notes
+   - debug: var=update_notes
    - meta: end_play
    when:  ('failed' in destination_register.status)"
+ - set_fact:
+     final_status: "Bypass"
+   when: "( destination_register.Output == '' ) or ( 'entries displayed : 0' in destination_register.Output )
+ - block:
+   - set_fact:
+      temp: "{{ destination_result.split(':') }}"
+   - set_fact: 
+      final_status: "Bypass"
+     when: "('wd' in temp[1]) or ('wa' in temp[1]) or ('wg' in temp[1]) or ('wn' in temp[1])"
+   when: "(destination_register.Output != '') or ('entries displayed : 0' not in destination_register.Output)
+
+
 
 
  - action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' 

@@ -45,9 +45,9 @@ class ActionModule(ActionBase):
             #result=result.replace('\r\n',"")
             ChartserverConnection.close()
             incobj.update_notes(incidentno,result)
-            result={'Hostname': hostname, 'Result': 'success','Output':result}
+            result={'Hostname': hostname, 'status': 'success','Output':result}
             return result
             
         except Exception as e:
-           result={'Hostname': hostname, 'Result': 'failed','Output': str(e)}
+           result={'Hostname': hostname, 'status': 'failed','Output': str(e)}
            return  result 
