@@ -33,6 +33,8 @@ class ActionModule(ActionBase):
             ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
             channel = ChartserverConnection.invoke_shell()
+            channel.send('term len 0'+'\n')
+            time.sleep(2)
             out= channel.recv(math.inf) 
             channel.send(command+ '\n')
             time.sleep(5)
@@ -40,7 +42,7 @@ class ActionModule(ActionBase):
             result=str(out.decode()).replace(command,"")
             result=result.replace(hostname1,"")
             result=result.replace('>',"")
-            result=result.replace('\r\n',"")
+            #result=result.replace('\r\n',"")
             ChartserverConnection.close()
             incobj.update_notes(incidentno,result)
             result={'Hostname': hostname, 'Result': 'success','Output':result}

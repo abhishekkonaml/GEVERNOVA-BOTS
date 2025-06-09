@@ -3,7 +3,7 @@
       msg: "Running the Connection Down Bot"
  - set_fact:
       bot_notes: |-
-                  "
+                  
                   [code]
                   
                   <h3> Connection Down Details <h3>
@@ -13,15 +13,15 @@
                       <td> {{ incident_hostname }} </td>
                     </tr>
                     <tr>
-                      <th style="text-align:center;background-color:#008080;color:white"> Hostname  </th> 
-                      <td> {{ incident_hostname }} </td>
+                      <th style="text-align:center;background-color:#008080;color:white"> Interface  </th> 
+                      <td> {{ incident_interface }} </td>
                     </tr>
 
                   </table>
                   [/code]
                   
-                  "
- - action: update_notes incident='{{ incident_no }}' work_notes='Bot Started working on the ticket. Next update in 30 minutes.'
+                  
+ - action: update_notes incident='{{ incident_no }}' work_notes='Bot Started working on the ticket... Next update in 30 minutes.'
    register: update_notes
  - debug: var=update_notes
  - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
