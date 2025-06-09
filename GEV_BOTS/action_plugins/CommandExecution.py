@@ -41,7 +41,7 @@ class ActionModule(ActionBase):
             time.sleep(5)
             out= channel.recv(math.inf)
             result=str(out.decode()).replace(command,"")
-            result=result.replace(hostname1,"")
+            result=result.lower().replace(hostname1,"")
             result=result.replace('>',"")
             #result=result.replace('\r\n',"")
             ChartserverConnection.close()
