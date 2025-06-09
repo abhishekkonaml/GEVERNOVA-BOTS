@@ -25,9 +25,7 @@ class ActionModule(ActionBase):
             incident_details=incobj.get_incident_details_by_query(query)
             if type(incident_details)==list:
                description=incident_details[0]['description']
-               #print("===="*50)
-               #print("Description: ",description)
-               #print("===="*50)
+               
                #Bot Classification Logic
                
                # Usecase-1: Connection Down Bot 
