@@ -10,29 +10,24 @@
      register: fetched_details
    - debug: var=fetched_details
    - block:
-     - set_fact:
-          incident_hostname: "{{ fetched_details.hostname }}"
-          incident_interface: "{{ fetched_details.interface }}"
-          description: "{{ fetched_details.description | lower }}"
-     - debug: var=incident_hostname
-     - debug: var=incident_interface
-     - debug: var=description
-     
-     # Bot Classification based on the description
+     # Triggering the Bot
      - block:
        - set_fact:
-             usecase: 'Connection Down'
-       - debug: var=usecase
+          incident_hostname: "{{ fetched_details.hostname }}"
+          incident_interface: "{{ fetched_details.interface }}"
+          botname: "{{ fetched_details.botname }}"
+       - debug: var=incident_hostname
+       - debug: var=incident_interface
+       - debug: var=botname
        - include_tasks: bots/ConnectionAndInterfaceDown/connectionandinterfacedown.yml
-       when: "'network interface' in description and 'operstate' in description"
-       
-
-
+       when: "'Connection Down' in fetched_details.botname"
      when: "'success' in fetched_details.status"
    - block:
      - debug: msg='No Records found with the given Incident number'
+     - meta: end_play
      when: "'failed' in fetched_details.status"
    - block:
      - debug: msg='Parsing Error'
+     - meta: end_play
      when: "'error' in fetched_details.status"
    

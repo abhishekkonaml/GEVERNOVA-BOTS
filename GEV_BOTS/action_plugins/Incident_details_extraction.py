@@ -25,18 +25,28 @@ class ActionModule(ActionBase):
             incident_details=incobj.get_incident_details_by_query(query)
             if type(incident_details)==list:
                description=incident_details[0]['description']
-               hostname=re.findall(host_pattern,description)
-               interface=re.findall(interface_pattern,description)
-               if len(hostname)>0:
-                  hostname=re.findall(host_pattern,description)[0]
+
+               #Bot Classification Logic
+               
+               # Usecase-1: Connection Down Bot 
+               if 'network interface' in description.lower() and 'operstate' in description.lower(): 
+                  hostname=re.findall(host_pattern,description)
+                  interface=re.findall(interface_pattern,description)
+                  if len(hostname)>0:
+                     hostname=re.findall(host_pattern,description)[0]
+                  else:
+                     hostname=''
+                  if len(interface)>0:
+                     interface=re.findall(interface_pattern,description)[0]
+                  else:
+                     interface=''
+                  if hostname == '' and interface=='':
+                     return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
+                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'Connection Down'}
+               # When no bot found
                else:
-                  hostname=''
-               if len(interface)>0:
-                  interface=re.findall(interface_pattern,description)[0]
-               else:
-                  interface=''
-               return {'status':'success','hostname':hostname,'interface':interface,'description':description}
+                  return {'status': 'failed','reason':'Bot not exist!'}
             else:
-               return {'status':'failed','hostname':'Incident not found','interface':'Incident not found','description':''}
+               return {'status':'failed','reason': 'Incident not found'}
         except Exception as e:
-           return  {'status':'error','hostname':'Error in Incident Extraction','interface':'Error in Incident Extraction','description':str(e)}  
+           return  {'status':'error','reason': 'Incident Parsing Error'}

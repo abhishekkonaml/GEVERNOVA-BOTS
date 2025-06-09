@@ -1,7 +1,7 @@
 - set_fact:
      command1: "sh int {{ incident_interface }}"
 - name: Interface status check
-  action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}'
+  action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}'
   register: interface_status_register
   until: ("is up" in interface_status_register.Output)
   ignore_errors: true
@@ -13,6 +13,9 @@
 - block:
   - debug:    
       msg: "Interface is down"
-   
+  - action: update_notes incident='{{ incident_no }}' work_notes='Interface is down after three attempts hence reassigned.'
+    register: update_notes
+  - debug: var=update_notes
+  - meta: end_play 
   when: "('is up' not in Interfaceresult)"
 

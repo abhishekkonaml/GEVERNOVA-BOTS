@@ -1,6 +1,9 @@
 ---
  - debug:
-      msg: "Running the Connection Down Role"
+      msg: "Running the Connection Down Bot"
+ - action: update_notes incident='{{ incident_no }}' work_notes='Bot Started working on the ticket. Next update in 30 minutes.'
+   register: update_notes
+ - debug: var=update_notes
  - name: Step1 - Ping Check for the hostname
    include_tasks: common_actions/pingcheck.yml
    vars: 
@@ -11,8 +14,8 @@
    vars:
      interfacefrequency: 1
      interfacedelay: 1
- - name: Step3 - Bypassing B side Validation
-   include_tasks: bots/ConnectionAndInterfaceDown/bypass_b_side_validation.yml
+ #- name: Step3 - Bypassing B side Validation
+ #  include_tasks: bots/ConnectionAndInterfaceDown/bypass_b_side_validation.yml
 
 
 

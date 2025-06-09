@@ -15,6 +15,8 @@ import os
 from GEV_DEV_Servicenow import Incidents
 import math
 
+incobj=Incidents()
+
 warnings.filterwarnings("ignore")
 
 class ActionModule(ActionBase):
@@ -23,6 +25,7 @@ class ActionModule(ActionBase):
         try: 
             hostname1=self._task.args["hostname"]
             command=self._task.args["command"]
+            incidentno=self._task.args['incidentno']
             cisco_username=decoding1.decoding1('NTAxNTI5NTI4')
             cisco_password=decoding1.decoding1('V2hpejIwMTJDMTBzZQ==')
             hostname=hostname1+".gdn.ge.com"
@@ -39,7 +42,7 @@ class ActionModule(ActionBase):
             result=result.replace('>',"")
             result=result.replace('\r\n',"")
             ChartserverConnection.close()
-            
+            incobj.update_notes(incidentno,result)
             result={'Hostname': hostname, 'Result': 'success','Output':result}
             return result
             
