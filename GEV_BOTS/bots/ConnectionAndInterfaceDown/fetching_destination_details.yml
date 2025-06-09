@@ -2,6 +2,8 @@
  - set_fact:
      command1: 'sh cdp nei {{ incident_interface }} detail | in Device'
      command2: 'sh cdp nei {{ incident_interface }} detail | in Port ID'
+ - debug: var=command1
+ - debug: var=command2
  # Fetching Destination Device
  - name: Fetching Destination device
    action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='no'
