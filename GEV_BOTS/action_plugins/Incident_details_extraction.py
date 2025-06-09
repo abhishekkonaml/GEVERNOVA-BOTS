@@ -24,7 +24,7 @@ class ActionModule(ActionBase):
             incobj=Incidents()
             incident_details=incobj.get_incident_details_by_query(query)
             if type(incident_details)==list:
-               description=incident_details[0]
+               description=incident_details[0].keys()
                print("===="*50)
                print("Description: ",description)
                print("===="*50)
