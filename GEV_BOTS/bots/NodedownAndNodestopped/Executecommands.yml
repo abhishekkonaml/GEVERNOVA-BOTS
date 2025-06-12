@@ -1,0 +1,5 @@
+---
+ - debug:
+      msg: "Running the Node Down Node stopped Bot"
+
+ 
