@@ -2,4 +2,10 @@
  - debug:
       msg: "Running the Node Down Node stopped Bot"
 
- 
+ - name: Ping check for host
+   include_tasks: common_actions/pingcheck.yml
+   vars:
+     frequency: 3
+     delay_time: 5
+     incident_hostname: "airsamcasteus56.gdn.ge.com"
+     
