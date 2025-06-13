@@ -248,7 +248,7 @@ work_notes="This is a test. This is only a test."
 cmdb_ci='emtsdeukstaff03'
 #print(incobj.get_incident_details_by_query(query1))
 #print(incobj.get_incident_details_by_query(query2))
-print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes,cmdb_ci))
+#print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes,cmdb_ci))
 #print(incobj.update_notes("GEVINC0017971",work_notes))
 
 #close_notes="Closed/Resolved by Caller"
