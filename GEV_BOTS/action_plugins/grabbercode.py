@@ -2,9 +2,10 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 import warnings
-from BtoBtransaction import GrabIncidents
+#from BtoBtransaction import GrabIncidents
 warnings.filterwarnings("ignore")
 import sys
+import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 print("Current Python sys.path:", sys.path)
 
