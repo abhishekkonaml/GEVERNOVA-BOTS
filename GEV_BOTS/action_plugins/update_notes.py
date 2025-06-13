@@ -12,6 +12,9 @@ import time
 from multiprocessing import Pool
 import csv
 import os
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from GEV_DEV_Servicenow import Incidents
 import math
 

@@ -4,8 +4,11 @@ from ansible.plugins.action import ActionBase
 import warnings
 import sys
 import os
+import base64
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from BtoBtransaction import GrabIncidents
+from awx_trigger import AWX_Trigger
 warnings.filterwarnings("ignore")
 
 
@@ -15,7 +18,15 @@ class ActionModule(ActionBase):
         try: 
            grabobj=GrabIncidents()
            grabincidents=grabobj.getincidents()['Record']
+           awx_uname = task_vars["generic_username"]
+           awx_pass = task_vars["generic_password"]
+           awx_url=task_vars['awx_url']
+           url = awx_url+"job_templates/12/launch/"
            incidents=[incident['Payload']['RequestInfo']['number'] for incident in grabincidents if "network interfaces" in incident['Payload']['RequestInfo']['description'].lower()]
+           awxobj=AWX_Trigger()
+           triggering_template=awxobj.trigger(awx_url,awx_uname,awx_pass,incidents[0])
+           print(triggering_template)
+           print("="*50)
            return {'status': 'success','result': incidents}
         except Exception as e:
             return {'status': 'failed', 'result': str(e)}
