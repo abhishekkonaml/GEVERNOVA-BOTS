@@ -15,12 +15,13 @@ class AWX_Trigger:
                         }
             awx_body={
                       "extra_vars": {
-                               "incident_no": incident
+                               "fetch_incident_no": incident
                              }
                       }
+            
 
             try:           
-               response = requests.request("POST", awx_url, headers=headers,json=awx_body)
+               response = requests.request("POST", awx_url, headers=headers,json=awx_body,verify=False)
                return response.json()
             except Exception as e:
                  return str(e)
