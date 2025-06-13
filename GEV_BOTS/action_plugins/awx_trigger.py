@@ -20,7 +20,7 @@ class AWX_Trigger:
                       }
 
             try:           
-               response = requests.request("GET", awx_url, headers=headers,json=json.dumps(awx_body))
+               response = requests.request("GET", awx_url, headers=headers,body=awx_body)
                return response.json()
             except Exception as e:
                  return str(e)
