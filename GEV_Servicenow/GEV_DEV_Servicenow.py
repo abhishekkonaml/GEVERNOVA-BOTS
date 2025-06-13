@@ -22,6 +22,7 @@ class Incidents:
               self.access_token="Failed to fetch the access token-{}".format(str(e))
     def incident_creation(self,opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes,cmdb_ci):
         url1="https://dev.api.gevernova.com/servicenow_incident/"
+        
         token='Bearer {}'.format(self.access_token)
         payload = json.dumps({
                              "insert": {
