@@ -4,7 +4,7 @@ class Incidents:
     def __init__(self):
         url = "https://fssfed.stage.ge.com/fss/as/token.oauth2?grant_type=client_credentials&scope=api"
         headers = {
-          'Authorization': 'Basic OHRYNVNUWmNycmVvZ3dkNGIyUWZ2NGh5ZmVVRnI2aVV0VWs5ZmpMSGlKdEJFRkM2OnE1QndDUVJ5bmhEbWFUWERyQ202QWNXUkJ0TE9mMndrTUIxM04wVWdxbnBSZDZCOThvaGNNNWk2SVpHZ3Y4TGE=',
+          'Authorization': 'Basic ckdnMVd4V280Rko2SnpZZ2lUY3VnU1pqVzEzdmk1UVBjYnZjTnUxTUF0ZkZRM0xBOjA5enR1UUk4NlZMcVV5TEFOYW5taERuNGRaQXc1UTlYeENkSE5Pb0FpcTAxd0lOTU5JMTdDZFVibXMwRzRNMXQ=',
           
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -21,7 +21,7 @@ class Incidents:
         except Exception as e:
               self.access_token="Failed to fetch the access token-{}".format(str(e))
     def incident_creation(self,opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes,cmdb_ci):
-        url1="https://dev.api.gevernova.com/servicenow_incident/"
+        url1="https://stage.api.gevernova.com/servicenow_incident/"
         token='Bearer {}'.format(self.access_token)
         payload = json.dumps({
                              "insert": {
@@ -56,7 +56,7 @@ class Incidents:
                return ("Failed - Something went wrong - {}".format(str(e)))
     def update_notes(self,incidentnumber,work_notes):
         token='Bearer {}'.format(self.access_token)
-        url1="https://dev.api.gevernova.com/servicenow_incident/" 
+        url1="https://stage.api.gevernova.com/servicenow_incident/" 
         payload = json.dumps({
                               "update": {
                                 "partnerInfo": {
@@ -82,7 +82,7 @@ class Incidents:
                return ("Failed - Something went wrong - {}".format(str(e)))
     def close_ticket(self,incidentnumber,close_notes,close_code):
         token='Bearer {}'.format(self.access_token)
-        url1="https://dev.api.gevernova.com/servicenow_incident/" 
+        url1="https://stage.api.gevernova.com/servicenow_incident/" 
         payload = json.dumps({
                               "update": {
                                 "partnerInfo": {
@@ -110,7 +110,7 @@ class Incidents:
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
     def get_incident_details_by_query(self,query):
-          url1="https://dev.api.gevernova.com/servicenow_incident/query/{}".format(query)
+          url1="https://stage.api.gevernova.com/servicenow_incident/query/{}".format(query)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
@@ -130,7 +130,7 @@ class CMDB:
       def __init__(self):
         url = "https://fssfed.stage.ge.com/fss/as/token.oauth2?grant_type=client_credentials&scope=api"
         headers = {
-          'Authorization': 'Basic OHRYNVNUWmNycmVvZ3dkNGIyUWZ2NGh5ZmVVRnI2aVV0VWs5ZmpMSGlKdEJFRkM2OnE1QndDUVJ5bmhEbWFUWERyQ202QWNXUkJ0TE9mMndrTUIxM04wVWdxbnBSZDZCOThvaGNNNWk2SVpHZ3Y4TGE=',
+          'Authorization': 'Basic ckdnMVd4V280Rko2SnpZZ2lUY3VnU1pqVzEzdmk1UVBjYnZjTnUxTUF0ZkZRM0xBOjA5enR1UUk4NlZMcVV5TEFOYW5taERuNGRaQXc1UTlYeENkSE5Pb0FpcTAxd0lOTU5JMTdDZFVibXMwRzRNMXQ=',
           
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -147,7 +147,7 @@ class CMDB:
         except Exception as e:
               self.access_token="Failed to fetch the access token-{}".format(str(e))
       def get_ci_details(self,hostname):
-          url="https://dev.api.gevernova.com/servicenow_task_cmdb/name/{}".format(hostname)
+          url="https://stage.api.gevernova.com/servicenow_task_cmdb/name/{}".format(hostname)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
@@ -163,7 +163,7 @@ class CMDB:
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
       def get_ci_details_by_id(self,id):
-          url="https://dev.api.gevernova.com/servicenow_task_cmdb/id/{}".format(id)
+          url="https://stage.api.gevernova.com/servicenow_task_cmdb/id/{}".format(id)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
@@ -179,7 +179,7 @@ class CMDB:
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
       def get_ci_full_details(self,hostname):
-          url="https://dev.api.gevernova.com/servicenow_task_cmdb/full/{}".format(hostname)
+          url="https://stage.api.gevernova.com/servicenow_task_cmdb/full/{}".format(hostname)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
@@ -195,7 +195,7 @@ class CMDB:
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
       def get_ci_by_query(self,query):
-          url="https://dev.api.gevernova.com/servicenow_task_cmdb/custom_query?{}".format(query)
+          url="https://stage.api.gevernova.com/servicenow_task_cmdb/custom_query?{}".format(query)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
