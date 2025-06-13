@@ -25,7 +25,7 @@ class ActionModule(ActionBase):
            #incidents=[incident['Payload']['RequestInfo']['number'] for incident in grabincidents if "network interfaces" in incident['Payload']['RequestInfo']['description'].lower()]
            incidents=["GEVINC0029674","GEVINC0029678"]
            awxobj=AWX_Trigger()
-           triggering_template=awxobj.trigger(awx_url,awx_uname,awx_pass,incidents[0])
+           triggering_template=awxobj.trigger(url,awx_uname,awx_pass,incidents[0])
            print(triggering_template)
            print("="*50)
            return {'status': 'success','result': incidents}
