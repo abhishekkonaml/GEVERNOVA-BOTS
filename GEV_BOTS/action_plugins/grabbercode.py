@@ -1,7 +1,7 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
-from b2b import GrabIncidents
+from BtoBtransaction import GrabIncidents
 import warnings
 
 warnings.filterwarnings("ignore")
