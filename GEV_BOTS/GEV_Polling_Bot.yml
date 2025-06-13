@@ -1,0 +1,7 @@
+---
+ - name: Polling Playbook
+   hosts: localhost
+   tasks:
+   - action: grabbercode
+     register: grabincidents
+   - debug: grabincidents.result

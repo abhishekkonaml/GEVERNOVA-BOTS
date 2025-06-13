@@ -18,8 +18,10 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
             incident_no=self._task.args["incident_no"]
-            host_pattern='Host: (.*)'
-            interface_pattern="Datasource: Network Interfaces-(.*) "
+            #host_pattern='Host: (.*)'
+            #interface_pattern="Datasource: Network Interfaces-(.*) "
+            host_pattern="host (.*) is experiencing"
+            interface_pattern="packets on (.*) \["
             query="number={}?sso={}".format(incident_no,"503437104")
             incobj=Incidents()
             incident_details=incobj.get_incident_details_by_query(query)
