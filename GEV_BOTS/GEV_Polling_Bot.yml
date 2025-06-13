@@ -4,4 +4,4 @@
    tasks:
    - action: grabbercode
      register: grabincidents
-   - debug: grabincidents.result
+   - debug: var=grabincidents.result
