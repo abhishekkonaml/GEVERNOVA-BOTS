@@ -1,0 +1,17 @@
+---
+ - name: test
+   hosts: localhost
+   tasks:
+
+    - debug:
+        msg: "Running the Node Down Node stopped Bot"
+
+    - name: Ping check for host
+      include_tasks: bots/NodedownAndNodestopped/pingcheck.yml
+      vars:
+       frequency: 3
+       delay_time: 5
+
+    
+       
+    
