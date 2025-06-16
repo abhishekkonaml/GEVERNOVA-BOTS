@@ -22,9 +22,10 @@ class ActionModule(ActionBase):
             #interface_pattern="Datasource: Network Interfaces-(.*) "
             host_pattern="host (.*) is experiencing"
             interface_pattern="packets on (.*) \["
+            
             query="number={}?sso={}".format(incident_no,"503437104")
             incobj=Incidents()
-            incident_details=incobj.get_incident_details_by_query(query)
+            incident_details=incobj.get_incident_details_by_incident_number(query)
             if type(incident_details)==list:
                description=incident_details[0]['description']
                
