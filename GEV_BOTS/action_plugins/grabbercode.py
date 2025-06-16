@@ -22,8 +22,8 @@ class ActionModule(ActionBase):
            awx_pass = task_vars["generic_password"]
            awx_url=task_vars['awx_url']
            url = awx_url+"job_templates/12/launch/"
-           #incidents=[incident['Payload']['RequestInfo']['number'] for incident in grabincidents if "network interfaces" in incident['Payload']['RequestInfo']['description'].lower()]
-           incidents=["GEVINC0029674","GEVINC0029678"]
+           incidents=[incident['Payload']['RequestInfo']['number'] for incident in grabincidents if "network interfaces" in incident['Payload']['RequestInfo']['description'].lower()]
+           #incidents=["GEVINC0029674","GEVINC0029678"]
            awxobj=AWX_Trigger()
            triggering_template=awxobj.trigger(url,awx_uname,awx_pass,incidents[0])
            print(triggering_template)
