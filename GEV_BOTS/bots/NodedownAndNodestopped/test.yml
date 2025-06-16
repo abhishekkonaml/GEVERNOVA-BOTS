@@ -4,4 +4,4 @@
     - name: login to device
       action: CommandExecution hostname='emtwdedemoeng07.gdn.ge.com' command='show version' incidentno='GEINC12345' notesupdate='no'
       register: output
-      debug: var=output
+    - debug: var=output
