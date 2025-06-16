@@ -34,7 +34,7 @@ class ActionModule(ActionBase):
                #Bot Classification Logic
                
                # Usecase-1: Connection Down Bot 
-               if 'network interface' in description.lower() and 'operstate' in description.lower(): 
+               if 'network interface' in description.lower(): 
                   hostname=re.findall(host_pattern,description)
                   interface=re.findall(interface_pattern,description)
                   if len(hostname)>0:
