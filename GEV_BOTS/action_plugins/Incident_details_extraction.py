@@ -22,16 +22,19 @@ class ActionModule(ActionBase):
             #interface_pattern="Datasource: Network Interfaces-(.*) "
             host_pattern="host (.*) is experiencing"
             interface_pattern="packets on (.*) \["
-            query="number={}?sso={}".format(incident_no,"503437104")
+            
+            
             incobj=Incidents()
-            incident_details=incobj.get_incident_details_by_query(query)
+            incident_details=incobj.get_incident_details_by_incident_number(incident_no)
+            print(incident_details)
+            print("----------"*25)
             if type(incident_details)==list:
                description=incident_details[0]['description']
                
                #Bot Classification Logic
                
                # Usecase-1: Connection Down Bot 
-               if 'network interface' in description.lower() and 'operstate' in description.lower(): 
+               if 'network interface' in description.lower(): 
                   hostname=re.findall(host_pattern,description)
                   interface=re.findall(interface_pattern,description)
                   if len(hostname)>0:
