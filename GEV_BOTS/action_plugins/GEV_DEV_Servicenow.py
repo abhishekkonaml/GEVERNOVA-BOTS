@@ -110,8 +110,8 @@ class Incidents:
                return ("Failed - {}".format(response.json()['error']['message']))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
-    def get_incident_details_by_incident_number(self,query):
-          url1="https://dev.api.gevernova.com/servicenow_task_cmdb/query/".format(query)
+    def get_incident_details_by_incident_number(self,number):
+          url1="https://dev.api.gevernova.com/servicenow_task_cmdb/query/number={}?sso=503437104".format(number)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,
