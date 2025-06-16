@@ -17,7 +17,7 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
            grabobj=GrabIncidents()
-           #grabincidents=grabobj.getincidents()['Record']
+           grabincidents=grabobj.getincidents()['Record']
            awx_uname = task_vars["generic_username"]
            awx_pass = task_vars["generic_password"]
            awx_url=task_vars['awx_url']
