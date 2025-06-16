@@ -23,9 +23,9 @@ class ActionModule(ActionBase):
             host_pattern="host (.*) is experiencing"
             interface_pattern="packets on (.*) \["
             
-            query="number={}?sso={}".format(incident_no,"503437104")
+            
             incobj=Incidents()
-            incident_details=incobj.get_incident_details_by_incident_number(query)
+            incident_details=incobj.get_incident_details_by_incident_number(incident_no)
             print(incident_details)
             print("----------"*25)
             if type(incident_details)==list:
