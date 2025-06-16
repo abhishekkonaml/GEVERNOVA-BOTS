@@ -26,6 +26,8 @@ class ActionModule(ActionBase):
             query="number={}?sso={}".format(incident_no,"503437104")
             incobj=Incidents()
             incident_details=incobj.get_incident_details_by_incident_number(query)
+            print(incident_details)
+            print("----------"*25)
             if type(incident_details)==list:
                description=incident_details[0]['description']
                
