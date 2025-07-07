@@ -1,8 +1,15 @@
 - name: test
   hosts: localhost
   tasks:
+    - name: Ping the device
+      include_tasks: common_actions/Pingcheckfor_Node.yml
+      vars: 
+       frequency: 3
+       delay_time: 1
+       incident_hostname: "airsambrriode02.gdn.ge.com"
     - name: login to device
-      action: CommandExecution hostname='airsambrriode02.gdn.ge.com' command='show version' incidentno='GEINC12345' notesupdate='no'
+      action: CommandExecution hostname='airsambrriode02.gdn.ge.com' command='show clock' incidentno='GEINC12345' notesupdate='no'
       register: output
     - debug: var=output
+
 
