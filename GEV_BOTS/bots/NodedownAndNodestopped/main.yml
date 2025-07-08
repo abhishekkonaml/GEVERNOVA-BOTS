@@ -6,7 +6,7 @@
     - debug:
         msg: "Running the Node Down Node stopped Bot"
     - name: Ping the device
-      include_tasks: GEV_BOTS/common_actions/Pingcheckfor_Node.yml
+      include_tasks: Pingcheckfor_Node.yml
       vars: 
        frequency: 3
        delay_time: 1
