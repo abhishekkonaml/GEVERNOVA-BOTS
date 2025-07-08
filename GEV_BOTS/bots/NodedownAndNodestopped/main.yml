@@ -5,13 +5,17 @@
 
     - debug:
         msg: "Running the Node Down Node stopped Bot"
-
-    - name: Ping check for host
-      include_tasks: bots/NodedownAndNodestopped/pingcheck.yml
-      vars:
+    - name: Ping the device
+      include_tasks: common_actions/Pingcheckfor_Node.yml
+      vars: 
        frequency: 3
-       delay_time: 5
-
+       delay_time: 1
+       incident_hostname: "powwdehrkarlo59"
+    - name: login to device
+      action: CommandExecution hostname='powwdehrkarlo59' command='show version' incidentno='GEINC12345' notesupdate='no'
+      register: output
+    - debug: var=output
+   
     
        
     
