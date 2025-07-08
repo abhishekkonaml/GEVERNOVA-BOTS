@@ -6,7 +6,7 @@
       vars: 
        frequency: 3
        delay_time: 1
-       incident_hostname: "airsambrriode02.gdn.ge.com"
+       incident_hostname: "powwdehrkarlo59.gdn.ge.com"
     #- name: login to device
     #  action: CommandExecution hostname='airsambrriode02.gdn.ge.com' command='show clock' incidentno='GEINC12345' notesupdate='no'
     #  register: output
