@@ -12,9 +12,11 @@
        delay_time: 1
        incident_hostname: "powwdehrkarlo59"
     - name: login to device
-      action: CommandExecution hostname='powwdehrkarlo59' command='show version' incidentno='GEINC12345' notesupdate='no'
-      register: output
-    - debug: var=output
+      include_tasks: commandsThirdCheck.yml
+      vars::
+        incident_hostname: "powwdehrkarlo59"
+        incident_no: "GEINC123"
+    
    
     
        
