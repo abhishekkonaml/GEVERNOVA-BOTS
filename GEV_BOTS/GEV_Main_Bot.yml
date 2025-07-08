@@ -3,7 +3,7 @@
    hosts: localhost
    vars:
       #incident_no: "{{ fetch_incident_no }}"
-      incident_no: "GEVINC0028228"
+      incident_no: "GEVINC0028235"
    tasks:
    # Fetching Incident Details
    - name: Bot Execution started
@@ -21,7 +21,7 @@
        - debug: var=incident_interface
        - debug: var=botname
        - include_tasks: bots/ConnectionAndInterfaceDown/connectionandinterfacedown.yml
-       when: "'Connection Down' in fetched_details.botname"
+       when: "'OutDiscardPercent' in fetched_details.botname"
      when: "'success' in fetched_details.status"
    - block:
      - debug: msg='No Records found with the given Incident number'
