@@ -13,7 +13,7 @@
        incident_hostname: "powwdehrkarlo59"
     - name: login to device
       include_tasks: commandsThirdCheck.yml
-      vars::
+      vars:
         incident_hostname: "powwdehrkarlo59"
         incident_no: "GEINC123"
     
