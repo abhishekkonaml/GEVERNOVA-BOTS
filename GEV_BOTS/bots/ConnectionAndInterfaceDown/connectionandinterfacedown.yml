@@ -1,5 +1,12 @@
 ---
- 
+ - name: GEV Bots
+   hosts: localhost
+   vars:
+      #incident_no: "{{ fetch_incident_no }}"
+      incident_no: "GEVINC0028235"
+      incident_interface: "GigabitEthernet1/0/23"
+      incident_hostname: "POWsaEFRbouro10"
+
  - debug:
       msg: "Running the Connection Down Bot"
  - set_fact:
