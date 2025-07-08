@@ -20,6 +20,8 @@
        - debug: var=incident_hostname
        - debug: var=incident_interface
        - debug: var=botname
+       - debug:
+           msg: "calling connection role"
        - include_tasks: bots/ConnectionAndInterfaceDown/connectionandinterfacedown.yml
        when: "'OutDiscardPercent' in fetched_details.botname"
      when: "'success' in fetched_details.status"
