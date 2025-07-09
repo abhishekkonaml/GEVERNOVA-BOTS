@@ -5,6 +5,7 @@
   action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: clock_status_register
   ignore_errors: true
+- debug: var=clock_status_register
   
 - block:
     - debug:
@@ -16,6 +17,7 @@
   action: CommandExecution hostname='{{ incident_hostname }}' command='show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: log_status_register
   ignore_errors: true
+- debug: var=log_status_register
 
 - block:
     - debug: 
