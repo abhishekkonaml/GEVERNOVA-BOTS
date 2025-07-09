@@ -10,11 +10,11 @@
       vars: 
        frequency: 3
        delay_time: 1
-       incident_hostname: "powwdehrkarlo59"
+       
     - name: login to device
       include_tasks: commandsThirdCheck.yml
       vars:
-        incident_hostname: "powwdehrkarlo59"
+        
         incident_no: "GEINC123"
     
    
