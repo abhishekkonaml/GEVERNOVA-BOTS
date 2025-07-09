@@ -34,6 +34,8 @@
        - debug: var=botname
        - debug:
            msg: "calling node down role"
+       - name: call node down role
+         include_tasks: bots/NodedownAndNodestopped/main.yml
        
        when: "'down' in fetched_details.botname"
      when: "'success' in fetched_details.status"
@@ -46,8 +48,5 @@
      - meta: end_play
      when: "'error' in fetched_details.status"
 
-   - name: call node down role
-     include_tasks: bots/NodedownAndNodestopped/main.yml
-     vars:
-       incident_hostname: "rnwrtmuscicer02"
+   
    
