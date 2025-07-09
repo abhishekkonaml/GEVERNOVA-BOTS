@@ -3,7 +3,7 @@
    hosts: localhost
    vars:
       #incident_no: "{{ fetch_incident_no }}"
-      incident_no: "GEVINC0028235"
+      incident_no: "GEVINC0028191"
    tasks:
    # Fetching Incident Details
    - name: Bot Execution started
@@ -24,6 +24,18 @@
            msg: "calling connection role"
        - include_tasks: bots/ConnectionAndInterfaceDown/connectionandinterfacedown.yml
        when: "'Connection Down' in fetched_details.botname"
+     - block:
+       - set_fact:
+          incident_hostname: "{{ fetched_details.hostname }}"
+          incident_interface: "{{ fetched_details.interface }}"
+          botname: "{{ fetched_details.botname }}"
+       - debug: var=incident_hostname
+       - debug: var=incident_interface
+       - debug: var=botname
+       - debug:
+           msg: "calling node down role"
+       
+       when: "'down' in fetched_details.botname"
      when: "'success' in fetched_details.status"
    - block:
      - debug: msg='No Records found with the given Incident number'
