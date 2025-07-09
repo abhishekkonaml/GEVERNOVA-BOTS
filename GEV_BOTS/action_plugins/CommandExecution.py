@@ -50,7 +50,7 @@ class ActionModule(ActionBase):
                 print(result)
                 exit()
             elif('Connection timedout' in str(out.decode())):
-                result = 'Hostname not known'
+                result = 'Connection timedout'
                 print(result)
                 exit()
             elif(('Invalid input detected' in str(out.decode())) and command == 'show logging'):
@@ -58,7 +58,7 @@ class ActionModule(ActionBase):
                 print(result)
                 exit()
             elif(('>' not in str(out.decode())) or ('#' not in str(out.decode()))):
-                result = 'Hostname not known'
+                result = 'SSH Failed'
                 print(result)
                 exit()
 
