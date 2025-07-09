@@ -1,6 +1,7 @@
 ---
 - set_fact:
     commands: ['sh ip in brief', 'sh ip pro summ', 'show proc cpu | ex 0.00']
+
 - name: check connectivity
   action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: clock_status_register
@@ -10,6 +11,8 @@
 - block:
     - debug:
         msg: "Unable to connect to host end the play"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to connect to device, reassigning ticket to engineer</h3>[/code]'
+      register: update_notes
     - meta: end_play
   when: "'Hostname not known' in clock_status_register"
 
@@ -22,6 +25,8 @@
 - block:
     - debug: 
         msg: "Unable to execute showlog end play"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to execute show log command, reassigning ticket to engineer</h3>[/code]'
+      register: update_notes
     - meta: end_play
   when: "'Unable to execute show log command' in log_status_register"
 

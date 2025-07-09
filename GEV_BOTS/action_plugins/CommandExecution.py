@@ -65,11 +65,12 @@ class ActionModule(ActionBase):
             result=str(out.decode()).replace(command,"")
             result=result.lower().replace(hostname1.lower(),"")
             result=result.replace('>',"")
-            
             #result=result.replace('\r\n',"")
             ChartserverConnection.close()
             if 'no' not in notesupdate:
-               incobj.update_notes(incidentno,result)
+               result1='''[code]<h3>{}:</h3>[/code]
+                         {}'''.format(command,result)
+               incobj.update_notes(incidentno,result1)
             result={'Hostname': hostname, 'status': 'success','Output':result}
             return result
             
