@@ -40,11 +40,11 @@ class ActionModule(ActionBase):
                   hostname=re.findall(host_pattern,description)
                   interface=re.findall(interface_pattern,description)
                   if len(hostname)>0:
-                     hostname=re.findall(host_pattern,description)[0]
+                     hostname=re.findall(host_pattern,description)[0].strip()
                   else:
                      hostname=''
                   if len(interface)>0:
-                     interface=re.findall(interface_pattern,description)[0]
+                     interface=re.findall(interface_pattern,description)[0].strip()
                   else:
                      interface=''
                   if hostname == '' and interface=='':
