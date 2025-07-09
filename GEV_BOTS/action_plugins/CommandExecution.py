@@ -43,7 +43,7 @@ class ActionModule(ActionBase):
             time.sleep(2)
             out= channel.recv(math.inf) 
             channel.send(command+ '\n')
-            time.sleep(5)
+            time.sleep(20)
             out= channel.recv(math.inf)
             if('not known' in str(out.decode())):
                 result = 'Hostname not known'
