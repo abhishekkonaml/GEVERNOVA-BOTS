@@ -39,7 +39,7 @@
      when: "'success' in fetched_details.status"
    - block:
      - debug: msg='No Records found with the given Incident number'
-     - meta: end_play
+     #- meta: end_play
      when: "'failed' in fetched_details.status"
    - block:
      - debug: msg='Parsing Error'
