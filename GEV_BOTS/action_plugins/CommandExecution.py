@@ -57,10 +57,7 @@ class ActionModule(ActionBase):
                 result = 'Unable to execute show log command'
                 print(result)
                 exit()
-            elif(('>' not in str(out.decode())) or ('#' not in str(out.decode()))):
-                result = 'SSH Failed'
-                print(result)
-                exit()
+            
 
             result=str(out.decode()).replace(command,"")
             result=result.lower().replace(hostname1.lower(),"")
