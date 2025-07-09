@@ -1,7 +1,7 @@
 ---
  
   - debug:
-       msg: "Running the Connection Down Bot"
+       msg: "Running the Status Flap Bot"
   - set_fact:
        bot_notes: |-
                   

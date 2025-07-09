@@ -47,7 +47,7 @@ class ActionModule(ActionBase):
                      interface=''
                   if hostname == '' and interface=='':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
-                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'Connection Down'}
+                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusFlap'}
                # When no bot found
                else:
                   return {'status': 'failed','reason':'Bot not exist!'}
