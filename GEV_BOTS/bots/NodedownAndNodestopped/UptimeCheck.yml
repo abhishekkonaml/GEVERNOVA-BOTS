@@ -75,7 +75,7 @@
                - debug:
                    msg: "close ticket"
                - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Uptime is greater than 30 minutes, closing the ticket</h3>[/code]'
-                 register: update_not
+                 register: update_notes
                - meta: end_play
               when: UpTimeNumericValue | int >= 30
               
