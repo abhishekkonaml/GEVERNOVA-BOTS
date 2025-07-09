@@ -24,6 +24,14 @@
    - debug: var=update_notes
    - debug:
        msg: "Fetch alternate IP address"
+   - set_fact:
+       incident_hostname: "rnwrtmuscicer02"
+       command1: "g  {{ DeviceCI }} | grep 'A' | grep -v 'CNAME' | grep -v ';'"
+       incidentno: "GEINC123"
+   - name: Interface status check
+     action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='no'
+     register: alternate_address_register
+   - debug: var:alternate_address_register
    
    when: "'64 bytes' not in ping_result" 
  
