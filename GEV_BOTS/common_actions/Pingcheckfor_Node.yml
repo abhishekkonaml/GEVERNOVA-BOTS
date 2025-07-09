@@ -12,9 +12,9 @@
  - set_fact: 
     ping_result: "{{ ping_result_register.stdout }}"
  - debug: var=ping_result
- #- action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
- #  register: update_notes
- #- debug: var=update_notes
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
+   register: update_notes
+ - debug: var=update_notes
  
  - block:
    - debug:

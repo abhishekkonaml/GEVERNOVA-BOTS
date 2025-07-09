@@ -4,16 +4,14 @@
     - debug:
         msg: "Running the Node Down Node stopped Bot"
     - name: Ping the device
-      include_tasks: Pingcheckfor_Node.yml
+      include_tasks: common_actions/Pingcheckfor_Node.yml
       vars: 
        frequency: 3
        delay_time: 1
        
     - name: login to device
-      include_tasks: commandsThirdCheck.yml
-      vars:
-        
-        incident_no: "GEINC123"
+      include_tasks: bots/NodedownAndNodestopped/commandsThirdCheck.yml
+      
     
    
     
