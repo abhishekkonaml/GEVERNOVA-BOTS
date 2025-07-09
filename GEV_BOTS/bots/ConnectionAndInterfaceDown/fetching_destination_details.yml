@@ -6,7 +6,7 @@
  - debug: var=command2
  # Fetching Destination Device
  - name: Fetching Destination device
-   action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='no'
+   action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='no'
    register: destination_register
  - set_fact:
      destination_result: "{{ destination_register.Output }}"
@@ -49,7 +49,7 @@
  
 
 
- - action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' notesupdate='no' incidentno='{{ incident_no }}'
+ - action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' notesupdate='no' incidentno='{{ incident_no }}'
    register: dest_interface_register
  - debug: var=dest_interface_register
  - block:
@@ -87,7 +87,7 @@
 
  - set_fact:
       dest_int_command: "show interface {{ Dest_interface }}"
- - action: CommandExecution  hostname="{{ destination }}" command='{{ dest_int_command }}' notesupdate='no' incidentno='{{ incident_no }}'
+ - action: InterfaceStatusExecution  hostname="{{ destination }}" command='{{ dest_int_command }}' notesupdate='no' incidentno='{{ incident_no }}'
    register: base_register
  - set_fact:
      base_result: "{{ base_register.Output }}"
@@ -114,7 +114,7 @@
 
  - set_fact:
       des_command: 'sh mac address-table interface {{ incident_interface }} | i {{ DestinationDeviceInterfaceMAC1 }}'
- - action: CommandExecution hostname="{{ incident_hostname }}" command='{{ des_command }}' notesupdate='no' incidentno='{{ incident_no }}'
+ - action: InterfaceStatusExecution hostname="{{ incident_hostname }}" command='{{ des_command }}' notesupdate='no' incidentno='{{ incident_no }}'
    register: val_mac_status
  - set_fact:
       bot_notes: |-
