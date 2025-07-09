@@ -92,7 +92,7 @@ class Incidents:
                                 },
                                 "number": incidentnumber,
                                 "state" : "6",
-                                "assigned_to" : 212493581,
+                                
                                 "close_notes" : close_notes,
                                 "close_code" : close_code
                               }

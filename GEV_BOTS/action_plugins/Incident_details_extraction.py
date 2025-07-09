@@ -20,8 +20,6 @@ class ActionModule(ActionBase):
             incident_no=self._task.args["incident_no"]
             #host_pattern='Host: (.*)'
             #interface_pattern="Datasource: Network Interfaces-(.*) "
-            host_pattern="host (.*) is experiencing"
-            interface_pattern="packets on (.*) \["
             
             
             incobj=Incidents()
@@ -34,20 +32,24 @@ class ActionModule(ActionBase):
                #Bot Classification Logic
                
                # Usecase-1: Connection Down Bot 
-               if 'network interface' in description.lower(): 
+               if 'network interface' in description.lower() and "statusflap" in description.lower(): 
+                  #host_pattern="host (.*) is experiencing"
+                  host_pattern="- (.*)Network Interfaces"
+                  #interface_pattern="packets on (.*) \["
+                  interface_pattern="Network Interfaces-(.*) \["
                   hostname=re.findall(host_pattern,description)
                   interface=re.findall(interface_pattern,description)
                   if len(hostname)>0:
-                     hostname=re.findall(host_pattern,description)[0]
+                     hostname=re.findall(host_pattern,description)[0].strip()
                   else:
                      hostname=''
                   if len(interface)>0:
-                     interface=re.findall(interface_pattern,description)[0]
+                     interface=re.findall(interface_pattern,description)[0].strip()
                   else:
                      interface=''
                   if hostname == '' and interface=='':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
-                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'Connection Down'}
+                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusFlap'}
                # When no bot found
                else:
                   return {'status': 'failed','reason':'Bot not exist!'}

@@ -59,8 +59,9 @@ class ActionModule(ActionBase):
                 exit()
 
             result=str(out.decode()).replace(command,"")
-            result=result.lower().replace(hostname1,"")
+            result=result.lower().replace(hostname1.lower(),"")
             result=result.replace('>',"")
+            
             #result=result.replace('\r\n',"")
             ChartserverConnection.close()
             if 'no' not in notesupdate:

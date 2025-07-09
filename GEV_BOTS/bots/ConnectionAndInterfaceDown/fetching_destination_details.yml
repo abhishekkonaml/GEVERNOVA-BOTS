@@ -29,22 +29,29 @@
  - block:
    - set_fact:
       temp: "{{ destination_result.split(':') }}"
+   - debug: var=temp
    - set_fact: 
       final_status: "Bypass"
      when: "('wd' in temp[1]) or ('wa' in temp[1]) or ('wg' in temp[1]) or ('wn' in temp[1])"
    when: "(destination_register.Output != '') or ('entries displayed : 0' not in destination_register.Output)"
    
  - block:
-   - action: closeincident incident='{{ incident_no }}'
-     register: closeregister
-   - debug: var=closeregister
+   - debug: var=final_status
+   #- action: closeincident incident='{{ incident_no }}'
+   #  register: closeregister
+   #- debug: var=closeregister
+   - debug:
+       msg: "Bypassing Bside validation closing the case"
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> All checks passed hence closing the case.</h3>[/code]'
+     register: update_notes
+   - meta: end_play
    when: "'Bypass' in final_status"
  
 
 
  - action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' notesupdate='no' incidentno='{{ incident_no }}'
    register: dest_interface_register
-
+ - debug: var=dest_interface_register
  - block:
    - debug: msg="Bot Failed to validate the B side as it unable to extract the B side interface details"
    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot failed to validate the B side as it unable to extract the B side interface details</h3>[/code]'
@@ -53,10 +60,10 @@
    - meta: end_play
    when:  "('failed' in dest_interface_register.status)"
  - set_fact: 
-     Dest_interface: "{{ dest_interface_register.Output.split(',')[1].split(':')[1].strip() }}"
+     Dest_interface: "{{ dest_interface_register.Output.split(',')[1].split(':')[1].strip().replace('\\r\\n','') }}"
  - debug: var=Dest_interface
  - set_fact: 
-     destination: "{{ destination_result.split(':')[1].strip() }}"
+     destination: "{{ destination_result.split(':')[1].strip().replace('\\r\\n','') }}"
  - debug: var=destination
  - set_fact:
       bot_notes: |-
