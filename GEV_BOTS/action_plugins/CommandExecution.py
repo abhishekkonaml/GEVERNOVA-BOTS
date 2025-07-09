@@ -40,7 +40,7 @@ class ActionModule(ActionBase):
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
             channel = ChartserverConnection.invoke_shell()
             channel.send('term len 0'+'\n')
-            time.sleep(2)
+            time.sleep(15)
             out= channel.recv(math.inf) 
             channel.send(command+ '\n')
             time.sleep(20)
