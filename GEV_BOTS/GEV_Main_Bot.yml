@@ -23,7 +23,7 @@
        - debug:
            msg: "calling connection role"
        - include_tasks: bots/ConnectionAndInterfaceDown/connectionandinterfacedown.yml
-       when: "'Connection Down' in fetched_details.botname"
+       when: "'StatusFlap' in fetched_details.botname"
      - block:
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
