@@ -31,7 +31,7 @@
    - name: Interface status check
      action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='no'
      register: alternate_address_register
-   - debug: var:alternate_address_register
+   - debug: var=alternate_address_register
    
    when: "'64 bytes' not in ping_result" 
  
