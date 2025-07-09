@@ -1,0 +1,85 @@
+---
+    - block:
+        - name: Fetch Uptime Data When Uptime Is Exists In Uptime Data
+          set_fact:
+           ReloadUptimeResult: "{{ (version_status_register | regex_search('uptime is [0-9]{,3}\\s\\w+')).lower() }}"
+          when: "(version_status_register is defined) and ('uptime is' in version_status_register)"
+          
+        - name: Fetch Uptime Data When Processor Is Exists In Uptime Data
+          set_fact:
+           ReloadUptimeResult: "{{ (version_status_register | regex_search('processor is [0-9]{,3}\\s\\w+')).lower() }}"
+          when: "(version_status_register is defined) and ('processor is' in version_status_register)"
+          
+        - name: Uptime Message
+          set_fact:
+           UptimeNotesData: "{{ item }}"
+          with_items: "{{ version_status_register.split('\n') }}"
+          when: "'uptime is' in item"
+          
+        - name: Processor Message
+          set_fact:
+           UptimeNotesData: "{{ item }}"
+          with_items: "{{ version_status_register.split('\n') }}"
+          when: "'processor is' in item"
+          
+        - debug: var=ReloadUptimeResult
+          
+        - debug: var=UptimeNotesData
+        - block:
+            - debug: msg="Unable to fetch Uptime, Hence Reassigned...!"
+            - action: update_notes incident='{{ incident_no }}' work_notes='{{ UptimeNotesData }}'
+              register: update_notes
+            - debug: var=update_notes
+          
+            - meta: end_play
+
+          when: ReloadUptimeResult is not defined
+        
+        - block:
+            - name: Fetch Hours
+              set_fact:
+               UpTimeNumericValue: "{{ ReloadUptimeResult.split()[2] }}"
+              when: "(('ROM by reload' in version_status_register) or ('ROM by bus' in version_status_register) or ('ROM by power' in version_status_register) or ('ROM by Power' in version_status_register))"
+            - debug:
+                msg: "update notes and close ticket"
+          
+          when:  "'year' in ReloadUptimeResult or 'week' in ReloadUptimeResult or 'day' in ReloadUptimeResult or 'hour' in ReloadUptimeResult"
+          
+        - block:
+            - name: Fetch Hours
+              set_fact:
+               UpTimeNumericValue: "{{ ReloadUptimeResult.split()[2] }}"
+              when: "(('ROM by reload' in version_status_register) or ('ROM by bus' in version_status_register) or ('ROM by power' in version_status_register) or ('ROM by Power' in version_status_register))"
+              
+            - debug: var=UpTimeNumericValue
+              
+            - block:
+               - name: Ping Counter Value when Uptime is < 30
+                 set_fact:
+                   PingCounterValue: 6
+               - debug:
+                   msg: "reassign ticket"
+               - meta: end_play
+              when: UpTimeNumericValue | int < 30
+              
+            - block:
+               - name: Ping Counter Value when Uptime is >= 30
+                 set_fact:
+                   PingCounterValue: 3
+               - debug:
+                   msg: "close ticket"
+               - meta: end_play
+              when: UpTimeNumericValue | int >= 30
+              
+            - debug: msg="3 Times Ping Counter Value"
+              when: PingCounterValue == 3
+              
+            - debug: msg="6 Times Ping Counter Value"
+              when: PingCounterValue == 6
+              
+            - debug: var=PingCounterValue
+          
+          when:  "'minute' in ReloadUptimeResult or 'minutes' in ReloadUptimeResult"
+      
+      when: version_status_register is defined
+...
