@@ -50,6 +50,14 @@ class ActionModule(ActionBase):
                   if hostname == '' and interface=='':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
                   return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusFlap'}
+               elif 'down' in description.lower():
+                  hostname=''
+                  hostname=incident_details[0]['cmdb_ci']
+                  if hostname == '':
+                     return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
+                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Node down'}
+
+                  
                # When no bot found
                else:
                   return {'status': 'failed','reason':'Bot not exist!'}

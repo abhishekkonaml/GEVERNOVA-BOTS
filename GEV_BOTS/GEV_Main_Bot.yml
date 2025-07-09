@@ -38,7 +38,7 @@
        - name: call node down role
          include_tasks: bots/NodedownAndNodestopped/main.yml
        
-       when: "'down' in fetched_details.botname"
+       when: "'Node down' in fetched_details.botname"
      when: "'success' in fetched_details.status"
    - block:
      - debug: msg='No Records found with the given Incident number'
