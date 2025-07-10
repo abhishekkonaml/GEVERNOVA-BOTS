@@ -11,7 +11,7 @@
  - set_fact:
      destination_result1: "{{ destination_register.Output }}"
  - set_fact:
-     destination_result: "{{ destination_result1.replace('\r\n','') }}"
+     destination_result: "{{ destination_result1.replace('\n','').replace('\r','') }}"
  - debug: var=destination_result
  # Finding Destination Device
  # Stopping when B side validation failed
