@@ -55,7 +55,7 @@ class Incidents:
                return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
-    def assigned_to_bot(self,incidentnumber,work_notes):
+    def assigned_to_bot(self,incidentnumber):
         token='Bearer {}'.format(self.access_token)
         url1="https://dev.api.gevernova.com/servicenow_incident/" 
         payload = json.dumps({
