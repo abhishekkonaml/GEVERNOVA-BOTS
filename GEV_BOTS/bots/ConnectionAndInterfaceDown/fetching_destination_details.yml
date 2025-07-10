@@ -9,7 +9,7 @@
    action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='no'
    register: destination_register
  - set_fact:
-     destination_result: "{{ destination_register.Output.lstrip('\r\n').rstrip('\r\n') }}"
+     destination_result: "{{ destination_register.Output.lstrip('\\r\\n').rstrip('\\r\\n') }}"
  - debug: var=destination_result
  # Finding Destination Device
  # Stopping when B side validation failed
