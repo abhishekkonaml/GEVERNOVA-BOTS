@@ -53,7 +53,7 @@
             - name: Fetch Hours
               set_fact:
                UpTimeNumericValue: "{{ ReloadUptimeResult.split()[2] }}"
-              when: "(('ROM by reload' in version_status_register) or ('ROM by bus' in version_status_register) or ('ROM by power' in version_status_register) or ('ROM by Power' in version_status_register))"
+              #when: "(('ROM by reload' in version_status_register) or ('ROM by bus' in version_status_register) or ('ROM by power' in version_status_register) or ('ROM by Power' in version_status_register))"
               
             - debug: var=UpTimeNumericValue
               
