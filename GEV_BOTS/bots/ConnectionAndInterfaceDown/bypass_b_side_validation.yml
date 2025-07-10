@@ -17,6 +17,9 @@
   - set_fact: 
       final_status: "Bypass"
     when: "('wd' in temp[1]) or ('wa' in temp[1]) or ('wg' in temp[1]) or ('wn' in temp[1])"
+  - set_fact:
+       input_notes: |
+        [code] <h3> Bypassing the Bside validation since B is an Access Point . </h3>[/code]
   when: "(bypass_result != '') and ('entries displayed : 0' not in bypass_result) and ( 'invalid' not in bypass_result )"
 - debug: var=final_status
 

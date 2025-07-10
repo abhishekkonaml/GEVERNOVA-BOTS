@@ -10,7 +10,9 @@
    delay: "{{ delay_time }}"
    ignore_errors: true
  - set_fact: 
-    ping_result: "{{ ping_result_register.stdout }}"
+    ping_result: |
+              [code] <h3> PING RESULTS: </h3> [/code]
+              {{ ping_result_register.stdout }}
  - debug: var=ping_result
  - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
    register: update_notes
