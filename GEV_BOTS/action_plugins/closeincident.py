@@ -15,7 +15,7 @@ class ActionModule(ActionBase):
         try: 
            incident=self._task.args["incident"]
            close_notes="Ticket For Autoclosure, Closed by Bot(504018887)"
-           close_code = "successful"
+           close_code = "Duplicate"
            incobj=Incidents()
            return {'status': 'success', 'result': incobj.close_ticket(incident,close_notes,close_code)}
         except Exception as e:
