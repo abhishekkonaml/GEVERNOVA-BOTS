@@ -40,10 +40,12 @@ class ActionModule(ActionBase):
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
             channel = ChartserverConnection.invoke_shell()
             channel.send('term len 0'+'\n')
-            time.sleep(10)
+            while not channel.recv_ready():
+                  time.sleep(1)
             out= channel.recv(math.inf) 
             channel.send(command+ '\n')
-            time.sleep(50)
+            while not channel.recv_ready():
+                  time.sleep(1)
             out= channel.recv(math.inf)
             if('not known' in str(out.decode())):
                 result = 'Hostname not known'
