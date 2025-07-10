@@ -8,6 +8,7 @@ import base64
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from BtoBtransaction import GrabIncidents
+from GEV_DEV_Servicenow import Incidents
 from awx_trigger import AWX_Trigger
 warnings.filterwarnings("ignore")
 
@@ -17,6 +18,7 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
            grabobj=GrabIncidents()
+           incobj=Incidents()
            grabincidents=grabobj.getincidents()['Record']
            awx_uname = task_vars["generic_username"]
            awx_pass = task_vars["generic_password"]
@@ -25,6 +27,7 @@ class ActionModule(ActionBase):
            incidents=[incident['Payload']['RequestInfo']['number'] for incident in grabincidents if "network interfaces" in incident['Payload']['RequestInfo']['description'].lower() and "statusflap" in incident['Payload']['RequestInfo']['description'].lower() and "new" in incident['Payload']['RequestInfo']['state'].lower()]
            #incidents=["GEVINC0029674","GEVINC0029678"]
            awxobj=AWX_Trigger()
+           print(incobj.assigned_to_bot(incidents[0]))
            triggering_template=awxobj.trigger(url,awx_uname,awx_pass,incidents[0])
            print(triggering_template)
            print("="*50)
