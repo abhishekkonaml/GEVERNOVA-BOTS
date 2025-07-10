@@ -27,7 +27,7 @@
       final_status: ''
  - set_fact:
      final_status: 'Bypass'
-   when: "( destination_register.Output == '' ) or ( 'entries displayed : 0' in destination_register.Output )"
+   when: "( destination_result == '' ) or ( 'entries displayed : 0' in destination_result )"
  - block:
    - set_fact:
       temp: "{{ destination_result.split(':') }}"
@@ -35,7 +35,7 @@
    - set_fact: 
       final_status: "Bypass"
      when: "('wd' in temp[1]) or ('wa' in temp[1]) or ('wg' in temp[1]) or ('wn' in temp[1])"
-   when: "(destination_register.Output != '') or ('entries displayed : 0' not in destination_register.Output)"
+   when: "(destination_result != '') or ('entries displayed : 0' not in destination_result )"
    
  - block:
    - debug: var=final_status
