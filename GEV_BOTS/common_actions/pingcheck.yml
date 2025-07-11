@@ -16,7 +16,6 @@
  - debug: var=ping_result
  - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
    register: update_notes
-   ignore_errors: 'yes'
  - debug: var=update_notes
  - set_fact:
       ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts hence reassigned"
