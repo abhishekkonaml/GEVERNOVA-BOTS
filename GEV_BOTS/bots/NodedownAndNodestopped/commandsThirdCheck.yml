@@ -6,7 +6,7 @@
   action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: clock_status_register
   ignore_errors: true
-- debug: var=clock_status_register.Output
+- debug: var=clock_status_register
   
 - block:
     - debug:
@@ -14,7 +14,7 @@
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to connect to device, reassigning ticket to engineer</h3>[/code]'
       register: update_notes
     - meta: end_play
-  when: "'Hostname not known' in clock_status_register"
+  when: "'Hostname not known' in clock_status_register.Output"
 
 - name: log check
   action: CommandExecution hostname='{{ incident_hostname }}' command='show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
@@ -28,7 +28,7 @@
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to execute show log command, reassigning ticket to engineer</h3>[/code]'
       register: update_notes
     - meta: end_play
-  when: "'Unable to execute show log command' in log_status_register"
+  when: "'Unable to execute show log command' in log_status_register.Output"
 
 - name: execute commands
   action: CommandExecution hostname='{{ incident_hostname }}' command='{{ item }}' incidentno='{{ incident_no }}' notesupdate='yes' 
@@ -42,7 +42,9 @@
   action: CommandExecution hostname='{{ incident_hostname }}' command='show version' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: version_status_register
   ignore_errors: true
-- debug: var=version_status_register
+- debug: var=version_status_register.Output
+- set_fact:
+    version_status_register: "{{ version_status_register.Output }}"
 
 - name: Validate device uptime
   include_tasks: bots/NodedownAndNodestopped/UptimeCheck.yml
