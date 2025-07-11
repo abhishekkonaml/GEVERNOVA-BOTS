@@ -2,8 +2,8 @@
  - name: GEV Bots
    hosts: localhost
    vars:
-      #incident_no: "{{ fetch_incident_no }}"
-      incident_no: "GEVINC0028587"
+      incident_no: "{{ fetch_incident_no }}"
+      #incident_no: "GEVINC0028587"
       
    tasks:
    # Fetching Incident Details
@@ -29,8 +29,13 @@
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
           botname: "{{ fetched_details.botname }}"
-       - debug: var=incident_hostname
-       - debug: var=botname
+         ignore_errors: yes
+       #- debug: var=incident_hostname
+       #- debug: var=botname
+       - set_fact:
+           incident_hostname: "rnwrtmussumne01"
+           botname: "Node down"
+           incident_no: "GEINC123"
        - debug:
            msg: "calling node down role"
        - name: call node down role
