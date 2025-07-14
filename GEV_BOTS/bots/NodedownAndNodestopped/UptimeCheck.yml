@@ -44,6 +44,8 @@
               when: "(('ROM by reload' in version_status_register) or ('ROM by bus' in version_status_register) or ('ROM by power' in version_status_register) or ('ROM by Power' in version_status_register))"
             - debug:
                 msg: "update notes and close ticket"
+            - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h4>Uptime is greater than 30 minutes</h4>[/code]'
+              register: update_notes
             - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Device has passed all checks, closing the ticket</h3>[/code]'
               register: update_notes
           
@@ -74,7 +76,9 @@
                    PingCounterValue: 3
                - debug:
                    msg: "close ticket"
-               - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Uptime is greater than 30 minutes, closing the ticket</h3>[/code]'
+               - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h4>Uptime is greater than 30 minutes</h4>[/code]'
+                 register: update_notes
+               - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Device has passed all checks, closing the ticket</h3>[/code]'
                  register: update_notes
                - meta: end_play
               when: UpTimeNumericValue | int >= 30
