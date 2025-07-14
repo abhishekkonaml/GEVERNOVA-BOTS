@@ -55,6 +55,33 @@ class Incidents:
                return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
+    def reassignment(self,incidentnumber):
+        token='Bearer {}'.format(self.access_token)
+        url1="https://dev.api.gevernova.com/servicenow_incident/" 
+        payload = json.dumps({
+                              "update": {
+                                "partnerInfo": {
+                                  "name": "com.microland.intelligenie",
+                                  "externalRecord": ""
+                                },
+                                "number": incidentnumber,
+                                "assigned_to": "212493581"
+                                
+                              }
+                            })
+        headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                    'Cookie': 'glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("PUT", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 201:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
     def assigned_to_bot(self,incidentnumber):
         token='Bearer {}'.format(self.access_token)
         url1="https://dev.api.gevernova.com/servicenow_incident/" 
@@ -65,9 +92,10 @@ class Incidents:
                                   "externalRecord": ""
                                 },
                                 "number": incidentnumber,
-                                "work_notes": "Ticket assigned and Bot Triggered",
+                                "work_notes": "[code] <h3> Ticket assigned and Bot Triggered </h3> [/code]",
                                 "assignment_group": "HQ CTO Network Enterprise Site Support",
-                                "assigned_to": "504018887"
+                                "assigned_to": "504018887",
+                                "state":2
                               }
                             })
         headers = {
