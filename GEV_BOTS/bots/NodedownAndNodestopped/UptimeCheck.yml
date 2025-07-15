@@ -50,6 +50,7 @@
               register: update_notes
             - action: closeincident incident='{{ incident_no }}'
               register: close_ticket
+            - meta: end_play
           
           when:  "'year' in ReloadUptimeResult or 'week' in ReloadUptimeResult or 'day' in ReloadUptimeResult or 'hour' in ReloadUptimeResult"
           
