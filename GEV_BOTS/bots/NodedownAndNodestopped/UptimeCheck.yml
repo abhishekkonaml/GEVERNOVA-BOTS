@@ -48,6 +48,8 @@
               register: update_notes
             - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Device has passed all checks, closing the ticket</h3>[/code]'
               register: update_notes
+            - action: closeincident incident='{{ incident_no }}'
+              register: close_ticket
           
           when:  "'year' in ReloadUptimeResult or 'week' in ReloadUptimeResult or 'day' in ReloadUptimeResult or 'hour' in ReloadUptimeResult"
           
