@@ -17,10 +17,18 @@
   when: "'Hostname not known' in clock_status_register.Output"
 
 - name: log check
-  action: CommandExecution hostname='{{ incident_hostname }}' command='show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show logging' incidentno='{{ incident_no }}' notesupdate='no' 
   register: log_status_register
   ignore_errors: true
 - debug: var=log_status_register
+- set_fact:
+    log_result: "{{ log_status_register.Output | lower }}"
+- shell: echo "{{ log_result }}" > log.txt
+- shell: cat log.txt | tail -10
+  register: last_ten_log_register
+- action: update_notes incident='{{ incident_no }}' work_notes="{{ last_ten_log_register }}"
+  register: update_notes
+
 
 - block:
     - debug: 
@@ -39,7 +47,7 @@
 - debug: var=command_status_register
 
 - name: check uptime
-  action: CommandExecution hostname='{{ incident_hostname }}' command='show version' incidentno='{{ incident_no }}' notesupdate='yes' 
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show version | i uptime' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: version_status_register
   ignore_errors: true
 - debug: var=version_status_register.Output
