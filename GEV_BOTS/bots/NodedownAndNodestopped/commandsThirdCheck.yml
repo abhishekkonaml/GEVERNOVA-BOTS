@@ -26,8 +26,8 @@
 - shell: echo "{{ log_result }}" > log.txt
 - shell: cat log.txt | tail -10
   register: last_ten_log_register
-- debug: var=last_ten_log_register
-- action: update_notes incident='{{ incident_no }}' work_notes="{{ last_ten_log_register }}"
+- debug: var=last_ten_log_register.stdout_lines[0]
+- action: update_notes incident='{{ incident_no }}' work_notes="{{ last_ten_log_register.stdout_lines[0] }}"
   register: update_notes
 
 
