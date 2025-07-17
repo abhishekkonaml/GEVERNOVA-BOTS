@@ -10,7 +10,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from BtoBtransaction import GrabIncidents
 from GEV_DEV_Servicenow import Incidents
 from awx_trigger import AWX_Trigger
-warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore") 
 
 
 class ActionModule(ActionBase):
