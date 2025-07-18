@@ -28,7 +28,11 @@ class ActionModule(ActionBase):
            for incident in grabincidents:
                if "New" in incident['Payload']['RequestInfo']['state']:
                    if "statusflap" in incident['Payload']['RequestInfo']['description'].lower():
+                       pass
+                       #incidents.append(incident['Payload']['RequestInfo']['number'])
+                   elif "down" in incident['Payload']['RequestInfo']['description'].lower():
                        incidents.append(incident['Payload']['RequestInfo']['number'])
+                       
            print(incidents)            
            #incidents=[incident['Payload']['RequestInfo']['number'] for incident in grabincidents if "network interfaces" in incident['Payload']['RequestInfo']['description'].lower() and "statusflap" in incident['Payload']['RequestInfo']['description'].lower() and "new" in incident['Payload']['RequestInfo']['state'].lower()]
            #incidents=["GEVINC0029674","GEVINC0029678"]
