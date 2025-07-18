@@ -24,7 +24,7 @@ class GrabIncidents:
     def getincidents(self):
         if "Failed" in self.access_token:
             return self.access_token
-        url = "https://dev.api.gevernova.com/servicenow_task_cmdb/b2b/1"
+        url = "https://dev.api.gevernova.com/servicenow_task_cmdb/b2b/10"
         token='Bearer {}'.format(self.access_token)
         headers = {
                     'tradingPartner': 'com.microland.intelligenie',
