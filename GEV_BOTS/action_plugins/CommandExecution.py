@@ -64,6 +64,9 @@ class ActionModule(ActionBase):
             
 
             result=str(out.decode()).replace(command,"")
+            if(command == 'sh ip in brief'):
+                lines=result.splitlines()
+                result ="\n".join(lines[:4])
             result=result.lower().replace(hostname1.lower(),"")
             result=result.replace('>',"")
             #result=result.replace('\r\n',"")
