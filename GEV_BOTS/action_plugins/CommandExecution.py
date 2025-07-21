@@ -51,16 +51,16 @@ class ActionModule(ActionBase):
             out= channel.recv(math.inf)
             if('not known' in str(out.decode())):
                 result = 'Hostname not known'
-                print(result)
-                exit()
+                result={'Hostname': hostname, 'status': 'failed','Output': result}
+                return result
             elif('Connection timedout' in str(out.decode())):
                 result = 'Connection timedout'
-                print(result)
-                exit()
+                result={'Hostname': hostname, 'status': 'failed','Output': result}
+                return result
             elif(('Invalid input detected' in str(out.decode())) and command == 'show logging'):
                 result = 'Unable to execute show log command'
-                print(result)
-                exit()
+                result={'Hostname': hostname, 'status': 'failed','Output': result}
+                return result
             
 
             result=str(out.decode()).replace(command,"")

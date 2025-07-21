@@ -50,6 +50,7 @@ class ActionModule(ActionBase):
             if('not known' in str(out.decode())):
                 result = 'Hostname not known'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
+                return result
             elif('Connection timedout' in str(out.decode())):
                 result = 'Connection timedout'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
@@ -57,6 +58,7 @@ class ActionModule(ActionBase):
             elif(('Invalid input detected' in str(out.decode())) and command == 'show logging'):
                 result = 'Unable to execute show log command'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
+                return result
             
 
             result=str(out.decode()).replace(command,"")
