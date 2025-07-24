@@ -28,7 +28,7 @@ class ActionModule(ActionBase):
            for incident in grabincidents:
                if "statusflap" in incident['Payload']['RequestInfo']['description'].lower():
                     state_inc=incobj.get_incident_details_by_incident_number(incident['Payload']['RequestInfo']['number'])
-                    print(state_inc)
+                    print(state_inc[0]['state'])
                     if "New" in state_inc[0]['state']:
                        incidents.append(incident['Payload']['RequestInfo']['number'])
                elif "down" in incident['Payload']['RequestInfo']['description'].lower():
