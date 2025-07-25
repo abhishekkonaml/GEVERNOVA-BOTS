@@ -5,8 +5,8 @@
   register: interface_status_register
   until: ("is up" in interface_status_register.Output)
   ignore_errors: true
-  retries: "{{ interfacefrequency}}"
-  delay: "{{ interfacedelay }}"
+  retries: 3
+  delay: 600
 
 - set_fact:
     Interfaceresult: "{{ interface_status_register.Output }}"
