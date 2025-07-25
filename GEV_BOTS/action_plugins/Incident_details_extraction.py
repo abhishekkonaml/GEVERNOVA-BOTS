@@ -50,6 +50,7 @@ class ActionModule(ActionBase):
                      interface=''
                   if hostname == '' and interface=='':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
+                 
                   return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusFlap'}
                elif 'down' in description.lower():
                   hostname=''

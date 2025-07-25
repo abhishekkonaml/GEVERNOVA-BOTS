@@ -93,7 +93,7 @@ class Incidents:
                                 },
                                 "number": incidentnumber,
                                 "work_notes": "[code] <h3> The Ticket has been assigned to Intelligeni Bot  </h3> [/code]",
-                                "assignment_group": "HQ CTO Network Enterprise Site Support",
+                                "assignment_group": "HQ CTO Network BOT",
                                 "assigned_to": "504018887",
                                 "state":2
                               }
