@@ -3,10 +3,10 @@
 - name: Interface status check
   action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
   register: interface_status_register
-  until: ("is up" in interface_status_register.Output)
+  until: ("is up" not in interface_status_register.Output)
   ignore_errors: true
-  retries: 3
-  delay: 600
+  retries: "{{ interfacefrequency}}"
+  delay: "{{ interfacedelay }}"
 
 - set_fact:
     Interfaceresult: "{{ interface_status_register.Output }}"
