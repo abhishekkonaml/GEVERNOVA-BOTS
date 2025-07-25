@@ -36,8 +36,8 @@
   - name: Step2 - Interface Status check
     include_tasks: common_actions/interfacestatuscheck.yml
     vars:
-     interfacefrequency: 1
-     interfacedelay: 1
+     interfacefrequency: 3
+     interfacedelay: 600
   - name: Step3 - Bypassing B side Validation
     include_tasks: bots/ConnectionAndInterfaceDown/fetching_destination_details.yml
 
