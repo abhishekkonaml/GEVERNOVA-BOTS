@@ -17,6 +17,10 @@
     - shell: cat log.txt | tail - 10
       register: Log_last_ten_register
     - debug: var=Log_last_ten_register
+    - name: login to device
+      action: CommandExecution hostname='POWsaMUSschenA1.gdn.ge.com' command='show clock' incidentno='GEINC12345' notesupdate='no'
+      register: clock_register
+    - debug: var=clock_register
     
 
 
