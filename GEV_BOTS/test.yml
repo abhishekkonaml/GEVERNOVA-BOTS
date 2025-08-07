@@ -3,9 +3,16 @@
   tasks:
     
     - name: login to device
-      action: CommandExecution hostname='POWsaMUSschen3P.gdn.ge.com' command='show log | in 1/0/23' incidentno='GEINC12345' notesupdate='no'
-      register: output
-    - debug: var=output
+      action: CommandExecution hostname='POWsaMUSschenA1.gdn.ge.com' command='show log | in 1/0/43' incidentno='GEINC12345' notesupdate='no'
+      register: Log_register
+    - debug: var=Log_register
+    - block:
+        - debug:
+            msg: "Update DB and reassign ticket"
+        #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to fetch logs, Reassigned</h3>[/code]'
+        #  register: update_notes
+        - meta: end_play
+      when: "('invalid input detected' in Log_register.Output)"
     
 
 
