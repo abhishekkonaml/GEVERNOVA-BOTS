@@ -20,7 +20,7 @@
     #- action: update_notes incident='{{ incident_no }}' work_notes='{{ Log_last_ten_register.stdout_lines }}'
     #  register: update_notes
     - shell: echo "{{ Log_register.Output }}" ? log.txt
-    - shell: cat log.txt | tail -n 1
+    - shell: cat log.txt | tail -n 2
       register: Log_last_register
     - debug: var=Log_last_register.stdout_lines
     - set_fact:
