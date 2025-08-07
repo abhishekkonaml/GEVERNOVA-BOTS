@@ -14,7 +14,7 @@
         - meta: end_play
       when: "('invalid input detected' in Log_register.Output)"
     - shell: echo "{{ Log_register.Output }}" > log.txt
-    - shell: cat log.txt | tail - 10
+    - shell: cat log.txt | tail -n 10
       register: Log_last_ten_register
     - debug: var=Log_last_ten_register
     - name: login to device
