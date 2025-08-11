@@ -71,7 +71,7 @@ class ActionModule(ActionBase):
             if(command == 'show clock'):
                 result=result.lower().replace('\\r\\n'+hostname1.lower(),"")
                 result=result.replace('\\r\\n',"")
-                print('replcement done')
+                #print('replcement done')
             result=result.replace('>',"")
             
             

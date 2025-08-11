@@ -3,7 +3,7 @@
   tasks:
     
     - name: login to device
-      action: CommandExecution hostname='POWsaMUSschenA1.gdn.ge.com' command='show log | in 1/0/43' incidentno='GEINC12345' notesupdate='no'
+      action: CommandExecution hostname='POWsaMUSschen9B.gdn.ge.com' command='show log | in 1/0/37' incidentno='GEINC12345' notesupdate='no'
       register: Log_register
     - debug: var=Log_register
     - block:
