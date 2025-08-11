@@ -3,7 +3,7 @@
   tasks:
     
     - name: login to device
-      action: CommandExecution hostname='POWsaMUSschen9B.gdn.ge.com' command='show log | in 1/0/37' incidentno='GEINC12345' notesupdate='no'
+      action: CommandExecution hostname='POWsaMUSschen9B' command='show log | in 1/0/37' incidentno='GEINC12345' notesupdate='no'
       register: Log_register
     - debug: var=Log_register
     - block:
@@ -27,9 +27,9 @@
         last_log_value: "{{ Log_last_register.stdout_lines[0] }}"
     - debug: var=last_log_value
     - name: login to device
-      action: CommandExecution hostname='POWsaMUSschen9B.gdn.ge.com' command='show clock' incidentno='GEINC12345' notesupdate='no'
+      action: CommandExecution hostname='POWsaMUSschen9B' command='show clock' incidentno='GEINC12345' notesupdate='no'
       register: clock_register
-    - debug: var=clock_register
+   
     - debug: var=clock_register.Output
     - set_fact:
          presentTime: "{{ clock_register.Output   }}"
