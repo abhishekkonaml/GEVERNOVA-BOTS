@@ -39,7 +39,7 @@
          presentTime: "{{ clock_register.Output   }}"
     - name: Normalize and parse timestamps
       set_fact:
-        dt1: "{{ (presentTime | to_datetime(format='%H:%M:%S.%f utc %a %b %d %Y') - timestamp[0] | to_datetime(format='%b %d %H:%M:%S.%f utc')).total_seconds() }}"
+        dt1: "{{ ((presentTime | to_datetime(format='%H:%M:%S.%f utc %a %b %d %Y')) - (timestamp[0] | to_datetime(format='%b %d %H:%M:%S.%f utc'))).total_seconds() }}"
        
 
     - set_fact:
