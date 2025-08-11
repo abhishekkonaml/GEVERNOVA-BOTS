@@ -68,9 +68,12 @@ class ActionModule(ActionBase):
                 lines=result.splitlines()
                 result ="\n".join(lines[:8])
             result=result.lower().replace(hostname1.lower(),"")
-            result=result.lower().replace('\\r\\n'+hostname1.lower(),"")
+            if(command == 'show clock'):
+                result=result.lower().replace('\\r\\n'+hostname1.lower(),"")
+                result=result.replace('\\r\\n',"")
+                print('replcement done')
             result=result.replace('>',"")
-            result=result.replace('\\r\\n',"")
+            
             
             ChartserverConnection.close()
             if 'no' not in notesupdate:
