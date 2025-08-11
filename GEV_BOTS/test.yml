@@ -35,8 +35,9 @@
          presentTime: "{{ clock_register.Output   }}"
     - name: Normalize and parse timestamps
       set_fact:
-        dt1: "{{ presentTime | to_datetime(format='%b %d %H:%M:%S.%f utc') }}"
-        dt2: "{{ last_log_value | to_datetime(format='%H:%M:%S.%f utc %a %b %d %Y') }}"
+        dt1: "{{ presentTime | to_datetime(format='%H:%M:%S.%f utc %a %b %d %Y') }}"
+        dt2: "{{ last_log_value | to_datetime(format='%b %d %H:%M:%S.%f utc') }}"
+      
     - name: Compute time difference
       set_fact:
         diff_seconds: "{{ (dt2 - dt1).total_seconds() }}"
