@@ -42,10 +42,11 @@
         dt1: "{{ (presentTime | to_datetime(format='%H:%M:%S.%f utc %a %b %d %Y') - timestamp[0] | to_datetime(format='%b %d %H:%M:%S.%f utc')).total_seconds() }}"
        
 
-
+    - set_fact:
+        dt2: "{{ dt1 | int }}"
     - debug: 
-         msg: "{{dt1 |type_debug }}"
-    - debug: var=dt1
+         msg: "{{dt2 |type_debug }}"
+    - debug: var=dt2
   
       
     
