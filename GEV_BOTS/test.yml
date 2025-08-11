@@ -24,8 +24,12 @@
       register: Log_last_register
     - debug: var=Log_last_register.stdout_lines
     - set_fact:
-        last_log_value: "{{ Log_last_register.stdout_lines[0].split(':') }}"
+        last_log_value: "{{ Log_last_register.stdout_lines[0] }}"
+ 
+    - set_fact:
+        timestamp: "{{ last_log_value | regex_findall('\\w+ \\d+ \\d+:\\d+:\\d+.\\d+ \\w+') }}"
     - debug: var=last_log_value
+    - debug: var=timestamp
     - name: login to device
       action: CommandExecution hostname='POWsaMUSschen9B' command='show clock' incidentno='GEINC12345' notesupdate='no'
       register: clock_register
@@ -36,7 +40,7 @@
     - name: Normalize and parse timestamps
       set_fact:
         dt1: "{{ presentTime | to_datetime(format='%H:%M:%S.%f utc %a %b %d %Y') }}"
-        dt2: "{{ last_log_value[0] | to_datetime(format='%b %d %H:%M:%S.%f utc') }}"
+        dt2: "{{ timestamp | to_datetime(format='%b %d %H:%M:%S.%f utc') }}"
       
     - name: Compute time difference
       set_fact:
