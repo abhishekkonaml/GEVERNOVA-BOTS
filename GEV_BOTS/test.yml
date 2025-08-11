@@ -29,6 +29,7 @@
     - name: login to device
       action: CommandExecution hostname='POWsaMUSschen9B.gdn.ge.com' command='show clock' incidentno='GEINC12345' notesupdate='no'
       register: clock_register
+    - debug: var=clock_register
     - debug: var=clock_register.Output
     - set_fact:
          presentTime: "{{ clock_register.Output   }}"
