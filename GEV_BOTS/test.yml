@@ -40,7 +40,7 @@
     - name: Normalize and parse timestamps
       set_fact:
         dt1: "{{ presentTime | to_datetime(format='%H:%M:%S.%f utc %a %b %d %Y') }}"
-        dt2: "{{ timestamp | to_datetime(format='%b %d %H:%M:%S.%f utc') }}"
+        dt2: "{{ timestamp[0] | to_datetime(format='%b %d %H:%M:%S.%f utc') }}"
       
     - name: Compute time difference
       set_fact:
