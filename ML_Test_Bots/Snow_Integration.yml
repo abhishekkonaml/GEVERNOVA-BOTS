@@ -1,0 +1,50 @@
+---
+
+- name: Test Bot - ServiceNow Integration
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    bot_name: 'snow_integration_test'
+    exit_type: 'failed'
+
+  tasks:
+    - name: Bot execution started
+      block:
+        - name: Set fact - bot execution started
+          set_fact:
+            work_note: "{{bot_name}} - Bot execution started"
+
+        - name: Add work notes - bot execution started
+          action: worknotesupdate work_notes='{{work_note}}'
+          tags: worknotesupdate
+
+    - name: Add work notes - 2
+      action: worknotesupdate work_notes='Update OK'
+      tags: worknotesupdate
+
+    - name: save_output
+      set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD001'
+        retdesc: 'Test Success'
+        success_type: 't1'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+      when: exit_type == 'success'
+      tags: success
+
+    - name: save_output
+      set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'Test Failure'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+      when: exit_type == 'failed'
+      tags: failed
