@@ -50,9 +50,19 @@
      register: update_notes
    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> All checks passed hence closing the case.</h3>[/code]'
      register: update_notes
-   - action: closeincident incident='{{ incident_no }}'
-     register: closeregister
-   - debug: var=closeregister
+   #- action: closeincident incident='{{ incident_no }}'
+   #  register: closeregister
+   #- debug: var=closeregister
+   - name: save_output
+     set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD001'
+        retdesc: 'Test Success'
+        success_type: 't1'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
    - meta: end_play
    when: "'Bypass' in final_status"
  
