@@ -15,8 +15,8 @@
               {{ ping_result_register.stdout }}
  - debug: var=ping_result
  - action: worknotesupdate work_notes='{{ ping_result }}'
-   register: worknotesupdate
- - debug: var=worknotesupdate
+   #register: worknotesupdate
+ #- debug: var=worknotesupdate
  - set_fact:
       ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts"
  - block:
