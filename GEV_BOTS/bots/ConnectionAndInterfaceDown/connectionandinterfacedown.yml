@@ -22,9 +22,9 @@
                   [/code]
                   
                   
-  - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot started working on the ticket...</h3>[/code]'
-    register: update_notes
-  - debug: var=update_notes
+  #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot started working on the ticket...</h3>[/code]'
+  #  register: update_notes
+  #- debug: var=update_notes
   #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
   #  register: update_notes
   - name: Add work notes - 2
@@ -34,7 +34,7 @@
     include_tasks: common_actions/pingcheck.yml
     vars: 
      frequency: 3
-     delay_time: 1
+     delay_time: 600
   - name: Step2 - Interface Status check
     include_tasks: common_actions/interfacestatuscheck.yml
     vars:

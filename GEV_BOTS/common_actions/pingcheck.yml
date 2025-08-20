@@ -18,7 +18,7 @@
    register: worknotesupdate
  - debug: var=worknotesupdate
  - set_fact:
-      ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts hence reassigned"
+      ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts"
  - block:
    - debug:
        msg: "Device is not reachable"

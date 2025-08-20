@@ -26,4 +26,14 @@
 - block:
   - debug:
       msg: "Closing the ticket"
+  - name: save_output
+    set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD001'
+        retdesc: 'Test Success'
+        success_type: 't1'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
   when: "'Bypass' in final_status"
