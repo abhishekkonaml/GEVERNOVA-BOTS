@@ -13,9 +13,18 @@
         msg: "Unable to connect to host end the play"
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to connect to device, reassigning ticket to engineer</h3>[/code]'
       register: update_notes
-    - action: reassignment_ticket incident='{{ incident_no }}'
-      register: reassignment_ticket_register
-    - debug: var=reassignment_ticket_register.stdout
+    - name: save_output
+      set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'Test Failure'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+    #- action: reassignment_ticket incident='{{ incident_no }}'
+    #  register: reassignment_ticket_register
+    #- debug: var=reassignment_ticket_register.stdout
    
     - meta: end_play
   when: "'Hostname not known' in clock_status_register.Output"
