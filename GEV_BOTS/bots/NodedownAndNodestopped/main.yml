@@ -3,7 +3,7 @@
 
     - debug:
         msg: "Running the Node Down Node stopped Bot"
-    - action: worknotesupdate work_notes='[code]<h3> You can expect the next update within 45 minutes.</h3>[/code]'
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> You can expect the next update within 45 minutes.</h3>[/code]'
       register: update_notes
     #- debug: var=update_notes    
     - name: Ping the device
