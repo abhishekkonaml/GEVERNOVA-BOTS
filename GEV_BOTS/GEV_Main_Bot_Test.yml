@@ -2,7 +2,9 @@
  - name: GEV Bots
    hosts: localhost
    vars:
-      incident_no: "{{ fetch_incident_no }}"
+      #incident_no: "{{ fetch_incident_no }}"
+      incident_no: "{{ ticketNo }}"
+      
       #incident_no: "GEVINC123"
       
    tasks:
