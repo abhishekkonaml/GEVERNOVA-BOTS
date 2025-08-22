@@ -22,8 +22,8 @@
  - block:
    - debug:
        msg: "Device is not reachable"
-   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> {{ ping_failure_notes }} </h3>[/code]'
-     register: update_notes
+   - action: worknotesupdate work_notes='[code]<h3> {{ ping_failure_notes }} </h3>[/code]'
+     register: worknotesupdate
    - name: save_output
      set_fact:
         aa_start_save: ''

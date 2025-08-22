@@ -11,8 +11,8 @@
 - block:
     - debug:
         msg: "Unable to connect to host end the play"
-    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to connect to device</h3>[/code]'
-      register: update_notes
+    - action: worknotesupdate work_notes='[code]<h3>Unable to connect to device</h3>[/code]'
+      register: worknotesupdate
     - name: save_output
       set_fact:
         aa_start_save: ''
@@ -40,15 +40,15 @@
 - shell: cat log.txt | tail -10
   register: last_ten_log_register
 - debug: var=last_ten_log_register.stdout
-- action: update_notes incident='{{ incident_no }}' work_notes="{{ last_ten_log_register.stdout }}"
-  register: update_notes
+- action: worknotesupdate  work_notes="{{ last_ten_log_register.stdout }}"
+  register: worknotesupdate
 
 
 - block:
     - debug: 
         msg: "Unable to execute showlog end play"
-    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to execute show log command</h3>[/code]'
-      register: update_notes
+    - action: worknotesupdate work_notes='[code]<h3>Unable to execute show log command</h3>[/code]'
+      register: worknotesupdate
     - name: save_output
       set_fact:
         aa_start_save: ''
