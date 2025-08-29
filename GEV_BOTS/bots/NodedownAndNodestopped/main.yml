@@ -3,14 +3,14 @@
 
     - debug:
         msg: "Running the Node Down Node stopped Bot"
-    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot has started working on the ticket</h3>[/code]'
-      register: update_notes
-    - debug: var=update_notes    
+    - action: worknotesupdate  work_notes='[code]<h3> You can expect the next update within 45 minutes.</h3>[/code]'
+      register: worknotesupdate
+    - debug: var=worknotesupdate    
     - name: Ping the device
       include_tasks: common_actions/pingcheck.yml
       vars: 
        frequency: 3
-       delay_time: 10
+       delay_time: 900
        
     - name: login to device
       include_tasks: bots/NodedownAndNodestopped/commandsThirdCheck.yml

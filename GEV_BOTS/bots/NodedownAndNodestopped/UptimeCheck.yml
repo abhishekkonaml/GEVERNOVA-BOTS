@@ -27,14 +27,23 @@
         - debug: var=UptimeNotesData
         - block:
             - debug: msg="Unable to fetch Uptime, Hence Reassigned...!"
-            - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to fetch uptime, reassigning ticket to engineer</h3>[/code]'
-              register: update_notes
-            - action: update_notes incident='{{ incident_no }}' work_notes='{{ UptimeNotesData }}'
-              register: update_notes
-            - debug: var=update_notes
-            - action: reassignment_ticket incident='{{ incident_no }}'
-              register: reassignment_ticket_register
-            - debug: var=reassignment_ticket_register.stdout
+            - action: worknotesupdate work_notes='[code]<h3>Unable to fetch uptime</h3>[/code]'
+              register: worknotesupdate
+            - action: worknotesupdate  work_notes='{{ UptimeNotesData }}'
+              register: worknotesupdate
+            - debug: var=worknotesupdate
+            - name: save_output
+              set_fact:
+                aa_start_save: ''
+                botname: '{{bot_name}}'
+                retcode: 'MBRETCD002'
+                retdesc: 'Test Failure'
+                assignment_group: "{{assigngrp|default('')}}"
+                assign_to: "{{assignto|default('')}}"
+                zz_end_save: ''
+            #- action: reassignment_ticket incident='{{ incident_no }}'
+            #  register: reassignment_ticket_register
+            #- debug: var=reassignment_ticket_register.stdout
             - meta: end_play
 
           when: ReloadUptimeResult is not defined
@@ -46,12 +55,22 @@
               when: "(('ROM by reload' in version_status_register) or ('ROM by bus' in version_status_register) or ('ROM by power' in version_status_register) or ('ROM by Power' in version_status_register))"
             - debug:
                 msg: "update notes and close ticket"
-            - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h4>Uptime is greater than 30 minutes</h4>[/code]'
-              register: update_notes
-            - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Device has passed all checks, closing the ticket</h3>[/code]'
-              register: update_notes
-            - action: closeincident incident='{{ incident_no }}'
-              register: close_ticket
+            - action: worknotesupdate work_notes='[code]<h4>Uptime is greater than 30 minutes</h4>[/code]'
+              register: worknotesupdate
+            - action: worknotesupdate work_notes='[code]<h3>Device has passed all checks</h3>[/code]'
+              register: worknotesupdate
+            - name: save_output
+              set_fact:
+                aa_start_save: ''
+                botname: '{{bot_name}}'
+                retcode: 'MBRETCD001'
+                retdesc: 'Test Success'
+                success_type: 't1'
+                assignment_group: "{{assigngrp|default('')}}"
+                assign_to: "{{assignto|default('')}}"
+                zz_end_save: ''
+            #- action: closeincident incident='{{ incident_no }}'
+            #  register: close_ticket
             - meta: end_play
           
           when:  "'year' in ReloadUptimeResult or 'week' in ReloadUptimeResult or 'day' in ReloadUptimeResult or 'hour' in ReloadUptimeResult"
@@ -70,11 +89,20 @@
                    PingCounterValue: 6
                - debug:
                    msg: "reassign ticket"
-               - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Uptime is less than 30 minutes, reassigning ticket to engineer</h3>[/code]'
-                 register: update_notes
-               - action: reassignment_ticket incident='{{ incident_no }}'
-                 register: reassignment_ticket_register
-               - debug: var=reassignment_ticket_register.stdout
+               - action: worknotesupdate  work_notes='[code]<h3>Uptime is less than 30 minutes</h3>[/code]'
+                 register: worknotesupdate
+               - name: save_output
+                 set_fact:
+                  aa_start_save: ''
+                  botname: '{{bot_name}}'
+                  retcode: 'MBRETCD002'
+                  retdesc: 'Test Failure'
+                  assignment_group: "{{assigngrp|default('')}}"
+                  assign_to: "{{assignto|default('')}}"
+                  zz_end_save: ''
+               #- action: reassignment_ticket incident='{{ incident_no }}'
+               #  register: reassignment_ticket_register
+               #- debug: var=reassignment_ticket_register.stdout
                - meta: end_play
               when: UpTimeNumericValue | int < 30
               
@@ -84,12 +112,22 @@
                    PingCounterValue: 3
                - debug:
                    msg: "close ticket"
-               - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h4>Uptime is greater than 30 minutes</h4>[/code]'
-                 register: update_notes
-               - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Device has passed all checks, closing the ticket</h3>[/code]'
-                 register: update_notes
-               - action: closeincident incident='{{ incident_no }}'
-                 register: close_ticket
+               - action: worknotesupdate work_notes='[code]<h4>Uptime is greater than 30 minutes</h4>[/code]'
+                 register: worknotesupdate
+               - action: worknotesupdate work_notes='[code]<h3>Device has passed all checks</h3>[/code]'
+                 register: worknotesupdate
+               - name: save_output
+                 set_fact:
+                   aa_start_save: ''
+                   botname: '{{bot_name}}'
+                   retcode: 'MBRETCD001'
+                   retdesc: 'Test Success'
+                   success_type: 't1'
+                   assignment_group: "{{assigngrp|default('')}}"
+                   assign_to: "{{assignto|default('')}}"
+                   zz_end_save: ''
+               #- action: closeincident incident='{{ incident_no }}'
+               #  register: close_ticket
             
                - meta: end_play
               when: UpTimeNumericValue | int >= 30

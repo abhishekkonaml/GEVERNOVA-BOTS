@@ -11,11 +11,20 @@
 - block:
     - debug:
         msg: "Unable to connect to host end the play"
-    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to connect to device, reassigning ticket to engineer</h3>[/code]'
-      register: update_notes
-    - action: reassignment_ticket incident='{{ incident_no }}'
-      register: reassignment_ticket_register
-    - debug: var=reassignment_ticket_register.stdout
+    - action: worknotesupdate work_notes='[code]<h3>Unable to connect to device</h3>[/code]'
+      register: worknotesupdate
+    - name: save_output
+      set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'Test Failure'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+    #- action: reassignment_ticket incident='{{ incident_no }}'
+    #  register: reassignment_ticket_register
+    #- debug: var=reassignment_ticket_register.stdout
    
     - meta: end_play
   when: "'Hostname not known' in clock_status_register.Output"
@@ -31,18 +40,27 @@
 - shell: cat log.txt | tail -10
   register: last_ten_log_register
 - debug: var=last_ten_log_register.stdout
-- action: update_notes incident='{{ incident_no }}' work_notes="{{ last_ten_log_register.stdout }}"
-  register: update_notes
+- action: worknotesupdate  work_notes="{{ last_ten_log_register.stdout }}"
+  register: worknotesupdate
 
 
 - block:
     - debug: 
         msg: "Unable to execute showlog end play"
-    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to execute show log command, reassigning ticket to engineer</h3>[/code]'
-      register: update_notes
-    - action: reassignment_ticket incident='{{ incident_no }}'
-      register: reassignment_ticket_register
-    - debug: var=reassignment_ticket_register.stdout
+    - action: worknotesupdate work_notes='[code]<h3>Unable to execute show log command</h3>[/code]'
+      register: worknotesupdate
+    - name: save_output
+      set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'Test Failure'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+    #- action: reassignment_ticket incident='{{ incident_no }}'
+    #  register: reassignment_ticket_register
+    #- debug: var=reassignment_ticket_register.stdout
   
     - meta: end_play
   when: "'Unable to execute show log command' in log_status_register.Output"

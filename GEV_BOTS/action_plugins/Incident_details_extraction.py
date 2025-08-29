@@ -23,7 +23,7 @@ class ActionModule(ActionBase):
             
             
             incobj=Incidents()
-            print(incobj.assigned_to_bot(incident_no))
+            #print(incobj.assigned_to_bot(incident_no))
             incident_details=incobj.get_incident_details_by_incident_number(incident_no)
             print(incident_details)
             print("----------"*25)

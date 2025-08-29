@@ -14,19 +14,28 @@
               [code] <h3> PING RESULTS: </h3> [/code]
               {{ ping_result_register.stdout }}
  - debug: var=ping_result
- - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
-   register: update_notes
- - debug: var=update_notes
+ - action: worknotesupdate work_notes='{{ ping_result }}'
+   #register: worknotesupdate
+ #- debug: var=worknotesupdate
  - set_fact:
-      ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts hence reassigned"
+      ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts"
  - block:
    - debug:
        msg: "Device is not reachable"
-   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> {{ ping_failure_notes }} </h3>[/code]'
-     register: update_notes
-   - action: reassignment_ticket incident='{{ incident_no }}'
-     register: reassignment_ticket_register
-   - debug: var=reassignment_ticket_register.stdout
+   - action: worknotesupdate work_notes='[code]<h3> {{ ping_failure_notes }} </h3>[/code]'
+     register: worknotesupdate
+   - name: save_output
+     set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'Test Failure'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+   #- action: reassignment_ticket incident='{{ incident_no }}'
+   #  register: reassignment_ticket_register
+   #- debug: var=reassignment_ticket_register.stdout
    - meta: end_play
    when: "'64 bytes' not in ping_result" 
  
