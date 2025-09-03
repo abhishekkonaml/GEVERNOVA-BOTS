@@ -2,8 +2,22 @@
     command1: "sh log | in {{ keyword_to_validate }}"
 - debug: var=command1
 - name: Log check
-  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='no'
   register: log_register
 - set_fact: 
-    log_results: "{{ log_register | lower}}"
+    log_results: "{{ log_register.stdout }}"
 - debug: var=log_results
+- block:
+   - shell: echo "{{ log_results }}" > log.txt
+   - shell: cat log.txt | tail -10
+     register: last_ten_log_register
+
+
+   - set_fact:
+      InputNotes: |-
+                 [code] 
+                        <h3> LOG RESULTS: </h3> [/code]
+                        {{ last_ten_log_register.stdout }} 
+
+         
+  when: "'No Logs found' not in log_results"

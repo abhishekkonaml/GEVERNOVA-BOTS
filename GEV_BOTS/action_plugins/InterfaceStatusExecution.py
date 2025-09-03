@@ -66,13 +66,15 @@ class ActionModule(ActionBase):
             result=result.replace('>',"")
             #result=result.replace('\r\n',"")
             ChartserverConnection.close()
+            if result=='' or len(result)<3:
+                   result1='No Logs found'
+            else:
+                   result1=result
             if 'no' not in notesupdate:
+               
                result1='''[code]<h3>{}:</h3>[/code]
                          {}'''.format(command,result)
-               if result=='' or len(result)<3:
-                   result1='No Logs found'
-               else:
-                   result1=result
+               
                incobj.update_notes(incidentno,result1)
             result={'Hostname': hostname, 'status': 'success','Output':result1}
             return result
