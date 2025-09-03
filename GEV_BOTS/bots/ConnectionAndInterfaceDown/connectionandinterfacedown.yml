@@ -38,7 +38,7 @@
   - name: Step3 - LogCheck Validation
     include_tasks: common_actions/log_check.yml 
     vars:
-      keyword_to_validate: "{{ interfaceno }}"
+      keyword_to_validate: "1/0/44"
   - meta: end_play
     when: interfaceno is defined
   - name: Step1 - Ping Check for the hostname
