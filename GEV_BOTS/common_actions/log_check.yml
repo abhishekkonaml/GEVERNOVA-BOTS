@@ -21,29 +21,32 @@
    - shell: echo "{{ log_results }}" > log.txt
    - shell: cat log.txt | tail -10
      register: last_ten_log_register
-
+   - debug: var=last_ten_log_register
 
    - set_fact:
       InputNotes: |-
                  [code] 
                         <h3> LOG RESULTS: </h3> [/code]
                         {{ last_ten_log_register.stdout }} 
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
+     register: update_notes
+   
    - shell: cat log.txt | tail -1
      register: last_log_register
-   - debug: var=last_log_register.stdout
+   - debug: var=last_log_register
    - set_fact:
         last_log_results: "{{ last_log_register.stdout }}"
    - name: Show Clock
      action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='sh clock' incidentno='{{ incident_no }}' notesupdate='yes'
      register: clock_register
    - set_fact: 
-        clock_results: "{{ clock_register.stdout }}"
+        clock_results: "{{ clock_register.output }}"
    - debug: var=clock_results
    - name: Validation
      action: log_checker log_results='{{ last_log_results }}' clock_results='{{clock_results}}'
      register: uptime_register
    - set_fact:
-          uptime_result: "{{ uptime_register.stdout }}"
+          uptime_result: "{{ uptime_register.output }}"
    - debug: var=uptime_result
 
 
