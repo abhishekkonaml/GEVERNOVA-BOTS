@@ -50,6 +50,22 @@
           uptime_result: "{{ uptime_register.output }}"
    - debug: var=uptime_result
 
+   - block:
+     - set_fact:
+        InputNotes: |-
+                   [code]<h3> The {{ incident_interface }} is not flapping in the last 30 minutes
+                    </h3> [/code]
+     - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
+       register: update_notes
+     when: "'Success' in uptime_result" 
 
+   - block:
+     - set_fact:
+        InputNotes: |-
+                   [code]<h3> The {{ incident_interface }} is flapping in the last 30 minutes hence reassigned.
+                    </h3> [/code]
+     - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
+       register: update_notes
+     when: "'Success' in uptime_result" 
          
   when: "'No Logs found' not in log_results"
