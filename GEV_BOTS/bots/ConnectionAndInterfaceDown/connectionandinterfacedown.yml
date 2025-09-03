@@ -32,13 +32,14 @@
   #- debug: var=update_notes
   - set_fact:
       interfaceno: "{{ incident_interface | regex_search('[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{1,2}') }}"
-      
+
   - debug: var=interfaceno
 
   - name: Step3 - LogCheck Validation
-    include_tasks: common_actions/logcheck.yml 
+    include_tasks: common_actions/log_check.yml 
     vars:
       keyword_to_validate: "{{ interfaceno }}"
+  - meta: end_play
     when: interfaceno is defined
   - name: Step1 - Ping Check for the hostname
     include_tasks: common_actions/pingcheck.yml
