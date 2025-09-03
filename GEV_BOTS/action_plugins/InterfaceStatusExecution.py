@@ -69,10 +69,12 @@ class ActionModule(ActionBase):
             if 'no' not in notesupdate:
                result1='''[code]<h3>{}:</h3>[/code]
                          {}'''.format(command,result)
-               if result1=='' or len(result)>3:
+               if result=='' or len(result)>3:
                    result1='No Logs found'
+               else:
+                   result1=result
                incobj.update_notes(incidentno,result1)
-            result={'Hostname': hostname, 'status': 'success','Output':result}
+            result={'Hostname': hostname, 'status': 'success','Output':result1}
             return result
             
         except Exception as e:
