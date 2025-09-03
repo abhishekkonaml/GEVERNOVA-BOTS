@@ -66,6 +66,6 @@
                     </h3> [/code]
      - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
        register: update_notes
-     when: "'Success' in uptime_result" 
+     when: "'Success' not in uptime_result" 
          
   when: "'No Logs found' not in log_results"
