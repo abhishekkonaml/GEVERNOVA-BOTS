@@ -12,8 +12,9 @@
         InputNotes: |-
                  [code] 
                         <h3> LOG RESULTS:  NO LOGS FOUND </h3> [/code]
-    - name: Add work notes - Log results
-      action: worknotesupdate work_notes='{{ InputNotes }}'
+    - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
+      register: update_notes
+    - debug: var=update_notes
       
   when: "'No Logs found' in log_results"
 - block:
