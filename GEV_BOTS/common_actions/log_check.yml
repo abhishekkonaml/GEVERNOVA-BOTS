@@ -36,11 +36,12 @@
    - debug: var=last_log_register
    - set_fact:
         last_log_results: "{{ last_log_register.stdout }}"
+   - debug: var=last_log_results
    - name: Show Clock
      action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='sh clock' incidentno='{{ incident_no }}' notesupdate='yes'
      register: clock_register
    - set_fact: 
-        clock_results: "{{ clock_register.output }}"
+        clock_results: "{{ clock_register.Output }}"
    - debug: var=clock_results
    - name: Validation
      action: log_checker log_results='{{ last_log_results }}' clock_results='{{clock_results}}'
