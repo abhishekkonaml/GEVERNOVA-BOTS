@@ -31,7 +31,7 @@
    - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
      register: update_notes
    
-   - shell: cat log.txt | tail -1
+   - shell: cat log.txt | tail -2
      register: last_log_register
    - debug: var=last_log_register
    - set_fact:
