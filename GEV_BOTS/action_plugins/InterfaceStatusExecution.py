@@ -69,7 +69,7 @@ class ActionModule(ActionBase):
             if 'no' not in notesupdate:
                result1='''[code]<h3>{}:</h3>[/code]
                          {}'''.format(command,result)
-               if result=='' or len(result)>3:
+               if result=='' or len(result)<3:
                    result1='No Logs found'
                else:
                    result1=result
