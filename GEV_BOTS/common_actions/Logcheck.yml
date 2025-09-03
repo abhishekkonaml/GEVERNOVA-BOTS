@@ -1,0 +1,9 @@
+- set_fact:
+    command1: "sh log | in {{ keyword_to_validate }}"
+- debug: var=command1
+- name: Log check
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  register: log_register
+- set_fact: 
+    log_results: "{{ log_register.stdout | lower}}"
+- debug: var=log_results

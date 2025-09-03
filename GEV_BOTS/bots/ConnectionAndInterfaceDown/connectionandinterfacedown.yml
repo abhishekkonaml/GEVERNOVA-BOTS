@@ -30,6 +30,16 @@
   - name: Add work notes - 2
     action: worknotesupdate work_notes='{{ bot_notes }}'
   #- debug: var=update_notes
+  - set_fact:
+      interfaceno: "{{ incident_interface | regex_search('[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{1,2}') }}"
+      
+  - debug: var=interfaceno
+
+  - name: Step3 - LogCheck Validation
+    include_tasks: common_actions/logcheck.yml 
+    vars:
+      keyword_to_validate: "{{ interfaceno }}"
+    when: interfaceno is defined
   - name: Step1 - Ping Check for the hostname
     include_tasks: common_actions/pingcheck.yml
     vars: 
