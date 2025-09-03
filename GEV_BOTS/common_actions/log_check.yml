@@ -5,7 +5,7 @@
   action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='no'
   register: log_register
 - set_fact: 
-    log_results: "{{ log_register.stdout }}"
+    log_results: "{{ log_register.Output }}"
 - debug: var=log_results
 - block:
     - set_fact:

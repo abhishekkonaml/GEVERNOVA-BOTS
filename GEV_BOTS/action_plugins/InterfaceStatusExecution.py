@@ -72,10 +72,10 @@ class ActionModule(ActionBase):
                    result1=result
             if 'no' not in notesupdate:
                
-               result1='''[code]<h3>{}:</h3>[/code]
-                         {}'''.format(command,result)
+               result2='''[code]<h3>{}:</h3>[/code]
+                         {}'''.format(command,result1)
                
-               incobj.update_notes(incidentno,result1)
+               incobj.update_notes(incidentno,result2)
             result={'Hostname': hostname, 'status': 'success','Output':result1}
             return result
             
