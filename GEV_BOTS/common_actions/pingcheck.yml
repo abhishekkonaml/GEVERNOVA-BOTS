@@ -14,15 +14,17 @@
               [code] <h3> PING RESULTS: </h3> [/code]
               {{ ping_result_register.stdout }}
  - debug: var=ping_result
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
+   register: update_notes
  - action: worknotesupdate work_notes='{{ ping_result }}'
    #register: worknotesupdate
  #- debug: var=worknotesupdate
  - set_fact:
-      ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts"
+      ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts hence reassigned"
  - block:
    - debug:
        msg: "Device is not reachable"
-   - action: worknotesupdate work_notes='[code]<h3> {{ ping_failure_notes }} </h3>[/code]'
+   - action: worknotesupdate work_notes='[code]<h3> Summary:\n </h3> {{ ping_failure_notes }} [/code]'
      register: worknotesupdate
    - name: save_output
      set_fact:

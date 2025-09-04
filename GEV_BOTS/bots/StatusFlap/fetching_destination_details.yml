@@ -1,0 +1,41 @@
+
+ 
+   - debug: var=final_status
+   
+   - debug:
+       msg: "Bypassing Bside validation closing the case"
+   - set_fact:
+       input_notes: |
+        [code] <h3> Bypassing the Bside validation since B is an Access Point . </h3>[/code]
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ input_notes }}'
+     register: update_notes
+
+   - set_fact:
+        final_notes: |
+                     [code] 
+                     <h3> Summary: </h3>
+                     1. Ping is successful
+                     2. Interface Status is up
+                     3. The interface is not flapping in the last 30 minutes
+                     4. Bypassed the B side validation since B is an AP.
+                     5. All checks have passed hence closing the case.
+                     
+                     [/code]
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> All checks passed hence closing the case.</h3>[/code]'
+     register: update_notes
+   #- action: closeincident incident='{{ incident_no }}'
+   #  register: closeregister
+   #- debug: var=closeregister
+   - name: save_output
+     set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD001'
+        retdesc: 'Test Success'
+        success_type: 't1'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+   - meta: end_play
+   
+ 

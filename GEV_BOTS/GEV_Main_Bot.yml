@@ -23,7 +23,7 @@
        - debug: var=botname
        - debug:
            msg: "calling connection role"
-       - include_tasks: bots/ConnectionAndInterfaceDown/connectionandinterfacedown.yml
+       - include_tasks: bots/StatusFlap/statusflap.yml
        when: "'StatusFlap' in fetched_details.botname"
      - block:
        - set_fact:

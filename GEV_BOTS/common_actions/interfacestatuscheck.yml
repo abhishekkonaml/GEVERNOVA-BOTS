@@ -13,7 +13,7 @@
 - block:
   - debug:    
       msg: "Interface is down hence reassigned"
-  - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Interface is down after three attempts.</h3>[/code]'
+  - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary: \n </h3>  1. Ping is successful. \n 2.Interface is down after three attempts hence reassigned.[/code]'
     register: update_notes
   - debug: var=update_notes
   - name: save_output
