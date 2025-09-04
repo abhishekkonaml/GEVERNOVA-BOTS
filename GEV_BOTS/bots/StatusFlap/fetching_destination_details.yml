@@ -21,7 +21,7 @@
                      5. All checks have passed hence closing the case.
                      
                      [/code]
-   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> All checks passed hence closing the case.</h3>[/code]'
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ final_notes }}'
      register: update_notes
    - action: closeincident incident='{{ incident_no }}'
      register: closeregister
