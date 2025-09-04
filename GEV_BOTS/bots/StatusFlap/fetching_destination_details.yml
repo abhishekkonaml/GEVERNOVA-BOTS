@@ -14,10 +14,10 @@
         final_notes: |
                      [code] 
                      <h3> Summary: </h3>
-                     1. Ping is successful
-                     2. Interface Status is up
-                     3. The interface is not flapping in the last 30 minutes
-                     4. Bypassed the B side validation since B is an AP.
+                     1. Ping is successful \n
+                     2. Interface Status is up \n
+                     3. The interface is not flapping in the last 30 minutes \n
+                     4. Bypassed the B side validation since B is an AP. \n
                      5. All checks have passed hence closing the case.
                      
                      [/code]

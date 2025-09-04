@@ -15,7 +15,7 @@
        bot_notes: |
                  [code] 
                   <h3>Summary: </h3> 
-                  1. Ping is successful.
+                  1. Ping is successful. \n
                   2.Interface is down after three attempts hence reassigned.
                   [/code]
   - debug:    
