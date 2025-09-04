@@ -11,9 +11,16 @@
 - set_fact:
     Interfaceresult: "{{ interface_status_register.Output }}"
 - block:
+  - set_fact:
+       bot_notes: |
+                 [code] 
+                  <h3>Summary: </h3> 
+                  1. Ping is successful.
+                  2.Interface is down after three attempts hence reassigned.
+                  [/code]
   - debug:    
       msg: "Interface is down hence reassigned"
-  - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary: \n </h3>  1. Ping is successful. \n 2.Interface is down after three attempts hence reassigned.[/code]'
+  - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
     register: update_notes
   - debug: var=update_notes
   - name: save_output
