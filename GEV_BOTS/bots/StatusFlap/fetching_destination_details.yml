@@ -14,11 +14,11 @@
         final_notes: |
                      [code] 
                      <h3> Summary: </h3>
-                     1. Ping is successful \n
-                     2. Interface Status is up \n
-                     3. The interface is not flapping in the last 30 minutes \n
-                     4. Bypassed the B side validation since B is an AP. \n
-                     5. All checks have passed hence closing the case.
+                     <p> 1. Ping is successful                                      </p>
+                     <p> 2. Interface Status is up </p>
+                     <p> 3. The interface is not flapping in the last 30 minutes </p>
+                     <p> 4. Bypassed the B side validation since B is an AP. </p>
+                     <p> 5. All checks have passed hence closing the case.</p>
                      
                      [/code]
    - action: update_notes incident='{{ incident_no }}' work_notes='{{ final_notes }}'
