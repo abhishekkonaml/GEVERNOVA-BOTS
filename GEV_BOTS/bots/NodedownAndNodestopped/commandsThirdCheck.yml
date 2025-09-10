@@ -11,7 +11,7 @@
 - block:
     - debug:
         msg: "Unable to connect to host end the play"
-    - action: worknotesupdate work_notes='[code]<h3>Unable to connect to device</h3>[/code]'
+    - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> Unable to connect to device[/code]'
       register: worknotesupdate
     - name: save_output
       set_fact:
@@ -47,7 +47,7 @@
 - block:
     - debug: 
         msg: "Unable to execute showlog end play"
-    - action: worknotesupdate work_notes='[code]<h3>Unable to execute show log command</h3>[/code]'
+    - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> Unable to check logs of the device[/code]'
       register: worknotesupdate
     - name: save_output
       set_fact:
