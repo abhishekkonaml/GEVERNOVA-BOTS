@@ -64,7 +64,7 @@
          command1: "show ap config general {{ ap_name }}"
     - debug: var=wlc_name
     - debug: var=command1
-    - action: InterfaceStatusExecution hostname='{{ wlc_name }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+    - action: WLCExecution hostname='{{ wlc_name }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
       register: apconnected_register
     - debug: var=apconnected_register
     when: "'success' in ap_results_register.status"
