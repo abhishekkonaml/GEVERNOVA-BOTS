@@ -35,27 +35,36 @@
 
   - debug: var=interfaceno
 
-  - name: Step4 - AP Jopin Status
+  
+
+  
+  #- name: Step1 - Ping Check for the hostname
+  #  include_tasks: common_actions/pingcheck.yml
+  #  vars: 
+  #   frequency: 3
+  #   delay_time: 600
+  #- name: Step2 - Interface Status check
+  #  include_tasks: common_actions/interfacestatuscheck.yml
+  #  vars:
+  #   interfacefrequency: 3
+  #   interfacedelay: 600
+  #- name: Step3 - LogCheck Validation
+  #  include_tasks: common_actions/log_check.yml 
+  #  vars:
+  #    keyword_to_validate: "{{ interfaceno }}"
+  #  when: interfaceno is defined
+  - name: Fetching WLC Details
     action: fetchwlc hostname='{{ ap_name }}'
     register: ap_results_register
+  - block:
+    - set_fact:
+         wlc_name: "{{ ap_results_register.result }}" 
+         command1: "show ap config general {{ ap_name }}"
+    - action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ wlc_name }}' notesupdate='yes'
+      register: apconnected_register
+    - debug: var=apconnected_register
+    when: "'success' in ap_results_register.status"
   - debug: var=ap_results_register
-
-  - meta: end_play
-  - name: Step1 - Ping Check for the hostname
-    include_tasks: common_actions/pingcheck.yml
-    vars: 
-     frequency: 3
-     delay_time: 600
-  - name: Step2 - Interface Status check
-    include_tasks: common_actions/interfacestatuscheck.yml
-    vars:
-     interfacefrequency: 3
-     interfacedelay: 600
-  - name: Step3 - LogCheck Validation
-    include_tasks: common_actions/log_check.yml 
-    vars:
-      keyword_to_validate: "{{ interfaceno }}"
-    when: interfaceno is defined
   
 
 
