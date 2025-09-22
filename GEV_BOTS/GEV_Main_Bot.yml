@@ -26,7 +26,7 @@
        - debug: var=ap_name
        - debug:
            msg: "calling Status Flap role"
-       - include_tasks: ../bots/StatusFlap/main.yml
+       - include_tasks: ./bots/StatusFlap/main.yml
        when: "'StatusFlap' in fetched_details.botname"
      - block:
        - set_fact:
