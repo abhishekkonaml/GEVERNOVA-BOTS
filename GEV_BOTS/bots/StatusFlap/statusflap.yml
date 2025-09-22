@@ -35,12 +35,7 @@
 
   - debug: var=interfaceno
 
-  - name: Finding WLC
-    action: fetchwlc hostname='{{ ap_name }}'
-    register: fetched_details
-  - debug: var=fetched_details
-  
-  - meta: end_play 
+   
 
   - debug: var=fetched_details
   - name: Step4 - AP WLC Connected Status
