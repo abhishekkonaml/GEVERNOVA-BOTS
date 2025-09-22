@@ -39,6 +39,10 @@ class ActionModule(ActionBase):
             ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
             channel = ChartserverConnection.invoke_shell()
+            channel.send(cisco_username+"\n")
+            time.sleep(3)
+            channel.send(cisco_password+"\n")
+            time.sleep(3)
             channel.send('term len 0'+'\n')
             while not channel.recv_ready():
                   time.sleep(1)
