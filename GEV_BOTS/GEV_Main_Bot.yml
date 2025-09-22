@@ -19,9 +19,11 @@
           incident_hostname: "{{ fetched_details.hostname }}"
           incident_interface: "{{ fetched_details.interface }}"
           botname: "{{ fetched_details.botname }}"
+          ap_name: "{{ fetched_details.ap_name }}"
        - debug: var=incident_hostname
        - debug: var=incident_interface
        - debug: var=botname
+       - debug: var=ap_name
        - debug:
            msg: "calling connection role"
        - include_tasks: bots/StatusFlap/statusflap.yml

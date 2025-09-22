@@ -40,6 +40,15 @@ class ActionModule(ActionBase):
                   interface_pattern="Network Interfaces-(.*) \["
                   hostname=re.findall(host_pattern,description)
                   interface=re.findall(interface_pattern,description)
+                  
+                  #Fetching WLC
+                  ap_pattern="Int_Mon (.*) on"
+                  aps=re.findall(ap_pattern,description)
+                  if len(aps)>0:
+                     ap_name=[i for i in aps if "wd" in i][0]
+                  else:
+                     ap_name=''
+
                   if len(hostname)>0:
                      hostname=re.findall(host_pattern,description)[0].strip()
                   else:
@@ -51,7 +60,7 @@ class ActionModule(ActionBase):
                   if hostname == '' and interface=='':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
                  
-                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusFlap'}
+                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusFlap','ap_name':ap_name}
                elif 'down' in description.lower():
                   hostname=''
                   hostname=incident_details[0]['cmdb_ci']
