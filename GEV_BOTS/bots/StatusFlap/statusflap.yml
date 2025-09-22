@@ -53,9 +53,11 @@
   #  vars:
   #    keyword_to_validate: "{{ interfaceno }}"
   #  when: interfaceno is defined
+  - debug: var=ap_name
   - name: Fetching WLC Details
     action: fetchwlc hostname='{{ ap_name }}'
     register: ap_results_register
+  - debug: var=ap_results_register
   - block:
     - set_fact:
          wlc_name: "{{ ap_results_register.result }}" 
