@@ -1,5 +1,6 @@
 - set_fact:
      command1: "sh int {{ incident_interface }}"
+     command2: "sh cdp nei {{ incident_interface }} detail"
 - name: Interface status check
   action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
   register: interface_status_register
@@ -10,6 +11,13 @@
 
 - set_fact:
     Interfaceresult: "{{ interface_status_register.Output }}"
+
+- name: Interface Neighbor status
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  register: interface_nei_register
+- set_fact:
+       interface_nei_result: "{{ interface_nei_register.Output }}"
+- debug: var=interface_nei_result
 - block:
   - set_fact:
        bot_notes: |

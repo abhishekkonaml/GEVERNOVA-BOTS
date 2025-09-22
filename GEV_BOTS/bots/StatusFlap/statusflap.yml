@@ -35,7 +35,12 @@
 
   - debug: var=interfaceno
 
-  
+  - name: Finding WLC
+    action: fetchwlc hostname='{{ incident_no }}'
+     register: fetched_details
+  - debug: var=fetched_details
+  - name: Step4 - AP WLC Connected Status
+    include_tasks: 
   - name: Step1 - Ping Check for the hostname
     include_tasks: common_actions/pingcheck.yml
     vars: 
@@ -44,15 +49,14 @@
   - name: Step2 - Interface Status check
     include_tasks: common_actions/interfacestatuscheck.yml
     vars:
-     interfacefrequency: 3
+     interfacefrequency: 6
      interfacedelay: 600
   - name: Step3 - LogCheck Validation
     include_tasks: common_actions/log_check.yml 
     vars:
       keyword_to_validate: "{{ interfaceno }}"
     when: interfaceno is defined
-  - name: Step3 - Bypassing B side Validation
-    include_tasks: bots/StatusFlap/fetching_destination_details.yml
+  
 
 
 
