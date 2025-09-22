@@ -62,7 +62,7 @@
     - set_fact:
          wlc_name: "{{ ap_results_register.result }}" 
          command1: "show ap config general {{ ap_name }}"
-    - action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ wlc_name }}' notesupdate='yes'
+    - action: InterfaceStatusExecution hostname='{{ wlc_name }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
       register: apconnected_register
     - debug: var=apconnected_register
     when: "'success' in ap_results_register.status"
