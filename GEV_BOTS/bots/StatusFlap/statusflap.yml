@@ -35,7 +35,12 @@
 
   - debug: var=interfaceno
 
-  
+  - name: Step4 - AP Jopin Status
+    action: fetchwlc hostname='{{ ap_name }}'
+    register: ap_results_register
+  - debug: var=ap_results_register
+
+  - meta: end_play
   - name: Step1 - Ping Check for the hostname
     include_tasks: common_actions/pingcheck.yml
     vars: 
@@ -51,8 +56,7 @@
     vars:
       keyword_to_validate: "{{ interfaceno }}"
     when: interfaceno is defined
-  - name: Step3 - Bypassing B side Validation
-    include_tasks: bots/ConnectionAndInterfaceDown/fetching_destination_details.yml
+  
 
 
 
