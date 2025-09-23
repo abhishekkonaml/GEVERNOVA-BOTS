@@ -62,7 +62,10 @@
    - block:
      - set_fact:
         InputNotes: |-
-                   [code]<h3> Summary: \n </h3> 1. Ping is successful \n 2. Interface status is up \n 3. The {{ incident_interface }} is flapping in the last 30 minutes hence reassigned.
+                   [code]<h3> Summary: </h3>
+                    1. Ping is successful 
+                     2. Interface status is up 
+                     3. The {{ incident_interface }} is flapping in the last 30 minutes hence reassigned.
                      [/code]
      - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
        register: update_notes
