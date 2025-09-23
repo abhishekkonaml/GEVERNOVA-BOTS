@@ -77,6 +77,7 @@ class ActionModule(ActionBase):
             result=str(out.decode()).replace(command,"")
             result=result.lower().replace(hostname1.lower(),"")
             result=result.replace('>',"")
+            result=result.lower().replace("()","")
             #result=result.replace('\r\n',"")
             ChartserverConnection.close()
             if result=='' or len(result)<3:
