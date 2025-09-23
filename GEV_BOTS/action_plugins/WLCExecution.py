@@ -57,9 +57,12 @@ class ActionModule(ActionBase):
             time.sleep(3)
             channel.send("\n")
             time.sleep(3)
+            channel.send("\n")
+            time.sleep(3)
+            channel.send("\n")
+            time.sleep(3)
             out= channel.recv(math.inf)
-            print(out)
-            print("8888888888888888888888888888888888888")
+            
             if('not known' in str(out.decode())):
                 result = 'Hostname not known'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
