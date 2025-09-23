@@ -43,11 +43,10 @@ class ActionModule(ActionBase):
             time.sleep(3)
             channel.send(cisco_password+"\n")
             time.sleep(3)
-            channel.send('term len 0'+'\n')
-            while not channel.recv_ready():
-                  time.sleep(1)
             out= channel.recv(math.inf) 
-            time.sleep(3)
+            print(out)
+            print("===----------------==============")
+            
             channel.send(command+ '\n')
             
             while not channel.recv_ready():
@@ -59,7 +58,8 @@ class ActionModule(ActionBase):
             channel.send("\n")
             time.sleep(3)
             out= channel.recv(math.inf)
-            
+            print(out)
+            print("8888888888888888888888888888888888888")
             if('not known' in str(out.decode())):
                 result = 'Hostname not known'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
