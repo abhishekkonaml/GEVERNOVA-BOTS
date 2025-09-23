@@ -26,7 +26,7 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
             hostname1=self._task.args["hostname"]
-            command=self._task.args["command"]
+            command=self._task.args["command"].strip()
             incidentno=self._task.args['incidentno']
             notesupdate=self._task.args['notesupdate']
             cisco_username=decoding1.decoding1('NTAyODI4MTkw')
@@ -44,9 +44,9 @@ class ActionModule(ActionBase):
             channel.send(cisco_password+"\n")
             time.sleep(3)
             out= channel.recv(math.inf) 
-            print(out)
-            print("===----------------==============")
             
+            print(command)
+            print("0909090909090909090")
             channel.send(command+ '\n')
             
             while not channel.recv_ready():
