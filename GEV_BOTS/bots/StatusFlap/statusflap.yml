@@ -58,10 +58,10 @@
   - set_fact:
       bot_notes: |-
                  [code]<h3> Summary: </h3>
-                 1. Ping is successful 
-                 2. Interface status is up 
-                 3. The {{ incident_interface }} is not flapping in the last 30 minutes.
-                 4. All checks have passed hence closing the case.
+                 1. Ping is successful <br>
+                 2. Interface status is up <br>
+                 3. The {{ incident_interface }} is not flapping in the last 30 minutes. <br>
+                 4. All checks have passed hence closing the case. <br>
                  [/code]
   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
     register: update_notes
