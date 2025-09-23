@@ -44,6 +44,7 @@ class ActionModule(ActionBase):
             channel.send(cisco_password+"\n")
             time.sleep(3)
             
+            
             out= channel.recv(math.inf) 
             time.sleep(3)
             channel.send(command+ '\n')
