@@ -43,9 +43,7 @@ class ActionModule(ActionBase):
             time.sleep(3)
             channel.send(cisco_password+"\n")
             time.sleep(3)
-            channel.send('term len 0'+'\n')
-            while not channel.recv_ready():
-                  time.sleep(1)
+            
             out= channel.recv(math.inf) 
             time.sleep(3)
             channel.send(command+ '\n')
