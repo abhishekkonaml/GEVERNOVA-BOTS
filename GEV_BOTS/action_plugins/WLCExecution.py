@@ -45,8 +45,8 @@ class ActionModule(ActionBase):
             time.sleep(3)
             out= channel.recv(math.inf) 
             
-            print(command)
-            print("0909090909090909090")
+            channel.send("\n")
+            time.sleep(5)
             channel.send(command+ '\n')
             
             while not channel.recv_ready():
