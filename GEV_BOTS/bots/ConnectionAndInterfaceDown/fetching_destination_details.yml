@@ -174,7 +174,7 @@
  - set_fact:
       des_command: 'sh mac address-table interface {{ incident_interface }} | i {{ DestinationDeviceInterfaceMAC1 }}'
  - debug: var=des_command
- - action: InterfaceStatusExecution hostname="{{ incident_hostname }}" command='{{ des_command }}' notesupdate='no' incidentno='{{ incident_no }}'
+ - action: MACExecution hostname="{{ incident_hostname }}" command='{{ des_command }}' notesupdate='no' incidentno='{{ incident_no }}'
    register: val_mac_status
  
  - name: MAC Address Table Data
