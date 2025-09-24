@@ -122,8 +122,29 @@
      base_result_status: "{{ base_register.status }}"
  - debug: var=base_result
  - block:
+   - set_fact:
+        bot_notes: |-
+                   [code] <h3> {{ dest_int_command }} </h3> <br>
+
+                   {{ base_result }}
+                   
+                   [/code] 
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+     register: update_notes
+   when: "'failed' not in base_result_status"
+ - block:
    - debug: msg="SSH to Destination Device is failed"
-   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>SSH to Destination Device is failed</h3>[/code]'
+   - set_fact:
+        bot_notes: |-
+                   [code] <h3> Summary: </h3> <br>
+                   1. Ping is successful <br>
+                   2. Interface Status is up <br>
+                   3. Interface is not flapping in the last 30 minutes. <br>
+                   4. SSH to Destination hence reassigned. <br>
+                   [/code] 
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+     register: update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>SSH to Destination Device is failed hence reassigned.</h3>[/code]'
      register: update_notes
    - debug: var=update_notes
    - name: save_output
@@ -152,6 +173,7 @@
 
  - set_fact:
       des_command: 'sh mac address-table interface {{ incident_interface }} | i {{ DestinationDeviceInterfaceMAC1 }}'
+ - debug: var=des_command
  - action: InterfaceStatusExecution hostname="{{ incident_hostname }}" command='{{ des_command }}' notesupdate='no' incidentno='{{ incident_no }}'
    register: val_mac_status
  - set_fact:
