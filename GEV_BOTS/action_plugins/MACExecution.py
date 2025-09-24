@@ -38,9 +38,9 @@ class ActionModule(ActionBase):
             ChartserverConnection = paramiko.SSHClient()
             ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
-            stdin,stdout,stderr=ChartserverConnection.exec_command(command+"\n")
-            print(stdout.read().decode())
-            print("=-=--------------=======")
+            stdin,stdout,stderr=ChartserverConnection.exec_command(command)
+            print(stdout.readlines())
+            print("=-=--------------=======0000000000000000000000000000000000000000000000000")
             channel = ChartserverConnection.invoke_shell()
             channel.send('term len 0'+'\n')
             time.sleep(5)
@@ -49,7 +49,7 @@ class ActionModule(ActionBase):
             time.sleep(20)
             
             out= channel.recv(math.inf)
-            print(out.decode("utf-8",errors='ignore'))
+            
             
             if('not known' in str(out.decode())):
                 result = 'Hostname not known'
