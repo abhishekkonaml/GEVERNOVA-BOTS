@@ -31,11 +31,9 @@
     action: worknotesupdate work_notes='{{ bot_notes }}'
   - debug: var=update_notes
   - set_fact:
-      interfaceno: "{{ incident_interface | regex_search('[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{1,2}') }}"
+      interfaceno: "{{ incident_interface | regex_search('[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{1,2}|[0-9]{1,2}\/[0-9]{1,2}') }}"
   
-  - set_fact:
-      interface_no: "{{ incident_interface | regex_search('[0-9]{1,2}\/[0-9]{1,2}') }}"
-    when: interface_no is undefined
+  
   - debug: var=interfaceno
 
   
