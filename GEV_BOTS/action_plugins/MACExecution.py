@@ -39,7 +39,7 @@ class ActionModule(ActionBase):
             ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
             stdin,stdout,stderr=ChartserverConnection.exec_command(command)
-            print(stdout.readlines())
+            print(stdout.read().decode())
             print("=-=--------------=======0000000000000000000000000000000000000000000000000")
             channel = ChartserverConnection.invoke_shell()
             channel.send('term len 0'+'\n')
