@@ -63,12 +63,13 @@
      - set_fact:
         InputNotes: |-
                    [code]<h3> Summary: </h3>
-                    1. Ping is successful 
-                     2. Interface status is up 
+                    1. Ping is successful  <br>
+                     2. Interface status is up <br>
                      3. The {{ incident_interface }} is flapping in the last 30 minutes hence reassigned.
-                     [/code]
+                     [/code]<br>
      - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
        register: update_notes
+     - meta: end_play
      when: "'Success' not in uptime_result" 
          
   when: "'No Logs found' not in log_results"

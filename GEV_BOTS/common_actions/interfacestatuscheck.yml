@@ -23,8 +23,8 @@
        bot_notes: |
                  [code] 
                   <h3>Summary: </h3> 
-                  1. Ping is successful. 
-                  2.Interface is down after three attempts hence reassigned.
+                  1. Ping is successful. <br>
+                  2.Interface is down after three attempts hence reassigned. <br>
                   [/code]
   - debug:    
       msg: "Interface is down hence reassigned"
