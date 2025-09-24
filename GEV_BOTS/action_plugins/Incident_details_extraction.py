@@ -61,6 +61,32 @@ class ActionModule(ActionBase):
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
                  
                   return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusFlap','ap_name':ap_name}
+               
+               #Usecase2 - StatusAlert
+               elif 'network interface' in description.lower() and "statusflap" not in description.lower() and "status": 
+                  #host_pattern="host (.*) is experiencing"
+                  host_pattern="- (.*)Network Interfaces"
+                  #interface_pattern="packets on (.*) \["
+                  interface_pattern="Network Interfaces-(.*) \["
+                  hostname=re.findall(host_pattern,description)
+                  interface=re.findall(interface_pattern,description)
+                  
+                  
+
+                  if len(hostname)>0:
+                     hostname=re.findall(host_pattern,description)[0].strip()
+                  else:
+                     hostname=''
+                  if len(interface)>0:
+                     interface=re.findall(interface_pattern,description)[0].strip()
+                  else:
+                     interface=''
+                  if hostname == '' and interface=='':
+                     return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
+                 
+                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusAlert'}
+
+
                elif 'down' in description.lower():
                   hostname=''
                   hostname=incident_details[0]['cmdb_ci']

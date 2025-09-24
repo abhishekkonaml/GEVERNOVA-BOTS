@@ -29,6 +29,23 @@
        - name: Call Status Flap role 
          include_tasks: bots/StatusFlap/statusflap.yml
        when: "'StatusFlap' in fetched_details.botname"
+
+
+     - block:
+       - set_fact:
+          incident_hostname: "{{ fetched_details.hostname }}"
+          incident_interface: "{{ fetched_details.interface }}"
+          botname: "{{ fetched_details.botname }}"
+          
+       - debug: var=incident_hostname
+       - debug: var=incident_interface
+       - debug: var=botname
+       
+       - debug:
+           msg: "Calling Status Alert role"
+       - name: Call Status Alert role 
+         include_tasks: bots/ConnectionAndInterfaceDown/connectionandinterfacedown.yml
+       when: "'StatusAlert' in fetched_details.botname"
      - block:
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
