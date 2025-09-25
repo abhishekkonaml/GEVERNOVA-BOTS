@@ -167,9 +167,9 @@
  - set_fact: 
      DestinationDeviceInterfaceMAC1: "{{ DestinationDeviceInterfaceMAC.split('.')[0]+'.'+DestinationDeviceInterfaceMAC.split('.')[1] }}" 
  - debug: var=DestinationDeviceInterfaceMAC1
- - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
-   register: update_notes
- - debug: var=update_notes
+ #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+ #  register: update_notes
+ #- debug: var=update_notes
 
  - set_fact:
       des_command: 'sh mac address-table interface {{ incident_interface }} | i {{ DestinationDeviceInterfaceMAC1 }}'
