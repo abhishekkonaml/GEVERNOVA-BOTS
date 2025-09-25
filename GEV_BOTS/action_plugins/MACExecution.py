@@ -62,7 +62,7 @@ class ActionModule(ActionBase):
             #result=result.replace('\r\n',"")
             
             if result=='' or len(result)<3:
-                   result1='No Logs found'
+                   result1='Destination MAC not found'
             else:
                    result1=result
             if 'no' not in notesupdate:
