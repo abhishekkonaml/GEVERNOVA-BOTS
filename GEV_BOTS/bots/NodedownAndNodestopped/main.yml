@@ -3,14 +3,29 @@
 
     - debug:
         msg: "Running the Node Down Node stopped Bot"
-    - action: worknotesupdate  work_notes='[code]<h3> You can expect the next update within 45 minutes.</h3>[/code]'
+    - action: worknotesupdate  work_notes='[code]<h3> You can expect the next update within 30 minutes.</h3>[/code]'
       register: worknotesupdate
-    - debug: var=worknotesupdate    
+    - debug: var=worknotesupdate 
+    - name: fetch fourth and fifth letters of the device
+      set_fact:  
+         DevicefourthandfifthLetter: "{{ incident_hostname[3:5] | upper }}"
+    - name: set frequency and delay_time
+      set_fact:
+        frequency: 3
+        delay_time: 300
+      when: "('WA' == DestinationDeviceFourthAndFifthLetters) or ('WG' == DestinationDeviceFourthAndFifthLetters) or ('WD' == DestinationDeviceFourthAndFifthLetters) or ('WN' == DestinationDeviceFourthAndFifthLetters)"
+    - name: set frequency and delay_time
+      set_fact:
+        frequency: 3
+        delay_time: 600
+      when: "('WA' != DestinationDeviceFourthAndFifthLetters) or ('WG' != DestinationDeviceFourthAndFifthLetters) or ('WD' != DestinationDeviceFourthAndFifthLetters) or ('WN' != DestinationDeviceFourthAndFifthLetters)"
+    - debug: var=frequency
+    - debug: var=delay_time
     - name: Ping the device
       include_tasks: common_actions/pingcheck.yml
       vars: 
-       frequency: 3
-       delay_time: 900
+       frequency: "{{ frequency }}"
+       delay_time: "{{ delay_time }}"
        
     - name: login to device
       include_tasks: bots/NodedownAndNodestopped/commandsThirdCheck.yml
