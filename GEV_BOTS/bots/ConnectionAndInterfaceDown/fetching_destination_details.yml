@@ -112,7 +112,8 @@
                   </table>
                   [/code]
 
-
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+   register: update_notes
  - set_fact:
       dest_int_command: "show interface {{ Dest_interface }}"
  - action: InterfaceStatusExecution  hostname="{{ destination }}" command='{{ dest_int_command }}' notesupdate='no' incidentno='{{ incident_no }}'
@@ -125,7 +126,6 @@
    - set_fact:
         bot_notes: |-
                    [code] <h3> {{ dest_int_command }} </h3> <br>
-
                    {{ base_result }}
                    
                    [/code] 
@@ -167,9 +167,9 @@
  - set_fact: 
      DestinationDeviceInterfaceMAC1: "{{ DestinationDeviceInterfaceMAC.split('.')[0]+'.'+DestinationDeviceInterfaceMAC.split('.')[1] }}" 
  - debug: var=DestinationDeviceInterfaceMAC1
- - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
-   register: update_notes
- - debug: var=update_notes
+ #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+ #  register: update_notes
+ #- debug: var=update_notes
 
  - set_fact:
       des_command: 'sh mac address-table interface {{ incident_interface }} | i {{ DestinationDeviceInterfaceMAC1 }}'
@@ -198,6 +198,18 @@
    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC exists in Source MAC address table hence closing the incident.</h3>[/code]'
      register: update_notes
    - debug: var=update_notes
+   - set_fact:
+        bot_notes: |-
+                   [code] <h3> Summary: </h3> <br>
+                   1. Ping is successful <br>
+                   2. Source Interface Status is up <br>
+                   3. Source Interface is not flapping in the last 30 minutes. <br>
+                   4. Destination Interface is up <br>
+                   5. Destination MAC exist in the Source MAC address table <br>
+                   6. All checks have passed. Hence closing the incident.
+                   [/code] 
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+     register: update_notes
    - name: save_output
      set_fact:
         aa_start_save: ''
@@ -212,7 +224,6 @@
    #- action: closeincident incident='{{ incident_no }}'
    #  register: closeregister
    #- debug: var=closeregister
-
    
    when: 'DestinationDeviceInterfaceMAC1 in SourceHasDestMac'
 
@@ -220,9 +231,11 @@
    - name: Dest MAC Not Exists In Source
      set_fact:
       SourceMACStatus: "Not Exists"
+   
    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC not exist in Source MAC address table hence reassigned.</h3>[/code]'
      register: update_notes
    - debug: var=update_notes
+   - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml
    - set_fact:
         bot_notes: |-
                    [code] <h3> Summary: </h3> <br>
