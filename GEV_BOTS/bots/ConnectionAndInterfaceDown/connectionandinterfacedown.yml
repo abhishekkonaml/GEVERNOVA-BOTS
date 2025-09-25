@@ -52,8 +52,9 @@
   #  vars:
   #    keyword_to_validate: "{{ interfaceno }}"
   # when: interfaceno is defined
-  - name: Step3 - Bypassing B side Validation
-    include_tasks: bots/ConnectionAndInterfaceDown/fetching_destination_details.yml
+  #- name: Step3 - Bypassing B side Validation
+  #  include_tasks: bots/ConnectionAndInterfaceDown/fetching_destination_details.yml
+  - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml
 
 
 

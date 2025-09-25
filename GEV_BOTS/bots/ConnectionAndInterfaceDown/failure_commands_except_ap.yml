@@ -1,0 +1,11 @@
+- set_fact:
+     command1: "test cable-diagnostics tdr interface {{ incident_interface }}"
+     command2: "show cable-diagnostics tdr interface {{ incident_interface }}"
+- name: Cable diagnostics check
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  register: cable_status_register
+- debug: var=cable_status_register.stdout
+- name: Cable diagnostics check
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  register: cable_status_register2
+- debug: var=cable_status_register2.stdout
