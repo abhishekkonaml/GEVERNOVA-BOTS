@@ -37,19 +37,12 @@ class ActionModule(ActionBase):
                 hostname=hostname1
             ChartserverConnection = paramiko.SSHClient()
             ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ChartserverConnection.connect(hostname='POWsaMUSrichm51.gdn.ge.com', username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
-            stdin,stdout,stderr = ChartserverConnection.exec_command("sh mac address-table interface GigabitEthernet1/1/4 | i 689e.0bb3\n")
-            print(stdout.read().decode())
-            print("=-=-----------======================")
-            channel = ChartserverConnection.invoke_shell()
-            channel.send('term len 0'+'\n')
-            time.sleep(5)
-            out= channel.recv(math.inf) 
-            channel.send(command+ '\n')
-            time.sleep(20)
+            ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
+            stdin,stdout,stderr = ChartserverConnection.exec_command(command)
             
-            out= channel.recv(math.inf)
-            
+            output=stdout.read().decode()
+            out=[i for i in output if hostname not in i.lower() and 'river' not in i.lower() and 'road' not in i.lower()]
+            result="".join(out)
             
             if('not known' in str(out.decode())):
                 result = 'Hostname not known'
@@ -65,11 +58,9 @@ class ActionModule(ActionBase):
                 return result
             
 
-            result=str(out.decode()).replace(command,"")
-            result=result.lower().replace(hostname1.lower(),"")
-            result=result.replace('>',"")
+            
             #result=result.replace('\r\n',"")
-            ChartserverConnection.close()
+            
             if result=='' or len(result)<3:
                    result1='No Logs found'
             else:
