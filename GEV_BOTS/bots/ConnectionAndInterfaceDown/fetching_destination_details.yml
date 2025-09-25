@@ -220,6 +220,7 @@
    - name: Dest MAC Not Exists In Source
      set_fact:
       SourceMACStatus: "Not Exists"
+   - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml
    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC not exist in Source MAC address table hence reassigned.</h3>[/code]'
      register: update_notes
    - debug: var=update_notes
