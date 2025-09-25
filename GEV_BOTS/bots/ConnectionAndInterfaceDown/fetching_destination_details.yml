@@ -198,6 +198,18 @@
    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC exists in Source MAC address table hence closing the incident.</h3>[/code]'
      register: update_notes
    - debug: var=update_notes
+   - set_fact:
+        bot_notes: |-
+                   [code] <h3> Summary: </h3> <br>
+                   1. Ping is successful <br>
+                   2. Source Interface Status is up <br>
+                   3. Source Interface is not flapping in the last 30 minutes. <br>
+                   4. Destination Interface is up <br>
+                   5. Destination MAC exist in the Source MAC address table <br>
+                   6. All checks have passed. Hence closing the incident.
+                   [/code] 
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+     register: update_notes
    - name: save_output
      set_fact:
         aa_start_save: ''
@@ -209,10 +221,9 @@
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
     
-   #- action: closeincident incident='{{ incident_no }}'
-   #  register: closeregister
-   #- debug: var=closeregister
-
+   - action: closeincident incident='{{ incident_no }}'
+     register: closeregister
+   - debug: var=closeregister
    
    when: 'DestinationDeviceInterfaceMAC1 in SourceHasDestMac'
 
