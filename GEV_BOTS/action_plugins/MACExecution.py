@@ -37,8 +37,8 @@ class ActionModule(ActionBase):
                 hostname=hostname1
             ChartserverConnection = paramiko.SSHClient()
             ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
-            stdin,stdout,stderr = ChartserverConnection.exec_command("sh int TenGigabitEthernet1/16 \n")
+            ChartserverConnection.connect(hostname='POWsaMUSrichm51.gdn.ge.com', username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
+            stdin,stdout,stderr = ChartserverConnection.exec_command("sh mac address-table interface GigabitEthernet1/1/4 | i 689e.0bb3\n")
             print(stdout.read().decode())
             print("=-=-----------======================")
             channel = ChartserverConnection.invoke_shell()
