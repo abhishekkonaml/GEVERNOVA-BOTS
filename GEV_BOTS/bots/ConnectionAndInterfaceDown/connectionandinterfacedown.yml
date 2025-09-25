@@ -51,7 +51,7 @@
     include_tasks: common_actions/log_check.yml 
     vars:
       keyword_to_validate: "{{ interfaceno }}"
-   when: interfaceno is defined
+    when: interfaceno is defined
   - name: Step3 - Bypassing B side Validation
     include_tasks: bots/ConnectionAndInterfaceDown/fetching_destination_details.yml
   
