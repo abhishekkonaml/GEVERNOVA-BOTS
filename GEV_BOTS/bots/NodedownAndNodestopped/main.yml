@@ -13,12 +13,12 @@
       set_fact:
         frequency: 3
         delay_time: 300
-      when: "('WA' == DestinationDeviceFourthAndFifthLetters) or ('WG' == DestinationDeviceFourthAndFifthLetters) or ('WD' == DestinationDeviceFourthAndFifthLetters) or ('WN' == DestinationDeviceFourthAndFifthLetters)"
+      when: "('WA' == DevicefourthandfifthLetter) or ('WG' == DevicefourthandfifthLetter) or ('WD' == DevicefourthandfifthLetter) or ('WN' == DevicefourthandfifthLetter)"
     - name: set frequency and delay_time
       set_fact:
         frequency: 3
         delay_time: 600
-      when: "('WA' != DestinationDeviceFourthAndFifthLetters) or ('WG' != DestinationDeviceFourthAndFifthLetters) or ('WD' != DestinationDeviceFourthAndFifthLetters) or ('WN' != DestinationDeviceFourthAndFifthLetters)"
+      when: "('WA' != DevicefourthandfifthLetter) or ('WG' != DevicefourthandfifthLetter) or ('WD' != DevicefourthandfifthLetter) or ('WN' != DevicefourthandfifthLetter)"
     - debug: var=frequency
     - debug: var=delay_time
     - name: Ping the device
