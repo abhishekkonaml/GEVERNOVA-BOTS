@@ -40,19 +40,19 @@ class ActionModule(ActionBase):
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
             stdin,stdout,stderr = ChartserverConnection.exec_command(command)
             
-            output=stdout.read().decode()
+            output=stdout.readlines()
             out=[i for i in output if hostname not in i.lower() and 'river' not in i.lower() and 'road' not in i.lower()]
             result="".join(out)
             
-            if('not known' in str(out.decode())):
+            if('not known' in str(out)):
                 result = 'Hostname not known'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
                 return result
-            elif('Connection timedout' in str(out.decode())):
+            elif('Connection timedout' in str(out)):
                 result = 'Connection timedout'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
                 return result
-            elif(('Invalid input detected' in str(out.decode())) and command == 'show logging'):
+            elif(('Invalid input detected' in str(out)) and command == 'show logging'):
                 result = 'Unable to execute show log command'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
                 return result
