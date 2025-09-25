@@ -112,7 +112,8 @@
                   </table>
                   [/code]
 
-
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+   register: update_notes
  - set_fact:
       dest_int_command: "show interface {{ Dest_interface }}"
  - action: InterfaceStatusExecution  hostname="{{ destination }}" command='{{ dest_int_command }}' notesupdate='no' incidentno='{{ incident_no }}'
