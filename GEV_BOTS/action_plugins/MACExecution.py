@@ -38,7 +38,9 @@ class ActionModule(ActionBase):
             ChartserverConnection = paramiko.SSHClient()
             ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
-            
+            stdin,stdout,stderr = ChartserverConnection.exec_command("sh int TenGigabitEthernet1/16 \n")
+            print(stdout.read().decode())
+            print("=-=-----------======================")
             channel = ChartserverConnection.invoke_shell()
             channel.send('term len 0'+'\n')
             time.sleep(5)
