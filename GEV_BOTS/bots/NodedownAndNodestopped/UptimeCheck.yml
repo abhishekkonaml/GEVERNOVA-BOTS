@@ -27,7 +27,7 @@
         - debug: var=UptimeNotesData
         - block:
             - debug: msg="Unable to fetch Uptime, Hence Reassigned...!"
-            - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3>Unable to fetch uptime. \n Device is reachable[/code]'
+            - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3>Unable to fetch uptime.\n Device is reachable.[/code]'
               register: worknotesupdate
             - action: worknotesupdate  work_notes='{{ UptimeNotesData }}'
               register: worknotesupdate

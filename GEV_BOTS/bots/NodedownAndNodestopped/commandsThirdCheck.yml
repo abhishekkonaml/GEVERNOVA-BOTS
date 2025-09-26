@@ -47,7 +47,7 @@
 - block:
     - debug: 
         msg: "Unable to execute showlog end play"
-    - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> Unable to check logs of the device. \n Device is reachable [/code]'
+    - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> Unable to check logs of the device.\n Device is reachable [/code]'
       register: worknotesupdate
     - name: save_output
       set_fact:
