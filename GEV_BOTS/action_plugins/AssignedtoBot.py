@@ -18,6 +18,7 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
            incident=task_vars['incident']
+           incobj=Incidents()
            result=incobj.assigned_to_bot(incident)
            
            return {'status': 'success','result': result}
