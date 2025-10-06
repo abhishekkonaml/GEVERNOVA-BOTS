@@ -36,6 +36,9 @@
 
 
      - block:
+       - action: AssignedtoBot incident='{{ incident_no }}'
+         register: assigned_status_register
+       - debug: var=assigned_status_register
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
           incident_interface: "{{ fetched_details.interface }}"
