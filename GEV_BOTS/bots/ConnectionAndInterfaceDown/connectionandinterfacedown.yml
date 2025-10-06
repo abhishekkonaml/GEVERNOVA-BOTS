@@ -1,7 +1,7 @@
 ---
  
   - debug:
-       msg: "Running the StatusFlap Bot"
+       msg: "Running the StatusAlert Bot"
   - set_fact:
        bot_notes: |-
                   

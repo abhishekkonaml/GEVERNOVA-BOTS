@@ -45,7 +45,7 @@ class ActionModule(ActionBase):
             out= channel.recv(math.inf) 
             channel.send(command+ '\n')
             while not channel.recv_ready():
-                  time.sleep(1)
+                  time.sleep(20)
             
             out= channel.recv(math.inf)
             print(out.decode("utf-8",errors='ignore'))
