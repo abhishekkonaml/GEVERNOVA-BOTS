@@ -1,7 +1,9 @@
 ---
  - set_fact:
-      #hostname1: "{{ incident_hostname }}.gdn.ge.com"
-      hostname1: "powwdscnqinhu07.gdn.ge.com"
+      hostname1: "{{ incident_hostname }}.gdn.ge.com"
+     # hostname1: "powwdscnqinhu07.gdn.ge.com"
+
+   
  
  - name: Source Ping check 
    shell: ping -c 2 {{ hostname1 }}
@@ -15,11 +17,9 @@
               [code] <h3> PING RESULTS: </h3> [/code]
               {{ ping_result_register.stdout }}
  - debug: var=ping_result
- #- action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
- #  register: update_notes
+ 
  - action: worknotesupdate work_notes='{{ ping_result }}'
-   #register: worknotesupdate
- #- debug: var=worknotesupdate
+   
  - set_fact:
       ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts hence reassigned"
  - block:
@@ -42,9 +42,7 @@
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
-   #- action: reassignment_ticket incident='{{ incident_no }}'
-   #  register: reassignment_ticket_register
-   #- debug: var=reassignment_ticket_register.stdout
+   
    - meta: end_play
    when: "'64 bytes' not in ping_result" 
  
