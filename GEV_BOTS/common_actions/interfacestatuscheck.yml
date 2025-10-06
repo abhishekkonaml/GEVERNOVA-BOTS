@@ -36,10 +36,11 @@
         aa_start_save: ''
         botname: '{{bot_name}}'
         retcode: 'MBRETCD002'
-        retdesc: 'Test Failure'
+        retdesc: 'Interface is down after three attempts hence reassigned'
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
+  
   - meta: end_play 
   when: "('is up' not in Interfaceresult)"
 

@@ -69,6 +69,16 @@
                      <br>[/code]
      - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
        register: update_notes
+     - name: save_output
+       set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'The {{ incident_interface }} is flapping in the last 30 minutes hence reassigned.'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+     - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml    
      - meta: end_play
      when: "'Success' not in uptime_result" 
          

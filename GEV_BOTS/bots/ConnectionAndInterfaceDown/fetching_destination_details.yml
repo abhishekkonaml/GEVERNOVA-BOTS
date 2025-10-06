@@ -20,12 +20,13 @@
    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot failed to validate the B side as it unable to extract the B side details</h3>[/code]'
      register: update_notes
    - debug: var=update_notes
+   - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml
    - name: save_output
      set_fact:
         aa_start_save: ''
         botname: '{{bot_name}}'
         retcode: 'MBRETCD002'
-        retdesc: 'Test Failure'
+        retdesc: 'Bot failed to validate the B side as it unable to extract the B side details'
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
@@ -67,7 +68,7 @@
         aa_start_save: ''
         botname: '{{bot_name}}'
         retcode: 'MBRETCD001'
-        retdesc: 'Test Success'
+        retdesc: 'All checks have passed hence closing the case'
         success_type: 't1'
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
@@ -85,6 +86,17 @@
    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot failed to validate the B side as it unable to extract the B side interface details</h3>[/code]'
      register: update_notes
    - debug: var=update_notes
+   - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml
+   - name: save_output
+     set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'Bot failed to validate the B side as it unable to extract the B side details'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+   
    - meta: end_play
    when:  "('failed' in dest_interface_register.status)"
  - set_fact: 
@@ -152,12 +164,12 @@
         aa_start_save: ''
         botname: '{{bot_name}}'
         retcode: 'MBRETCD002'
-        retdesc: 'Test Failure'
+        retdesc: 'SSH to Destination is failed hence reassigned'
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
       
-
+   - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml
    - meta: end_play
 
    when: "('failed' in base_result_status)"
@@ -221,9 +233,9 @@
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
     
-   #- action: closeincident incident='{{ incident_no }}'
-   #  register: closeregister
-   #- debug: var=closeregister
+   - action: closeincident incident='{{ incident_no }}'
+     register: closeregister
+   - debug: var=closeregister
    
    when: 'DestinationDeviceInterfaceMAC1 in SourceHasDestMac'
 
@@ -252,7 +264,7 @@
         aa_start_save: ''
         botname: '{{bot_name}}'
         retcode: 'MBRETCD002'
-        retdesc: 'Test Failure'
+        retdesc: 'B side MAC not exist in Source MAC address table hence reassigned.'
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
