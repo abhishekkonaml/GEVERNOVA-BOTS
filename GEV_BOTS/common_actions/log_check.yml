@@ -60,6 +60,7 @@
      when: "'Success' in uptime_result" 
 
    - block:
+     - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml 
      - set_fact:
         InputNotes: |-
                    [code]<h3> Summary: </h3>
@@ -78,7 +79,7 @@
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
-     - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml    
+        
      - meta: end_play
      when: "'Success' not in uptime_result" 
          
