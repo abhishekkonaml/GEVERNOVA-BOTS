@@ -11,7 +11,7 @@
 - block:
     - debug:
         msg: "Unable to connect to host end the play"
-    - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> Unable to connect to device[/code]'
+    - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to connect to device <br>[/code]'
       register: worknotesupdate
     - name: save_output
       set_fact:

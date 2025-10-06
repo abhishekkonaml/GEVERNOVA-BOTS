@@ -27,7 +27,7 @@
         - debug: var=UptimeNotesData
         - block:
             - debug: msg="Unable to fetch Uptime, Hence Reassigned...!"
-            - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3>Unable to fetch uptime.\n Device is reachable.[/code]'
+            - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attcahed <br> 3. Unable to fetch uptime. <br>[/code]'
               register: worknotesupdate
             - action: worknotesupdate  work_notes='{{ UptimeNotesData }}'
               register: worknotesupdate
@@ -55,7 +55,7 @@
               when: "(('ROM by reload' in version_status_register) or ('ROM by bus' in version_status_register) or ('ROM by power' in version_status_register) or ('ROM by Power' in version_status_register))"
             - debug:
                 msg: "update notes and close ticket"
-            - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3>Device is reachable.\n Uptime is greater than 30 minutes.\n Device has passed all checks.[/code]'
+            - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attcahed <br> 3. Uptime is greater than 30 minutes <br> 4. Device has passed all checks <br>[/code]'
               register: worknotesupdate
             #- action: worknotesupdate work_notes='[code]<h3>Device has passed all checks</h3>[/code]'
             #  register: worknotesupdate
@@ -89,7 +89,7 @@
                    PingCounterValue: 6
                - debug:
                    msg: "reassign ticket"
-               - action: worknotesupdate  work_notes='[code]<h3>Summary:\n </h3>Device is reachable.\n Uptime of the device is less than 30 minutes.[/code]'
+               - action: worknotesupdate  work_notes='[code]<h3>Summary:\n </h3>1. Ping is successful <br> 2. Device logs are attcahed <br> 3. Uptime of the device is less than 30 minutes. <br>[/code]'
                  register: worknotesupdate
                - name: save_output
                  set_fact:
@@ -112,7 +112,7 @@
                    PingCounterValue: 3
                - debug:
                    msg: "close ticket"
-               - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3>Device is reachable.\n Uptime is greater than 30 minutes.\n Device has passed all checks.[/code]'
+               - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3>1. Ping is successful <br> 2. Device logs are attcahed <br> 3. Uptime is greater than 30 minutes <br> 4. Device has passed all checks <br>[/code]'
                  register: worknotesupdate
                #- action: worknotesupdate work_notes='[code]<h3>Device has passed all checks</h3>[/code]'
                #  register: worknotesupdate
