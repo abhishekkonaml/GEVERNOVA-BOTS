@@ -19,8 +19,8 @@
         Interval: 3
         Time: 600
       when: "('WA' != DevicefourthandfifthLetter) or ('WG' != DevicefourthandfifthLetter) or ('WD' != DevicefourthandfifthLetter) or ('WN' != DevicefourthandfifthLetter)"
-    - debug: var=frequency
-    - debug: var=delay_time
+    - debug: var=Interval
+    - debug: var=Time
     - name: Ping the device
       include_tasks: common_actions/pingcheck.yml
       vars: 
