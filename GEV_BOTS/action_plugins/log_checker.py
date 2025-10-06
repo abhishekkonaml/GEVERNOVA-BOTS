@@ -15,7 +15,7 @@ class ActionModule(ActionBase):
         try:
            systemlogs=self._task.args["log_results"]
            sh_clock_timestamp=self._task.args['clock_results']
-           timeextractpatternfromlogs="\w+ \d+ \d+:\d+:\d+"
+           timeextractpatternfromlogs="\w+  \d+ \d+:\d+:\d+|\w+ \d+ \d+:\d+:\d+"
            timepatternforclock="[0-9][0-9]\:[0-9][0-9]\:[0-9][0-9]"
            timepatternfordate="\w+ \d+"
            logs_timestamp=re.findall(timeextractpatternfromlogs,systemlogs)[0]

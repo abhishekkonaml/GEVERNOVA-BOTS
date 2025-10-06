@@ -17,7 +17,7 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-           incident=task_vars['incident']
+           incident=self._task.args['incident']
            incobj=Incidents()
            result=incobj.assigned_to_bot(incident)
            
