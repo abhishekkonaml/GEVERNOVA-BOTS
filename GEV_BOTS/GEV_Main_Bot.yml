@@ -4,7 +4,7 @@
    vars:
       incident_no: "{{ ticketNo }}"
       #incident_no: "GEVINC123"
-      bot_name: "ML_Test_SnowIntegration"
+      #bot_name: "ML_Test_SnowIntegration"
       
    tasks:
    # Fetching Incident Details
@@ -47,7 +47,8 @@
        - debug: var=incident_hostname
        - debug: var=incident_interface
        - debug: var=botname
-       
+       - set_fact:
+            bot_name: "StatusAlert"
        - debug:
            msg: "Calling Status Alert role"
        - name: Call Status Alert role 
