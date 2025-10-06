@@ -40,7 +40,12 @@
 - shell: cat log.txt | tail -10
   register: last_ten_log_register
 - debug: var=last_ten_log_register.stdout
-- action: worknotesupdate  work_notes="{{ last_ten_log_register.stdout }}"
+- set_fact:
+    log_notes: |- 
+      [code]<h3> Logs: </h3>[/code]
+      "{{ last_ten_log_register.stdout }}"
+      
+- action: worknotesupdate  work_notes="{{ log_notes }}"
   register: worknotesupdate
 
 
