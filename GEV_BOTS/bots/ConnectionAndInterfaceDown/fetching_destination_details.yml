@@ -281,9 +281,9 @@
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
     
-   - action: closeincident incident='{{ incident_no }}'
-     register: closeregister
-   - debug: var=closeregister
+   #- action: closeincident incident='{{ incident_no }}'
+   #  register: closeregister
+   #- debug: var=closeregister
    
    when: 'DestinationDeviceInterfaceMAC1 in SourceHasDestMac'
 
