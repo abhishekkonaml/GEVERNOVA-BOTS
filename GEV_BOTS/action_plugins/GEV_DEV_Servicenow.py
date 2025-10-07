@@ -65,7 +65,7 @@ class Incidents:
                                   "externalRecord": ""
                                 },
                                 "number": incidentnumber,
-                                "assigned_group": group
+                                "assignment_group": group
                                 
                               }
                             })
