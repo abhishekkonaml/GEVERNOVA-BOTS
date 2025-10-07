@@ -37,6 +37,7 @@
                     [/code]
    - action: worknotesupdate work_notes='{{ bot_notes }}'
      register: worknotesupdate
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
    - name: save_output
      set_fact:
         aa_start_save: ''
