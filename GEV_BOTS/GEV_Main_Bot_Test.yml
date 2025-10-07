@@ -32,7 +32,7 @@
           incident_hostname: "{{ fetched_details.hostname }}"
           botname: "{{ fetched_details.botname }}"
        - set_fact:
-            bot_name: "ML_Test_SnowIntegration"  
+            bot_name: "node down"  
        - debug: var=incident_hostname
        - debug: var=botname
        
