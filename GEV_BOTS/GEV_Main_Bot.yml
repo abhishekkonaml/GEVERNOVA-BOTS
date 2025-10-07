@@ -4,7 +4,7 @@
    vars:
       incident_no: "{{ ticketNo }}"
       #incident_no: "GEVINC123"
-      bot_name: "ML_Test_SnowIntegration"
+      #bot_name: "ML_Test_SnowIntegration"
       
    tasks:
    # Fetching Incident Details
@@ -16,9 +16,9 @@
      # Triggering the Bot
      - block:
        #Assigning to Bot group and id
-       - action: AssignedtoBot incident='{{ incident_no }}'
-         register: assigned_status_register
-       - debug: var=assigned_status_register
+       #- action: AssignedtoBot incident='{{ incident_no }}'
+       #  register: assigned_status_register
+       #- debug: var=assigned_status_register
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
           incident_interface: "{{ fetched_details.interface }}"
@@ -36,9 +36,9 @@
 
 
      - block:
-       - action: AssignedtoBot incident='{{ incident_no }}'
-         register: assigned_status_register
-       - debug: var=assigned_status_register
+       #- action: AssignedtoBot incident='{{ incident_no }}'
+       #  register: assigned_status_register
+       #- debug: var=assigned_status_register
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
           incident_interface: "{{ fetched_details.interface }}"

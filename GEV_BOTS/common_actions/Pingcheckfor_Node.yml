@@ -1,7 +1,9 @@
 ---
  - set_fact:
       hostname1: "{{ incident_hostname }}.gdn.ge.com"
- 
+
+    
+
  - name: Source Ping check 
    shell: ping -c 2 {{ hostname1 }}
    register: ping_result_register
@@ -10,28 +12,39 @@
    delay: "{{ delay_time }}"
    ignore_errors: true
  - set_fact: 
-    ping_result: "{{ ping_result_register.stdout }}"
+    ping_result: |
+              [code] <h3> PING RESULTS: </h3> [/code]
+              {{ ping_result_register.stdout }}
  - debug: var=ping_result
- - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
-   register: update_notes
- - debug: var=update_notes
  
+ - action: worknotesupdate work_notes='{{ ping_result }}'
+   
+ - set_fact:
+      ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts hence reassigned"
  - block:
    - debug:
        msg: "Device is not reachable"
-   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Device is unreachable after three attempts hence Fetching alternate IP address</h3>[/code]'
-     register: update_notes
-   - debug: var=update_notes
-   - debug:
-       msg: "Fetch alternate IP address"
    - set_fact:
-       incident_hostname: "rnwrtmuscicer02"
-       command1: "g  {{ incident_hostname }} | grep 'A' | grep -v 'CNAME' | grep -v ';'"
-       incidentno: "GEINC123"
-   - name: Alternate IP address check
-     action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='no'
-     register: alternate_address_register
-   - debug: var=alternate_address_register
+        bot_notes: |
+                  [code] 
+                    <h3>Summary: </h3> 
+                    1. Ping is unsuccessful after three attempts hence reassigned.
+                    [/code]
    
+   - action: worknotesupdate work_notes='{{ bot_notes }}'
+     register: worknotesupdate
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+     register: reassignment_ticket
+   #- name: save_output
+   #  set_fact:
+   #     aa_start_save: ''
+   #     botname: '{{bot_name}}'
+   #     retcode: 'MBRETCD002'
+   #     retdesc: 'Test Failure'
+   #     assignment_group: "{{assigngrp|default('')}}"
+   #     assign_to: "{{assignto|default('')}}"
+   #     zz_end_save: ''
+   
+   - meta: end_play
    when: "'64 bytes' not in ping_result" 
  

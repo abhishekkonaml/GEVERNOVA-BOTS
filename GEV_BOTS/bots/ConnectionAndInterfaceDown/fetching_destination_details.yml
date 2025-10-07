@@ -322,10 +322,12 @@
         aa_start_save: ''
         botname: '{{bot_name}}'
         retcode: 'MBRETCD002'
-        retdesc: 'B side MAC not exist in Source MAC address table hence reassigned.'
+        retdesc: 'Test Failure'
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
+
+        
    - meta: end_play 
 
    when: 'DestinationDeviceInterfaceMAC1 not in SourceHasDestMac'
