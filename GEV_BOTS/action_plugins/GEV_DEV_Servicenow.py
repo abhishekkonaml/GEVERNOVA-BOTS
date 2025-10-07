@@ -55,7 +55,7 @@ class Incidents:
                return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
-    def reassignment(self,incidentnumber):
+    def reassignment(self,incidentnumber,group):
         token='Bearer {}'.format(self.access_token)
         url1="https://dev.api.gevernova.com/servicenow_incident/" 
         payload = json.dumps({
@@ -65,7 +65,7 @@ class Incidents:
                                   "externalRecord": ""
                                 },
                                 "number": incidentnumber,
-                                "assigned_to": "212493581"
+                                "assigned_group": group
                                 
                               }
                             })

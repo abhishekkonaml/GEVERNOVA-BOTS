@@ -15,9 +15,10 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
            incident=self._task.args["incident"]
+           group=self._task.args["group"]
            
            incobj=Incidents()
-           return {'status': 'success', 'result': incobj.reassignment(incident)}
+           return {'status': 'success', 'result': incobj.reassignment(incident,group)}
         except Exception as e:
            return {'status': 'failed', 'result': str(e)}
 
