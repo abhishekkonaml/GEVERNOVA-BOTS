@@ -28,18 +28,24 @@
                   [/code]
   - debug:    
       msg: "Interface is down hence reassigned"
-  - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
-    register: update_notes
-  - debug: var=update_notes
+  #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+  #  register: update_notes
+  #- debug: var=update_notes
+  - name: Add work notes - 2
+    action: worknotesupdate work_notes='{{ bot_notes }}'
+    register: worknotesupdate
+  
+  - debug: var=worknotesupdate
   - name: save_output
     set_fact:
         aa_start_save: ''
         botname: '{{bot_name}}'
         retcode: 'MBRETCD002'
-        retdesc: 'Test Failure'
+        retdesc: 'Interface is down after three attempts hence reassigned'
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
+  
   - meta: end_play 
   when: "('is up' not in Interfaceresult)"
 

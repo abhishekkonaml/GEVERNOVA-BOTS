@@ -60,6 +60,7 @@
      when: "'Success' in uptime_result" 
 
    - block:
+     - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml 
      - set_fact:
         InputNotes: |-
                    [code]<h3> Summary: </h3>
@@ -67,8 +68,20 @@
                      2. Interface status is up <br>
                      3. The {{ incident_interface }} is flapping in the last 30 minutes hence reassigned.
                      <br>[/code]
-     - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
-       register: update_notes
+     #- action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
+     #  register: update_notes
+     - action: worknotesupdate work_notes='{{ InputNotes }}'
+       register: worknotesupdate
+     - name: save_output
+       set_fact:
+        aa_start_save: ''
+        botname: '{{ bot_name }}'
+        retcode: 'MBRETCD002'
+        retdesc: 'The {{ incident_interface }} is flapping in the last 30 minutes hence reassigned.'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+        
      - meta: end_play
      when: "'Success' not in uptime_result" 
          
