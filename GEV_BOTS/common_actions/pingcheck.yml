@@ -35,6 +35,8 @@
                     <h3>Summary: </h3> 
                     1. Ping is unsuccessful after three attempts hence reassigned.
                     [/code]
+   - action: AssignedtoBot incident='{{ incident_no }}'
+     register: assigned_status_register
    - action: worknotesupdate work_notes='{{ bot_notes }}'
      register: worknotesupdate
    - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
