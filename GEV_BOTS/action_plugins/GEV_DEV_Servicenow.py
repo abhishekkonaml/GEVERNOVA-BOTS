@@ -69,6 +69,8 @@ class Incidents:
                                 
                               }
                             })
+        print(payload)
+        print("-="*40)
         headers = {
                     'Content-Type': 'application/json',
                     'Authorization': token,
