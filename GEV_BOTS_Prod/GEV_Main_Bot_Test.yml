@@ -1,0 +1,56 @@
+---
+ - name: GEV Bots
+   hosts: localhost
+   vars:
+      #incident_no: "{{ fetch_incident_no }}"
+      incident_no: "{{ ticketNo }}"
+      
+      #incident_no: "GEVINC123"
+      
+   tasks:
+   # Fetching Incident Details
+   - name: Bot Execution started
+     action: Incident_details_extraction incident_no='{{ incident_no }}'
+     register: fetched_details
+   - debug: var=fetched_details
+   - block:
+     # Triggering the Bot
+     - block:
+       - set_fact:
+          incident_hostname: "{{ fetched_details.hostname }}"
+          incident_interface: "{{ fetched_details.interface }}"
+          botname: "{{ fetched_details.botname }}"
+       - debug: var=incident_hostname
+       - debug: var=incident_interface
+       - debug: var=botname
+       - debug:
+           msg: "calling connection role"
+       - include_tasks: bots/ConnectionAndInterfaceDown/connectionandinterfacedown.yml
+       when: "'StatusFlap' in fetched_details.botname"
+     - block:
+       - set_fact:
+          incident_hostname: "{{ fetched_details.hostname }}"
+          botname: "{{ fetched_details.botname }}"
+       - set_fact:
+            bot_name: "IdleInterval"  
+       - debug: var=incident_hostname
+       - debug: var=botname
+       
+       - debug:
+           msg: "calling node down role"
+       - name: call node down role
+         include_tasks: bots/NodedownAndNodestopped/main.yml
+       
+       when: "'Node down' in fetched_details.botname"
+     when: "'success' in fetched_details.status"
+   - block:
+     - debug: msg='No Records found with the given Incident number'
+     - meta: end_play
+     when: "'failed' in fetched_details.status"
+   - block:
+     - debug: msg='Parsing Error'
+     - meta: end_play
+     when: "'error' in fetched_details.status"
+
+   
+   

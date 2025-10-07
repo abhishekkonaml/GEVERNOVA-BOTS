@@ -1,0 +1,17 @@
+---
+ - debug: var=ap_name
+ - name: Fetching WLC Details
+   action: fetchwlc hostname='{{ ap_name }}'
+   register: ap_results_register
+ - debug: var=ap_results_register
+ - block:
+   - set_fact:
+        wlc_name: "{{ ap_results_register.result }}" 
+        command1: "show ap config general {{ ap_name }}"
+   - debug: var=wlc_name
+   - debug: var=command1
+   - action: WLCExecution hostname='{{ wlc_name }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+     register: apconnected_register
+   - debug: var=apconnected_register
+   when: "'success' in ap_results_register.status"
+ - debug: var=ap_results_register

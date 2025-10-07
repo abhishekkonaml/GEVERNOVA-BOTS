@@ -1,0 +1,96 @@
+---
+- set_fact:
+    commands: ['sh ip in brief', 'sh ip pro summ', 'show proc cpu | ex 0.00']
+
+- name: check connectivity
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: clock_status_register
+  ignore_errors: true
+- debug: var=clock_status_register
+  
+- block:
+    - debug:
+        msg: "Unable to connect to host end the play"
+    - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to connect to device <br>[/code]'
+      register: worknotesupdate
+    - name: save_output
+      set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'Test Failure'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+    #- action: reassignment_ticket incident='{{ incident_no }}'
+    #  register: reassignment_ticket_register
+    #- debug: var=reassignment_ticket_register.stdout
+   
+    - meta: end_play
+  when: "'Hostname not known' in clock_status_register.Output"
+
+- name: log check
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show logging' incidentno='{{ incident_no }}' notesupdate='no' 
+  register: log_status_register
+  ignore_errors: true
+#- debug: var=log_status_register
+- set_fact:
+    log_result: "{{ log_status_register.Output | lower }}"
+- shell: echo "{{ log_result }}" > log.txt
+- shell: cat log.txt | tail -10
+  register: last_ten_log_register
+- debug: var=last_ten_log_register.stdout
+- set_fact:
+    log_notes: |- 
+      [code]<h3> Logs: </h3>[/code]
+      "{{ last_ten_log_register.stdout }}"
+      
+- action: worknotesupdate  work_notes="{{ log_notes }}"
+  register: worknotesupdate
+
+
+- block:
+    - debug: 
+        msg: "Unable to execute showlog end play"
+    - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to check logs of the device.<br>[/code]'
+      register: worknotesupdate
+    - name: save_output
+      set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'Test Failure'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+    #- action: reassignment_ticket incident='{{ incident_no }}'
+    #  register: reassignment_ticket_register
+    #- debug: var=reassignment_ticket_register.stdout
+  
+    - meta: end_play
+  when: "'Unable to execute show log command' in log_status_register.Output"
+
+- name: execute commands
+  action: CommandExecution hostname='{{ incident_hostname }}' command='{{ item }}' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: command_status_register
+  ignore_errors: true
+  loop: "{{ commands }}"
+
+- debug: var=command_status_register
+
+- name: check uptime
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show version | i uptime' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: version_status_register
+  ignore_errors: true
+- debug: var=version_status_register.Output
+- set_fact:
+    version_status_register: "{{ version_status_register.Output }}"
+
+- name: Validate device uptime
+  include_tasks: bots/NodedownAndNodestopped/UptimeCheck.yml
+  register: output
+  ignore_errors: true
+- debug: var=output
+
+
+  
