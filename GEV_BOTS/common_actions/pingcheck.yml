@@ -2,13 +2,8 @@
  - set_fact:
       hostname1: "{{ incident_hostname }}.gdn.ge.com"
 
-     # hostname1: "powwdscnqinhu07.gdn.ge.com"
+    
 
-   
-
-      #hostname1: "powwdscnqinhu07.gdn.ge.com"
-
- 
  - name: Source Ping check 
    shell: ping -c 2 {{ hostname1 }}
    register: ping_result_register
@@ -35,20 +30,20 @@
                     <h3>Summary: </h3> 
                     1. Ping is unsuccessful after three attempts hence reassigned.
                     [/code]
-   - action: AssignedtoBot incident='{{ incident_no }}'
-     register: assigned_status_register
+   
    - action: worknotesupdate work_notes='{{ bot_notes }}'
      register: worknotesupdate
-   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
-   #- name: save_output
-   #  set_fact:
-   #     aa_start_save: ''
-   #     botname: '{{bot_name}}'
-   #     retcode: 'MBRETCD002'
-   #     retdesc: 'Test Failure'
-   #     assignment_group: "{{assigngrp|default('')}}"
-   #     assign_to: "{{assignto|default('')}}"
-   #     zz_end_save: ''
+   #- action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+   #  register: reassignment_ticket
+   - name: save_output
+     set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'Test Failure'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
    
    - meta: end_play
    when: "'64 bytes' not in ping_result" 
