@@ -1,8 +1,0 @@
----
- - name: Mongo testing
-   hosts: localhost
-   tasks:
-   - name: Calling mongo db operations
-     action: mongodb_operations
-     register: mongooperations_register
-   - debug: var=mongooperations_register.stdout
