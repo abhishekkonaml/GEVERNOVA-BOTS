@@ -53,8 +53,13 @@ class ActionModule(ActionBase):
                 result = 'Hostname not known'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
                 return result
+            elif('Authentication failed' in str(out.decode())):
+                result = 'Hostname not known'
+                result={'Hostname': hostname, 'status': 'failed','Output': result}
+                return result
+            
             elif('Connection timedout' in str(out.decode())):
-                result = 'Connection timedout'
+                result = 'Hostname not known'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
                 return result
             elif(('Invalid input detected' in str(out.decode())) and command == 'show logging'):
