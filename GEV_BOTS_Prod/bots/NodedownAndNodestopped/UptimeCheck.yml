@@ -41,9 +41,9 @@
                 assignment_group: "{{assigngrp|default('')}}"
                 assign_to: "{{assignto|default('')}}"
                 zz_end_save: ''
-            #- action: reassignment_ticket incident='{{ incident_no }}'
-            #  register: reassignment_ticket_register
-            #- debug: var=reassignment_ticket_register.stdout
+            - action: reassignment_ticket incident='{{ incident_no }}'
+              register: reassignment_ticket_register
+            - debug: var=reassignment_ticket_register.stdout
             - meta: end_play
 
           when: ReloadUptimeResult is not defined
@@ -69,8 +69,8 @@
                 assignment_group: "{{assigngrp|default('')}}"
                 assign_to: "{{assignto|default('')}}"
                 zz_end_save: ''
-            #- action: closeincident incident='{{ incident_no }}'
-            #  register: close_ticket
+            - action: closeincident incident='{{ incident_no }}'
+              register: close_ticket
             - meta: end_play
           
           when:  "'year' in ReloadUptimeResult or 'week' in ReloadUptimeResult or 'day' in ReloadUptimeResult or 'hour' in ReloadUptimeResult"
@@ -100,9 +100,9 @@
                   assignment_group: "{{assigngrp|default('')}}"
                   assign_to: "{{assignto|default('')}}"
                   zz_end_save: ''
-               #- action: reassignment_ticket incident='{{ incident_no }}'
-               #  register: reassignment_ticket_register
-               #- debug: var=reassignment_ticket_register.stdout
+               - action: reassignment_ticket incident='{{ incident_no }}'
+                 register: reassignment_ticket_register
+               - debug: var=reassignment_ticket_register.stdout
                - meta: end_play
               when: UpTimeNumericValue | int < 30
               
@@ -126,8 +126,8 @@
                    assignment_group: "{{assigngrp|default('')}}"
                    assign_to: "{{assignto|default('')}}"
                    zz_end_save: ''
-               #- action: closeincident incident='{{ incident_no }}'
-               #  register: close_ticket
+               - action: closeincident incident='{{ incident_no }}'
+                 register: close_ticket
             
                - meta: end_play
               when: UpTimeNumericValue | int >= 30

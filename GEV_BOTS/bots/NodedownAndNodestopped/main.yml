@@ -3,10 +3,10 @@
 
     - debug:
         msg: "Running the Node Down Node stopped Bot"
-    #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> You can expect the next update within 30 minutes.</h3>[/code]'
-    #  register: update_notes
-    - action: worknotesupdate  work_notes='[code]<h3> You can expect the next update within 30 minutes.</h3>[/code]'
-      register: worknotesupdate
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> You can expect the next update within 30 minutes.</h3>[/code]'
+      register: update_notes
+    #- action: worknotesupdate  work_notes='[code]<h3> You can expect the next update within 30 minutes.</h3>[/code]'
+    #  register: worknotesupdate
     - debug: var=worknotesupdate 
     - name: fetch fourth and fifth letters of the device
       set_fact:  

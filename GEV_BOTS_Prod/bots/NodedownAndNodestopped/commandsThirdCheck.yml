@@ -11,6 +11,8 @@
 - block:
     - debug:
         msg: "Unable to connect to host end the play"
+    #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to connect to device <br>[/code]'
+    #  register: update_notes
     - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to connect to device <br>[/code]'
       register: worknotesupdate
     - name: save_output
@@ -22,9 +24,9 @@
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
-    #- action: reassignment_ticket incident='{{ incident_no }}'
-    #  register: reassignment_ticket_register
-    #- debug: var=reassignment_ticket_register.stdout
+    - action: reassignment_ticket incident='{{ incident_no }}'
+      register: reassignment_ticket_register
+    - debug: var=reassignment_ticket_register.stdout
    
     - meta: end_play
   when: "'Hostname not known' in clock_status_register.Output"
@@ -63,9 +65,9 @@
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
-    #- action: reassignment_ticket incident='{{ incident_no }}'
-    #  register: reassignment_ticket_register
-    #- debug: var=reassignment_ticket_register.stdout
+    - action: reassignment_ticket incident='{{ incident_no }}'
+      register: reassignment_ticket_register
+    - debug: var=reassignment_ticket_register.stdout
   
     - meta: end_play
   when: "'Unable to execute show log command' in log_status_register.Output"
