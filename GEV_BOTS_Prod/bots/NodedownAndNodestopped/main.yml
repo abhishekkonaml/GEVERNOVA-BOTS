@@ -7,7 +7,7 @@
       register: update_notes
     #- action: worknotesupdate  work_notes='[code]<h3> You can expect the next update within 30 minutes.</h3>[/code]'
     #  register: worknotesupdate
-    - debug: var=worknotesupdate 
+    #- debug: var=worknotesupdate 
     - name: fetch fourth and fifth letters of the device
       set_fact:  
          DevicefourthandfifthLetter: "{{ incident_hostname[3:5] | upper }}"
