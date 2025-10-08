@@ -81,7 +81,7 @@
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
-        
+     - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'   
      - meta: end_play
      when: "'Success' not in uptime_result" 
          

@@ -35,6 +35,7 @@
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
    - meta: end_play
    when:  "('failed' in destination_register.status)"
  
@@ -109,7 +110,7 @@
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
-   
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
    - meta: end_play
    when:  "('failed' in dest_interface_register.status)"
  - set_fact: 
@@ -203,6 +204,7 @@
         zz_end_save: ''
       
    - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
    - meta: end_play
 
    when: "('failed' in base_result_status)"
@@ -281,9 +283,9 @@
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
     
-   #- action: closeincident incident='{{ incident_no }}'
-   #  register: closeregister
-   #- debug: var=closeregister
+   - action: closeincident incident='{{ incident_no }}'
+     register: closeregister
+   - debug: var=closeregister
    
    when: 'DestinationDeviceInterfaceMAC1 in SourceHasDestMac'
 
@@ -326,6 +328,7 @@
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
    - meta: end_play 
 
    when: 'DestinationDeviceInterfaceMAC1 not in SourceHasDestMac'
