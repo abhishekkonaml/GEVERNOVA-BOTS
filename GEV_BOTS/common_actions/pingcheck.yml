@@ -16,8 +16,9 @@
               [code] <h3> PING RESULTS: </h3> [/code]
               {{ ping_result_register.stdout }}
  - debug: var=ping_result
- 
- - action: worknotesupdate work_notes='{{ ping_result }}'
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
+   register: update_notes
+ #- action: worknotesupdate work_notes='{{ ping_result }}'
    
  - set_fact:
       ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts hence reassigned"
@@ -31,10 +32,11 @@
                     1. Ping is unsuccessful after three attempts hence reassigned.
                     [/code]
    
-   - action: worknotesupdate work_notes='{{ bot_notes }}'
-     register: worknotesupdate
-   #- action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
-   #  register: reassignment_ticket
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+     register: update_notes
+   #- action: worknotesupdate work_notes='{{ bot_notes }}'
+   #  register: worknotesupdate
+   
    - name: save_output
      set_fact:
         aa_start_save: ''
@@ -44,6 +46,8 @@
         assignment_group: "{{assigngrp|default('')}}"
         assign_to: "{{assignto|default('')}}"
         zz_end_save: ''
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+     register: reassignment_ticket
    
    - meta: end_play
    when: "'64 bytes' not in ping_result" 
