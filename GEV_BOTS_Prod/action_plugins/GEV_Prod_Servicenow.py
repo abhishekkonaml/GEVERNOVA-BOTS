@@ -195,7 +195,7 @@ class Incidents:
           try: 
                response = requests.request("GET", url1, headers=headers,verify=False)
                if response.status_code == 200:
-                  return (response.json()['result'])
+                  return response.json()['result']
                else:
                   return ("Failed - {}".format(response.json()['error']['message']))
           except Exception as e:
