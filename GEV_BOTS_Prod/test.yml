@@ -1,0 +1,71 @@
+- name: test
+  hosts: localhost
+  tasks:
+    - name: Send Email
+      mail:
+       host: "smtprelay.gevernova.net" 
+       port: "25"
+       from: "testing@gevernova.com"
+       subject: "Test Email - Please Respond if you received the mail"
+       body: "Testing Email"
+       to: "abhishek.kona@gevernova.com"
+       cc: "aishwarya.shet@gevernova.com"
+       secure: starttls
+      
+      register: result
+      ignore_errors: true
+    - debug: var=result.stdout
+
+    # - name: login to device
+    #   action: CommandExecution hostname='POWsaMUSschen9B' command='show log | in 1/0/37' incidentno='GEINC12345' notesupdate='no'
+    #   register: Log_register
+    # - debug: var=Log_register
+    # - block:
+    #     - debug:
+    #         msg: "Update DB and reassign ticket"
+    #     #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to fetch logs, Reassigned</h3>[/code]'
+    #     #  register: update_notes
+    #     - meta: end_play
+    #   when: "('invalid input detected' in Log_register.Output)"
+    # - shell: echo "{{ Log_register.Output }}" > log.txt
+    # - shell: cat log.txt | tail -n 10
+    #   register: Log_last_ten_register
+    # - debug: var=Log_last_ten_register
+    # #- action: update_notes incident='{{ incident_no }}' work_notes='{{ Log_last_ten_register.stdout_lines }}'
+    # #  register: update_notes
+    # - shell: echo "{{ Log_register.Output }}" ? log.txt
+    # - shell: cat log.txt | tail -n 2
+    #   register: Log_last_register
+    # - debug: var=Log_last_register.stdout_lines
+    # - set_fact:
+    #     last_log_value: "{{ Log_last_register.stdout_lines[0] }}"
+ 
+    # - set_fact:
+    #     timestamp: "{{ last_log_value | regex_findall('\\w+ \\d+ \\d+:\\d+:\\d+.\\d+ \\w+') }}"
+    # - debug: var=last_log_value
+    # - debug: var=timestamp
+    # - name: login to device
+    #   action: CommandExecution hostname='POWsaMUSschen9B' command='show clock' incidentno='GEINC12345' notesupdate='no'
+    #   register: clock_register
+   
+    # - debug: var=clock_register.Output
+    # - set_fact:
+    #      presentTime: "{{ clock_register.Output   }}"
+    # - name: Normalize and parse timestamps
+    #   set_fact:
+    #     dt1: "{{ ((presentTime | to_datetime(format='%H:%M:%S.%f utc %a %b %d %Y')) - (timestamp[0] | to_datetime(format='%b %d %H:%M:%S.%f utc'))).total_seconds() }}"
+       
+    # - debug: var=dt1
+    # - block:
+    #   when: dt1 | int 
+    # - set_fact:
+    #     dt2: "{{ dt1 | int }}"
+    # - debug: 
+    #      msg: "{{dt2 |type_debug }}"
+    # - debug: var=dt2
+  
+      
+    
+    
+
+
