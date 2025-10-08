@@ -4,7 +4,7 @@
    vars:
       incident_no: "{{ ticketNo }}"
       #incident_no: "GEVINC123"
-      bot_name: "ML_Test_SnowIntegration"
+      #bot_name: "ML_Test_SnowIntegration"
       
    tasks:
    # Fetching Incident Details
