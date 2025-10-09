@@ -2,7 +2,7 @@ import requests
 import json
 
 class CoreApp:
-    def coreapp_trigger(self,ticketNo,desc):
+    def coreapp_trigger(self,ticketNo,desc,org_assignment_group):
         url = "https://bots.intelligeni.gevernova.net/bots/apis/resolve"
         
         payload = json.dumps({
@@ -14,7 +14,7 @@ class CoreApp:
             "description": desc,
             "priorityName": "P3",
             "deviceName": "",
-            "application_owner": "HQ CTO Network Enterprise Site Support"
+            "application_owner": org_assignment_group
           }
         })
         headers = {
