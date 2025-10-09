@@ -53,7 +53,7 @@ class ActionModule(ActionBase):
                 result = 'Hostname not known'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
                 return result
-            elif('Authentication failed' in str(out.decode())):
+            elif('Authentication failed.' in str(out.decode())):
                 result = 'Hostname not known'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
                 return result
