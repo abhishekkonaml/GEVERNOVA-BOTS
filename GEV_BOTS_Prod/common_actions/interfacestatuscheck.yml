@@ -28,14 +28,16 @@
                   [/code]
   - debug:    
       msg: "Interface is down hence reassigned"
-  #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
-  #  register: update_notes
-  #- debug: var=update_notes
+  - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+    register: update_notes
+  - debug: var=update_notes
   - name: Add work notes - 2
     action: worknotesupdate work_notes='{{ bot_notes }}'
     register: worknotesupdate
   
   - debug: var=worknotesupdate
+  - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+    register: reassignment_ticket
   - name: save_output
     set_fact:
         aa_start_save: ''

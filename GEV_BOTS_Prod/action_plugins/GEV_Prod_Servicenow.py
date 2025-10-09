@@ -185,7 +185,7 @@ class Incidents:
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
     def get_incident_details_by_query(self,query):
-          url1="https://api.gevernova.com/servicenow_incident/query/{}".format(query)
+          url1="https://api.gevernova.com/servicenow_incident/query/{}?sso=503437104".format(query)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,

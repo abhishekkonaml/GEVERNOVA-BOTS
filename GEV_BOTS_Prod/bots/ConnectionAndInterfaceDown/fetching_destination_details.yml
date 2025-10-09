@@ -22,10 +22,12 @@
      register: worknotesupdate
   
    - debug: var=worknotesupdate
-   #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot failed to validate the B side as it unable to extract the B side details</h3>[/code]'
-   #  register: update_notes
-   #- debug: var=update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot failed to validate the B side as it unable to extract the B side details</h3>[/code]'
+     register: update_notes
+   - debug: var=update_notes
    - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+     register: reassignment_ticket
    - name: save_output
      set_fact:
         aa_start_save: ''
@@ -65,18 +67,18 @@
    - name: Bypassing the Bside validation
      action: worknotesupdate work_notes='{{ input_notes }}'
      register: worknotesupdate
-   #- action: update_notes incident='{{ incident_no }}' work_notes='{{ input_notes }}'
-   #  register: update_notes
-   #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> All checks passed hence closing the case.</h3>[/code]'
-   #  register: update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ input_notes }}'
+     register: update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> All checks passed hence closing the case.</h3>[/code]'
+     register: update_notes
    - name: Closing note1
      action: worknotesupdate work_notes='[code]<h3> All checks passed hence closing the case.</h3>[/code]'
      register: worknotesupdate
   
    - debug: var=worknotesupdate
-   #- action: closeincident incident='{{ incident_no }}'
-   #  register: closeregister
-   #- debug: var=closeregister
+   - action: closeincident incident='{{ incident_no }}'
+     register: closeregister
+   - debug: var=closeregister
    - name: save_output
      set_fact:
         aa_start_save: ''
@@ -101,6 +103,8 @@
      register: update_notes
    - debug: var=update_notes
    - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+     register: reassignment_ticket
    - name: save_output
      set_fact:
         aa_start_save: ''
@@ -142,8 +146,8 @@
    register: worknotesupdate
   
  - debug: var=worknotesupdate
- #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
- #  register: update_notes
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+   register: update_notes
  - set_fact:
       dest_int_command: "show interface {{ Dest_interface }}"
  - action: InterfaceStatusExecution  hostname="{{ destination }}" command='{{ dest_int_command }}' notesupdate='no' incidentno='{{ incident_no }}'
@@ -164,8 +168,8 @@
      register: worknotesupdate
   
    - debug: var=worknotesupdate
-   #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
-   #  register: update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+     register: update_notes
    when: "'failed' not in base_result_status"
  - block:
    - debug: msg="SSH to Destination Device is failed"
@@ -182,17 +186,18 @@
      register: worknotesupdate
   
    - debug: var=worknotesupdate 
-   #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
-   #  register: update_notes
-   #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>SSH to Destination Device is failed hence reassigned.</h3>[/code]'
-   #  register: update_notes
-   #- debug: var=update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+     register: update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>SSH to Destination Device is failed hence reassigned.</h3>[/code]'
+     register: update_notes
+   - debug: var=update_notes
    - name: SSH to Destination device failed
      action: worknotesupdate work_notes='[code]<h3>SSH to Destination Device is failed hence reassigned.</h3>[/code]'
      register: worknotesupdate
   
    - debug: var=worknotesupdate 
-   
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+     register: reassignment_ticket
    - name: save_output
      set_fact:
         aa_start_save: ''
@@ -214,9 +219,9 @@
  - set_fact: 
      DestinationDeviceInterfaceMAC1: "{{ DestinationDeviceInterfaceMAC.split('.')[0]+'.'+DestinationDeviceInterfaceMAC.split('.')[1] }}" 
  - debug: var=DestinationDeviceInterfaceMAC1
- #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
- #  register: update_notes
- #- debug: var=update_notes
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+   register: update_notes
+ - debug: var=update_notes
 
  - set_fact:
       des_command: 'sh mac address-table interface {{ incident_interface }} | i {{ DestinationDeviceInterfaceMAC1 }}'
@@ -247,9 +252,9 @@
    - set_fact:
         SourceMACStatus: "Exists"
    - debug: var=SourceMACStatus
-   #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC exists in Source MAC address table hence closing the incident.</h3>[/code]'
-   #  register: update_notes
-   #- debug: var=update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC exists in Source MAC address table hence closing the incident.</h3>[/code]'
+     register: update_notes
+   - debug: var=update_notes
    - name: Add work notes - 2
      action: worknotesupdate work_notes='[code]<h3>B side MAC exists in Source MAC address table hence closing the incident.</h3>[/code]'
      register: worknotesupdate
@@ -265,8 +270,8 @@
                    5. Destination MAC exist in the Source MAC address table <br>
                    6. All checks have passed. Hence closing the incident.
                    [/code] 
-   #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
-   #  register: update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+     register: update_notes
    - name: Add work notes - 2
      action: worknotesupdate work_notes='{{ bot_notes }}'
      register: worknotesupdate
@@ -294,9 +299,9 @@
      set_fact:
       SourceMACStatus: "Not Exists"
    
-   #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC not exist in Source MAC address table hence reassigned.</h3>[/code]'
-   #  register: update_notes
-   #- debug: var=update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC not exist in Source MAC address table hence reassigned.</h3>[/code]'
+     register: update_notes
+   - debug: var=update_notes
    - name: B side MAC not exist
      action: worknotesupdate work_notes='[code]<h3>B side MAC not exist in Source MAC address table hence reassigned</h3>[/code]'
      register: worknotesupdate
@@ -317,8 +322,10 @@
      register: worknotesupdate
   
    - debug: var=worknotesupdate
-   #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
-   #  register: update_notes
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+     register: update_notes
+   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+     register: reassignment_ticket
    - name: save_output
      set_fact:
         aa_start_save: ''

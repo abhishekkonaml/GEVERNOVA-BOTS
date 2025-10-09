@@ -68,10 +68,12 @@
                      2. Interface status is up <br>
                      3. The {{ incident_interface }} is flapping in the last 30 minutes hence reassigned.
                      <br>[/code]
-     #- action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
-     #  register: update_notes
+     - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
+       register: update_notes
      - action: worknotesupdate work_notes='{{ InputNotes }}'
        register: worknotesupdate
+     - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+       register: reassignment_ticket
      - name: save_output
        set_fact:
         aa_start_save: ''
