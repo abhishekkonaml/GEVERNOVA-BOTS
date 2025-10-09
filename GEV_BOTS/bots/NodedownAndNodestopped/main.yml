@@ -28,7 +28,7 @@
       loop: "{{ range(1, 4) | list}}"
       loop_control:
          loop_var: item
-      when: "'64 bytes' not in ping_result_register.stdout"
+      when: ping_result_register is not defined or "'64 bytes' not in ping_result_register.stdout"
        
     - name: login to device
       include_tasks: bots/NodedownAndNodestopped/commandsThirdCheck.yml
