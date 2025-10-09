@@ -2,5 +2,5 @@
   hosts: localhost
   tasks:
   - shell: python3 sample.py 
-    register: sample
-  - debug: sample
+    register: sample_register
+  - debug: var=sample_register
