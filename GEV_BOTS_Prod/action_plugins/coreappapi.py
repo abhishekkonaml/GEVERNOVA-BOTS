@@ -20,22 +20,21 @@ class CoreApp:
             "application_owner": org_assignment_group.split("\n\n")[0]
           }
         })
-        print("===="*10)
-        print(payload)
-        print("===="*10)
+        #print("===="*10)
+        #print(payload)
+        #print("===="*10)
         headers = {
           'Content-Type': 'application/json',
           'AuthToken': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODM5NzkyZTJkODIzOTVjYWFkZGRlNzkiLCJlbWFpbCI6ImlnYm90c2FwaXNhZG1pbkBnZXZlcm5vdmEuY29tIiwidGVuYW50IjoiZ2VfdmVybm92YSIsImlhdCI6MTc1NTUyMTI3OCwiZXhwIjoxNzg3MDU3Mjc4fQ.DGIGAMkcAYpxWBe9R-kmZPiZGgI2zH4vyn8iyN8aHAE'
         }
         try:
             response = requests.request("POST", url, headers=headers, data=payload,verify=False,proxies=proxies)
-            print("----------------------------",response.status_code,"-----------------------------")
+            #print("----------------------------",response.status_code,"-----------------------------")
             if response.status_code==201:
-               return response.json()
+               return {'status': 'success','response': response.json()}
             else:
-                print(response.json())
+                return {'status':'failed','response': response.json()}
         except Exception as e:
-                print("=-=-=-=-=-=-=-=-=-=-=")
-                print(str(e))
-                return str(e)
+                
+                return {'status': 'failed' 'response': str(e) }
     

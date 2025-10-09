@@ -25,8 +25,8 @@
   #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Bot started working on the ticket...</h3>[/code]'
   #  register: update_notes
   #- debug: var=update_notes
-  #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
-  #  register: update_notes
+  - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+    register: update_notes
   - name: Add work notes - 2
     action: worknotesupdate work_notes='{{ bot_notes }}'
     register: worknotesupdate
