@@ -6,19 +6,11 @@
    shell: ping -c 2 {{ hostname1 }}
    register: ping_result
    ignore_errors: true
- - name: check if ping succes
-   set_fact:
-      ping_success: "{{ '64 bytes' in (ping_result.stdout | default('')) }}"
- - name: update notes for failed attempt
-   action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result.stdout }}'
-   when: not ping_success
+ - debug: var=ping_result
  - name: wait when ping fails
-   when: not ping_success and (attempt < 3)
+   when: "'64 bytes' not in ping_result.stdout"
    wait_for:
      timeout: "{{ delay_time }}"
- - name: update notes when ping success
-   action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result.stdout }}'
-   when: ping_success
 
 
 

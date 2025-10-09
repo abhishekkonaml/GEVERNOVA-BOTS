@@ -25,12 +25,22 @@
         ping_result: {}
         ping_success: false
     - name: Ping the device
-      include_tasks: common_actions/pingcheck.yml
+      #include_tasks: common_actions/pingcheck.yml
       vars: 
        delay_time: "{{ Time }}"
       loop: "{{ range(1, 4) | list}}"
       loop_control:
          loop_var: attempt
+      block:
+         - name: call ping file
+           include_tasks: common_actions/pingcheck.yml
+           register: ping_result
+           ignore_errors: yes
+         - name: mark true if ping succes
+           set_fact:
+             ping_success: true
+           when: "'64 bytes' in ping_result.stdout"
+         - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result.stdout }}'
       when: not ping_success       
     - name: login to device
       include_tasks: bots/NodedownAndNodestopped/commandsThirdCheck.yml
