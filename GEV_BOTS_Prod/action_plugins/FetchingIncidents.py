@@ -28,7 +28,7 @@ class ActionModule(ActionBase):
                   org_assignment_group=status_ticket['assignment_group']
                   coreobj=CoreApp()
                   response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
-                  print(response1)
+                  #print(response1)
            #query2="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEis down?sso=503437104"
            #fetch_idleinterval_tickets=incobj.get_incident_details_by_query(query2)
            #for idleinterval_ticket in fetch_idleinterval_tickets:
