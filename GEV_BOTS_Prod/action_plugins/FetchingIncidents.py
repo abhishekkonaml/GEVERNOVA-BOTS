@@ -35,7 +35,7 @@ class ActionModule(ActionBase):
                if "Intelligeni Bot" not in status['comments_and_work_notes']:
                   incident_no=idleinterval_ticket['number']
                   desc=idleinterval_ticket['desc']
-                  org_assignment_group=idleinterval_ticket['org_assignment_group']
+                  org_assignment_group=idleinterval_ticket['assignment_group']
                   coreobj=CoreApp()
                   response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                   print({'TicketNo' : incident_no, 'Problem': 'IdleInterval','Status': response1})
