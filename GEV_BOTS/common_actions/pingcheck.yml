@@ -3,32 +3,28 @@
       #hostname1: "{{ incident_hostname }}.gdn.ge.com"
       hostname1: "EMTwcSIDjakar01.gdn.ge.com"
 
- - name: Set initial retry counter
-   set_fact:
-    retry_count: 0
-
- - name: Ping until success with intermediate action
-   block:
-    - name: Ping the host
-      shell: ping -c 2 {{ hostname1 }}
-      register: ping_result
-      ignore_errors: true
-
-    - name: Do something between retries (e.g., log or wait)
-      block:   
-        - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result.stdout }}'
-          register: update_notes
-
-      when: "'64 bytes' not in ping_result.stdout"
-
-    - name: Increment retry counter
-      set_fact:
-        retry_count: "{{ retry_count | int + 1 }}"
-   #register: final_ping
-   until: "'64 bytes' in ping_result.stdout or retry_count >= frequency"
-   retries: "{{ frequency }}"
-   delay: "{{ delay_time }}"
- - debug: var=ping_result
+ - name: Retry block manually
+   vars:
+     total_retries: 3
+ - block:
+   - name: Attempt ping
+     shell: ping -c 2 {{ hostname1 }}
+     register: ping_result
+     ignore_errors: true
+   - name: Update notes if failed
+     action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
+     
+     when: "'64 bytes' not in ping_result.stdout"
+     debug:
+       msg: "Ping failed in attempt {{ item }}"
+   - name: Wait before retry
+     when: "'64 bytes' not in ping_result.stdout"
+     wait_for:
+       timeout: "{{ delay_time }}"
+   loop: "{{ range(1, total_retries + 1) | list }}"
+   loop_control:
+     loop_var: item
+   when: "'64 bytes' not in ping_result.stdout | default('')"
 
     
 
