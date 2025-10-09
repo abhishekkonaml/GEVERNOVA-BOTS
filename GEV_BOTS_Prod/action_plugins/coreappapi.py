@@ -35,5 +35,7 @@ class CoreApp:
             else:
                 print(response.json())
         except Exception as e:
+                print("=-=-=-=-=-=-=-=-=-=-=")
+                print(str(e))
                 return str(e)
     
