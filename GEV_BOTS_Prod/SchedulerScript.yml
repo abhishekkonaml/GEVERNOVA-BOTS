@@ -5,4 +5,4 @@
    - debug: msg="Triggering today Status Alert tickets"
    - action: FetchingIncidents
      register: output1
-   - debug: var=output  
+   - debug: var=output1 
