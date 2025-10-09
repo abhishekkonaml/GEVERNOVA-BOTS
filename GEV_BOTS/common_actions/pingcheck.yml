@@ -1,6 +1,6 @@
 ---
  - set_fact:
-      hostname1: "{{ incident_hostname }}.gd.ge.com"
+      hostname1: "{{ incident_hostname }}.gdn.ge.com"
       #hostname1: "EMTwcSIDjakar01.gdn.ge.com"
  - name: Source Ping check 
    shell: ping -c 2 {{ hostname1 }}
