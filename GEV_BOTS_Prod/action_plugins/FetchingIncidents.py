@@ -24,7 +24,7 @@ class ActionModule(ActionBase):
            for status_ticket in fetch_status_tickets:
                if "Intelligeni Bot" not in status_ticket['comments_and_work_notes']:
                   incident_no=status_ticket['number']
-                  desc=status_ticket['desc']
+                  desc=status_ticket['description']
                   org_assignment_group=status_ticket['assignment_group']
                   coreobj=CoreApp()
                   response1=coreobj.coreapp_trigger(incident_no,desc)
