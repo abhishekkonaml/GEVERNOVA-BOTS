@@ -14,6 +14,7 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
            current_path=os.getcwd()+"\\failedcases.txt"
+           print(current_path)
            with open(current_path,'w') as file:
                 file.write(str({'status':'success'})+"\n")
            return {'status':'success','response':"written successfully"}
