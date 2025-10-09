@@ -33,7 +33,7 @@ class CoreApp:
             if response.status_code==201:
                return {'status': 'success','response': response.json()}
             else:
-                return {'status':'failed','response': response.json()}
+                return { 'status':'failed','response': response.json()}
         except Exception as e:
-          return {'status': 'failed' 'response': str(e) }
+          return { 'status': 'failed', 'response': str(e) }
     
