@@ -27,20 +27,20 @@
         - debug: var=UptimeNotesData
         - block:
             - debug: msg="Unable to fetch Uptime, Hence Reassigned...!"
-            - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attcahed <br> 3. Unable to fetch uptime. <br>[/code]'
-              register: worknotesupdate
-            - action: worknotesupdate  work_notes='{{ UptimeNotesData }}'
-              register: worknotesupdate
-            - debug: var=worknotesupdate
-            - name: save_output
-              set_fact:
-                aa_start_save: ''
-                botname: '{{bot_name}}'
-                retcode: 'MBRETCD002'
-                retdesc: 'Test Failure'
-                assignment_group: "{{assigngrp|default('')}}"
-                assign_to: "{{assignto|default('')}}"
-                zz_end_save: ''
+            - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attcahed <br> 3. Unable to fetch uptime. <br>[/code]'
+              register: update_notes
+            - action: update_notes incident='{{ incident_no }}'  work_notes='{{ UptimeNotesData }}'
+              register: update_notes
+            - debug: var=update_notes
+            #- name: save_output
+            #  set_fact:
+            #    aa_start_save: ''
+            #    botname: '{{bot_name}}'
+            #    retcode: 'MBRETCD002'
+            #    retdesc: 'Test Failure'
+            #    assignment_group: "{{assigngrp|default('')}}"
+            #    assign_to: "{{assignto|default('')}}"
+            #    zz_end_save: ''
             - action: reassignment_ticket incident='{{ incident_no }}'
               register: reassignment_ticket_register
             - debug: var=reassignment_ticket_register.stdout
@@ -55,20 +55,20 @@
               when: "(('ROM by reload' in version_status_register) or ('ROM by bus' in version_status_register) or ('ROM by power' in version_status_register) or ('ROM by Power' in version_status_register))"
             - debug:
                 msg: "update notes and close ticket"
-            - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime is greater than 30 minutes <br> 4. Device has passed all checks <br>[/code]'
-              register: worknotesupdate
+            - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime is greater than 30 minutes <br> 4. Device has passed all checks <br>[/code]'
+              register: update_notes
             #- action: worknotesupdate work_notes='[code]<h3>Device has passed all checks</h3>[/code]'
             #  register: worknotesupdate
-            - name: save_output
-              set_fact:
-                aa_start_save: ''
-                botname: '{{bot_name}}'
-                retcode: 'MBRETCD001'
-                retdesc: 'Test Success'
-                success_type: 't1'
-                assignment_group: "{{assigngrp|default('')}}"
-                assign_to: "{{assignto|default('')}}"
-                zz_end_save: ''
+            #- name: save_output
+            #  set_fact:
+            #    aa_start_save: ''
+            #    botname: '{{bot_name}}'
+            #    retcode: 'MBRETCD001'
+            #    retdesc: 'Test Success'
+            #    success_type: 't1'
+            #    assignment_group: "{{assigngrp|default('')}}"
+            #    assign_to: "{{assignto|default('')}}"
+            #    zz_end_save: ''
             - action: closeincident incident='{{ incident_no }}'
               register: close_ticket
             - meta: end_play
@@ -89,17 +89,17 @@
                    PingCounterValue: 6
                - debug:
                    msg: "reassign ticket"
-               - action: worknotesupdate  work_notes='[code]<h3>Summary:\n </h3>1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime of the device is less than 30 minutes. <br>[/code]'
-                 register: worknotesupdate
-               - name: save_output
-                 set_fact:
-                  aa_start_save: ''
-                  botname: '{{bot_name}}'
-                  retcode: 'MBRETCD002'
-                  retdesc: 'Test Failure'
-                  assignment_group: "{{assigngrp|default('')}}"
-                  assign_to: "{{assignto|default('')}}"
-                  zz_end_save: ''
+               - action: update_notes incident='{{ incident_no }}'  work_notes='[code]<h3>Summary:\n </h3>1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime of the device is less than 30 minutes. <br>[/code]'
+                 register: update_notes
+               # name: save_output
+               # set_fact:
+               #  aa_start_save: ''
+               #  botname: '{{bot_name}}'
+               #  retcode: 'MBRETCD002'
+               #  retdesc: 'Test Failure'
+               #  assignment_group: "{{assigngrp|default('')}}"
+               #  assign_to: "{{assignto|default('')}}"
+               #  zz_end_save: ''
                - action: reassignment_ticket incident='{{ incident_no }}'
                  register: reassignment_ticket_register
                - debug: var=reassignment_ticket_register.stdout
@@ -112,20 +112,20 @@
                    PingCounterValue: 3
                - debug:
                    msg: "close ticket"
-               - action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3>1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime is greater than 30 minutes <br> 4. Device has passed all checks <br>[/code]'
-                 register: worknotesupdate
+               - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3>1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime is greater than 30 minutes <br> 4. Device has passed all checks <br>[/code]'
+                 register: update_notes
                #- action: worknotesupdate work_notes='[code]<h3>Device has passed all checks</h3>[/code]'
                #  register: worknotesupdate
-               - name: save_output
-                 set_fact:
-                   aa_start_save: ''
-                   botname: '{{bot_name}}'
-                   retcode: 'MBRETCD001'
-                   retdesc: 'Test Success'
-                   success_type: 't1'
-                   assignment_group: "{{assigngrp|default('')}}"
-                   assign_to: "{{assignto|default('')}}"
-                   zz_end_save: ''
+               # name: save_output
+               # set_fact:
+               #   aa_start_save: ''
+               #   botname: '{{bot_name}}'
+               #   retcode: 'MBRETCD001'
+               #   retdesc: 'Test Success'
+               #   success_type: 't1'
+               #   assignment_group: "{{assigngrp|default('')}}"
+               #   assign_to: "{{assignto|default('')}}"
+               #   zz_end_save: ''
                - action: closeincident incident='{{ incident_no }}'
                  register: close_ticket
             

@@ -37,15 +37,15 @@
    #- action: worknotesupdate work_notes='{{ bot_notes }}'
    #  register: worknotesupdate
    
-   - name: save_output
-     set_fact:
-        aa_start_save: ''
-        botname: '{{bot_name}}'
-        retcode: 'MBRETCD002'
-        retdesc: 'Test Failure'
-        assignment_group: "{{assigngrp|default('')}}"
-        assign_to: "{{assignto|default('')}}"
-        zz_end_save: ''
+   # name: save_output
+   # set_fact:
+   #    aa_start_save: ''
+   #    botname: '{{bot_name}}'
+   #    retcode: 'MBRETCD002'
+   #    retdesc: 'Test Failure'
+   #    assignment_group: "{{assigngrp|default('')}}"
+   #    assign_to: "{{assignto|default('')}}"
+   #    zz_end_save: ''
    - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
      register: reassignment_ticket
    
