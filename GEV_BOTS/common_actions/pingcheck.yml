@@ -4,8 +4,8 @@
       hostname1: "EMTwcSIDjakar01.gdn.ge.com"
 
  - name: Retry block manually
-   vars:
-     total_retries: 3
+   set_fact:
+     total_retries: "{{ frequency }}"
  - block:
    - name: Attempt ping
      shell: ping -c 2 {{ hostname1 }}
