@@ -5,8 +5,8 @@ class CoreApp:
     def coreapp_trigger(self,ticketNo,desc,org_assignment_group):
         url = "https://bots.intelligeni.gevernova.net/bots/apis/resolve"
         proxies={
-          'http_proxy' : None,
-          'https_proxy' : None
+          'http' : None,
+          'https' : None
         }
         payload = json.dumps({
           "ticket": {
