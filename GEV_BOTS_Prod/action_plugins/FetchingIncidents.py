@@ -22,10 +22,10 @@ class ActionModule(ActionBase):
            incobj=Incidents()
            fetch_status_tickets=incobj.get_incident_details_by_query(query1)
            for status_ticket in fetch_status_tickets:
-               if "Intelligeni Bot" not in status['comments_and_work_notes']:
-                  incident_no=status['number']
-                  desc=status['desc']
-                  org_assignment_group=status['assignment_group']
+               if "Intelligeni Bot" not in status_ticket['comments_and_work_notes']:
+                  incident_no=status_ticket['number']
+                  desc=status_ticket['desc']
+                  org_assignment_group=status_ticket['assignment_group']
                   coreobj=CoreApp()
                   response1=coreobj.coreapp_trigger(incident_no,desc)
                   print(response1)
