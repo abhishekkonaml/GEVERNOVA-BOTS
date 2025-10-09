@@ -12,7 +12,7 @@
               [code] <h3> PING RESULTS: </h3> [/code]
               {{ ping_result1.stdout }}
  
- - action: update_notes incident='{{ incident_no }}' work_notes='{{ result.stdout }}'
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
  - name: wait when ping fails
    block:
    - name: wait
@@ -25,7 +25,7 @@
       result: |
               [code] <h3> PING RESULTS: </h3> [/code]
               {{ ping_result2.stdout }}
-   - action: update_notes incident='{{ incident_no }}' work_notes='{{ result.stdout }}'
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
    - block:
        - name: wait
          wait_for:
@@ -37,7 +37,7 @@
           result: |
               [code] <h3> PING RESULTS: </h3> [/code]
               {{ ping_result3.stdout }}
-       - action: update_notes incident='{{ incident_no }}' work_notes='{{ result.stdout }}'
+       - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
        - block:
           - set_fact:
              ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts hence reassigned"
