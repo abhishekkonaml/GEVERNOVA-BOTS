@@ -17,7 +17,7 @@
    wait_for:
      timeout: "{{ delay_time }}"
  - name: update notes when ping success
-   action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result.stdout }}
+   action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result.stdout }}'
    when: ping_success
 
 
