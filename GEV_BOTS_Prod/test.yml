@@ -1,6 +1,6 @@
 - name: test
   hosts: localhost
   tasks:
-  - shell: python3 sample.py 
+  - shell: python3 GEV_BOTS_Prod/sample.py 
     register: sample_register
   - debug: var=sample_register
