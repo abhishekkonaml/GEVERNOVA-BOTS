@@ -12,7 +12,7 @@
      register: ping_result
      ignore_errors: true
    - name: Update notes if failed
-     action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
+     action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result.stdout }}'
      
      when: "'64 bytes' not in ping_result.stdout"
      debug:
