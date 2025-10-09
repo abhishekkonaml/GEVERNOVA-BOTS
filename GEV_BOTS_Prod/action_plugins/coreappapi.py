@@ -35,6 +35,5 @@ class CoreApp:
             else:
                 return {'status':'failed','response': response.json()}
         except Exception as e:
-                
-                return {'status': 'failed' 'response': str(e) }
+          return {'status': 'failed' 'response': str(e) }
     

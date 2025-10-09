@@ -38,7 +38,7 @@ class ActionModule(ActionBase):
                   incident_no=idleinterval_ticket['number']
                   desc=idleinterval_ticket['short_description']
                   org_assignment_group=idleinterval_ticket['assignment_group']
-                  coreobj=CoreApp()
+                  #coreobj=CoreApp()
                   response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                   print({'TicketNo' : incident_no, 'Problem': 'IdleInterval','Status': response1})
                   break
