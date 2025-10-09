@@ -34,7 +34,7 @@ class ActionModule(ActionBase):
            query2="state=1^ORstate=2^descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^opened_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
            fetch_idleinterval_tickets=incobj.get_incident_details_by_query(query2)
            for idleinterval_ticket in fetch_idleinterval_tickets:
-               if "Intelligeni Bot" not in status['comments_and_work_notes']:
+               if "Intelligeni Bot" not in idleinterval_ticket['comments_and_work_notes']:
                   incident_no=idleinterval_ticket['number']
                   desc=idleinterval_ticket['short_description']
                   org_assignment_group=idleinterval_ticket['assignment_group']
