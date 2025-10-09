@@ -4,13 +4,63 @@
       hostname1: "EMTwcSIDjakar01.gdn.ge.com"
  - name: Source Ping check 
    shell: ping -c 2 {{ hostname1 }}
-   register: ping_result
+   register: ping_result1
    ignore_errors: true
- - debug: var=ping_result
+ - debug: var=ping_result1
+ - set_fact: 
+     result: |
+              [code] <h3> PING RESULTS: </h3> [/code]
+              {{ ping_result1.stdout }}
+ 
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ result.stdout }}'
  - name: wait when ping fails
-   when: "'64 bytes' not in ping_result.stdout"
-   wait_for:
+   block:
+   - name: wait
+     wait_for:
      timeout: "{{ delay_time }}"
+   - name: Source Ping check 
+     shell: ping -c 2 {{ hostname1 }}
+     register: ping_result2
+   - set_fact: 
+     result: |
+              [code] <h3> PING RESULTS: </h3> [/code]
+              {{ ping_result2.stdout }}
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ result.stdout }}'
+   - block:
+       - name: wait
+         wait_for:
+         timeout: "{{ delay_time }}"
+       - name: Source Ping check 
+         shell: ping -c 2 {{ hostname1 }}
+         register: ping_result3
+       - set_fact: 
+          result: |
+              [code] <h3> PING RESULTS: </h3> [/code]
+              {{ ping_result3.stdout }}
+       - action: update_notes incident='{{ incident_no }}' work_notes='{{ result.stdout }}'
+       - block:
+          - set_fact:
+             ping_failure_notes: "{{ hostname1 }} is unreachable after three attempts hence reassigned"
+
+          - debug:
+             msg: "Device is not reachable"
+          - set_fact:
+             bot_notes: |
+                  [code] 
+                    <h3>Summary: </h3> 
+                    1. Ping is unsuccessful after three attempts hence reassigned.
+                    [/code]
+          - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+            register: update_notes
+          - meta: end_play
+         when: "'64 bytes' not in ping_result3.stdout"
+
+      
+       
+     when: "'64 bytes' not in ping_result2.stdout"
+   when: "'64 bytes' not in ping_result1.stdout"
+  
+
 
 
 
@@ -18,11 +68,11 @@
 
     
 
- #- name: Source Ping check 
- #  shell: ping -c 2 {{ hostname1 }}
- #  register: ping_result_register
- #  until: ("64 bytes" in ping_result_register.stdout)
- #  retries: "{{ frequency }}"
- #  delay: "{{ delay_time }}"
- #  ignore_errors: true 
+ - name: Source Ping check 
+   shell: ping -c 2 {{ hostname1 }}
+   register: ping_result_register
+   until: ("64 bytes" in ping_result_register.stdout)
+   retries: "{{ frequency }}"
+   delay: "{{ delay_time }}"
+   ignore_errors: true 
  
