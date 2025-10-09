@@ -24,11 +24,11 @@
     - name: Increment retry counter
       set_fact:
         retry_count: "{{ retry_count | int + 1 }}"
-   register: final_ping
+   #register: final_ping
    until: "'64 bytes' in ping_result.stdout or retry_count >= frequency"
    retries: "{{ frequency }}"
    delay: "{{ delay_time }}"
- - debug: var=final_ping
+ - debug: var=ping_result
 
     
 
@@ -42,7 +42,7 @@
  - set_fact: 
     ping_result_op: |
               [code] <h3> PING RESULTS: </h3> [/code]
-              {{ final_ping.stdout }}
+              {{ ping_result.stdout }}
  - debug: var=ping_result
  - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result_op }}'
    register: update_notes
