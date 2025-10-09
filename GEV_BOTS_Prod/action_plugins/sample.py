@@ -13,7 +13,7 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-           current_path=os.getcwd()+"\\failedcases.txt"
+           current_path="D:\\GEVernova_Ansible\\GEV_BOTS_Prod"+"\\failedcases.txt"
            print(current_path)
            with open(current_path,'w') as file:
                 file.write(str({'status':'success'})+"\n")
