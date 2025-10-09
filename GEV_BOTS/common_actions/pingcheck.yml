@@ -4,15 +4,21 @@
       hostname1: "EMTwcSIDjakar01.gdn.ge.com"
  - name: Source Ping check 
    shell: ping -c 2 {{ hostname1 }}
-   register: ping_result_register
+   register: ping_result
    ignore_errors: true
- - set_fact:
-      result: "{{ ping_result_register.stdout }}"
- - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
+ - name: check if ping succes
+   set_fact:
+      ping_success: "{{ '64 bytes' in (ping_result.stdout | default('')) }}"
+ - name: update notes for failed attempt
+   action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result.stdout }}'
+   when: not ping_success
  - name: wait when ping fails
-   when: "'64 bytes' not in result" 
+   when: not ping_success and (attempt < 3)
    wait_for:
      timeout: "{{ delay_time }}"
+ - name: update notes when ping success
+   action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result.stdout }}
+   when: ping_success
 
 
 

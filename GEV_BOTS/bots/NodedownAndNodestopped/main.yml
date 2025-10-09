@@ -21,15 +21,17 @@
       when: "('WA' != DevicefourthandfifthLetter) or ('WG' != DevicefourthandfifthLetter) or ('WD' != DevicefourthandfifthLetter) or ('WN' != DevicefourthandfifthLetter)"
     
     - debug: var=Time
+    - set_fact:
+        ping_result: {}
+        ping_success: false
     - name: Ping the device
       include_tasks: common_actions/pingcheck.yml
       vars: 
        delay_time: "{{ Time }}"
       loop: "{{ range(1, 4) | list}}"
       loop_control:
-         loop_var: item
-      when: result is not defined or "'64 bytes' not in result"
-       
+         loop_var: attempt
+      when: not ping_success       
     - name: login to device
       include_tasks: bots/NodedownAndNodestopped/commandsThirdCheck.yml
       
