@@ -2,21 +2,48 @@
  - set_fact:
       hostname1: "{{ incident_hostname }}.gdn.ge.com"
 
-    
+ - name: Set initial retry counter
+   set_fact:
+    retry_count: 0
 
- - name: Source Ping check 
-   shell: ping -c 2 {{ hostname1 }}
-   register: ping_result_register
-   until: ("64 bytes" in ping_result_register.stdout)
+ - name: Ping until success with intermediate action
+   block:
+    - name: Ping the host
+      shell: ping -c 2 {{ hostname1 }}
+      register: ping_result
+      ignore_errors: true
+
+    - name: Do something between retries (e.g., log or wait)
+      block:   
+        - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result.stdout }}'
+          register: update_notes
+
+      when: "'64 bytes' not in ping_result.stdout"
+
+    - name: Increment retry counter
+      set_fact:
+        retry_count: "{{ retry_count | int + 1 }}"
+   register: final_ping
+   until: "'64 bytes' in ping_result.stdout or retry_count >= frequency"
    retries: "{{ frequency }}"
    delay: "{{ delay_time }}"
-   ignore_errors: true
+ - debug: var=final_ping
+
+    
+
+ #- name: Source Ping check 
+ #  shell: ping -c 2 {{ hostname1 }}
+ #  register: ping_result_register
+ #  until: ("64 bytes" in ping_result_register.stdout)
+ #  retries: "{{ frequency }}"
+ #  delay: "{{ delay_time }}"
+ #  ignore_errors: true 
  - set_fact: 
-    ping_result: |
+    ping_result_op: |
               [code] <h3> PING RESULTS: </h3> [/code]
-              {{ ping_result_register.stdout }}
+              {{ final_ping.stdout }}
  - debug: var=ping_result
- - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result }}'
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_result_op }}'
    register: update_notes
  #- action: worknotesupdate work_notes='{{ ping_result }}'
    
@@ -50,5 +77,5 @@
      register: reassignment_ticket
    
    - meta: end_play
-   when: "'64 bytes' not in ping_result" 
+   when: "'64 bytes' not in ping_result_op" 
  
