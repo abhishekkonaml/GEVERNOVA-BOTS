@@ -27,11 +27,14 @@
         - debug: var=UptimeNotesData
         - block:
             - debug: msg="Unable to fetch Uptime, Hence Reassigned...!"
-            - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attcahed <br> 3. Unable to fetch uptime. <br>[/code]'
-              register: update_notes
             - action: update_notes incident='{{ incident_no }}'  work_notes='{{ UptimeNotesData }}'
               register: update_notes
-            - debug: var=update_notes
+            - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attcahed <br> 3. Unable to fetch uptime. <br>[/code]'
+              register: update_notes
+            
+            - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
+              register: update_notes
+            -
             #- name: save_output
             #  set_fact:
             #    aa_start_save: ''
@@ -92,6 +95,8 @@
                - debug:
                    msg: "reassign ticket"
                - action: update_notes incident='{{ incident_no }}'  work_notes='[code]<h3>Summary:\n </h3>1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime of the device is less than 30 minutes. <br>[/code]'
+                 register: update_notes
+               - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
                  register: update_notes
                # name: save_output
                # set_fact:
