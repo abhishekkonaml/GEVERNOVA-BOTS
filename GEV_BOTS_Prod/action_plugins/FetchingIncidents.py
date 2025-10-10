@@ -37,7 +37,7 @@ class ActionModule(ActionBase):
            print(fetch_idleinterval_tickets)
            print("=-=-=---=-00-----------------")
            for idleinterval_ticket in fetch_idleinterval_tickets:
-               if "Intelligeni Bot" not in idleinterval_ticket['comments_and_work_notes'] and if "GEVINC0055402" == idleinterval_ticket['number']:
+               if "Intelligeni Bot" not in idleinterval_ticket['comments_and_work_notes'] and  "GEVINC0055402" == idleinterval_ticket['number']:
                   incident_no=idleinterval_ticket['number']
                   desc=idleinterval_ticket['short_description']
                   org_assignment_group=idleinterval_ticket['assignment_group']
