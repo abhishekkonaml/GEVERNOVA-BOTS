@@ -4,11 +4,13 @@
    vars:
       #incident_no: "{{ fetch_incident_no }}"
       incident_no: "{{ ticketNo }}"
+
       
       #incident_no: "GEVINC123"
       
    tasks:
    # Fetching Incident Details
+   - debug: var=Vernova_passowrd
    - name: Bot Execution started
      action: Incident_details_extraction incident_no='{{ incident_no }}'
      register: fetched_details

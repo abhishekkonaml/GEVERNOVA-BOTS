@@ -57,6 +57,8 @@
                 msg: "update notes and close ticket"
             - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime is greater than 30 minutes <br> 4. Device has passed all checks <br>[/code]'
               register: update_notes
+            - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Closing the incident </h3>[/code]'
+              register: update_notes
             #- action: worknotesupdate work_notes='[code]<h3>Device has passed all checks</h3>[/code]'
             #  register: worknotesupdate
             #- name: save_output
@@ -113,6 +115,8 @@
                - debug:
                    msg: "close ticket"
                - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3>1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime is greater than 30 minutes <br> 4. Device has passed all checks <br>[/code]'
+                 register: update_notes
+               - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Closing the incident </h3>[/code]'
                  register: update_notes
                #- action: worknotesupdate work_notes='[code]<h3>Device has passed all checks</h3>[/code]'
                #  register: worknotesupdate
