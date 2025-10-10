@@ -33,7 +33,7 @@ class ActionModule(ActionBase):
                status1=''
                if "Intelligeni Bot" in status_ticket['comments_and_work_notes']:
                    bot_touched_count+=1
-                   flag=1
+                   
                    if "closing the incident" in status_ticket['comments_and_work_notes']:
                       closed+=1
                    for comments in status_ticket['comments_and_work_notes'].split("\n\n"):
@@ -43,8 +43,7 @@ class ActionModule(ActionBase):
                            status1=comments
                        elif "closing the incident" in comments:
                            status1=comments
-                       else:
-                           status1=''
+                       
                    statusalert['StatusAlert'].append({'Number': status_ticket['number'], 'Summary': summary, 'Status': status1})
                else:
                   bot_not_touched_count+=1
