@@ -45,7 +45,7 @@ class ActionModule(ActionBase):
                            status1=comments
                        
                    statusalert['StatusAlert'].append({'Number': status_ticket['number'], 'Summary': summary, 'Status': status1})
-               else:
+               if "Intelligeni Bot" not in status_ticket['comments_and_work_notes']:
                   bot_not_touched_count+=1
                
            return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Bot not touched data': bot_not_touched_count,'Closed': closed,'StatusAlert':statusalert['StatusAlert']}   }
