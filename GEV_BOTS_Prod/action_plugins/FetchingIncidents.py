@@ -31,7 +31,7 @@ class ActionModule(ActionBase):
                   
                   response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                   print({'TicketNo' : incident_no, 'Problem': 'StatusAlert', 'Status': response1})
-           query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^opened_atONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()"
+           query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()"
            fetch_idleinterval_tickets=incobj.get_incident_details_by_query(query2)
            for idleinterval_ticket in fetch_idleinterval_tickets:
                if "Intelligeni Bot" not in idleinterval_ticket['comments_and_work_notes']:
