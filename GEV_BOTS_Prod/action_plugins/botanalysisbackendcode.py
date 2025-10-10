@@ -18,7 +18,7 @@ class ActionModule(ActionBase):
            bot_touched_count=0
            bot_not_touched_count=0
            closed=0
-           
+           bot_not_touched_tickets=[]
            query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^opened_atONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()^ORopened_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
            fetch_status_tickets=incobj.get_incident_details_by_query(query1)
            
@@ -47,8 +47,9 @@ class ActionModule(ActionBase):
                    statusalert['StatusAlert'].append({'Number': status_ticket['number'], 'Summary': summary, 'Status': status1})
                if "Intelligeni Bot" not in status_ticket['comments_and_work_notes']:
                   bot_not_touched_count+=1
+                  bot_not_touched_tickets.append(status_ticket['number'])
                
-           return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Bot not touched data': bot_not_touched_count,'Closed': closed,'StatusAlert':statusalert['StatusAlert']}   }
+           return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Bot not touched data': {'count': bot_not_touched_count,'tickets':bot_not_touched_tickets},'Closed': closed,'StatusAlert':statusalert['StatusAlert']}   }
                   
 
 
