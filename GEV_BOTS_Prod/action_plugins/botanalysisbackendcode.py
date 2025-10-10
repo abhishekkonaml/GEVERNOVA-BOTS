@@ -39,7 +39,7 @@ class ActionModule(ActionBase):
                    for comments in status_ticket['comments_and_work_notes'].split("\n\n"):
                        if "Summary" in comments:
                            summary=comments
-                       if "hence reassigned" in comments:
+                       if "hence reassigned" in comments and "Summary" not in comments:
                            status1=comments
                        elif "closing the incident" in comments:
                            status1=comments
