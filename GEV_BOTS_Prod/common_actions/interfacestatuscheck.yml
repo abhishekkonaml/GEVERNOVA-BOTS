@@ -28,6 +28,9 @@
                   [/code]
   - debug:    
       msg: "Interface is down hence reassigned"
+  - action: update_notes incident='{{ incident_no }}' work_notes='<h3> Interface is down hence reassigned. </h3>'
+    register: update_notes
+  - debug: var=update_notes
   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
     register: update_notes
   - debug: var=update_notes

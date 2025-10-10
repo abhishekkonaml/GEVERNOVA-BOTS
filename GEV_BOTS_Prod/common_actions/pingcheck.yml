@@ -25,6 +25,8 @@
  - block:
    - debug:
        msg: "Device is not reachable"
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ ping_failure_notes }}'
+     register: update_notes
    - set_fact:
         bot_notes: |
                   [code] 
