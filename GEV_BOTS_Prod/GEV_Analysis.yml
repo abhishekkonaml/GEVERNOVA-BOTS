@@ -1,0 +1,8 @@
+---
+ - name: Analysis Script
+   hosts: localhost
+   tasks:
+   - debug: msg="Analysis playbooks triggered"
+   - action: botanalysisbackendcode
+     register: output1
+   - debug: var=output1 
