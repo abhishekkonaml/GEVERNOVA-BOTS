@@ -34,7 +34,7 @@ class ActionModule(ActionBase):
               return {'status':'failed','response': 'Failed to fetch the Status Alert tickets'}
            if "Failed" in fetch_down_tickets:
               return {'status':'failed','response': 'Failed to fetch the Idle interval tickets'}
-           statusalert={'StatusAlert':{'status_count':'','tickets':[]}}
+           statusalert={}
            downalert={'DownAlert':{'closed_count':'','tickets':[]}}
 
            for down_ticket in fetch_down_tickets:
@@ -92,7 +92,7 @@ class ActionModule(ActionBase):
                   status_alert_not_touched+=1
                   bot_not_touched_tickets.append({'Number': status_ticket['number'],'OpenedAt': status_ticket['sys_created_on'],'ShortDescription':status_ticket['short_description']})
            statusalert['StatusAlert']['touched_count']=status_alert 
-           statusalert['StatusAlert']['not_touched_count']=status_alert 
+           statusalert['StatusAlert']['not_touched_count']=status_alert_not_touched
            return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Closed': closed, 'Bot not touched data': {'count': bot_not_touched_count,'tickets':bot_not_touched_tickets},'StatusAlert':statusalert['StatusAlert'],'IdleIntervalAlert': downalert['DownAlert']}   }
                   
 
