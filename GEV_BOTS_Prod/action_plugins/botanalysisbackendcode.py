@@ -29,7 +29,8 @@ class ActionModule(ActionBase):
            fetch_status_tickets=incobj.get_incident_details_by_query(query1)
            fetch_down_tickets=incobj.get_incident_details_by_query(query2)
 
-           
+           print(len(fetch_down_tickets))
+           print("=-="*10)
 
            if "Failed" in fetch_status_tickets:
               return {'status':'failed','response': 'Failed to fetch the Status Alert tickets'}
