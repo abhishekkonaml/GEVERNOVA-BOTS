@@ -19,6 +19,7 @@ class ActionModule(ActionBase):
            bot_not_touched_count=0
            closed=0
            status_alert=0
+           status_alert_not_touched=0
            down_alert=0
            bot_not_touched_tickets=[]
            
@@ -27,9 +28,8 @@ class ActionModule(ActionBase):
            fetch_status_tickets=incobj.get_incident_details_by_query(query1)
            fetch_down_tickets=incobj.get_incident_details_by_query(query2)
 
-           print(len(fetch_status_tickets))
-           print("=-=-"*25)
            
+
            if "Failed" in fetch_status_tickets:
               return {'status':'failed','response': 'Failed to fetch the Status Alert tickets'}
            if "Failed" in fetch_down_tickets:
@@ -89,8 +89,10 @@ class ActionModule(ActionBase):
                    statusalert['StatusAlert']['tickets'].append({'Number': status_ticket['number'], 'Summary': summary, 'Status': status1,'OpenedAt': status_ticket['sys_created_on']})
                if "Intelligeni Bot" not in status_ticket['comments_and_work_notes']:
                   bot_not_touched_count+=1
+                  status_alert_not_touched+=1
                   bot_not_touched_tickets.append({'Number': status_ticket['number'],'OpenedAt': status_ticket['sys_created_on'],'ShortDescription':status_ticket['short_description']})
-           statusalert['StatusAlert']['status_count']=status_alert 
+           statusalert['StatusAlert']['touched_count']=status_alert 
+           statusalert['StatusAlert']['not_touched_count']=status_alert 
            return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Closed': closed, 'Bot not touched data': {'count': bot_not_touched_count,'tickets':bot_not_touched_tickets},'StatusAlert':statusalert['StatusAlert'],'IdleIntervalAlert': downalert['DownAlert']}   }
                   
 
