@@ -29,8 +29,7 @@ class ActionModule(ActionBase):
            fetch_status_tickets=incobj.get_incident_details_by_query(query1)
            fetch_down_tickets=incobj.get_incident_details_by_query(query2)
 
-           print(len(fetch_down_tickets))
-           print("=-="*10)
+           
 
            if "Failed" in fetch_status_tickets:
               return {'status':'failed','response': 'Failed to fetch the Status Alert tickets'}
@@ -49,6 +48,8 @@ class ActionModule(ActionBase):
                if "Intelligeni Bot" in down_ticket['comments_and_work_notes']:
                    bot_touched_count+=1
                    down_alert+=1
+                   print(down_ticket['assigned_to'])
+                   print("=-"*25)
                    if "504018887" in down_ticket['assigned_to']:
                       closed+=1
                    
