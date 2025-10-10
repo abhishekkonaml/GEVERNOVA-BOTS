@@ -53,7 +53,7 @@ class ActionModule(ActionBase):
                    downalert['DownAlert']['tickets'].append({'Number': down_ticket['number'], 'Summary': summary, 'Status': status1,'OpenedAt': down_ticket['sys_created_on']})
                if "Intelligeni Bot" not in down_ticket['comments_and_work_notes']:
                   bot_not_touched_count+=1
-                  bot_not_touched_tickets.append({'Number': down_ticket['number'],'OpenedAt': down_ticket['sys_created_on'],'ShortDescription':down_ticket['short_description'])
+                  bot_not_touched_tickets.append({'Number': down_ticket['number'],'OpenedAt': down_ticket['sys_created_on'],'ShortDescription':down_ticket['short_description']})
 
 
 
