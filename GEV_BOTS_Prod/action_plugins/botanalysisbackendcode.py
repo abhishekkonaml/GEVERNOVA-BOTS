@@ -40,9 +40,9 @@ class ActionModule(ActionBase):
                if "Intelligeni Bot" in down_ticket['comments_and_work_notes']:
                    bot_touched_count+=1
                    down_alert+=1
-                   if "Closing the incident" in status_ticket['comments_and_work_notes']:
+                   if "Closing the incident" in down_ticket['comments_and_work_notes']:
                       closed+=1
-                   for comments in status_ticket['comments_and_work_notes'].split("\n\n"):
+                   for comments in down_ticket['comments_and_work_notes'].split("\n\n"):
                        if "Summary" in comments:
                            summary=comments
                        if "hence reassigned" in comments and "Summary" not in comments:
