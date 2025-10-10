@@ -21,6 +21,7 @@ class ActionModule(ActionBase):
            status_alert=0
            status_alert_not_touched=0
            down_alert=0
+           down_alert_not_touched=0
            bot_not_touched_tickets=[]
            
            query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^opened_atONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()^ORopened_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
@@ -37,7 +38,7 @@ class ActionModule(ActionBase):
 
 
            statusalert={'StatusAlert':{'touched_count':'','not_touched_count':'','tickets':[] }}
-           downalert={'DownAlert':{'closed_count':'','tickets':[]}}
+           downalert={'DownAlert':{'touched_count':'','not_touched_count':'','tickets':[]}}
 
            for down_ticket in fetch_down_tickets:
                
@@ -49,9 +50,7 @@ class ActionModule(ActionBase):
                    down_alert+=1
                    if "504018887" in down_ticket['assigned_to']:
                       closed+=1
-                   print("=-=-0==============================================")
-                   print(down_ticket['comments_and_work_notes'])
-                   print("=====================================================")
+                   
                    for comments in down_ticket['comments_and_work_notes'].split("\n\n"):
                        if "Summary" in comments:
                            
@@ -64,6 +63,7 @@ class ActionModule(ActionBase):
                    downalert['DownAlert']['tickets'].append({'Number': down_ticket['number'], 'Summary': summary2, 'Status': status2,'OpenedAt': down_ticket['sys_created_on']})
                if "Intelligeni Bot" not in down_ticket['comments_and_work_notes']:
                   bot_not_touched_count+=1
+                  down_alert_not_touched+=1
                   bot_not_touched_tickets.append({'Number': down_ticket['number'],'OpenedAt': down_ticket['sys_created_on'],'ShortDescription':down_ticket['short_description']})
 
 
@@ -95,6 +95,8 @@ class ActionModule(ActionBase):
                   bot_not_touched_tickets.append({'Number': status_ticket['number'],'OpenedAt': status_ticket['sys_created_on'],'ShortDescription':status_ticket['short_description']})
            statusalert['StatusAlert']['touched_count']=status_alert 
            statusalert['StatusAlert']['not_touched_count']=status_alert_not_touched 
+           downalert['DownAlert']['touched_count']=down_alert
+           downalert['DownAlert']['not_touched_count']=down_alert_not_touched
            return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Closed': closed, 'Bot not touched data': {'count': bot_not_touched_count,'tickets':bot_not_touched_tickets},'StatusAlert':statusalert['StatusAlert'],'IdleIntervalAlert': downalert['DownAlert']}   }
                   
 
