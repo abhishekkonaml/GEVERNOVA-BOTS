@@ -30,7 +30,7 @@ class ActionModule(ActionBase):
            if "Failed" in fetch_down_tickets:
               return {'status':'failed','response': 'Failed to fetch the Idle interval tickets'}
            statusalert={'StatusAlert':{'status_count':'','tickets':[]}}
-           downalert={'DownAlert':{'status_count':'','tickets':[]}}
+           downalert={'DownAlert':{'closed_count':'','tickets':[]}}
 
            for down_ticket in fetch_down_tickets:
                

@@ -23,15 +23,16 @@ class ActionModule(ActionBase):
            #query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^state=1^ORstate=2"
            
            fetch_status_tickets=incobj.get_incident_details_by_query(query1)
-           for status_ticket in fetch_status_tickets:
-               if "Intelligeni Bot" not in status_ticket['comments_and_work_notes']:
-                  incident_no=status_ticket['number']
-                  desc=status_ticket['short_description']
-                  org_assignment_group=status_ticket['assignment_group']
-                  
-                  response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
-                  print({'TicketNo' : incident_no, 'Problem': 'StatusAlert', 'Status': response1})
-           #query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()"
+           if type(fetch_status_tickets)==list:
+              for status_ticket in fetch_status_tickets:
+                  if "Intelligeni Bot" not in status_ticket['comments_and_work_notes']:
+                     incident_no=status_ticket['number']
+                     desc=status_ticket['short_description']
+                     org_assignment_group=status_ticket['assignment_group']
+                     
+                     response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
+                     print({'TicketNo' : incident_no, 'Problem': 'StatusAlert', 'Status': response1})
+              #query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()"
            query2="state=2^ORstate=1^descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
            fetch_idleinterval_tickets=incobj.get_incident_details_by_query(query2)
            print(fetch_idleinterval_tickets)
