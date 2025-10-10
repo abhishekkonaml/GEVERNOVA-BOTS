@@ -10,7 +10,11 @@
       
    tasks:
    # Fetching Incident Details
-   
+   - name: fetch cred
+     debug:
+       msg: 
+        - "username: {{ lookup('env', 'API_USERNAME') }}"
+        - "password: {{ lookup('env', 'API_PASSWORD') }}"
    - name: Bot Execution started
      action: Incident_details_extraction incident_no='{{ incident_no }}'
      register: fetched_details
