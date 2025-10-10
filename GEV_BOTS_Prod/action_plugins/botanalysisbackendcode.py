@@ -30,26 +30,26 @@ class ActionModule(ActionBase):
                
                flag=0
                summary=''
-               status=''
+               status1=''
                if "Intelligeni Bot" in status_ticket['comments_and_work_notes']:
                    bot_touched_count+=1
                    flag=1
+                   if "closing the incident" in status_ticket['comments_and_work_notes']:
+                      closed+=1
+                   for comments in status_ticket['comments_and_work_notes'].split("\n\n"):
+                       if "Summary" in comments:
+                           summary=comments
+                       if "hence reassigned" in comments:
+                           status1=comments
+                       elif "closing the incident" in comments:
+                           status1=comments
+                       else:
+                           status1=''
+                   statusalert['StatusAlert'].append({'Number': status_ticket['number'], 'Summary': summary, 'Status': status1})
                if flag==0:
                   bot_not_touched_count+=1
-               if "closing the incident" in status_ticket['comments_and_work_notes']:
-                   closed+=1
-               for comments in status_ticket['comments_and_work_notes'].split("\n\n"):
-                   if "Summary" in comments:
-                      summary=comments
-
-                   if "hence reassigned" in comments:
-                       status=comments
-                   elif "closing the incident" in comments:
-                        status=comments
-                   else:
-                        status=''
-               statusalert['StatusAlert'].append({'Number': status_ticket['number'], 'Summary': summary, 'Status': status})
-           return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Bot not touched data': bot_not_touched_count,'StatusAlert':statusalert['StatusAlert']}   }
+               
+           return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Bot not touched data': bot_not_touched_count,'Closed': closed,'StatusAlert':statusalert['StatusAlert']}   }
                   
 
 
