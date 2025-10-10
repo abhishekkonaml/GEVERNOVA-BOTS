@@ -44,13 +44,13 @@ class ActionModule(ActionBase):
                       closed+=1
                    for comments in down_ticket['comments_and_work_notes'].split("\n\n"):
                        if "Summary" in comments:
-                           summary=comments
+                           summary2=comments
                        if "hence reassigned" in comments and "Summary" not in comments:
-                           status1=comments
+                           status2=comments
                        elif "Closing the incident" in comments:
-                           status1=comments
+                           status2=comments
                        
-                   downalert['DownAlert']['tickets'].append({'Number': down_ticket['number'], 'Summary': summary, 'Status': status1,'OpenedAt': down_ticket['sys_created_on']})
+                   downalert['DownAlert']['tickets'].append({'Number': down_ticket['number'], 'Summary': summary2, 'Status': status2,'OpenedAt': down_ticket['sys_created_on']})
                if "Intelligeni Bot" not in down_ticket['comments_and_work_notes']:
                   bot_not_touched_count+=1
                   bot_not_touched_tickets.append({'Number': down_ticket['number'],'OpenedAt': down_ticket['sys_created_on'],'ShortDescription':down_ticket['short_description']})
