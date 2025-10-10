@@ -13,6 +13,8 @@
         msg: "Unable to connect to host end the play"
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to connect to device <br>[/code]'
       register: update_notes
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
+      register: update_notes
     #- action: worknotesupdate work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to connect to device <br>[/code]'
     #  register: worknotesupdate
     # name: save_output
@@ -57,6 +59,8 @@
     - debug: 
         msg: "Unable to execute showlog end play"
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to check logs of the device.<br>[/code]'
+      register: update_notes
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
       register: update_notes
     #- name: save_output
     #  set_fact:
