@@ -47,9 +47,7 @@ class ActionModule(ActionBase):
                    down_alert+=1
                    if "504018887" in down_ticket['assigned_to']:
                       closed+=1
-                   print("=-=-0==============================================")
-                   print(down_ticket['comments_and_work_notes'])
-                   print("=====================================================")
+                   
                    for comments in down_ticket['comments_and_work_notes'].split("\n\n"):
                        if "Summary" in comments:
                            
