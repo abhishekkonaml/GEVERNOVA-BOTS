@@ -28,7 +28,7 @@ class ActionModule(ActionBase):
            statusalert={'StatusAlert':[]}
            for status_ticket in fetch_status_tickets:
                
-               flag=0
+               
                summary=''
                status1=''
                if "Intelligeni Bot" in status_ticket['comments_and_work_notes']:
@@ -46,7 +46,7 @@ class ActionModule(ActionBase):
                        else:
                            status1=''
                    statusalert['StatusAlert'].append({'Number': status_ticket['number'], 'Summary': summary, 'Status': status1})
-               if flag==0:
+               else:
                   bot_not_touched_count+=1
                
            return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Bot not touched data': bot_not_touched_count,'Closed': closed,'StatusAlert':statusalert['StatusAlert']}   }
