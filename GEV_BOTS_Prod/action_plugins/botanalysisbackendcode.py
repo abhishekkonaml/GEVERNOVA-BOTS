@@ -30,7 +30,7 @@ class ActionModule(ActionBase):
            if "Failed" in fetch_down_tickets:
               return {'status':'failed','response': 'Failed to fetch the Idle interval tickets'}
            statusalert={'StatusAlert':{'status_count':'','tickets':[]}}
-           downalert={'DownAlert':{'status_count':'','tickets':[]}}
+           downalert={'DownAlert':{'closed_count':'','tickets':[]}}
 
            for down_ticket in fetch_down_tickets:
                
@@ -40,17 +40,21 @@ class ActionModule(ActionBase):
                if "Intelligeni Bot" in down_ticket['comments_and_work_notes']:
                    bot_touched_count+=1
                    down_alert+=1
-                   if "Closing the incident" in down_ticket['comments_and_work_notes']:
+                   if "504018887" in down_ticket['assigned_to']:
                       closed+=1
+                   print("=-=-0==============================================")
+                   print(down_ticket['comments_and_work_notes'])
+                   print("=====================================================")
                    for comments in down_ticket['comments_and_work_notes'].split("\n\n"):
                        if "Summary" in comments:
-                           summary=comments
+                           
+                           summary2=comments
                        if "hence reassigned" in comments and "Summary" not in comments:
-                           status1=comments
+                           status2=comments
                        elif "Closing the incident" in comments:
-                           status1=comments
+                           status2=comments
                        
-                   downalert['DownAlert']['tickets'].append({'Number': down_ticket['number'], 'Summary': summary, 'Status': status1,'OpenedAt': down_ticket['sys_created_on']})
+                   downalert['DownAlert']['tickets'].append({'Number': down_ticket['number'], 'Summary': summary2, 'Status': status2,'OpenedAt': down_ticket['sys_created_on']})
                if "Intelligeni Bot" not in down_ticket['comments_and_work_notes']:
                   bot_not_touched_count+=1
                   bot_not_touched_tickets.append({'Number': down_ticket['number'],'OpenedAt': down_ticket['sys_created_on'],'ShortDescription':down_ticket['short_description']})
@@ -82,7 +86,7 @@ class ActionModule(ActionBase):
                   bot_not_touched_count+=1
                   bot_not_touched_tickets.append({'Number': status_ticket['number'],'OpenedAt': status_ticket['sys_created_on'],'ShortDescription':status_ticket['short_description']})
            statusalert['StatusAlert']['status_count']=status_alert 
-           return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Bot not touched data': {'count': bot_not_touched_count,'tickets':bot_not_touched_tickets},'Closed': closed,'StatusAlert':statusalert['StatusAlert']}   }
+           return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Closed': closed, 'Bot not touched data': {'count': bot_not_touched_count,'tickets':bot_not_touched_tickets},'StatusAlert':statusalert['StatusAlert'],'IdleIntervalAlert': downalert['DownAlert']}   }
                   
 
 
