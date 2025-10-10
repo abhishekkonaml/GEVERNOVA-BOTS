@@ -21,10 +21,15 @@ class ActionModule(ActionBase):
            status_alert=0
            down_alert=0
            bot_not_touched_tickets=[]
+           
            query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^opened_atONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()^ORopened_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
            query2="descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^ORsys_created_onONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()"
            fetch_status_tickets=incobj.get_incident_details_by_query(query1)
            fetch_down_tickets=incobj.get_incident_details_by_query(query2)
+
+           print(len(fetch_status_tickets))
+           print("=-=-"*25)
+           
            if "Failed" in fetch_status_tickets:
               return {'status':'failed','response': 'Failed to fetch the Status Alert tickets'}
            if "Failed" in fetch_down_tickets:
