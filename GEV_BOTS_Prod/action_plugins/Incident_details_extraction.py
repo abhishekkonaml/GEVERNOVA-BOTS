@@ -101,4 +101,4 @@ class ActionModule(ActionBase):
             else:
                return {'status':'failed','reason': 'Incident not found'}
         except Exception as e:
-           return  {'status':'error','reason': 'Incident Parsing Error'}
+           return  {'status':'error','reason': 'Incident Parsing Error - {}'.format(str(e))}
