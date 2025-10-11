@@ -23,7 +23,8 @@
           with_items: "{{ version_status_register.split('\n') }}"
           when: "'processor is' in item"
           
-        - debug: var=ReloadUptimeResult
+        - debug: 
+           var=ReloadUptimeResult
           
         #- debug: var=UptimeNotesData
         - block:
