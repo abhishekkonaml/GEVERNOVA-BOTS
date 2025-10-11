@@ -1,0 +1,39 @@
+
+- set_fact:
+    command2: "sh cdp nei {{ incident_interface }} detail | in Device"
+
+- name: Checking for bypassing B side validation
+  action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command2 }}'
+  register: bypass_result_register
+- set_fact:
+    bypass_result: "{{ bypass_result_register.Output }}"
+- debug: var=bypass_result
+- set_fact:
+    final_status: "Bypass"
+  when: "( bypass_result == '' ) or ( 'entries displayed : 0' in bypass_result ) or ( 'invalid' in bypass_result )"
+- block:
+  - set_fact:
+      temp: "{{ bypass_result.split(':') }}"
+  - set_fact: 
+      final_status: "Bypass"
+    when: "('wd' in temp[1]) or ('wa' in temp[1]) or ('wg' in temp[1]) or ('wn' in temp[1])"
+  - set_fact:
+       input_notes: |
+        [code] <h3> Bypassing the Bside validation since B is an Access Point . </h3>[/code]
+  when: "(bypass_result != '') and ('entries displayed : 0' not in bypass_result) and ( 'invalid' not in bypass_result )"
+- debug: var=final_status
+
+- block:
+  - debug:
+      msg: "Closing the ticket"
+  - name: save_output
+    set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD001'
+        retdesc: 'Test Success'
+        success_type: 't1'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+  when: "'Bypass' in final_status"
