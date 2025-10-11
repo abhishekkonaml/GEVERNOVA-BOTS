@@ -1,5 +1,6 @@
 ---
     - block:
+        - debug: var=version_status_register
         - name: Fetch Uptime Data When Uptime Is Exists In Uptime Data
           set_fact:
            ReloadUptimeResult: "{{ (version_status_register | regex_search('uptime is [0-9]{,3}\\s\\w+')).lower() }}"
@@ -24,9 +25,10 @@
           
         - debug: var=ReloadUptimeResult
           
-        - debug: var=UptimeNotesData
+        #- debug: var=UptimeNotesData
         - block:
-            - debug: msg="Unable to fetch Uptime, Hence Reassigned...!"
+            - debug: 
+                msg: "Unable to fetch Uptime, Hence Reassigned...!"
             - action: update_notes incident='{{ incident_no }}'  work_notes='{{ UptimeNotesData }}'
               register: update_notes
             - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attcahed <br> 3. Unable to fetch uptime. <br>[/code]'
@@ -34,7 +36,7 @@
             
             - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
               register: update_notes
-            -
+            
             #- name: save_output
             #  set_fact:
             #    aa_start_save: ''
@@ -46,7 +48,7 @@
             #    zz_end_save: ''
             - action: reassignment_ticket incident='{{ incident_no }}'
               register: reassignment_ticket_register
-            - debug: var=reassignment_ticket_register.stdout
+            - debug: var=reassignment_ticket_register
             - meta: end_play
 
           when: ReloadUptimeResult is not defined
@@ -109,7 +111,7 @@
                #  zz_end_save: ''
                - action: reassignment_ticket incident='{{ incident_no }}'
                  register: reassignment_ticket_register
-               - debug: var=reassignment_ticket_register.stdout
+               - debug: var=reassignment_ticket_register
                - meta: end_play
               when: UpTimeNumericValue | int < 30
               

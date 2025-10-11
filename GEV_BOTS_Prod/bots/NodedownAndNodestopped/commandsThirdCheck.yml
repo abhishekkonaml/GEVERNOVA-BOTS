@@ -31,37 +31,37 @@
     - debug: var=reassignment_ticket_register.stdout
    
     - meta: end_play
-  when: "('Hostname not known' in clock_status_register.Output) or ('Authentication failed' in clock_status_register.Output)"
+  when: "('Hostname not known' in clock_status_register.Output) or ('Authentication failed' in clock_status_register.Output) or ('Unable to connect' in clock_status_register.Output)"
 
-- name: log check
-  action: CommandExecution hostname='{{ incident_hostname }}' command='show logging' incidentno='{{ incident_no }}' notesupdate='no' 
-  register: log_status_register
-  ignore_errors: true
+#- name: log check
+#  action: CommandExecution hostname='{{ incident_hostname }}' command='show logging' incidentno='{{ incident_no }}' notesupdate='no' 
+#  register: log_status_register
+#  ignore_errors: true
 #- debug: var=log_status_register
-- set_fact:
-    log_result: "{{ log_status_register.Output | lower }}"
-- shell: echo "{{ log_result }}" > log.txt
-- shell: cat log.txt | tail -10
-  register: last_ten_log_register
-- debug: var=last_ten_log_register.stdout
-- set_fact:
-    log_notes: |- 
-      [code]<h3> Logs: </h3>[/code]
-      "{{ last_ten_log_register.stdout }}"
+#- set_fact:
+#    log_result: "{{ log_status_register.Output | lower }}"
+#- shell: echo "{{ log_result }}" > log.txt
+#- shell: cat log.txt | tail -10
+#  register: last_ten_log_register
+#- debug: var=last_ten_log_register.stdout
+#- set_fact:
+#    log_notes: |- 
+#      [code]<h3> Logs: </h3>[/code]
+#      "{{ last_ten_log_register.stdout }}"
       
 #- action: worknotesupdate  work_notes="{{ log_notes }}"
 #  register: worknotesupdate
-- action: update_notes incident='{{ incident_no }}' work_notes="{{ log_notes }}"
-  register: update_notes
+#- action: update_notes incident='{{ incident_no }}' work_notes="{{ log_notes }}"
+#  register: update_notes
 
 
-- block:
-    - debug: 
-        msg: "Unable to execute showlog end play"
-    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to check logs of the device.<br>[/code]'
-      register: update_notes
-    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
-      register: update_notes
+#- block:
+#    - debug: 
+#        msg: "Unable to execute showlog end play"
+#    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to check logs of the device.<br>[/code]'
+#      register: update_notes
+#    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
+#      register: update_notes
     #- name: save_output
     #  set_fact:
     #    aa_start_save: ''
@@ -71,12 +71,12 @@
     #    assignment_group: "{{assigngrp|default('')}}"
     #    assign_to: "{{assignto|default('')}}"
     #    zz_end_save: ''
-    - action: reassignment_ticket incident='{{ incident_no }}'
-      register: reassignment_ticket_register
-    - debug: var=reassignment_ticket_register.stdout
+#    - action: reassignment_ticket incident='{{ incident_no }}'
+#      register: reassignment_ticket_register
+#    - debug: var=reassignment_ticket_register.stdout
   
-    - meta: end_play
-  when: "'Unable to execute show log command' in log_status_register.Output"
+#    - meta: end_play
+#  when: "'Unable to execute show log command' in log_status_register.Output"
 
 - name: execute commands
   action: CommandExecution hostname='{{ incident_hostname }}' command='{{ item }}' incidentno='{{ incident_no }}' notesupdate='yes' 
