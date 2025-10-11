@@ -36,7 +36,7 @@
             
             - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
               register: update_notes
-            -
+            
             #- name: save_output
             #  set_fact:
             #    aa_start_save: ''
