@@ -48,7 +48,7 @@
             #    zz_end_save: ''
             - action: reassignment_ticket incident='{{ incident_no }}'
               register: reassignment_ticket_register
-            - debug: var=reassignment_ticket_register.stdout
+            - debug: var=reassignment_ticket_register
             - meta: end_play
 
           when: ReloadUptimeResult is not defined
@@ -111,7 +111,7 @@
                #  zz_end_save: ''
                - action: reassignment_ticket incident='{{ incident_no }}'
                  register: reassignment_ticket_register
-               - debug: var=reassignment_ticket_register.stdout
+               - debug: var=reassignment_ticket_register
                - meta: end_play
               when: UpTimeNumericValue | int < 30
               
