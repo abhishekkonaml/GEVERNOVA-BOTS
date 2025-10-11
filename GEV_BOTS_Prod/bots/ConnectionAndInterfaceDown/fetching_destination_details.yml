@@ -299,14 +299,14 @@
      set_fact:
       SourceMACStatus: "Not Exists"
    
-   - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC not exist in Source MAC address table hence reassigned.</h3>[/code]'
-     register: update_notes
-   - debug: var=update_notes
-   - name: B side MAC not exist
-     action: worknotesupdate work_notes='[code]<h3>B side MAC not exist in Source MAC address table hence reassigned</h3>[/code]'
-     register: worknotesupdate
-  
-   - debug: var=worknotesupdate
+   #- action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>B side MAC not exist in Source MAC address table hence reassigned.</h3>[/code]'
+   #  register: update_notes
+   #- debug: var=update_notes
+   #- name: B side MAC not exist
+   #  action: worknotesupdate work_notes='[code]<h3>B side MAC not exist in Source MAC address table hence reassigned</h3>[/code]'
+   #  register: worknotesupdate
+  #
+   #- debug: var=worknotesupdate
    - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml
    - set_fact:
         bot_notes: |-
@@ -315,7 +315,7 @@
                    2. Source Interface Status is up <br>
                    3. Source Interface is not flapping in the last 30 minutes. <br>
                    4. Destination Interface is up <br>
-                   5. Destination MAC not exist in the Source MAC address table <br>
+                   5. All checks have passed hence closing the incident <br>
                    [/code] 
    - name: Add work notes - 2
      action: worknotesupdate work_notes='{{ bot_notes }}'
@@ -326,6 +326,9 @@
      register: update_notes
    - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
      register: reassignment_ticket
+   - action: closeincident incident='{{ incident_no }}'
+     register: closeregister
+   - debug: var=closeregister
    - name: save_output
      set_fact:
         aa_start_save: ''
