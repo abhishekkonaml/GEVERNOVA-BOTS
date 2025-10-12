@@ -47,7 +47,7 @@ class ActionModule(ActionBase):
         msg.attach(MIMEText(text))
         part = MIMEBase('application', "octet-stream")
         part2 = MIMEBase('application', "octet-stream")
-        with open(filename1,'r') as file:
+        with open(htmlfile,'r') as file:
              part.set_payload(file.read())
              encoders.encode_base64(part)
              part.add_header('Content-Disposition',
