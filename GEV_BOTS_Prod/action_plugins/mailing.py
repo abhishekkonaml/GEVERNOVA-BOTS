@@ -51,7 +51,7 @@ class ActionModule(ActionBase):
              part.set_payload(file.read())
              encoders.encode_base64(part)
              part.add_header('Content-Disposition',
-                            'attachment; filename={}'.format(filename1))
+                            'attachment; filename={}'.format(htmlfile))
         msg.attach(part)
                 
         try: 
