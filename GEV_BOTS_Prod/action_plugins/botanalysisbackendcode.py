@@ -50,8 +50,7 @@ class ActionModule(ActionBase):
                if "Intelligeni Bot" in down_ticket['comments_and_work_notes']:
                    bot_touched_count+=1
                    down_alert+=1
-                   print(down_ticket['assigned_to'])
-                   print("=-"*25)
+                   
                    if "504018887" in down_ticket['assigned_to']:
                       closed+=1
                       down_closed+=1

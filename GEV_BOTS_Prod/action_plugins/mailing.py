@@ -5,7 +5,7 @@ import warnings
 import sys
 import os
 import base64
-
+from datetime import datetime
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 warnings.filterwarnings("ignore") 
@@ -18,6 +18,7 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
            analysis_output=self._task.args['result1']
+           today_date=str(datetime.now())
            status_alert_table_body=''
            down_alert_table_body=''
            for key in analysis_output['StatusAlert']['tickets']:
@@ -105,7 +106,7 @@ class ActionModule(ActionBase):
              
              <body>
                <h1 style="color:white;text-align:center;background-color:#008080;padding:10px;">
-                 GEV BOT DAILY REPORT - 12-10-2025
+                 GEV BOT DAILY REPORT - <today_date>
                </h1>
                
                
@@ -323,18 +324,19 @@ class ActionModule(ActionBase):
            html_content=template.replace('<bot_touched_count>',str(analysis_output['Bot touched data']))
            html_content=html_content.replace('<bot_not_touched_count>',str(analysis_output['Bot not touched data']['count']))
            html_content=html_content.replace('<closed>',str(analysis_output['Closed']))
-           efficiency=round((analysis_output['Bot touched data']/(analysis_output['Bot touched data']+analysis_output['Bot not touched data']['count']))*100,2)
+           efficiency=round((analysis_output['Closed']/(analysis_output['Bot touched data']))*100,2)
            html_content=html_content.replace('<efficiency>',str(efficiency)+'%')
            html_content=html_content.replace('<status_alert_touched_data>',str(analysis_output['StatusAlert']['touched_count']))
            html_content=html_content.replace('<status_alert_not_touched_data>',str(analysis_output['StatusAlert']['not_touched_count']))
-           html_content=html_content.replace('<status_alert_closed_data>',str(len(analysis_output['StatusAlert']['tickets'])))
+           #html_content=html_content.replace('<status_alert_closed_data>',str(len(analysis_output['StatusAlert']['tickets'])))
            html_content=html_content.replace('<status_alert_table_body>',status_alert_table_body)
            html_content=html_content.replace('<down_touched_data>',str(analysis_output['IdleIntervalAlert']['touched_count']))
            html_content=html_content.replace('<down_not_touched_data>',str(analysis_output['IdleIntervalAlert']['not_touched_count']))
-           html_content=html_content.replace('<down_closed_data>',str(len(analysis_output['IdleIntervalAlert']['tickets'])))
+           #html_content=html_content.replace('<down_closed_data>',str(len(analysis_output['IdleIntervalAlert']['tickets'])))
            html_content=html_content.replace('<down_alert_table_body>',down_alert_table_body)
            html_content=html_content.replace('<status_alert_closed_data>',str(analysis_output['StatusAlert']['closed']))
            html_content=html_content.replace('<down_closed_data>',str(analysis_output['IdleIntervalAlert']['closed']))
+           html_content=html_content.replace('<today_date>',today_date)
            print("==--"*25)
            print(html_content)
            return {'status': 'success','result': 'Report generated and mail sent successfully'}
