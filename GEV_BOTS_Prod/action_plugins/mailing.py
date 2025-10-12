@@ -390,7 +390,7 @@ class ActionModule(ActionBase):
            print(html_content)
            htmlfile='GEV_DailyReport_{}.html'.format(today_date)
            send_to=["Abhishek.kona1@gevernova.com"]
-           with open(htmlfile,w) as file:
+           with open(htmlfile,'w') as file:
                 file.write(html_content)
            
            
