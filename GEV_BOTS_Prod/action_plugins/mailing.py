@@ -210,11 +210,13 @@ class ActionModule(ActionBase):
                              <th>Ticket No</th>
                              <th>Summary</th>
                              <th>Status</th>
+                             <th>OpenedAt</th>
                            </tr>
                            <tr>
                              <th><input type="text" placeholder="Search Ticket No"></th>
                              <th><input type="text" placeholder="Search Summary"></th>
                              <th><input type="text" placeholder="Search Status"></th>
+                             <th><input type="text" placeholder="Search OpenedAt"></th>
                            </tr>
                          </thead>
                          <tbody>
@@ -263,11 +265,13 @@ class ActionModule(ActionBase):
                              <th>Ticket No</th>
                              <th>Summary</th>
                              <th>Status</th>
+                             <th>OpenedAt</th>
                            </tr>
                            <tr>
                              <th><input type="text" placeholder="Search Ticket No"></th>
                              <th><input type="text" placeholder="Search Summary"></th>
                              <th><input type="text" placeholder="Search Status"></th>
+                             <th><input type="text" placeholder="Search OpenedAt"></th>
                            </tr>
                          </thead>
                          <tbody>
