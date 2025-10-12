@@ -8,17 +8,67 @@ import base64
 from datetime import datetime
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+import smtplib
+from os.path import basename
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email.utils import COMMASPACE, formatdate
+from email import encoders
+
+
 warnings.filterwarnings("ignore") 
 
 
 
 
 class ActionModule(ActionBase):
+    def send_mail(today_date,send_to, htmlfile
+              server="smtprelay.gevernova.net"):
+        assert isinstance(send_to, list)
+        send_from="automatedbotdailyanalysis@gevernova.com"
+        subject="AUTOMATED DAILY REPORT | {}".format(today_date)
+        msg = MIMEMultipart()
+        msg['From'] = send_from
+        msg['To'] = COMMASPACE.join(send_to)
+        msg['Date'] = formatdate(localtime=True)
+        msg['Subject'] = subject
+        text='''
+           Hi Team, 
+    
+           Please find the GEV Bots Daily Report.
+    
+           Regards, 
+           Automation Team.
+          
+        '''
+        
+        
+        msg.attach(MIMEText(text))
+        part = MIMEBase('application', "octet-stream")
+        part2 = MIMEBase('application', "octet-stream")
+        with open(filename1,'r') as file:
+             part.set_payload(file.read())
+             encoders.encode_base64(part)
+             part.add_header('Content-Disposition',
+                            'attachment; filename={}'.format(filename1))
+        msg.attach(part)
+                
+        try: 
+           smtp = smtplib.SMTP(server)
+           smtp.sendmail(send_from, send_to, msg.as_string())
+           smtp.close()
+           return "Mail sent successfully"
+        except:
+           return "Unable to send mail"
+    
+    
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
            analysis_output=self._task.args['result1']
-           today_date=str(datetime.now())
+           today_date=str(datetime.now()).split(" ")[0]
            status_alert_table_body=''
            down_alert_table_body=''
            for key in analysis_output['StatusAlert']['tickets']:
@@ -339,6 +389,15 @@ class ActionModule(ActionBase):
            html_content=html_content.replace('<today_date>',today_date)
            print("==--"*25)
            print(html_content)
+           htmlfile='GEV_DailyReport_{}.html'.format(today_date)
+           send_to=["Abhishek.kona1@gevernova.com"]
+           with open(htmlfile,w) as file:
+                file.write(html_content)
+           
+           
+           mail_response=send_mail(today_date,send_to, htmlfile)
+           print("*"*50)
+           print(mail_response)
            return {'status': 'success','result': 'Report generated and mail sent successfully'}
         except Exception as e:
             return {'status': 'failed', 'result': str(e)}
