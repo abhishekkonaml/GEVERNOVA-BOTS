@@ -29,7 +29,7 @@ class ActionModule(ActionBase):
                      <td> {} </td>
                </tr>
                
-               '''.format(key['Number'],key['Summary'].replace("h3","h5"),key['Status'],key['OpenedAt'])
+               '''.format(key['Number'],key['Summary'].replace("h3","h6").replace("[code]","").replace("[/code]",""),key['Status'].replace("h3","h6").replace("[code]","").replace("[/code]",""),key['OpenedAt'])
            for key in analysis_output['IdleIntervalAlert']['tickets']:
                down_alert_table_body+='''
                <tr>
@@ -39,7 +39,7 @@ class ActionModule(ActionBase):
                      <td> {} </td>
                </tr>
                
-               '''.format(key['Number'],key['Summary'].replace("h3","h5"),key['Status'],key['OpenedAt'])
+               '''.format(key['Number'],key['Summary'].replace("h3","h6").replace("[code]","").replace("[/code]",""),key['Status'].replace("h3","h6").replace("[code]","").replace("[/code]",""),key['OpenedAt'])
            
            
            template='''
