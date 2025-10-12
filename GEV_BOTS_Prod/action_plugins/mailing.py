@@ -24,8 +24,7 @@ warnings.filterwarnings("ignore")
 
 
 class ActionModule(ActionBase):
-    def send_mail(today_date,send_to, htmlfile
-              server="smtprelay.gevernova.net"):
+    def send_mail(today_date,send_to, htmlfile,server="smtprelay.gevernova.net"):
         assert isinstance(send_to, list)
         send_from="automatedbotdailyanalysis@gevernova.com"
         subject="AUTOMATED DAILY REPORT | {}".format(today_date)
