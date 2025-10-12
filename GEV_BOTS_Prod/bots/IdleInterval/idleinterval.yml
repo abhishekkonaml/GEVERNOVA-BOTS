@@ -27,11 +27,8 @@
     register: worknotesupdate
   
   - debug: var=worknotesupdate 
-  - set_fact:
-      interfaceno: "{{ incident_interface | regex_search('[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{1,2}|[0-9]{1,2}\/[0-9]{1,2}') }}"
   
   
-  - debug: var=interfaceno
 
   
   - name: Step1 - Ping Check for the hostname
