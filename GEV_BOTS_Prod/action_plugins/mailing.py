@@ -30,7 +30,7 @@ class ActionModule(ActionBase):
                </tr>
                
                '''.format(key['Number'],key['Summary'],key['Status'],key['OpenedAt'])
-           for key in analysis_output['DownAlert']['tickets']:
+           for key in analysis_output['IdleIntervalAlert']['tickets']:
                down_alert_table_body+='''
                <tr>
                      <td> {} </td>
