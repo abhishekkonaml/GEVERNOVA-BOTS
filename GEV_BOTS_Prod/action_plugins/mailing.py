@@ -29,7 +29,7 @@ class ActionModule(ActionBase):
                      <td> {} </td>
                </tr>
                
-               '''.format(key['Number'],key['Summary'],key['State'],key['OpenedAt'])
+               '''.format(key['Number'],key['Summary'],key['Status'],key['OpenedAt'])
            for key in analysis_output['DownAlert']['tickets']:
                down_alert_table_body+='''
                <tr>
@@ -39,7 +39,7 @@ class ActionModule(ActionBase):
                      <td> {} </td>
                </tr>
                
-               '''.format(key['Number'],key['Summary'],key['State'],key['OpenedAt'])
+               '''.format(key['Number'],key['Summary'],key['Status'],key['OpenedAt'])
            
            
            template='''
@@ -331,7 +331,8 @@ class ActionModule(ActionBase):
            html_content=html_content.replace('<down_alert_table_body>',down_alert_table_body)
            html_content=html_content.replace('<status_alert_closed_data>',str(analysis_output['StatusAlert']['closed']))
            html_content=html_content.replace('<down_closed_data>',str(analysis_output['IdleIntervalAlert']['closed']))
-           
+           print("==--"*25)
+           print(html_content)
            return {'status': 'success','result': 'Report generated and mail sent successfully'}
         except Exception as e:
             return {'status': 'failed', 'result': str(e)}
