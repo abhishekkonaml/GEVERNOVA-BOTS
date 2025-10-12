@@ -26,8 +26,8 @@ class ActionModule(ActionBase):
            down_closed=0
            bot_not_touched_tickets=[]
            
-           query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^opened_atONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()^ORopened_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
-           query2="descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^ORsys_created_onONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()"
+           query1="assignment_group=609fb9273b426690e2d5cbc964e45a7a^ORassignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^opened_atONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()^ORopened_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
+           query2="descriptionLIKEis down^assignment_group=609fb9273b426690e2d5cbc964e45a7a^ORassignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^ORsys_created_onONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()"
            fetch_status_tickets=incobj.get_incident_details_by_query(query1)
            fetch_down_tickets=incobj.get_incident_details_by_query(query2)
 
