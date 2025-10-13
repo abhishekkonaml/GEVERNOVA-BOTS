@@ -8,8 +8,8 @@ import base64
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from GEV_Prod_Servicenow import Incidents
 warnings.filterwarnings("ignore") 
-from __future__ import (absolute_import, division, print_function)
-__metaclass__ = type
+#from __future__ import (absolute_import, division, print_function)
+#__metaclass__ = type
 
 from datetime import datetime
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
