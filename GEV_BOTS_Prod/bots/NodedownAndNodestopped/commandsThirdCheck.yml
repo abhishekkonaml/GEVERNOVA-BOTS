@@ -26,8 +26,8 @@
     #   assignment_group: "{{assigngrp|default('')}}"
     #   assign_to: "{{assignto|default('')}}"
     #   zz_end_save: ''
-    - action: reassignment_ticket incident='{{ incident_no }}'
-      register: reassignment_ticket_register
+    - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+ 
     - debug: var=reassignment_ticket_register.stdout
    
     - meta: end_play
