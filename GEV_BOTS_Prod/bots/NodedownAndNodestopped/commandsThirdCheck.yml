@@ -28,7 +28,7 @@
     #   zz_end_save: ''
     - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
  
-    - debug: var=reassignment_ticket_register.stdout
+    - debug: var=reassignment_ticket_register
    
     - meta: end_play
   when: "('Hostname not known' in clock_status_register.Output) or ('Authentication failed' in clock_status_register.Output) or ('Unable to connect' in clock_status_register.Output) or ('invalid input' in clock_status_register.Output)"
