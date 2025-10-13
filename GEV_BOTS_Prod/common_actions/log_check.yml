@@ -61,7 +61,7 @@
 
    - block:
      - include_tasks: bots/ConnectionAndInterfaceDown/failure_commands_except_ap.yml 
-     - action: update_notes incident='{{ incident_no }}' work_notes='<h3> The {{ incident_interface }} is flapping in the last 30 minutes hence reassigned. </h3>'
+     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> The {{ incident_interface }} is flapping in the last 30 minutes hence reassigned. </h3>[/code]'
        register: update_notes
      - set_fact:
         InputNotes: |-

@@ -22,10 +22,12 @@ class ActionModule(ActionBase):
            status_alert_not_touched=0
            down_alert=0
            down_alert_not_touched=0
+           status_closed=0
+           down_closed=0
            bot_not_touched_tickets=[]
            
-           query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^opened_atONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()^ORopened_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
-           query2="descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^ORsys_created_onONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()"
+           query1="assignment_group=609fb9273b426690e2d5cbc964e45a7a^ORassignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^opened_atONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()^ORopened_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
+           query2="descriptionLIKEis down^assignment_group=609fb9273b426690e2d5cbc964e45a7a^ORassignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^ORsys_created_onONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()"
            fetch_status_tickets=incobj.get_incident_details_by_query(query1)
            fetch_down_tickets=incobj.get_incident_details_by_query(query2)
 
@@ -48,10 +50,10 @@ class ActionModule(ActionBase):
                if "Intelligeni Bot" in down_ticket['comments_and_work_notes']:
                    bot_touched_count+=1
                    down_alert+=1
-                   print(down_ticket['assigned_to'])
-                   print("=-"*25)
+                   
                    if "504018887" in down_ticket['assigned_to']:
                       closed+=1
+                      down_closed+=1
                    
                    for comments in down_ticket['comments_and_work_notes'].split("\n\n"):
                        if "Summary" in comments:
@@ -82,6 +84,7 @@ class ActionModule(ActionBase):
                    status_alert+=1
                    if "closing the incident" in status_ticket['comments_and_work_notes']:
                       closed+=1
+                      status_closed+=1
                    for comments in status_ticket['comments_and_work_notes'].split("\n\n"):
                        if "Summary" in comments:
                            summary=comments
@@ -97,7 +100,9 @@ class ActionModule(ActionBase):
                   bot_not_touched_tickets.append({'Number': status_ticket['number'],'OpenedAt': status_ticket['sys_created_on'],'ShortDescription':status_ticket['short_description']})
            statusalert['StatusAlert']['touched_count']=status_alert 
            statusalert['StatusAlert']['not_touched_count']=status_alert_not_touched 
+           statusalert['StatusAlert']['closed']=status_closed
            downalert['DownAlert']['touched_count']=down_alert
+           downalert['DownAlert']['closed']=down_closed
            downalert['DownAlert']['not_touched_count']=down_alert_not_touched
            return {'status':'success','response': {'Bot touched data': bot_touched_count, 'Closed': closed, 'Bot not touched data': {'count': bot_not_touched_count,'tickets':bot_not_touched_tickets},'StatusAlert':statusalert['StatusAlert'],'IdleIntervalAlert': downalert['DownAlert']}   }
                   

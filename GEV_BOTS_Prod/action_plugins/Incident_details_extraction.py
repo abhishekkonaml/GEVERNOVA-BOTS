@@ -28,7 +28,7 @@ class ActionModule(ActionBase):
             print(incident_details)
             print("----------"*25)
             if type(incident_details)==list:
-               description=incident_details[0]['description']
+               description=incident_details[0]['short_description']
                
                #Bot Classification Logic
                
@@ -101,4 +101,4 @@ class ActionModule(ActionBase):
             else:
                return {'status':'failed','reason': 'Incident not found'}
         except Exception as e:
-           return  {'status':'error','reason': 'Incident Parsing Error'}
+           return  {'status':'error','reason': 'Incident Parsing Error - {}'.format(str(e))}
