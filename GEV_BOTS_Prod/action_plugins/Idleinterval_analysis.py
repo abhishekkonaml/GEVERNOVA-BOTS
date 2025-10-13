@@ -29,6 +29,7 @@ class ActionModule(ActionBase):
            query1="state=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f"
            fetch_node_tickets=incobj.get_incident_details_by_query(query1)
            print(fetch_node_tickets)
+           print(type(fetch_node_tickets))
 
            if "Failed" in fetch_node_tickets:
               return {'status':'failed','response': 'Failed to fetch the Node down tickets'}
