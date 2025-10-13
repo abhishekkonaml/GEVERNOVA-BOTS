@@ -11,15 +11,27 @@
     - name: fetch fourth and fifth letters of the device
       set_fact:  
          DevicefourthandfifthLetter: "{{ incident_hostname[3:5] | upper }}"
+   
+    - name: set frequency and delay_time for access switch and wlc
+      set_fact:
+        Time: 600
+      when: "('WC' == DevicefourthandfifthLetter) or ('SA' == DevicefourthandfifthLetter)"
     - name: set frequency and delay_time
       set_fact:
         Time: 300
-      when: "('WA' == DevicefourthandfifthLetter) or ('WG' == DevicefourthandfifthLetter) or ('WD' == DevicefourthandfifthLetter) or ('WN' == DevicefourthandfifthLetter)"
-    - name: set frequency and delay_time
-      set_fact:
-        Time: 600
-      when: "('WA' != DevicefourthandfifthLetter) or ('WG' != DevicefourthandfifthLetter) or ('WD' != DevicefourthandfifthLetter) or ('WN' != DevicefourthandfifthLetter)"
+      when: "('WC' != DevicefourthandfifthLetter) or ('SA' != DevicefourthandfifthLetter)"
+    - block:
+        - debug: 
+            msg: "AP ticket, Hence Reassigned...!"
     
+        - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Device is Access Point, hence reassigned </h3>[/code]'
+          register: update_notes
+ 
+        - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+          register: reassignment_ticket_register
+        - debug: var=reassignment_ticket_register
+        - meta: end_play
+      when: "('WA' == DevicefourthandfifthLetter) or ('WG' == DevicefourthandfifthLetter) or ('WD' == DevicefourthandfifthLetter) or ('WN' == DevicefourthandfifthLetter)"
     - debug: var=Time
     - name: Ping the device
       include_tasks: common_actions/pingcheck.yml
