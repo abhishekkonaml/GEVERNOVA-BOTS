@@ -62,7 +62,7 @@ class ActionModule(ActionBase):
                 result = 'Hostname not known'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
                 return result
-            elif(('Invalid input detected' in str(out.decode())) and command == 'show logging'):
+            elif(('invalid input detected' in str(out.decode())) and command == 'show logging'):
                 result = 'Unable to execute show log command'
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
                 return result
