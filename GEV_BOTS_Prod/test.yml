@@ -1,11 +1,15 @@
-- name: test
-  hosts: localhost
-  tasks:
-  - action: sample 
-    register: sample_register
-  - debug: var=sample_register
-
-
-
-
-
+---
+ - name: Analysis Script
+   hosts: localhost
+   tasks:
+   - debug: msg="Analysis playbooks triggered"
+   - action: Idleinterval_analysis
+     register: output1
+   - debug: var=output1 
+   #- block:
+   #  - name: Send Mail
+   #    action: mailing   result1='{{ output1.response }}'
+   #  when: "'success' in output1.status"
+   #- block:
+   #  - debug: msg="No mail sent as the bot analysis failed"
+   #  when: "'failed' in output1.status"
