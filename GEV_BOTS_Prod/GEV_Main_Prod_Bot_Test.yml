@@ -39,7 +39,7 @@
        - debug:
            msg: "calling node down role"
        - name: call node down role
-         include_tasks: bots/NodedownAndNodestopped/main.yml
+         include_tasks: bots/IdleInterval/idleinterval.yml
        
        when: "'Node down' in fetched_details.botname"
      when: "'success' in fetched_details.status"
