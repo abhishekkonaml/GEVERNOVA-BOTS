@@ -46,6 +46,7 @@ class ActionModule(ActionBase):
            if(len(fetch_node_tickets) >=1 ):
                print("send mail")
                op=self.send_mail(datetime.now())
+               print(op)
            else:
                print("dont send mail")
            #print(type(fetch_node_tickets))
