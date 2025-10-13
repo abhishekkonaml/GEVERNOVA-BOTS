@@ -25,12 +25,12 @@
           
         - debug: var=ReloadUptimeResult
           
-        #- debug: var=UptimeNotesData
+        - debug: var=UptimeNotesData
         - block:
             - debug: 
                 msg: "Unable to fetch Uptime, Hence Reassigned...!"
-            - action: update_notes incident='{{ incident_no }}'  work_notes='{{ UptimeNotesData }}'
-              register: update_notes
+            #- action: update_notes incident='{{ incident_no }}'  work_notes='{{ UptimeNotesData }}'
+            #  register: update_notes
             - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Device logs are attcahed <br> 3. Unable to fetch uptime. <br>[/code]'
               register: update_notes
             
