@@ -3,11 +3,11 @@
       version_status_register: "{{ \\u001b[?25h\\u001b[24;18h\\u001b[?6l\\u001b[1;0r\\u001b[?7l\\u001b[2j\\u001b[24;18h\\u001b[1;1h\\u001b[2k\\u001b[24;18h\\u001b[2j\\u001b[?7l\\u001b[3;23r\\u001b[?6l\\u001b[1;1h\\u001b[?25l\\u001b[1;1hprocurve j9087a switch 2610-24-pwr\\r\\n\\rsoftware revision r.11.30\\r\\n\\r\\r\\n\\rcopyright (c) 1991-2009 hewlett-packard co.  all rights reserved.\\n\\r\\n\\r                           restricted rights legend\\n\\r\\n\\r use, duplication, or disclosure by the government is subject to restrictions\\n\\r as set forth in subdivision (b) (3) (ii) of the rights in technical data and\\n\\r computer software clause at 52.227-7013.\\n\\r\\n\\r         hewlett-packard company, 3000 hanover st., palo alto, ca 94303\\n\\r\\n\\r\\u001b[24;1hpress any key to continue\\u001b[1;1h\\u001b[?25h\\u001b[24;27h\\u001b[2j\\u001b[?7l\\u001b[3;23r\\u001b[?6l\\u001b[24;27h\\u001b[?25h\\u001b[24;27h\\u001b[?6l\\u001b[1;24r\\u001b[?7l\\u001b[2j\\u001b[24;27h\\u001b[1;24r\\u001b[24;27h\\u001b[2j\\u001b[?7l\\u001b[1;24r\\u001b[?6l\\u001b[24;1h\\u001b[1;24r\\u001b[24;1h\\u001b[24;1h\\u001b[2k\\u001b[24;1h\\u001b[?25h\\u001b[24;1h\\u001b[24;1h \\u001b[24;1h\\u001b[24;18h\\u001b[24;1h\\u001b[?25h\\u001b[24;18h\\u001b[24;18herm len 0\\u001b[24;18h\\u001b[?25h\\u001b[24;27h\\u001b[24;0h\\u001be\\u001b[24;1h\\u001b[24;27h\\u001b[24;1h\\u001b[2k\\u001b[24;1h\\u001b[?25h\\u001b[24;1h\\u001b[1;24r\\u001b[24;1hinvalid input: erm\\n\\r\\u001b[1;24r\\u001b[24;1h\\u001b[24;1h\\u001b[2k\\u001b[24;1h\\u001b[?25h\\u001b[24;1h\\u001b[24;1h \\u001b[24;1h\\u001b[24;18h\\u001b[24;1h\\u001b[?25h\\u001b[24;18h\\u001b[24;18hshow versi\\u001b[24;18h\\u001b[?25h\\u001b[24;28h\\u001b[24;28hon | i upt\\u001b[24;28h\\u001b[?25h\\u001b[24;38h\\u001b[24;38hime\\u001b[24;38h\\u001b[?25h\\u001b[24;41h\\u001b[24;0h\\u001be\\u001b[24;1h\\u001b[24;41h\\u001b[24;1h\\u001b[2k\\u001b[24;1h\\u001b[?25h\\u001b[24;1h\\u001b[1;24r\\u001b[24;1hinvalid input: |\\n\\r\\u001b[1;24r\\u001b[24;1h\\u001b[24;1h\\u001b[2k\\u001b[24;1h\\u001b[?25h\\u001b[24;1h\\u001b[24;1h \\u001b[24;1h\\u001b[24;18h\\u001b[24;1h\\u001b[?25h\\u001b[24;18h }}"
       
       
-  - name: check uptime
-    action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='show version | i uptime' incidentno='{{ incident_no }}' notesupdate='yes' 
-    register: version_status_register
-    ignore_errors: true
-  - debug: var=version_status_register.Output
+  #- name: check uptime
+  #  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='show version | i uptime' incidentno='{{ incident_no }}' notesupdate='yes' 
+  #  register: version_status_register
+  #  ignore_errors: true
+  #- debug: var=version_status_register.Output
   - set_fact:
      version_status_register: "{{ version_status_register.Output }}"
     ignore_errors: true
