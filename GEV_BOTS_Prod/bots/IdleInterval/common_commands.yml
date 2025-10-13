@@ -1,0 +1,21 @@
+- set_fact:
+       command1: "sh ip in brief"
+       command2: "sh ip pro summ"
+       command3: "sh proc cpu | ex 0.00"
+       command4: "show logging"
+- name: Int Brief command execution
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  register: int_status_register
+- debug: var=int_status_register.stdout
+- name: Pro Summ command execution
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  register: pro_summ_status_register
+- debug: var=pro_summ_status_register.stdout
+- name: CPU command execution
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command3 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  register: cpu_status_register
+- debug: var=cpu_status_register.stdout
+- name: logging command execution
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command4 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  register: log_status_register
+- debug: var=log_status_register.stdout
