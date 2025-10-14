@@ -23,7 +23,7 @@ class ActionModule(ActionBase):
                 Number=stalled_ticket['number']
                 group='HQ CTO Network Enterprise Site Support'
                 openedAt=stalled_ticket['sys_created_on']
-                print(Number,openedAt)
+                print(Number,repr(openedAt))
                 current_utc_time = datetime.now(timezone.utc)
                 tickettime=datetime.strptime(openedAt,"%m-%d-%Y %I:%M:%S %p")
                 utctime=datetime.strftime(current_utc_time,"%m-%d-%Y %I:%M:%S %p")
