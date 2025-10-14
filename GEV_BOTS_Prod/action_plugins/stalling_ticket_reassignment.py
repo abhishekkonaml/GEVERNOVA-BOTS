@@ -25,7 +25,7 @@ class ActionModule(ActionBase):
                 openedAt=stalled_ticket['sys_created_on']
                 print(Number,openedAt)
                 current_utc_time = datetime.now(timezone.utc)
-                tickettime=datetime.strptime(openedAt,"%m-%d-%Y %I:%M:%p")
+                tickettime=datetime.strptime(openedAt,"%m-%d-%Y %I:%M:%S %p")
                 utctime=datetime.strptime(current_utc_time,"%m-%d-%Y %I:%M:%S %p")
                 print(utctime,tickettime)
                 print("=-"*35)
