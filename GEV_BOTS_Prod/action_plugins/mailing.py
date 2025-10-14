@@ -389,7 +389,7 @@ class ActionModule(ActionBase):
            print("==--"*25)
            print(html_content)
            htmlfile='GEV_DailyReport_{}.html'.format(today_date)
-           send_to=["Abhishek.kona1@gevernova.com","Aishwarya.Shet@microland.com","Abhishek.Kona@microland.com","Brijesh.Ankolekar@microland.com"]
+           send_to=["Abhishek.kona1@gevernova.com","Aishwarya.Shet@microland.com","Abhishek.Kona@microland.com"]
            with open(htmlfile,'w') as file:
                 file.write(html_content)
            
