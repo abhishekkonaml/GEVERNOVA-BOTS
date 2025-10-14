@@ -2,21 +2,21 @@
  - name: Analysis Script
    hosts: localhost
    tasks:
-    - block:
-       - name: check connectivity
-         action: CommandExecution hostname='POWwvSJPuchik01' command='show clock' incidentno='GEVINC0051234' notesupdate='no' 
-         register: clock_status_register
-         ignore_errors: true
-       - debug: var=clock_status_register
-      rescue:
-        - name: handle timeout
-          fail: 
-            msg: "ending playbook"
-      timeout: 30
-    - block:
-        - debug:
-           msg: "reassign the ticket"
-      when: "'The CommandExecution action failed to execute in the expected time frame (30) and was terminated' in clock_status_register.msg"
-    #- action: reassignment_ticket incident='GEVINC0058020' group='HQ CTO Network Enterprise Site Support'
-    #  register: reassignment_ticket_register
-    #- debug: var=reassignment_ticket_register
+    #- block:
+    #   - name: check connectivity
+    #     action: CommandExecution hostname='POWwvSJPuchik01' command='show clock' incidentno='GEVINC0051234' notesupdate='no' 
+    #     register: clock_status_register
+    #     ignore_errors: true
+    #   - debug: var=clock_status_register
+    #  rescue:
+    #    - name: handle timeout
+    #      fail: 
+    #        msg: "ending playbook"
+    #  timeout: 30
+    #- block:
+    #    - debug:
+    #       msg: "reassign the ticket"
+    #  when: "'The CommandExecution action failed to execute in the expected time frame (30) and was terminated' in clock_status_register.msg"
+    - action: reassignment_ticket incident='GEVINC0058020' group='HQ CTO Network Enterprise Site Support'
+      register: reassignment_ticket_register
+    - debug: var=reassignment_ticket_register
