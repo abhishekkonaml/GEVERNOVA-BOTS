@@ -34,7 +34,7 @@
     - debug: var=reassignment_ticket_register
    
     - meta: end_play
-  when: "('Hostname not known' in clock_status_register.Output) or ('Authentication failed' in clock_status_register.Output) or ('Unable to connect' in clock_status_register.Output) or ('invalid input' in clock_status_register.Output) or ('CommandExecution action failed to execute' in clock_status_register.msg)"
+  when: "('Hostname not known' in clock_status_register.Output) or ('Authentication failed' in clock_status_register.Output) or ('Unable to connect' in clock_status_register.Output) or ('invalid input' in clock_status_register.Output)"
 
 #- name: log check
 #  action: CommandExecution hostname='{{ incident_hostname }}' command='show logging' incidentno='{{ incident_no }}' notesupdate='no' 
