@@ -15,7 +15,8 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
             #query1="assignment_group=609fb9273b426690e2d5cbc964e45a7a^state!=6^state!=7"
-            query1="assignment_group=609fb9273b426690e2d5cbc964e45a7a^state=6^ORstate=7"
+            
+            query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2"
             incobj=Incidents()
             fetch_stalled_tickets=incobj.get_incident_details_by_query(query1)
             for stalled_ticket in fetch_stalled_tickets:
@@ -23,6 +24,7 @@ class ActionModule(ActionBase):
                 group='HQ CTO Network Enterprise Site Support'
                 openedAt=stalled_ticket['sys_created_on']
                 print(Number,openedAt)
+                print("=-"*35)
                 return {'status': 'success', 'reponse': 'Stalled tickets reassigned successfully'}
         except Exception as e:
             return {'status': 'failed','response':str(e)}
