@@ -25,8 +25,8 @@ class ActionModule(ActionBase):
                 openedAt=stalled_ticket['sys_created_on']
                 print(Number,openedAt)
                 current_utc_time = datetime.now(timezone.utc)
-                tickettime=datetime.datetime.strftime(openedAt,"%m-%d-%Y %I:%M:%p")
-                utctime=datetime.datetime.strftime(current_utc_time,"%m-%d-%Y %I:%M:%p")
+                tickettime=datetime.strptime(openedAt,"%m-%d-%Y %I:%M:%p")
+                utctime=datetime.strptime(current_utc_time,"%m-%d-%Y %I:%M:%p")
                 print(utctime,tickettime)
                 print("=-"*35)
             return {'status': 'success', 'response': 'Stalled tickets reassigned successfully'}
