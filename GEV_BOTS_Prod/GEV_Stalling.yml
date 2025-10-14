@@ -1,0 +1,9 @@
+---
+ - name: Stalling Script
+   hosts: localhost
+   tasks:
+   - debug: msg="Stalling Reassignment playbooks triggered"
+   - action: stalling_ticket_reassignment
+     register: output1
+   - debug: var=output1 
+   
