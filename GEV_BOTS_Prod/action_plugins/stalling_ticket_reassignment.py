@@ -6,7 +6,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import warnings
 from GEV_Prod_Servicenow import Incidents
-
+from datetime import datetime, timezone
 incobj=Incidents()
 warnings.filterwarnings("ignore")
 
@@ -24,7 +24,11 @@ class ActionModule(ActionBase):
                 group='HQ CTO Network Enterprise Site Support'
                 openedAt=stalled_ticket['sys_created_on']
                 print(Number,openedAt)
+                current_utc_time = datetime.now(timezone.utc)
+                tickettime=datetime.strftime(openedAt,"%m-%d-%Y %I:%M:%p")
+                utctime=datetime.strftime(current_utc_time,"%m-%d-%Y %I:%M:%p")
+                print(utctime,tickettime)
                 print("=-"*35)
-                return {'status': 'success', 'reponse': 'Stalled tickets reassigned successfully'}
+            return {'status': 'success', 'response': 'Stalled tickets reassigned successfully'}
         except Exception as e:
             return {'status': 'failed','response':str(e)}
