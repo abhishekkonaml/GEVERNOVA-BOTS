@@ -2,6 +2,8 @@
 - set_fact:
     commands: ['sh ip in brief', 'sh ip pro summ', 'show proc cpu | ex 0.00']
 
+
+
 - name: check connectivity
   action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: clock_status_register
