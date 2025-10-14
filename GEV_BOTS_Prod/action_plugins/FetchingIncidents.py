@@ -32,8 +32,8 @@ class ActionModule(ActionBase):
                      
                      response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                      print({'TicketNo' : incident_no, 'Problem': 'StatusAlert', 'Status': response1})
-              #query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()"
-           query3="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2"
+           query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()"
+           query3="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2^sys_created_onONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()"
            fetch_statusflap_tickets=incobj.get_incident_details_by_query(query3)
            if type(fetch_statusflap_tickets)==list:
               for statusflap_ticket in fetch_statusflap_tickets:
@@ -44,7 +44,7 @@ class ActionModule(ActionBase):
                      
                      response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                      print({'TicketNo' : incident_no, 'Problem': 'StatusFlap', 'Status': response1})
-           query2="state=2^ORstate=1^descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
+           #query2="state=2^ORstate=1^descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
            fetch_idleinterval_tickets=incobj.get_incident_details_by_query(query2)
            #print(fetch_idleinterval_tickets)
            #print("=-=-=---=-00-----------------")
