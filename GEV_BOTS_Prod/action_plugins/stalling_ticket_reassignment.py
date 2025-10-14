@@ -28,7 +28,7 @@ class ActionModule(ActionBase):
                 tickettime=datetime.strptime(openedAt,"%m-%d-%Y %I:%M:%S %p")
                 utctime=datetime.strftime(current_utc_time,"%m-%d-%Y %I:%M:%S %p")
                 utc_time_now=datetime.strptime(utctime,"%m-%d-%Y %I:%M:%S %p")
-                time_difference=utc_time_now-tickettime
+                time_difference=(utc_time_now-tickettime).total_seconds()
                 if time_difference>3600:
                     print(Number,group)
                     print("=-=-"*25)
