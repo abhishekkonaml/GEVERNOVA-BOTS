@@ -28,6 +28,7 @@ class ActionModule(ActionBase):
                 tickettime=datetime.strptime(openedAt,"%m-%d-%Y %I:%M:%S %p")
                 utctime=datetime.strftime(current_utc_time,"%m-%d-%Y %I:%M:%S %p")
                 print(utctime,tickettime)
+                print(utctime-tickettime)
                 print("=-"*35)
             return {'status': 'success', 'response': 'Stalled tickets reassigned successfully'}
         except Exception as e:
