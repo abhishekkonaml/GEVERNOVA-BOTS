@@ -9,8 +9,10 @@
          ignore_errors: true
        - debug: var=clock_status_register
       rescue:
-        - debug:
-            msg: "failed to execute show clock"
+        - name: check connectivity
+          action: CommandExecution hostname='POWsdEFRbouro06' command='show clock' incidentno='GEVINC0051234' notesupdate='no' 
+          register: clock_status_register
+        - debug: var=clock_status_register
           
       timeout: 30
     
