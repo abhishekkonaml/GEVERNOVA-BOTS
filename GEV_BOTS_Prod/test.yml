@@ -2,10 +2,9 @@
  - name: Analysis Script
    hosts: localhost
    tasks:
-   - debug: msg="Analysis playbooks triggered"
-   - action: Idleinterval_analysis
-     register: output1
-   - debug: var=output1 
+    - action: reassignment_ticket incident='GEVINC0058020' group='HQ CTO Network Enterprise Site Support'
+      register: reassignment_ticket_register
+    - debug: var=reassignment_ticket_register
    #- block:
    #  - name: Send Mail
    #    action: mailing   result1='{{ output1.response }}'
