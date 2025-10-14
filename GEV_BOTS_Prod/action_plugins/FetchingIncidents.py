@@ -33,6 +33,17 @@ class ActionModule(ActionBase):
                      response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                      print({'TicketNo' : incident_no, 'Problem': 'StatusAlert', 'Status': response1})
               #query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()"
+           query3="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2"
+           fetch_statusflap_tickets=incobj.get_incident_details_by_query(query3)
+           if type(fetch_statusflap_tickets)==list:
+              for statusflap_ticket in fetch_statusflap_tickets:
+                  if "Intelligeni Bot" not in statusflap_ticket['comments_and_work_notes']:
+                     incident_no=statusflap_ticket['number']
+                     desc=statusflap_ticket['short_description']
+                     org_assignment_group=statusflap_ticket['assignment_group']
+                     
+                     response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
+                     print({'TicketNo' : incident_no, 'Problem': 'StatusFlap', 'Status': response1})
            query2="state=2^ORstate=1^descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
            fetch_idleinterval_tickets=incobj.get_incident_details_by_query(query2)
            #print(fetch_idleinterval_tickets)
@@ -46,6 +57,7 @@ class ActionModule(ActionBase):
                   response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                   print({'TicketNo' : incident_no, 'Problem': 'IdleInterval','Status': response1})
                   #break
+           
            return {'status': 'success','response': 'Successfully triggered Eligible tickets'}
         except Exception as e:
             return {'status': 'failed','response':str(e)}
