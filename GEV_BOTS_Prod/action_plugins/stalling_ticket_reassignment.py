@@ -26,12 +26,12 @@ class ActionModule(ActionBase):
                 print(Number,repr(openedAt))
                 current_utc_time = datetime.now(timezone.utc)
                 tickettime=datetime.strptime(openedAt,"%m-%d-%Y %I:%M:%S %p")
-                utctime=datetime.strftime(current_utc_time,"%m-%d-%Y %I:%M:%S %p")
+                #utctime=datetime.strftime(current_utc_time,"%m-%d-%Y %I:%M:%S %p")
                 print(type(tickettime))
-                print(type(utctime))
+                print(type(current_utc_time))
                 print("----"*25)
-                print(utctime,tickettime)
-                print(utctime-tickettime)
+                print(current_utc_time,tickettime)
+                print(current_utc_time-tickettime)
                 print("=-"*35)
             return {'status': 'success', 'response': 'Stalled tickets reassigned successfully'}
         except Exception as e:
