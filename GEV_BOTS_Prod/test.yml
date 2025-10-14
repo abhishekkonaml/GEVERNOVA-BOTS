@@ -14,7 +14,7 @@
             msg: "ending playbook"
       timeout: 30
     - block:
-        debug:
+        - debug:
            msg: "reassign the ticket"
       when: "'The CommandExecution action failed to execute in the expected time frame (30) and was terminated' in clock_status_register"
     #- action: reassignment_ticket incident='GEVINC0058020' group='HQ CTO Network Enterprise Site Support'
