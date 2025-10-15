@@ -4,8 +4,8 @@
    tasks:
      - debug:
          msg: "printing password"
-     - debug: var= "{{ lookup('env','API_USERNAME') }}"
-     - debug: var= "{{ lookup('env', 'API_PASSWORD') }}"
+     - debug: var="{{ lookup('env','API_USERNAME') }}"
+     - debug: var="{{ lookup('env', 'API_PASSWORD') }}"
     #- block:
     #   - name: check connectivity
     #     action: CommandExecution hostname='POWwvSJPuchik01' command='show clock' incidentno='GEVINC0051234' notesupdate='no' 
