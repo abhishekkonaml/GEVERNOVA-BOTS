@@ -7,7 +7,7 @@
      - set_fact:
           username: "{{ lookup('env','API_USERNAME') }}"
      - set_fact:
-          password": "{{ lookup('env', 'API_PASSWORD') }}"
+          password: "{{ lookup('env', 'API_PASSWORD') }}"
 
      - debug: var=username
      - debug: var=password
