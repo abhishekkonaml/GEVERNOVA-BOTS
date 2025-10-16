@@ -65,6 +65,9 @@
                  [/code]
   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
     register: update_notes
+  - action: closeincident incident='{{ incident_no }}'
+    register: closeregister
+  - debug: var=closeregister
   
   
 
