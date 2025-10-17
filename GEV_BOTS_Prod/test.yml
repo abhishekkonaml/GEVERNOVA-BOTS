@@ -2,27 +2,26 @@
  - name: Analysis Script
    hosts: localhost
    tasks:
-     - debug:
-         msg: "printing password"
-     - set_fact:
-          username: "{{ lookup('env','API_USERNAME') }}"
-     - set_fact:
-          password: "{{ lookup('env', 'API_PASSWORD') }}"
+     #- debug:
+     #    msg: "printing password"
+     #- set_fact:
+     #     username: "{{ lookup('env','API_USERNAME') }}"
+     #- set_fact:
+     #     password: "{{ lookup('env', 'API_PASSWORD') }}"
 
-     - debug: var=username
-     - debug: var=password
+     #- debug: var=username
+     #- debug: var=password
 
-    #- block:
-    #   - name: check connectivity
-    #     action: CommandExecution hostname='POWwvSJPuchik01' command='show clock' incidentno='GEVINC0051234' notesupdate='no' 
-    #     register: clock_status_register
-    #     ignore_errors: true
-    #   - debug: var=clock_status_register
-    #  rescue:
-    #    - name: check connectivity
-    #      action: CommandExecution hostname='POWsdEFRbouro06' command='show clock' incidentno='GEVINC0051234' notesupdate='no' 
-    #      register: clock_status_register
-    #    - debug: var=clock_status_register
+    - block:
+       - name: check connectivity
+         action: CommandExecution hostname='POWwvSJPuchik01' command='show clock' incidentno='GEVINC0051234' notesupdate='no' 
+         register: clock_status_register
+         ignore_errors: true
+         timeout: 10
+       - debug: var=clock_status_register
+      rescue:
+        - debug: 
+            msg: "End the playbook"
           
     # timeout: 30
     
