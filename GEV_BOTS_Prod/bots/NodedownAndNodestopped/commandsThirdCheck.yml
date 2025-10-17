@@ -11,9 +11,18 @@
     - debug: var=clock_status_register
        
   rescue:
-    - name: handle timeout
-      fail: 
-        msg: "ending playbook"
+    - debug:
+        msg: "Unable to connect to host end the play"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Summary:\n </h3> 1. Ping is successful <br> 2. Unable to connect to device <br>[/code]'
+      register: update_notes
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
+      register: update_notes
+ 
+    - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+ 
+    - debug: var=reassignment_ticket_register
+   
+    - meta: end_play
   
 #- name: check connectivity
 #  action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
