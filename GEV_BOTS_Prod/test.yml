@@ -16,7 +16,7 @@
        - name: check connectivity
          action: CommandExecution hostname='POWwvSJPuchik01' command='show clock' incidentno='GEVINC0051234' notesupdate='no' 
          register: clock_status_register
-         ignore_errors: true
+         #ignore_errors: true
          timeout: 10
        - debug: var=clock_status_register
       rescue:
