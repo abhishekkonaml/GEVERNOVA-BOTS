@@ -22,6 +22,9 @@
       rescue:
         - debug: 
             msg: "End the playbook"
+        - meta: end_play
+    - debug:
+        msg: "after rescue block"
           
     # timeout: 30
     
