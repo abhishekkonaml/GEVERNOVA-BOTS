@@ -17,6 +17,8 @@
       register: update_notes
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
       register: update_notes
+    - shell: echo "{{ incident_hostname }}" > log.txt
+      ignore_errors: true
  
     - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
  
@@ -37,6 +39,8 @@
       register: update_notes
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
       register: update_notes
+    - shell: echo "{{ incident_hostname }}" > log.txt
+      ignore_errors: true
  
     - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
  
