@@ -11,7 +11,8 @@
 
      #- debug: var=username
      #- debug: var=password
-
+    - debug: var=tower_id
+    - meta: end_play
     - block:
        - name: check connectivity
          action: CommandExecution hostname='POWwvSJPuchik01' command='show clock' incidentno='GEVINC0051234' notesupdate='no' 
