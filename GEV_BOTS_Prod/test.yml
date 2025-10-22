@@ -11,8 +11,7 @@
 
      #- debug: var=username
      #- debug: var=password
-    - debug: 
-        msg: "{{ tower_id }}"
+    - debug: var=tower_job_id
     - meta: end_play
     - block:
        - name: check connectivity
