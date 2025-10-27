@@ -1,25 +1,17 @@
 - name: test
   hosts: localhost
   tasks:
-    - name: Send Email
-      mail:
-       host: "smtprelay.gevernova.net" 
-       port: "25"
-       from: "testing@gevernova.com"
-       subject: "Test Email - Please Respond if you received the mail"
-       body: "Testing Email"
-       to: "abhishek.kona@gevernova.com"
-       cc: "aishwarya.shet@gevernova.com"
-       secure: starttls
-      
-      register: result
-      ignore_errors: true
-    - debug: var=result.stdout
+    - name: get affected Ci
+      action: Prevalidation Change='GEVCHG0030755' 
+      register: Affected_CI_reg
+    - debug: var=Affected_CI_reg
+    #- name: call commnon actions
+    #  include_tasks: common_actions/Prevalidation.yml
 
     # - name: login to device
     #   action: CommandExecution hostname='POWsaMUSschen9B' command='show log | in 1/0/37' incidentno='GEINC12345' notesupdate='no'
     #   register: Log_register
-    # - debug: var=Log_register
+   # - debug: var=Log_register
     # - block:
     #     - debug:
     #         msg: "Update DB and reassign ticket"
