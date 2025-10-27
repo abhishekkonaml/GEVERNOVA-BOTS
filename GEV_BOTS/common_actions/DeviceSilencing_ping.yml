@@ -1,7 +1,7 @@
 ---
 
  - name: Source Ping check 
-   shell: ping -c 2 {{ hostname1 }}
+   shell: ping -c 2 {{ CI }}
    register: ping_result1
    ignore_errors: true
  - debug: var=ping_result1
