@@ -24,12 +24,16 @@ class ActionModule(ActionBase):
         chobj=CMDB()
         res=chobj.get_ci_affected_details_change(Change_number)
         try:
+            devices=[]
             result = res['result'][0]['affected_ci_list']
-            return {'status': 'success','output': result}
+            for i in result:
+                if "ip_switch" in i['ci_sys_class_name'] or "ip_router" in i['ci_sys_class_name'] or "wap_network" in i['ci_sys_class_name']:
+                    devices.append(i['ci_name'])
+            return {'status': 'success','output': devices}
             
         except:
-            result = "error"
-            return {'status': 'failed', 'output': result}
+            devices = "error"
+            return {'status': 'failed', 'output': devices}
 
         
    
