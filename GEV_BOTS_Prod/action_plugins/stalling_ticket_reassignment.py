@@ -25,7 +25,7 @@ class ActionModule(ActionBase):
                 openedAt=stalled_ticket['sys_created_on']
                 #print(Number,repr(openedAt))
                 try:
-                    current_utc_time = datetime.now(timezone.utc)
+                    current_utc_time = datetime.now()
                     tickettime=datetime.strptime(openedAt,"%m-%d-%Y %I:%M:%S %p")
                     utctime=datetime.strftime(current_utc_time,"%m-%d-%Y %I:%M:%S %p")
                     utc_time_now=datetime.strptime(utctime,"%m-%d-%Y %I:%M:%S %p")
