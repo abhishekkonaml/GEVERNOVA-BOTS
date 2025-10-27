@@ -5,6 +5,18 @@
       action: Prevalidation Change='GEVCHG0030755' 
       register: Affected_CI_reg
     - debug: var=Affected_CI_reg.output
+    - set_fact:
+        CI_list: "{{ Affected_CI_reg.output }}"
+    - debug: var= CI_list
+  
+    - block:
+        - debug: 
+            msg: "No ci to validate"
+      when: Affected_CI_reg.output | length == 0
+    - block:
+        - debug: 
+            msg: "No ci to validate"
+      when: "'error' in Affected_CI_reg.output "
 
 
 
