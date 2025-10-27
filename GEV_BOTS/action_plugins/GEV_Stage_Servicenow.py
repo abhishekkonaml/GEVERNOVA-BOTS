@@ -211,7 +211,7 @@ class CMDB:
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
           
-      def get_ci_affected_details_change(self,query):
+      def get_ci_affected_details_change(self,query,key_name):
           url="https://stage.api.gevernova.com/servicenow_change/record/{}".format(query)
           token='Bearer {}'.format(self.access_token)
           headers = {
@@ -222,7 +222,7 @@ class CMDB:
           try: 
                response = requests.request("GET", url, headers=headers,verify=False)
                if response.status_code == 200:
-                  return (response.json())
+                  return (response.json()['result'][0][key_name])
                else:
                   return ("Failed - {}".format(response.json()['error']['message']))
           except Exception as e:
