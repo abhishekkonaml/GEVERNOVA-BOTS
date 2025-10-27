@@ -20,10 +20,16 @@ class ActionModule(ActionBase):
                chobj=CMDB()
                return {'status': 'success', 'result': chobj.state_change(ch_number,ch_state)}
            if(ch_state == 'review'):
+               tasks=[]
                chobj=CMDB()
                tasks = chobj.get_tasks_by_change(ch_number)
                result = tasks['result'][0]['children']
-               print(result)
+               for i in result:
+                   tasks.append(i['number'])
+               print(tasks)
+                   
+                
+            
         except Exception as e:
            return {'status': 'failed', 'result': str(e)}
 
