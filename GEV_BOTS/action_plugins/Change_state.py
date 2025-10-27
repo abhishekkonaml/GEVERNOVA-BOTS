@@ -20,13 +20,13 @@ class ActionModule(ActionBase):
                chobj=CMDB()
                return {'status': 'success', 'result': chobj.state_change(ch_number,ch_state)}
            if(ch_state == 'review'):
-               ls=[]
+               task_numbers=[]
                chobj=CMDB()
                tasks = chobj.get_tasks_by_change(ch_number)
                result = tasks['result'][0]['children']
                for i in result:
-                   ls.append(i['number'])
-               print(ls)
+                   task_numbers.append(i['number'])
+               print(task_numbers)
                    
                 
             
