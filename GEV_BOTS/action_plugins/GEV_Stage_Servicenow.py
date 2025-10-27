@@ -228,8 +228,8 @@ class CMDB:
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
           
-      def get_tasks_by_change(self,query):
-          url="https://stage.api.gevernova.com/servicenow_change/record/{}".format(query)
+      def get_tasks_by_change_sys_id(self,query):
+          url="https://stage.api.gevernova.com/servicenow_task_cmdb/querytable/change_request={}/change_task?sso=504018887".format(query)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,

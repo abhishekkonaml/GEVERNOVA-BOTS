@@ -25,6 +25,9 @@ class ActionModule(ActionBase):
                chobj=CMDB()
                sys_id = chobj.get_ci_affected_details_change(ch_number)
                sys = sys_id['result'][0]['sys_id']
+               tasks_data = chobj.get_tasks_by_change_sys_id(sys)
+               print(tasks_data)
+
                
                
                return {'status': 'success', 'result': sys}
