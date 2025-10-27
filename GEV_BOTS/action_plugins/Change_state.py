@@ -27,13 +27,13 @@ class ActionModule(ActionBase):
                sys = sys_id['result'][0]['sys_id']
                tasks_data = chobj.get_tasks_by_change_sys_id(sys)
                for task in tasks_data:
-                   print(task)
+                   task_numbers.append(task)
                 
             
 
                
                
-               return {'status': 'success', 'result': sys}
+               return {'status': 'success', 'result': task_numbers}
                    
                 
             
