@@ -18,7 +18,8 @@ class ActionModule(ActionBase):
            
            if(ch_state == 'implement'):
                chobj=CMDB()
-               return {'status': 'success', 'result': chobj.state_change(ch_number,ch_state)}
+               results=chobj.state_change(ch_number,ch_state)
+               return {'status': 'success', 'result': results}
            if(ch_state == 'review'):
                task_numbers=[]
                chobj=CMDB()
@@ -26,7 +27,7 @@ class ActionModule(ActionBase):
                result = tasks['result'][0]['children']
                for i in result:
                    task_numbers.append(i['number'])
-               print(task_numbers)
+               return {'status': 'success', 'result': task_numbers}
                    
                 
             
