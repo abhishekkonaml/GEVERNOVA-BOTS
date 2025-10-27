@@ -12,11 +12,11 @@
     - block:
         - debug: 
             msg: "No ci to validate"
-      when: Affected_CI_reg.output | length == 0
+      when: CI_list | length == 0
     - block:
         - debug: 
             msg: "No ci to validate"
-      when: "'error' in Affected_CI_reg.output "
+      when: "'error' in CI_list"
 
 
 
