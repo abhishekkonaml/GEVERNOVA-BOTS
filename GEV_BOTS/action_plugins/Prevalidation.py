@@ -22,7 +22,7 @@ class ActionModule(ActionBase):
             print("Change number is missing")
 
         chobj=CMDB()
-        res=chobj.get_ci_affected_details_change(Change_number,"affected_ci_list")
+        res=chobj.get_ci_affected_details_change(Change_number)
         return(res)
    
 
