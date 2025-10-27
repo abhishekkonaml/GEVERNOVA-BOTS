@@ -4,7 +4,7 @@
     - name: get affected Ci
       action: Prevalidation Change='GEVCHG0030755' 
       register: Affected_CI_reg
-    - debug: var=Affected_CI_reg
+    - debug: var=Affected_CI_reg.output
 
 
 
