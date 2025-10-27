@@ -23,6 +23,6 @@ class ActionModule(ActionBase):
 
         chobj=CMDB()
         result=chobj.get_ci_affected_details_change(Change_number)
-        return(result[0]['affected_ci_list'])
+        return(result['result'][0]['affected_ci_list'])
    
 
