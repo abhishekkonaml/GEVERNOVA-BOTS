@@ -26,8 +26,10 @@ class ActionModule(ActionBase):
                sys_id = chobj.get_ci_affected_details_change(ch_number)
                sys = sys_id['result'][0]['sys_id']
                tasks_data = chobj.get_tasks_by_change_sys_id(sys)
-               for i in tasks_data:
-                   print(i['change_task_type'])
+               for task in tasks_data:
+                   if(task.get('change_task_type') == 'Implementation'):
+                       print(task['number'])
+                
             
 
                
