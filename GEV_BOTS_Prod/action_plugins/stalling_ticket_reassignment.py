@@ -23,6 +23,7 @@ class ActionModule(ActionBase):
             cst_timezone = pytz.timezone('US/Eastern')
             current_us_time = datetime.now(cst_timezone)
             print(current_us_time)
+            print("=-=-"*25)
             for stalled_ticket in fetch_stalled_tickets:
                 Number=stalled_ticket['number']
                 group='HQ CTO Network Enterprise Site Support'
