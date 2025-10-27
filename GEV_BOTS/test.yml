@@ -1,7 +1,7 @@
 - name: test
   hosts: localhost
   tasks:
-    - name: get affected Ci
+    - name: fetch affected Ci
       action: Prevalidation Change='GEVCHG0030755' 
       register: Affected_CI_reg
       ignore_errors: yes
@@ -10,11 +10,17 @@
         CI_list: "{{ Affected_CI_reg.output }}"
       ignore_errors: yes
     - debug: var=CI_list
+
     - name: ping device
       include_tasks: common_actions/DeviceSilencing_ping.yml
       loop: "{{ CI_list }}"
       loop_control:
         loop_var: CI
+
+    - name: change state from scheduled to implement
+      action: Change_state change='GEVCHG0031068' state='review'
+      register:
+      ignore_errors: yes
 
 
 
