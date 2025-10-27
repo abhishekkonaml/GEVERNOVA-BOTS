@@ -30,11 +30,11 @@ class ActionModule(ActionBase):
                     utctime=datetime.strftime(current_utc_time,"%m-%d-%Y %I:%M:%S %p")
                     utc_time_now=datetime.strptime(utctime,"%m-%d-%Y %I:%M:%S %p")
                     time_difference=(utc_time_now-tickettime).total_seconds()
-                    if time_difference>3600:
+                    if time_difference>3600: 
                         #print(Number,group)
                         #print("=-=-"*25)
                         print(Number,time_difference)
-                        print(incobj.reassignment(Number,group))
+                        #print(incobj.reassignment(Number,group))
                 except Exception as e:
                        pass
             return {'status': 'success', 'response': 'Stalled tickets reassigned successfully'}
