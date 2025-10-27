@@ -16,8 +16,14 @@ class ActionModule(ActionBase):
            ch_number=self._task.args["change"]
            ch_state=self._task.args["state"]
            
-           chobj=CMDB()
-           return {'status': 'success', 'result': chobj.state_change(ch_number,ch_state)}
+           if(ch_state == 'implement'):
+               chobj=CMDB()
+               return {'status': 'success', 'result': chobj.state_change(ch_number,ch_state)}
+           if(ch_state == 'review'):
+               chobj=CMDB()
+               tasks = chobj.get_tasks_by_change(ch_number)
+               result = tasks['result'][0]['affected_ci_list']
+               print(result)
         except Exception as e:
            return {'status': 'failed', 'result': str(e)}
 

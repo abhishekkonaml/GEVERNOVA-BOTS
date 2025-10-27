@@ -227,6 +227,23 @@ class CMDB:
                   return ("Failed - {}".format(response.json()['error']['message']))
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
+          
+      def get_tasks_by_change(self,query):
+          url="https://stage.api.gevernova.com/servicenow_change/record/{}".format(query)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.intelligenie',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json())
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
       
       def state_change(self,ch_number,state):
         token='Bearer {}'.format(self.access_token)
