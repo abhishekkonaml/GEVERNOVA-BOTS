@@ -15,8 +15,8 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-            #query1="assignment_group=609fb9273b426690e2d5cbc964e45a7a^state!=6^state!=7"
-            query1="assignment_group=609fb9273b426690e2d5cbc964e45a7a"
+            query1="assignment_group=609fb9273b426690e2d5cbc964e45a7a^state!=6^state!=7"
+            #query1="assignment_group=609fb9273b426690e2d5cbc964e45a7a"
             #query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2"
             incobj=Incidents()
             fetch_stalled_tickets=incobj.get_incident_details_by_query(query1)
@@ -37,7 +37,7 @@ class ActionModule(ActionBase):
                         #print(Number,group)
                         #print("=-=-"*25)
                         print(Number,time_difference)
-                        #print(incobj.reassignment(Number,group))
+                        print(incobj.reassignment(Number,group))
                 except Exception as e:
                        pass
             return {'status': 'success', 'response': 'Stalled tickets reassigned successfully'}
