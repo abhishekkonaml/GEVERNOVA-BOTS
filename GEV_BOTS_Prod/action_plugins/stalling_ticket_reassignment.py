@@ -20,21 +20,19 @@ class ActionModule(ActionBase):
             #query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2"
             incobj=Incidents()
             fetch_stalled_tickets=incobj.get_incident_details_by_query(query1)
-            cst_timezone = pytz.timezone('US/Eastern')
-            current_us_time = datetime.now(cst_timezone)
-            print(current_us_time)
-            print("=-=-"*25)
+            est_timezone = pytz.timezone('US/Eastern')
+            
             for stalled_ticket in fetch_stalled_tickets:
                 Number=stalled_ticket['number']
                 group='HQ CTO Network Enterprise Site Support'
                 openedAt=stalled_ticket['sys_created_on']
                 #print(Number,repr(openedAt))
                 try:
-                    current_us_time = datetime.now()
+                    current_est_time = datetime.now(est_timezone)
                     tickettime=datetime.strptime(openedAt,"%m-%d-%Y %I:%M:%S %p")
-                    ustime=datetime.strftime(current_us_time,"%m-%d-%Y %I:%M:%S %p")
-                    us_time_now=datetime.strptime(ustime,"%m-%d-%Y %I:%M:%S %p")
-                    time_difference=(us_time_now-tickettime).total_seconds()
+                    esttime=datetime.strftime(current_est_time,"%m-%d-%Y %I:%M:%S %p")
+                    est_time_now=datetime.strptime(esttime,"%m-%d-%Y %I:%M:%S %p")
+                    time_difference=(est_time_now-tickettime).total_seconds()
                     if time_difference>3600: 
                         #print(Number,group)
                         #print("=-=-"*25)
