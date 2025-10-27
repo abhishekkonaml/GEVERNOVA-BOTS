@@ -1,7 +1,8 @@
 ---
-
+ - set_fact:
+     hostname: "{{ CI }}.gdn.ge.com"
  - name: Source Ping check 
-   shell: ping -c 2 {{ CI }}
+   shell: ping -c 2 {{ hostname }}
    register: ping_result1
    ignore_errors: true
  - debug: var=ping_result1
