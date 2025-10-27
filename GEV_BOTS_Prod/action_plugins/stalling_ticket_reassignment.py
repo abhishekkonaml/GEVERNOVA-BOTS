@@ -6,7 +6,8 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import warnings
 from GEV_Prod_Servicenow import Incidents
-from datetime import datetime, timezone
+from datetime import datetime
+import pytz
 incobj=Incidents()
 warnings.filterwarnings("ignore")
 
@@ -19,7 +20,8 @@ class ActionModule(ActionBase):
             #query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2"
             incobj=Incidents()
             fetch_stalled_tickets=incobj.get_incident_details_by_query(query1)
-            current_us_time = datetime.now()
+            cst_timezone = pytz.timezone('US/Eastern')
+            current_us_time = datetime.now(cst_timezone)
             print(current_us_time)
             print("=-=-"*25)
             for stalled_ticket in fetch_stalled_tickets:
