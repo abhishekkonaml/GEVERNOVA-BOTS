@@ -26,8 +26,9 @@ class ActionModule(ActionBase):
                sys_id = chobj.get_ci_affected_details_change(ch_number)
                sys = sys_id['result'][0]['sys_id']
                tasks_data = chobj.get_tasks_by_change_sys_id(sys)
-               for task in tasks_data:
-                   task_numbers.append(task)
+               data = tasks_data['result']
+               for i in data:
+                   task_numbers.append(i)
                 
             
 
