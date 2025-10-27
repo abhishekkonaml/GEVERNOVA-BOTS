@@ -28,13 +28,14 @@ class ActionModule(ActionBase):
                tasks_data = chobj.get_tasks_by_change_sys_id(sys)
                data = tasks_data['result']
                for i in data:
-                   task_numbers.append(i)
+                   if(i.get('change_task_type') == 'Implementation'):
+                       implementation_task = i['number']
                 
             
 
                
                
-               return {'status': 'success', 'result': task_numbers}
+               return {'status': 'success', 'result': implementation_task}
                    
                 
             
