@@ -7,7 +7,7 @@
     - debug: var=Affected_CI_reg.output
     - set_fact:
         CI_list: "{{ Affected_CI_reg.output }}"
-    - debug: var= CI_list
+    - debug: var=CI_list
   
     - block:
         - debug: 
