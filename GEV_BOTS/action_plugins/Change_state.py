@@ -23,12 +23,11 @@ class ActionModule(ActionBase):
            if(ch_state == 'review'):
                task_numbers=[]
                chobj=CMDB()
-               tasks = chobj.get_tasks_by_change(ch_number)
-               result = tasks['result'][0]['children']
-               for i in result:
-                   task_numbers.append(i['number'])
+               sys_id = chobj.get_ci_affected_details_change(ch_number)
+               sys = sys_id['result'][0]['sys_id']
                
-               return {'status': 'success', 'result': task_numbers}
+               
+               return {'status': 'success', 'result': sys}
                    
                 
             
