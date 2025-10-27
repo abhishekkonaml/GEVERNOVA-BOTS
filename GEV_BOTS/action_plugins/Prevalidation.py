@@ -22,6 +22,19 @@ class ActionModule(ActionBase):
             print("Change number is missing")
 
         chobj=CMDB()
-        result=chobj.get_ci_affected_details_change(Change_number)
-        return(result)
+        res=chobj.get_ci_affected_details_change(Change_number)
+        try:
+            devices=[]
+            result = res['result'][0]['affected_ci_list']
+            for i in result:
+                if "ip_switch" in i['ci_sys_class_name'] or "ip_router" in i['ci_sys_class_name'] or "wap_network" in i['ci_sys_class_name']:
+                    devices.append(i['ci_name'])
+            return {'status': 'success','output': devices}
+            
+        except:
+            devices = "error"
+            return {'status': 'failed', 'output': devices}
+
+        
+   
 

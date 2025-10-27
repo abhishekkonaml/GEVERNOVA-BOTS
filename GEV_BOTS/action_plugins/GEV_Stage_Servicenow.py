@@ -222,7 +222,7 @@ class CMDB:
           try: 
                response = requests.request("GET", url, headers=headers,verify=False)
                if response.status_code == 200:
-                  return (response.json()['result'])
+                  return (response.json())
                else:
                   return ("Failed - {}".format(response.json()['error']['message']))
           except Exception as e:
