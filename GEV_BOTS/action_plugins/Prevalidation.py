@@ -23,7 +23,14 @@ class ActionModule(ActionBase):
 
         chobj=CMDB()
         res=chobj.get_ci_affected_details_change(Change_number)
-        print(res['result'][0]['affected_ci_list'])
-        print('****************************')
+        try:
+            result = res['result'][0]['affected_ci_list']
+            return {'status': 'success','output': result}
+            
+        except:
+            result = "error"
+            return {'status': 'failed', 'output': result}
+
+        
    
 
