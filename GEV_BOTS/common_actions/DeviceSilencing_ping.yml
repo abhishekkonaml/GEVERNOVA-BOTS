@@ -12,5 +12,5 @@
               {{ ping_result1.stdout }}
 
  - debug: var=result
- #- name: update notes
- #  action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
+ - name: update notes
+   action: update_notes_change change_number='{{ change_number }}' work_notes='{{ result }}'

@@ -24,10 +24,10 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-           incident=self._task.args["incident"]
+           ch_number=self._task.args["change_number"]
            work_notes=self._task.args["work_notes"]
            incobj=Incidents()
-           return {'status': 'success', 'result': incobj.update_notes(incident,work_notes)}
+           return {'status': 'success', 'result': incobj.update_notes_change(ch_number,work_notes)}
         except Exception as e:
            return {'status': 'failed', 'result': str(e)}
 
