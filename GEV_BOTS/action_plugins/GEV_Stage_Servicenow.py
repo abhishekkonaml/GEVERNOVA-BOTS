@@ -271,7 +271,7 @@ class CMDB:
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
     
-      def close_change_tasks(self,ch_number):
+      def close_change_tasks(self,ch_number,assigned):
         token='Bearer {}'.format(self.access_token)
         url1="https://stage.api.gevernova.com/servicenow_change/task" 
         payload = json.dumps({
@@ -282,7 +282,7 @@ class CMDB:
                                 },
                                 "number": ch_number,
                                
-                                "assigned_to" : 504018887,
+                                "assigned_to" : assigned,
                                 "state":"3",
                                 "close_code": "successful",
                                 "close_notes": "Change task successfully closed by bot",

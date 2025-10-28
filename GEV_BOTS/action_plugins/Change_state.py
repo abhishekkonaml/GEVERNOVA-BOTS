@@ -32,15 +32,17 @@ class ActionModule(ActionBase):
                flag_test=0
                for i in data:
                    if(i.get('change_task_type') == 'Implementation'):
+                       assigned=504018887
                        implementation_task_number = i['number']
-                       res_implementation=chobj.close_change_tasks(implementation_task_number)
+                       res_implementation=chobj.close_change_tasks(implementation_task_number,assigned)
                        print(res_implementation)
                        flag_implementation=1
                if(flag_implementation == 1):
                    for i in data:
                        if(i.get('change_task_type') == 'Testing'):
+                           assigned=504018889
                            test_task_number = i['number']
-                           res_test=chobj.close_change_tasks(test_task_number)
+                           res_test=chobj.close_change_tasks(test_task_number,assigned)
                            print(res_test)
                            flag_test=1
                if(flag_implementation ==1 and flag_test ==1):
