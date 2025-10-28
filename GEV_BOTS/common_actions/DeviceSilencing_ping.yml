@@ -14,3 +14,5 @@
  - debug: var=result
  - name: update notes
    action: update_notes_change change_number='{{ change_number }}' work_notes='{{ result }}'
+   register: notes_result
+ - debug: var=notes_result
