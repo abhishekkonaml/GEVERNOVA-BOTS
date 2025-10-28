@@ -12,6 +12,7 @@
         CI_list: "{{ Affected_CI_reg.output }}"
       ignore_errors: yes
     - debug: var=CI_list
+    
 
     - name: ping device
       include_tasks: common_actions/DeviceSilencing_ping.yml
@@ -25,11 +26,11 @@
     #  ignore_errors: yes
     #- debug: var=op
 
-    #- name: change state from implement to review
-    #  action: Change_state change='{{ change_number }}' state='review'
-    #  register: op
-    #  ignore_errors: yes
-    #- debug: var=op
+    - name: change state from implement to review
+      action: Change_state change='{{ change_number }}' state='review'
+      register: op
+      ignore_errors: yes
+    - debug: var=op
 
 
 
