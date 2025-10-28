@@ -256,7 +256,7 @@ class CMDB:
                                 },
                                 "number": ch_number,
                                
-                                "assigned_to" : 212493581,
+                                "assigned_to" : 504018887,
                                 "state":"3",
                                 "close_code": "successful",
                                 "close_notes": "Change task successfully closed by bot",
