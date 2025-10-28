@@ -27,17 +27,20 @@ class ActionModule(ActionBase):
                sys = sys_id['result'][0]['sys_id']
                tasks_data = chobj.get_tasks_by_change_sys_id(sys)
                data = tasks_data['result']
+               flag=0
                for i in data:
                    if(i.get('change_task_type') == 'Implementation'):
-                       implementation_task = i['number']
-                   #if(i.get('change_task_type') == 'Testing'):
-                       
-                
-            
-
+                       implementation_task_number = i['number']
+                       res_implementation=chobj.close_change_tasks(implementation_task_number)
+                       flag=1
+               if(flag == 1):
+                   for i in data:
+                       if(i.get('change_task_type') == 'Testing'):
+                           test_task_number = i['number']
+                           res_test=chobj.close_change_tasks(test_task_number)
+  
                
-               
-               return {'status': 'success', 'result': implementation_task}
+               return {'status': 'success', 'result': res_test}
                    
                 
             
