@@ -21,27 +21,34 @@ class ActionModule(ActionBase):
                results=chobj.state_change(ch_number,ch_state)
                return {'status': 'success', 'result': results}
            if(ch_state == 'review'):
-               task_numbers=[]
+               
                chobj=CMDB()
                sys_id = chobj.get_ci_affected_details_change(ch_number)
                sys = sys_id['result'][0]['sys_id']
                tasks_data = chobj.get_tasks_by_change_sys_id(sys)
                data = tasks_data['result']
                print(data)
-               flag=0
+               flag_implementation=0
+               flag_test=0
                for i in data:
                    if(i.get('change_task_type') == 'Implementation'):
                        implementation_task_number = i['number']
                        res_implementation=chobj.close_change_tasks(implementation_task_number)
-                       flag=1
-               if(flag == 1):
+                       flag_implementation=1
+               if(flag_implementation == 1):
                    for i in data:
                        if(i.get('change_task_type') == 'Testing'):
                            test_task_number = i['number']
                            res_test=chobj.close_change_tasks(test_task_number)
+                           flag_test=1
+               if(flag_implementation ==1 and flag_test ==1):
+                   output=chobj.state_change(ch_number,'review')
+               else:
+                   output='Unable to close tasks and move change to review state'
+                   
   
                
-               return {'status': 'success', 'result': res_test}
+               return {'status': 'success', 'result': output}
                    
                 
             
