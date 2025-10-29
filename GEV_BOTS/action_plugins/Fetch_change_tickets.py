@@ -20,10 +20,15 @@ class ActionModule(ActionBase):
             incobj=Incidents()
             fetch_changed_tickets=incobj.get_change_details_by_query(query1)
             
-            
+            ch_list=[]
             for change_ticket in fetch_changed_tickets:
                 Number=change_ticket['number']
-                print(Number)
+                ch_list.append(Number)
+            if(len(ch_list) == 0):
+                result='No device silencing tickets'
+            else:
+                result=ch_list
+                
                 
                 #try:
                 #    current_est_time = datetime.now(est_timezone)
@@ -38,6 +43,6 @@ class ActionModule(ActionBase):
                 #        print(incobj.reassignment(Number,group))
                 #except Exception as e:
                 #       pass
-            return {'status': 'success', 'response': fetch_changed_tickets}
+            return {'status': 'success', 'response': result}
         except Exception as e:
             return {'status': 'failed','response':str(e)}
