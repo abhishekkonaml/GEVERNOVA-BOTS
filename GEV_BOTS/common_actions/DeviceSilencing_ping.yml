@@ -7,12 +7,12 @@
    ignore_errors: true
  - debug: var=ping_result1
  - set_fact: 
-     result: |
+     ping_result: |
               [code] <h3> PING RESULTS: {{ hostname }} </h3> [/code]
               {{ ping_result1.stdout }}
 
- - debug: var=result
+ - debug: var=ping_result
  - name: update notes
-   action: update_notes_change change_number='{{ change_number }}' work_notes='{{ result }}'
+   action: update_notes_change change_number='{{ change_number }}' work_notes='{{ ping_result }}'
    register: notes_result
  - debug: var=notes_result
