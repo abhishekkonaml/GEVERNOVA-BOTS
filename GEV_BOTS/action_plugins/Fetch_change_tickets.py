@@ -15,7 +15,7 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-            query1="state=0^short_descriptionLIKEDevice Silencing/change_request"
+            query1="state=-2^short_descriptionLIKEDevice Silencing/change_request"
 
             incobj=Incidents()
             fetch_changed_tickets=incobj.get_change_details_by_query(query1)
