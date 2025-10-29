@@ -11,6 +11,10 @@
     - block:
         - debug:
             msg: "Call prevalidation role"
+        - include_tasks: bots/Device silencing/Pre_Validation.yml
+          loop: "{{ numbers }}"
+          loop_control: 
+            loop_var: ch_number
         
         
       when: "'string indices must be integers' not in result.response"

@@ -1,6 +1,6 @@
 ---
     - set_fact:
-        change_number: GEVCHG0030977
+        change_number: "{{ ch_number }}"
     - name: fetch affected Ci
       action: Prevalidation Change='{{ change_number }}' 
       register: Affected_CI_reg
