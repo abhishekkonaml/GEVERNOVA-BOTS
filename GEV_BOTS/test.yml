@@ -4,7 +4,7 @@
     - name: fetch change tickets for pre validation
       action: Fetch_change_tickets
       register: result
-    - debug: var=result
+    - debug: var=result.response
     #- set_fact:
     #    change_number: GEVCHG0030977
     #- name: fetch affected Ci
