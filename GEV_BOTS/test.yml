@@ -5,6 +5,15 @@
       action: Fetch_change_tickets
       register: result
     - debug: var=result.response
+    - set_fact:
+        numbers: "{{ result.response }}"
+    - debug: var=numbers
+    - block:
+        - debug:
+            msg: "Call prevalidation role"
+        
+        
+      when: "'string indices must be integers' not in result.response"
     #- set_fact:
     #    change_number: GEVCHG0030977
     #- name: fetch affected Ci
