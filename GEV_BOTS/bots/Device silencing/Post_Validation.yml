@@ -18,12 +18,16 @@
       loop_control:
         loop_var: CI
 
-    - name: change state from scheduled to implement
-      action: Change_state change='{{ change_number }}' state='implement'
+
+    - name: change state from implement to review
+      action: Change_state change='{{ change_number }}' state='review'
       register: op
       ignore_errors: yes
     - debug: var=op
 
+
+
+  
     - block:
         - debug: 
             msg: "No ci to validate"
@@ -39,14 +43,6 @@
 
 
 
-
-
-
-
-
-
-      
-    
     
 
 
