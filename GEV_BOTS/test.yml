@@ -18,11 +18,13 @@
         
         
     #  when: "'string indices must be integers' not in result.response"
-
+    - set_fact:
+        query: "short_descriptionLIKEDevice Silencing^state=-1/change_request"
     - name: fetch change tickets for post validation
-      action: Fetch_change_tickets query1="short_descriptionLIKEDevice Silencing^state=-1/change_request"
+      action: Fetch_change_tickets query1="{{ query }}"
       register: result
     - debug: var=result.response
+    - debug: var=query
     - set_fact:
         numbers: "{{ result.response }}"
     - debug: var=numbers
