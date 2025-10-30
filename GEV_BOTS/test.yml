@@ -35,7 +35,7 @@
             loop_var: ch_number
         
         
-      when: "'string indices must be integers' not in result.response"
+      when: "'string indices must be integers' not in numbers"
  
 
 
