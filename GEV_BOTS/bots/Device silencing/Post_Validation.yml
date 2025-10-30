@@ -24,6 +24,7 @@
       loop: "{{ CI_list }}"
       loop_control:
         loop_var: CI
+      ignore_errors: yes
 
 
     - name: change state from implement to review
