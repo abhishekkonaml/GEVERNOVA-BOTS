@@ -15,10 +15,10 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-            query1="short_descriptionLIKEDevice Silencing^start_date<javascript:gs.beginningOfCurrentMinute()^start_date>javascript:gs.endOfYesterday()^state=-2/change_request"
-
+            
+            Query=self._task.args["query1"]
             incobj=Incidents()
-            fetch_changed_tickets=incobj.get_change_details_by_query(query1)
+            fetch_changed_tickets=incobj.get_change_details_by_query(Query)
             
             ch_list=[]
             for change_ticket in fetch_changed_tickets:
