@@ -33,6 +33,7 @@
           loop: "{{ numbers }}"
           loop_control: 
             loop_var: ch_number
+          ignore_errors: yes
         
         
       when: "'string indices must be integers' not in numbers"
