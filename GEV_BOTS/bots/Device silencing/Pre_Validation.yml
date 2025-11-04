@@ -84,7 +84,7 @@
           action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
           register: notes_result
         - debug: var=notes_result
-      when: "'Failed' in op.result"
+      when: "'Failed' not in op.result"
     - block:
         - debug: 
             msg: "No ci to validate"
