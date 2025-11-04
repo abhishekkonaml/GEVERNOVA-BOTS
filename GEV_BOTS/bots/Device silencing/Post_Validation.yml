@@ -79,7 +79,7 @@
     - block:
         - set_fact:
            notes: |
-              [code] <h3> Closed change tasks. Updated change ticket status from Implement to Review. </h3> [/code]
+              [code] <h3> Closed change tasks. <br> Updated change ticket status from Implement to Review. </h3> [/code]
             
         - name: update notes
           action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
