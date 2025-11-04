@@ -26,7 +26,7 @@
     - set_fact:
          #query: "short_descriptionLIKEDevice silencing^state=-1^end_date<javascript:gs.beginningOfCurrentMinute()^end_date>=javascript:gs.beginningOfLast15Minutes()/change_request"
          #query: "short_descriptionLIKEDevice silencing^state=-1^end_dateLESSTHANend_date@hour@before@0.25"
-        query: "short_descriptionLIKEDevice Silencing^state=-1^end_date>=javascript:gs.minutesAgoStart(15)^end_date<=javascript:gs.now()/change_request"
+        query: "short_descriptionLIKEDevice silencing^state=-1^end_dateRELATIVELT@minute@ahead@10^end_date>=javascript:gs.beginningOfLast15Minutes()/change_request"
     - name: fetch change tickets for post validation
       action: Fetch_change_tickets query1="{{ query }}"
       register: result
