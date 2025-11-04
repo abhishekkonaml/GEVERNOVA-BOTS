@@ -42,10 +42,13 @@
            [code]
            <table border="1" cellpadding="6" cellspacing="0">
            <thead>
+           <table border="1"> 
            <tr>
-           <th>Device Name</th>
-           <th>Status</th>
+                      <th style="text-align:center;background-color:#008080;color:white"> SNo  </th> 
+                      <th style="text-align:center;background-color:#008080;color:white"> Devices  </th> 
+                      <th style="text-align:center;background-color:#008080;color:white"> Reachability </th>
            </tr>
+
            </thead>
            <tbody>
 
