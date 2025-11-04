@@ -20,21 +20,21 @@
 
     - name: Initialize empty dictionary
       set_fact:
-         affected_device_status: {}
+         ci_dict: {}
     
 
     - name: ping device
       include_tasks: common_actions/DeviceSilencing_ping.yml
-      vars:
-        affected_device_status: "{{ affected_device_status }}"
       loop: "{{ CI_list }}"
       loop_control:
         loop_var: CI
+      vars:
+        affected_device_status: "{{ ci_dict }}"
       
       ignore_errors: yes
     - name: affected device output
       debug: 
-        var: affected_device_status
+        var: ci_dict
       ignore_errors: yes
 
     - name: convert dictionary to html table
@@ -54,7 +54,7 @@
            </thead>
            <tbody>
 
-              {% for name, status in affected_device_status.items() %}
+              {% for name, status in ci_dict.items() %}
            <tr>
            <td>{{ name }}</td>
            <td>{{ status }}</td>
