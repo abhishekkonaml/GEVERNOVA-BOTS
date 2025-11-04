@@ -38,7 +38,8 @@
 
     - name: convert dictionary to html table
       set_fact:
-         html_code: |
+         html_code: | 
+           [code]
            <table border="1" cellpadding="6" cellspacing="0">
            <thead>
            <tr>
@@ -57,6 +58,7 @@
               {% endfor %}
            </tbody>
            </table>
+           [/code]
       ignore_errors: yes
 
     - name: update notes
