@@ -40,7 +40,7 @@ class ActionModule(ActionBase):
                if(flag_implementation == 1):
                    for i in data:
                        if(i.get('change_task_type') == 'Testing'):
-                           assigned=504018889
+                           assigned=503415988
                            test_task_number = i['number']
                            res_test=chobj.close_change_tasks(test_task_number,assigned)
                            print(res_test)
