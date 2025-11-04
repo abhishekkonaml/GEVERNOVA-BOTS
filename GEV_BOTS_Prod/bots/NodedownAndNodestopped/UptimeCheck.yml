@@ -100,6 +100,7 @@
               
                - action: closeincident incident='{{ incident_no }}'
                  register: close_ticket
+               - debug: var=close_ticket
             
                - meta: end_play
               when: UpTimeNumericValue | int >= 30
