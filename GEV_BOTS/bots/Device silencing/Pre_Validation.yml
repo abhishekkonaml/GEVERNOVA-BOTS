@@ -57,6 +57,7 @@
               {% endfor %}
            </tbody>
            </table>
+      ignore_errors: yes
 
     - name: update notes
       action: update_notes_change change_number='{{ change_number }}' work_notes='{{ html_code }}'
