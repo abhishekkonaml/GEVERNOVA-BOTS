@@ -10,6 +10,19 @@
      ping_result: |
               [code] <h3> PING RESULTS: {{ hostname }} </h3> [/code]
               {{ ping_result1.stdout }}
+ - block:
+   - set_fact:
+       my_dict: "{{ my_dict | combine({ hostname: 'Reachable'}) }}"
+     
+   when: "'64 bytes' in ping_result1.stdout"
+ - block:
+   - set_fact:
+       my_dict: "{{ my_dict | combine({ hostname: 'Unreachable'}) }}"
+     
+   when: "'64 bytes' not in ping_result1.stdout"
+     
+
+ 
 
  - debug: var=ping_result
  - name: update notes
