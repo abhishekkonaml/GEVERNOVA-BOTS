@@ -67,6 +67,7 @@
     - name: update notes
       action: update_notes_change change_number='{{ change_number }}' work_notes='{{ html_code }}'
       register: notes_result
+      ignore_errors: yes
     - debug: var=notes_result
 
     - name: change state from implement to review
@@ -82,6 +83,7 @@
         - name: update notes
           action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
           register: notes_result
+          ignore_errors: yes
         - debug: var=notes_result
       when: "'Unable to close tasks and move change to review state' not in op.result"
 

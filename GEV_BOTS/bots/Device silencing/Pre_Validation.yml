@@ -68,6 +68,7 @@
     - name: update notes
       action: update_notes_change change_number='{{ change_number }}' work_notes='{{ html_code }}'
       register: notes_result
+      ignore_errors: yes
     - debug: var=notes_result
 
     - name: change state from scheduled to implement
@@ -83,6 +84,7 @@
         - name: update notes
           action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
           register: notes_result
+          ignore_errors: yes
         - debug: var=notes_result
       when: "'Failed' not in op.result"
     - block:
