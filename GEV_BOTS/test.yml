@@ -24,7 +24,7 @@
         
      
     - set_fact:
-        query: "short_descriptionLIKEDevice Silencing^state=-1^start_dateRELATIVEGT@minute@ago@15^start_dateRELATIVELT@minute@ago@0/change_request"
+        query: "short_descriptionLIKEDevice Silencing^state=-1^start_date>=javascript:gs.minutesAgoStart(15)^start_date<=javascript:gs.now()/change_request"
     - name: fetch change tickets for post validation
       action: Fetch_change_tickets query1="{{ query }}"
       register: result
