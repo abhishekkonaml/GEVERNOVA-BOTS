@@ -22,14 +22,15 @@
     
     - name: Initialize empty dictionary
       set_fact:
-         dict: {}
+         affected_device_status: {}
     - name: ping device
       include_tasks: common_actions/DeviceSilencing_ping.yml
+      vars:
+        affected_device_status: "{{ affected_device_status }}"
       loop: "{{ CI_list }}"
       loop_control:
         loop_var: CI
-      vars:
-        affected_device_status: "{{ dict }}"
+      
       ignore_errors: yes
     - name: affected device output
       debug: 
