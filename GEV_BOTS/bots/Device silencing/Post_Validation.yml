@@ -3,7 +3,7 @@
         change_number: "{{ ch_number }}"
     - set_fact:
         notes: |
-              [code] <h3> BOT HAS STARTED POST VALIDATION </h3> [/code]
+              [code] <h3> POST VALIDATION: Checking health status of affected CI </h3> [/code]
             
     - name: update notes
       action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
@@ -17,6 +17,10 @@
         CI_list: "{{ Affected_CI_reg.output }}"
       ignore_errors: yes
     - debug: var=CI_list
+
+    - name: Initialize empty dictionary
+      set_fact:
+         dict: {}
     
 
     - name: ping device
@@ -24,14 +28,62 @@
       loop: "{{ CI_list }}"
       loop_control:
         loop_var: CI
+      vars:
+        affected_device_status: "{{ dict }}"
+      ignore_errors: yes
+    - name: affected device output
+      debug: 
+        var: affected_device_status
       ignore_errors: yes
 
+    - name: convert dictionary to html table
+      set_fact:
+         html_code: | 
+           [code]
+           <table border="1" cellpadding="6" cellspacing="0">
+           <thead>
+           <h3> Post Validation Summary:</h3>
+           <table border="1"> 
+           <tr>
+                     
+                      <th style="text-align:center;background-color:#008080;color:white"> Devices  </th> 
+                      <th style="text-align:center;background-color:#008080;color:white"> Status </th>
+           </tr>
+
+           </thead>
+           <tbody>
+
+              {% for name, status in affected_device_status.items() %}
+           <tr>
+           <td>{{ name }}</td>
+           <td>{{ status }}</td>
+           </tr>
+
+              {% endfor %}
+           </tbody>
+           </table>
+           [/code]
+      ignore_errors: yes
+    - name: update notes
+      action: update_notes_change change_number='{{ change_number }}' work_notes='{{ html_code }}'
+      register: notes_result
+    - debug: var=notes_result
 
     - name: change state from implement to review
       action: Change_state change='{{ change_number }}' state='review'
       register: op
       ignore_errors: yes
     - debug: var=op
+    - block:
+        - set_fact:
+           notes: |
+              [code] <h3> Closed change tasks. Updated change ticket status from Implement to Review. </h3> [/code]
+            
+        - name: update notes
+          action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
+          register: notes_result
+        - debug: var=notes_result
+      when: "'Unable to close tasks and move change to review state' not in op.result"
 
 
 
