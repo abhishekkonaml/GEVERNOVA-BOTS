@@ -44,7 +44,7 @@
            <thead>
            <table border="1"> 
            <tr>
-                      <th style="text-align:center;background-color:#008080;color:white"> SNo  </th> 
+                     
                       <th style="text-align:center;background-color:#008080;color:white"> Devices  </th> 
                       <th style="text-align:center;background-color:#008080;color:white"> Reachability </th>
            </tr>
