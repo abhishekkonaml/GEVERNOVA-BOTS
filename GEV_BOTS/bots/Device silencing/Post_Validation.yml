@@ -87,6 +87,17 @@
           ignore_errors: yes
         - debug: var=notes_result
       when: "'Unable to close tasks and move change to review state' not in op.result"
+    - block:
+        - set_fact:
+           notes: |
+              [code] <h3> Unable to close change tasks. <br> Unable to move ticket from Implement to review </h3> [/code]
+            
+        - name: update notes
+          action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
+          register: notes_result
+          ignore_errors: yes
+        - debug: var=notes_result
+      when: "'Unable to close tasks and move change to review state' in op.result"
 
 
 
