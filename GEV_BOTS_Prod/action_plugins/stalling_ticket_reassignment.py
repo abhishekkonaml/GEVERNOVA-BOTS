@@ -37,7 +37,7 @@ class ActionModule(ActionBase):
                         #print(Number,group)
                         #print("=-=-"*25)
                         print(Number,time_difference)
-                        print(incobj.reassignment(Number,group))
+                        #print(incobj.reassignment(Number,group))
                 except Exception as e:
                        pass
             return {'status': 'success', 'response': 'Stalled tickets reassigned successfully'}
