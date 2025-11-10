@@ -1,0 +1,401 @@
+import requests
+import json
+class Incidents:
+    def __init__(self):
+        url = "https://fssfed.ge.com/fss/as/token.oauth2?grant_type=client_credentials&scope=api"
+        headers = {
+          'Authorization': 'Basic c2x2TmZYYUFOV3JMUXhTbUhoUjN2ZWdKSkxUMnA1dFVNeXFXd2JBVWh6RVZCdTQ4OlJzNlpOZWo1eFFBV3hBMGJ2d2x5aGFPdERhSG9jbUVUc0kxU0hBZWtMWmx4T3FYYVlXYUJMekhaOGpsMXpRdEM=',
+          
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Cookie': 'PF=AvKeI0z1JjyimQVUejoyav'
+
+        }
+        
+        try: 
+           response = requests.request("POST", url, headers=headers, verify=False)
+           if response.status_code == 200:
+              self.access_token=response.json()["access_token"]
+           else: 
+              self.access_token="Failed to fetch the access token"
+        except Exception as e:
+              self.access_token="Failed to fetch the access token-{}".format(str(e))
+    def incident_creation(self,opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes,cmdb_ci):
+        url1="https://api.gevernova.com/servicenow_incident/"
+        token='Bearer {}'.format(self.access_token)
+        payload = json.dumps({
+                             "insert": {
+                                 "partnerInfo": {
+                                   "externalRecord": "",
+                                   "name": "com.microland.intelligenie"
+                                 },
+                                 "opened_by": opened_by,
+                                 "caller_id": caller_id,
+                                 "business_service": business_service,
+                                 "service_offering": service_offering,
+                                 "assignment_group": assignment_group,
+                                 "short_description": short_description,
+                                 "description": description,
+                                 "urgency": urgency,
+                                 "work_notes": work_notes,
+                                 "cmdb_ci":cmdb_ci
+                             }
+                            })
+        headers = {
+                   'Content-Type': 'application/json',
+                   'Authorization': token,
+                   'Cookie': 'BIGipServerpool_gevernovaqa=e50c24c05607137134b987b035fe487d; JSESSIONID=9E63CEC62D27553D912E725D31E66FBD; glide_node_id_for_js=089cab321ff39bfe74597e963c0c2334b85df218538922fe5f14561ed8de96d7; glide_session_store=0BEBC7B03BE922107BFECBC964E45A75; glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("POST", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 201:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
+    def update_notes_change(self,ch_number,work_notes):
+        token='Bearer {}'.format(self.access_token)
+        url1="https://api.gevernova.com/servicenow_change/" 
+        payload = json.dumps({
+                              "update": {
+                                "partnerInfo": {
+                                  "name": "com.microland.intelligenie",
+                                  "externalRecord": ""
+                                },
+                                "number": ch_number,
+                                "work_notes": work_notes
+                              }
+                            })
+        headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                    'Cookie': 'glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("PUT", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 201:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
+    def update_notes(self,incidentnumber,work_notes):
+        token='Bearer {}'.format(self.access_token)
+        url1="https://api.gevernova.com/servicenow_incident/" 
+        payload = json.dumps({
+                              "update": {
+                                "partnerInfo": {
+                                  "name": "com.microland.intelligenie",
+                                  "externalRecord": ""
+                                },
+                                "number": incidentnumber,
+                                "work_notes": work_notes
+                              }
+                            })
+        headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                    'Cookie': 'glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("PUT", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 201:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
+    def close_ticket(self,incidentnumber,close_notes,close_code):
+        token='Bearer {}'.format(self.access_token)
+        url1="https://api.gevernova.com/servicenow_incident/" 
+        payload = json.dumps({
+                              "update": {
+                                "partnerInfo": {
+                                  "name": "com.microland.intelligenie",
+                                  "externalRecord": ""
+                                },
+                                "number": incidentnumber,
+                                "state" : "6",
+                                "assigned_to" : 212493581,
+                                "close_notes" : close_notes,
+                                "close_code" : close_code
+                              }
+                            })
+        headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                    'Cookie': 'glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("PUT", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 201:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()['error']['message']))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
+    def get_incident_details_by_query(self,query):
+          url1="https://api.gevernova.com/servicenow_incident/query/{}".format(query)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.intelligenie',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url1, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json()['result'])
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
+    def get_change_details_by_query(self,query):
+          url1="https://api.gevernova.com/servicenow_task_cmdb/querytable/{}?sso=504018887".format(query)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.intelligenie',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url1, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return response.json()['result']
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
+
+class CMDB:
+      def __init__(self):
+        url = "https://fssfed.ge.com/fss/as/token.oauth2?grant_type=client_credentials&scope=api"
+        headers = {
+          'Authorization': 'Basic ckdnMVd4V280Rko2SnpZZ2lUY3VnU1pqVzEzdmk1UVBjYnZjTnUxTUF0ZkZRM0xBOjA5enR1UUk4NlZMcVV5TEFOYW5taERuNGRaQXc1UTlYeENkSE5Pb0FpcTAxd0lOTU5JMTdDZFVibXMwRzRNMXQ=',
+          
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Cookie': 'PF=AvKeI0z1JjyimQVUejoyav'
+
+        }
+        
+        try: 
+           response = requests.request("POST", url, headers=headers, verify=False)
+           if response.status_code == 200:
+              self.access_token=response.json()["access_token"]
+           else: 
+              self.access_token="Failed to fetch the access token"
+        except Exception as e:
+              self.access_token="Failed to fetch the access token-{}".format(str(e))
+      def get_ci_details(self,hostname):
+          url="https://api.gevernova.com/servicenow_task_cmdb/name/{}".format(hostname)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.intelligenie',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json()['result'])
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
+      def get_ci_details_by_id(self,id):
+          url="https://api.gevernova.com/servicenow_task_cmdb/id/{}".format(id)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.intelligenie',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json()['result'])
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
+      def get_ci_full_details(self,hostname):
+          url="https://api.gevernova.com/servicenow_task_cmdb/full/{}".format(hostname)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.intelligenie',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json()['result'])
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
+      def get_ci_by_query(self,query):
+          url="https://api.gevernova.com/servicenow_task_cmdb/custom_query?{}".format(query)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.intelligenie',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json()['result'])
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
+          
+      def get_ci_affected_details_change(self,query):
+          url="https://api.gevernova.com/servicenow_change/record/{}".format(query)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.intelligenie',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json())
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
+          
+      def get_tasks_by_change_sys_id(self,query):
+          url="https://api.gevernova.com/servicenow_task_cmdb/querytable/change_request={}/change_task?sso=504018887".format(query)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.intelligenie',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return (response.json())
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))
+    
+      def close_change_tasks(self,ch_number,assigned):
+        token='Bearer {}'.format(self.access_token)
+        url1="https://api.gevernova.com/servicenow_change/task" 
+        payload = json.dumps({
+                              "update": {
+                                "partnerInfo": {
+                                  "name": "com.microland.intelligenie",
+                                  "externalRecord": ""
+                                },
+                                "number": ch_number,
+                               
+                                "assigned_to" : assigned,
+                                "state":"3",
+                                "close_code": "successful",
+                                "close_notes": "Change task successfully closed by bot",
+                                "work_notes":"Change task successfully closed by bot"
+                              }
+                            })
+        headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                    'Cookie': 'glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("PUT", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 201:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()['error']['message']))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
+      
+      def state_change(self,ch_number,state):
+        token='Bearer {}'.format(self.access_token)
+        url1="https://api.gevernova.com/servicenow_change/" 
+        payload = json.dumps({
+                              "update": {
+                                "partnerInfo": {
+                                  "name": "com.microland.intelligenie",
+                                  "externalRecord": ""
+                                },
+                                "number": ch_number,
+                        
+                                "state": state
+                              }
+                            })
+        headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                    'Cookie': 'glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("PUT", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 201:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
+        
+
+
+incobj=Incidents()
+query1="number={}?sso={}".format("GEVINC0042186","503437104")
+query2="active=true^assignment_groupGE Vernova DT CTO Network?sso={}".format("503437104")
+
+opened_by="503437104"
+caller_id="503437104"
+business_service="Monitoring"
+service_offering="Network monitoring"
+assignment_group="GE Vernova DT CTO Network"
+short_description="Ticket Created for Bot- No action required-LMD7432213 critical - emtsdeukstaff03 Network Gi1/0/4 [ID:10636] OperStateHost: emtsdeukstaff03Datasource: Network Interfaces-Gigabit"
+description='''
+Ticket Created for Bot- No action required-
+LMD7432213 critical - emtsdeukstaff03 Network Interfaces-Gi1/0/4 [ID:10636] OperState
+Host: emtsdeukstaff03
+Datasource: Network Interfaces-Gi1/0/4 [ID:10636]
+InstanceGroup: @default
+Datapoint: OperState
+Level: critical
+Start: 2025-06-05 07:39:30 UTC
+Duration: 0h 0m
+Value: 2.0
+ClearValue: 
+Reason: OperState != 1 1 1
+
+Alert Rule: This alert matches the rule Critical
+Recipients: Alert now is going to stage 1 recipients:  Service Now
+https://gev.logicmonitor.com/santaba/uiv4/alert#detail~id=LMD7432213&type=alert
+
+
+'''
+urgency="3"
+work_notes="This is a test. This is only a test."
+cmdb_ci='emtsdeukstaff03'
+#print(incobj.get_incident_details_by_query(query1))
+#print(incobj.get_incident_details_by_query(query2))
+#print(incobj.incident_creation(opened_by,caller_id,business_service,service_offering,assignment_group,short_description,description,urgency,work_notes,cmdb_ci))
+#print(incobj.update_notes("GEVINC0017971",work_notes))
+
+#close_notes="Closed/Resolved by Caller"
+#close_code = "Duplicate"
+#print(incobj.close_ticket("GEVINC0018494",close_notes,close_code))
+
+#cmdbobj=CMDB()
+#print(cmdbobj.get_ci_details("crpwcedzalgie91"))
+#print(cmdbobj.get_ci_full_details("crpwcedzalgie91"))
+#print(cmdbobj.get_ci_details_by_id("1004209415"))
+#field=owned_by&value=Korsós, Balázs
+#query2="field=owned_by&value={}".format("Korsós, Balázs")
+#print(cmdbobj.get_ci_by_query(query2))
+        
