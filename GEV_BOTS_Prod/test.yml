@@ -14,7 +14,7 @@
      - debug: var=numbers
      - block:
         - debug:
-            msg: "Call post validation role"
+            msg: "Call child tagging"
         - include_tasks: bots/ChildTagging/main.yml
           loop: "{{ numbers }}"
           loop_control: 
