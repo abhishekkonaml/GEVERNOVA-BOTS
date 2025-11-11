@@ -20,7 +20,7 @@ class ActionModule(ActionBase):
             incobj=Incidents()
             fetch_parent_details=incobj.get_parent_details_by_number(Number)
             
-            result=fetch_parent_details
+            result=fetch_parent_details['result'][0]["parent_incident"]
             return {'status': 'success', 'response': result}
         except Exception as e:
             return {'status': 'failed','response':str(e)}
