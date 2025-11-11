@@ -19,8 +19,8 @@ class ActionModule(ActionBase):
             Number=self._task.args["INC_Number"]
             incobj=Incidents()
             fetch_parent_details=incobj.get_parent_details_by_number(Number)
-            op=fetch_parent_details
-            print(type(fetch_parent_details))
+            op=fetch_parent_details[0]['short_description']
+            print(type(op))
             return {'status': 'success', 'response': op}
         except Exception as e:
             return {'status': 'failed','response':str(e)}
