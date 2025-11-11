@@ -184,6 +184,23 @@ class Incidents:
                   return ("Failed - {}".format(response.json()['error']['message']))
           except Exception as e:
                   return ("Failed - Something went wrong - {}".format(str(e)))
+    def get_parent_details_by_number(self,number):
+          url1="https://api.gevernova.com/servicenow_incident/query/number={}?sso=503438685".format(number)
+          token='Bearer {}'.format(self.access_token)
+          headers = {
+               'Authorization': token,
+               'tradingPartner': 'com.microland.intelligenie',
+               'Content-Type': 'application/json'
+              }
+          try: 
+               response = requests.request("GET", url1, headers=headers,verify=False)
+               if response.status_code == 200:
+                  return response.json()['result']
+               else:
+                  return ("Failed - {}".format(response.json()['error']['message']))
+          except Exception as e:
+                  return ("Failed - Something went wrong - {}".format(str(e)))        
+        
     def get_incident_details_by_query(self,query):
           url1="https://api.gevernova.com/servicenow_incident/query/{}?sso=503437104".format(query)
           token='Bearer {}'.format(self.access_token)

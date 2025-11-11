@@ -1,0 +1,9 @@
+---
+ - name: Analysis Script
+   hosts: localhost
+   tasks:
+
+     - name: fetch  parent details and update ticket
+       action: Fetch_parent_details_and_update number="{{ INC_Number }}"
+       register: result
+     - debug: var=result

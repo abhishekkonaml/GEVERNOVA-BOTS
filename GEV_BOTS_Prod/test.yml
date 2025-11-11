@@ -6,9 +6,23 @@
         #query: "short_descriptionLIKEDevice silencing^state=-1^end_dateBETWEENjavascript:gs.dateGenerate('2025-11-04','00:00:00')@javascript:gs.endOfToday()/change_request" 
         query: "assignment_group=306e23c52b1cee903439fb5dce91bf1f^state=2^parent_incidentISNOTEMPTY^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
      - name: fetch  tickets for child tagging
-       action: Fetch_parent_details query1="{{ query }}"
+       action: Fetch_tickets_for_Child_tagging query1="{{ query }}"
        register: result
      - debug: var=result.response
+     - set_fact:
+        numbers: "{{ result.response }}"
+     - debug: var=numbers
+     - block:
+        - debug:
+            msg: "Call post validation role"
+        - include_tasks: bots/ChildTagging/main.yml
+          loop: "{{ numbers }}"
+          loop_control: 
+            loop_var: INC_Number
+          ignore_errors: yes
+       
+       
+       when: "'string indices must be integers' not in numbers"
      
       
      
