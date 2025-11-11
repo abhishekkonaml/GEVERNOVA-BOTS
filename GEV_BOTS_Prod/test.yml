@@ -2,34 +2,13 @@
  - name: Analysis Script
    hosts: localhost
    tasks:
-     #- debug:
-     #    msg: "printing password"
-     #- set_fact:
-     #     username: "{{ lookup('env','API_USERNAME') }}"
-     #- set_fact:
-     #     password: "{{ lookup('env', 'API_PASSWORD') }}"
-
-     #- debug: var=username
-     #- debug: var=password
-    - debug: var=tower_job_id
-    - meta: end_play
-    - block:
-       - name: check connectivity
-         action: CommandExecution hostname='POWwvSJPuchik01' command='show clock' incidentno='GEVINC0051234' notesupdate='no' 
-         register: clock_status_register
-         #ignore_errors: true
-         timeout: 10
-       - debug: var=clock_status_register
-      rescue:
-        - debug: 
-            msg: "End the playbook"
-        - meta: end_play
-    - debug:
-        msg: "after rescue block"
-          
-    # timeout: 30
-    
-     #- action: reassignment_ticket incident='GEVINC0058527' group='HQ CTO Network Enterprise Site Support'
-     #  register: reassignment_ticket_register
-     #- debug: var=reassignment_ticket_register
+     - set_fact:
+        #query: "short_descriptionLIKEDevice silencing^state=-1^end_dateBETWEENjavascript:gs.dateGenerate('2025-11-04','00:00:00')@javascript:gs.endOfToday()/change_request" 
+        query: "assignment_group=306e23c52b1cee903439fb5dce91bf1f^state=2^parent_incidentISNOTEMPTY^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
+     - name: fetch  tickets for child tagging
+       action: Fetch_parent_details query1="{{ query }}"
+       register: result
+     - debug: var=result.response
+     
+      
      
