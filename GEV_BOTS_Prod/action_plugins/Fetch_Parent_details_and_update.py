@@ -20,7 +20,7 @@ class ActionModule(ActionBase):
             incobj=Incidents()
             fetch_parent_details=incobj.get_parent_details_by_number(Number)
             description=fetch_parent_details[0]['short_description']
-            updated_description='[Child]' + description
+            updated_description='[Child] ' + description
             rs=incobj.update_short_desription(Number,updated_description)
 
 
