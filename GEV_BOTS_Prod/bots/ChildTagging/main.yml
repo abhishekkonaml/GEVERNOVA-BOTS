@@ -2,6 +2,6 @@
 
 
      - name: fetch  parent details and update ticket
-       action: Fetch_Parent_details_and_update number="{{ INC_Number }}"
+       action: Fetch_Parent_details_and_update INC_Number="{{ INC_Number }}"
        register: result
      - debug: var=result
