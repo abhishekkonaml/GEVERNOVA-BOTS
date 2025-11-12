@@ -3,8 +3,8 @@
    hosts: localhost
    tasks:
      - set_fact:
-        #query: "short_descriptionLIKEDevice silencing^state=-1^end_dateBETWEENjavascript:gs.dateGenerate('2025-11-04','00:00:00')@javascript:gs.endOfToday()/change_request" 
-        query: "assignment_group=306e23c52b1cee903439fb5dce91bf1f^state=2^parent_incidentISNOTEMPTY^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
+        query: "assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionNOT LIKE[Child]^state=2^parent_incidentISNOTEMPTY"
+        #query: "assignment_group=306e23c52b1cee903439fb5dce91bf1f^state=2^parent_incidentISNOTEMPTY^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
      - name: fetch  tickets for child tagging
        action: Fetch_tickets_for_Child_tagging query1="{{ query }}"
        register: result
