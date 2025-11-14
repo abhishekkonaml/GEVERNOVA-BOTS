@@ -10,7 +10,7 @@
         numbers: "{{ result.response }}"
     - debug: var=numbers
     - name: Fetch closure code details from change task for each change
-      action: Change_task_extraction change="{{ number }}"
+      include_tasks: bots/Change_PTR_Notifications/main.yml
       loop: "{{ numbers }}"
       loop_control:
         loop_var: number

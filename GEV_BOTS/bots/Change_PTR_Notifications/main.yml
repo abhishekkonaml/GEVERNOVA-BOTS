@@ -1,0 +1,6 @@
+---
+
+  - name: Fetch closed change tickets
+    action: Change_task_extraction change="{{ number }}"
+    register: Change_task
+  - debug: var=Change_task
