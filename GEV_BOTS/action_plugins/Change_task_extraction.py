@@ -15,20 +15,21 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-           Query=self._task.args["query1"]
-           incobj=Incidents()
+           print("This is to test")
+           #Query=self._task.args["query1"]
+           #incobj=Incidents()
            #chobj=CMDB()
-           fetch_changed_tickets=incobj.get_change_details_by_query(Query)
+           #fetch_changed_tickets=incobj.get_change_details_by_query(Query)
             
-           ch_list=[]
-           tasks_data_list=[]
-           for change_ticket in fetch_changed_tickets:
-               Number=change_ticket['number']
-               ch_list.append(Number)
-           if(len(ch_list) == 0):
-               result='No device silencing tickets'
-           else:
-               result=ch_list
+           #ch_list=[]
+           #tasks_data_list=[]
+           #for change_ticket in fetch_changed_tickets:
+           #    Number=change_ticket['number']
+           #    ch_list.append(Number)
+           #if(len(ch_list) == 0):
+           #    result='No device silencing tickets'
+           #else:
+           #    result=ch_list
            #for i in result:
            #    sys_id = chobj.get_ci_affected_details_change(i)
            #    sys = sys_id['result'][0]['sys_id']
