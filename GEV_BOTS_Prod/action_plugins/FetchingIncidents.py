@@ -32,8 +32,8 @@ class ActionModule(ActionBase):
                      
                      response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                      print({'TicketNo' : incident_no, 'Problem': 'StatusAlert', 'Status': response1})
-           query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()"
-           query3="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2^sys_created_onONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()"
+           query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 45 minutes@javascript:gs.beginningOfLast45Minutes()@javascript:gs.endOfLast45Minutes()"
+           query3="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2^sys_created_onONLast 45 minutes@javascript:gs.beginningOfLast45Minutes()@javascript:gs.endOfLast45Minutes()"
            fetch_statusflap_tickets=incobj.get_incident_details_by_query(query3)
            if type(fetch_statusflap_tickets)==list:
               for statusflap_ticket in fetch_statusflap_tickets:
