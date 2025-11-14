@@ -4,8 +4,8 @@ from ansible.plugins.action import ActionBase
 import sys
 import os
 import warnings
-from GEV_Prod_Servicenow import CMDB
-from GEV_Prod_Servicenow import Incidents
+#from GEV_Prod_Servicenow import CMDB
+from GEV_Prod_Servicenow import Incidents,CMDB
 import math
 
 warnings.filterwarnings("ignore")
