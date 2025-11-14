@@ -5,7 +5,7 @@ import sys
 import os
 import warnings
 #from GEV_Prod_Servicenow import CMDB
-#from GEV_Prod_Servicenow import Incidents
+from GEV_Prod_Servicenow import Incidents
 import math
 
 warnings.filterwarnings("ignore")
@@ -16,10 +16,11 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
            print("This is to test")
-           #Query=self._task.args["query1"]
-           #incobj=Incidents()
+
+           Query=self._task.args["query1"]
+           incobj=Incidents()
            #chobj=CMDB()
-           #fetch_changed_tickets=incobj.get_change_details_by_query(Query)
+           fetch_changed_tickets=incobj.get_change_details_by_query(Query)
             
            #ch_list=[]
            #tasks_data_list=[]
