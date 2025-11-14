@@ -6,6 +6,7 @@
       #action: Fetch_change_tickets query1="close_code=successful_issues^ORclose_code=unsuccessful^closed_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()/change_request"
       register: result
     - debug: var=result.response
+    
     - set_fact:
         numbers: "{{ result.response.split(',') }}"
     - debug: var=numbers
