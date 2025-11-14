@@ -1,9 +1,8 @@
 - name: test
   hosts: localhost
   tasks:
-    - name: fetch change tickets for pre validation
+    - name: fetch change tickets for Notifications
       action: Change_task_extraction query1="close_code=successful_issues^ORclose_code=unsuccessful^closed_atONThis week@javascript:gs.beginningOfThisWeek()@javascript:gs.endOfThisWeek()/change_request"
-      #action: Fetch_change_tickets query1="close_code=successful_issues^ORclose_code=unsuccessful^closed_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()/change_request"
       register: result
     - debug: var=result.response
 
