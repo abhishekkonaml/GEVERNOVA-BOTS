@@ -7,7 +7,7 @@
       register: result
     - debug: var=result.response
     - set_fact:
-        numbers: "{{ result.response }}"
+        numbers: "{{ result.response.split(',') }}"
     - debug: var=numbers
     - name: Fetch closure code details from change task for each change
       include_tasks: bots/Change_PTR_Notifications/main.yml
