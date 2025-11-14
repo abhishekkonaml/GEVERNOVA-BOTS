@@ -2,7 +2,7 @@
   hosts: localhost
   tasks:
     - name: fetch change tickets for Notifications
-      action: Fetch_change_tickets query1="close_code=successful_issues^ORclose_code=unsuccessful^closed_atONThis week@javascript:gs.beginningOfThisWeek()@javascript:gs.endOfThisWeek()/change_request"
+      action: Change_PTR query1="close_code=successful_issues^ORclose_code=unsuccessful^closed_atONThis week@javascript:gs.beginningOfThisWeek()@javascript:gs.endOfThisWeek()/change_request"
       register: result
     - debug: var=result.response
 
