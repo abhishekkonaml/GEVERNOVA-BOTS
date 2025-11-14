@@ -5,7 +5,7 @@ import sys
 import os
 import warnings
 #from GEV_Prod_Servicenow import CMDB
-from GEV_Prod_Servicenow import Incidents,CMDB
+from GEV_Prod_Servicenow import Incidents
 import math
 
 warnings.filterwarnings("ignore")
@@ -29,15 +29,15 @@ class ActionModule(ActionBase):
                result='No device silencing tickets'
            else:
                result=ch_list
-           for i in result:
-               sys_id = chobj.get_ci_affected_details_change(i)
-               sys = sys_id['result'][0]['sys_id']
-               tasks_data = chobj.get_tasks_by_change_sys_id(sys)
-               data = tasks_data['result']
-               tasks_data_list.append(data)
+           #for i in result:
+           #    sys_id = chobj.get_ci_affected_details_change(i)
+           #    sys = sys_id['result'][0]['sys_id']
+           #    tasks_data = chobj.get_tasks_by_change_sys_id(sys)
+           #    data = tasks_data['result']
+           #    tasks_data_list.append(data)
             
                
    
-           return {'status': 'success', 'result': tasks_data_list} 
+           return {'status': 'success', 'result': result} 
         except Exception as e:
            return {'status': 'failed', 'result': str(e)}
