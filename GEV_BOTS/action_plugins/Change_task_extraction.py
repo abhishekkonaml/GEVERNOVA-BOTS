@@ -17,7 +17,7 @@ class ActionModule(ActionBase):
         try: 
            Query=self._task.args["query1"]
            incobj=Incidents()
-           chobj=CMDB()
+           #chobj=CMDB()
            fetch_changed_tickets=incobj.get_change_details_by_query(Query)
             
            ch_list=[]
