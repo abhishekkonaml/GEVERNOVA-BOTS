@@ -14,8 +14,9 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
+           print('inside script')
            ch_number=self._task.args["change"]
-           ch_state=self._task.args["state"]
+           
            
            
            chobj=CMDB()
