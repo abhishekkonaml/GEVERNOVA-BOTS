@@ -13,4 +13,4 @@
       action: Change_task_extraction 
       loop: "{{ numbers }}"
       loop_control:
-        loop_var: ch_number
+        loop_var: change
