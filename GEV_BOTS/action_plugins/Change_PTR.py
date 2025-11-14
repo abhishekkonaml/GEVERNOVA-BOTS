@@ -5,10 +5,11 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import warnings
-from GEV_Prod_Servicenow import Incidents
+from GEV_Prod_Servicenow import Incidents,CMDB
 from datetime import datetime
 import pytz
 incobj=Incidents()
+chobj=CMDB()
 warnings.filterwarnings("ignore")
 
 class ActionModule(ActionBase):
@@ -28,21 +29,16 @@ class ActionModule(ActionBase):
                 result='No device silencing tickets'
             else:
                 result=ch_list
+            for i in result:
+                sys_id = chobj.get_ci_affected_details_change(i)
+                sys = sys_id['result'][0]['sys_id']
+                tasks_data = chobj.get_tasks_by_change_sys_id(sys)
+                data = tasks_data['result']
+
+
                 
                 
-                #try:
-                #    current_est_time = datetime.now(est_timezone)
-                #    tickettime=datetime.strptime(openedAt,"%m-%d-%Y %I:%M:%S %p")
-                #    esttime=datetime.strftime(current_est_time,"%m-%d-%Y %I:%M:%S %p")
-                #    est_time_now=datetime.strptime(esttime,"%m-%d-%Y %I:%M:%S %p")
-                #    time_difference=(est_time_now-tickettime).total_seconds()
-                #    if time_difference>3600: 
-                #        #print(Number,group)
-                #        #print("=-=-"*25)
-                #        print(Number,time_difference)
-                #        print(incobj.reassignment(Number,group))
-                #except Exception as e:
-                #       pass
-            return {'status': 'success', 'response': result}
+              
+            return {'status': 'success', 'response': data}
         except Exception as e:
             return {'status': 'failed','response':str(e)}
