@@ -349,6 +349,7 @@ class CMDB:
         
 
 
+
 incobj=Incidents()
 query1="number={}?sso={}".format("GEVINC0042186","503437104")
 query2="active=true^assignment_groupGE Vernova DT CTO Network?sso={}".format("503437104")
