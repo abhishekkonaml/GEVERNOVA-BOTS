@@ -32,10 +32,12 @@ class ActionModule(ActionBase):
             print(result)
             print(type(result))
             for i in result:
-                sys_id = chobj.get_ci_affected_details_change(i)
-                sys = sys_id['result'][0]['sys_id']
-                tasks_data = chobj.get_tasks_by_change_sys_id(sys)
-                data = tasks_data['result']
+                print(i)
+                print(type(i))
+                #sys_id = chobj.get_ci_affected_details_change(i)
+                #sys = sys_id['result'][0]['sys_id']
+                #tasks_data = chobj.get_tasks_by_change_sys_id(sys)
+                #data = tasks_data['result']
 
 
                 
