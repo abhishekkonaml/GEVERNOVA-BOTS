@@ -6,3 +6,11 @@
       #action: Fetch_change_tickets query1="close_code=successful_issues^ORclose_code=unsuccessful^closed_atONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()/change_request"
       register: result
     - debug: var=result.response
+    - set_fact:
+        numbers: "{{ result.response }}"
+    - debug: var=numbers
+    - name: Fetch closure code details from change task for each change
+      action: Change_task_extraction 
+      loop: "{{ numbers }}"
+      loop_control:
+        loop_var: ch_number
