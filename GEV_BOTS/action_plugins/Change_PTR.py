@@ -5,7 +5,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import warnings
-from GEV_DEV_Servicenow import Incidents,CMDB
+from GEV_Stage_Servicenow import Incidents,CMDB
 from datetime import datetime
 import pytz
 incobj=Incidents()
