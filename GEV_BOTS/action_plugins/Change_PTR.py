@@ -29,6 +29,8 @@ class ActionModule(ActionBase):
                 result='No device silencing tickets'
             else:
                 result=ch_list
+            print(result)
+            print(type(result))
             for i in result:
                 sys_id = chobj.get_ci_affected_details_change(i)
                 sys = sys_id['result'][0]['sys_id']
