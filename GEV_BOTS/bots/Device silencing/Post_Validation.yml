@@ -21,6 +21,7 @@
     - name: Initialize empty dictionary
       set_fact:
          ci_dict: {}
+         
     
 
     - name: ping device
@@ -36,6 +37,18 @@
       debug: 
         var: ci_dict
       ignore_errors: yes
+    - name: retrieve tickets for incident creation
+      set_fact:
+        ci_list: "{{ ci_dict | dict2items | selectattr('value', 'equalto', 'Unreachable') | map(attribute='key') | list}}"
+    - debug: var=CI_list
+    - name: incident creation
+      action: Incident_creation ci='{{ item }}' change_number='{{ change_number }}'
+      loop: "{{ CI_list }}"
+      register: created_incidents
+    - debug: var=created_incidents
+
+
+    
 
     - name: convert dictionary to html table
       set_fact:
