@@ -39,11 +39,11 @@
       ignore_errors: yes
     - name: retrieve key of dictionary(hostname) to create incidents for unreachable devices
       set_fact:
-        ci_list: "{{ ci_dict | dict2items | selectattr('value', 'equalto', 'Unreachable') | map(attribute='key') | list}}"
+        unreachable_list: "{{ ci_dict | dict2items | selectattr('value', 'equalto', 'Unreachable') | map(attribute='key') | list}}"
     - debug: var=CI_list
     - name: loop through list for incident creation
       action: Incident_creation ci='{{ item }}' change_number='{{ change_number }}'
-      loop: "{{ CI_list }}"
+      loop: "{{ unreachable_list }}"
       register: created_incidents
     - debug: var=created_incidents
 
