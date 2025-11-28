@@ -28,6 +28,12 @@ class ActionModule(ActionBase):
             CreateIncident=incobj.incident_creation(504018887,504018887,'Monitoring','Network Monitoring','HQ CTO Network Enterprise Site Support',short_description,description,'3',work_notes,cmdb_ci)
             
             result=CreateIncident
+            
+            if(result['number'] != ''):
+                Incident_number=result['number']
+                notes= '{} is currently not reachable; following incident has been created - {}'.format(cmdb_ci,Incident_number)
+                incobj.update_notes_change(ch_number,notes)
+            
                 
                 
            
