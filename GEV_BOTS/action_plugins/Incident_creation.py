@@ -5,8 +5,8 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import warnings
-#from GEV_Prod_Servicenow import Incidents
-from GEV_Stage_Servicenow import Incidents
+from GEV_Prod_Servicenow import Incidents
+#from GEV_Stage_Servicenow import Incidents
 from datetime import datetime
 import pytz
 incobj=Incidents()
@@ -16,7 +16,8 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-            cmdb_ci=self._task.args["ci"]
+            cmdb=self._task.args["ci"]
+            cmdb_ci= cmdb + 'gdn.ge.com'
             ch_number=self._task.args["change_number"]
             short_description='{} is unreachable.Node stopped responding to poll'.format(cmdb_ci)
             description='''{} is unreachable.Node stopped responding to poll.
