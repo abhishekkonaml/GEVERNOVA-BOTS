@@ -28,6 +28,7 @@ class ActionModule(ActionBase):
             CreateIncident=incobj.incident_creation(504018887,504018887,'Monitoring','Network Monitoring','HQ CTO Network Enterprise Site Support',short_description,description,'3',work_notes,cmdb_ci)
             
             result=CreateIncident
+            print(result)
             
             if(result['number'] != ''):
                 Incident_number=result['number']
