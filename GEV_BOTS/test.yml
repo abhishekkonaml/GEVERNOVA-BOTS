@@ -1,49 +1,49 @@
 - name: test
   hosts: localhost
   tasks:
-    #- name: fetch change tickets for pre validation
-    #  action: Fetch_change_tickets query1="short_descriptionLIKEDevice Silencing^start_date<javascript:gs.beginningOfCurrentMinute()^start_date>javascript:gs.endOfYesterday()^state=-2/change_request"
-    #  register: result
-    #- debug: var=result.response
-    #- set_fact:
-    #   numbers: "{{ result.response }}"
-    #- debug: var=numbers
-    #- block:
-    #    - debug:
-    #        msg: "Call prevalidation role"
-    #    - include_tasks: bots/Device silencing/Pre_Validation.yml
-    #      loop: "{{ numbers }}"
-    #      loop_control: 
-    #        loop_var: ch_number
-    #      ignore_errors: yes
-    #  when: "'string indices must be integers' not in numbers"
+    - name: fetch change tickets for pre validation
+      action: Fetch_change_tickets query1="short_descriptionLIKEDevice Silencing^start_date<javascript:gs.beginningOfCurrentMinute()^start_date>javascript:gs.endOfYesterday()^state=-2/change_request"
+      register: result
+    - debug: var=result.response
+    - set_fact:
+       numbers: "{{ result.response }}"
+    - debug: var=numbers
+    - block:
+        - debug:
+            msg: "Call prevalidation role"
+        - include_tasks: bots/Device silencing/Pre_Validation.yml
+          loop: "{{ numbers }}"
+          loop_control: 
+            loop_var: ch_number
+          ignore_errors: yes
+      when: "'string indices must be integers' not in numbers"
 #
 
         
         
     
-    - set_fact:
-        #query: "short_descriptionLIKEdevice silencing^end_date<javascript:gs.beginningOfCurrentMinute()^end_date>javascript:gs.endOfYesterday()/change_request" 
-        query: "short_descriptionLIKEDevice silencing^state=-1^end_dateRELATIVELT@minute@ahead@10^end_date>=javascript:gs.beginningOfLast15Minutes()/change_request"
-
-    - name: fetch change tickets for post validation
-      action: Fetch_change_tickets query1="{{ query }}"
-      register: result
-    - debug: var=result.response
-    - set_fact:
-        numbers: "{{ result.response }}"
-    - debug: var=numbers
-    - block:
-        - debug:
-            msg: "Call post validation role"
-        - include_tasks: bots/Device silencing/Post_Validation.yml
-          loop: "{{ numbers }}"
-          loop_control: 
-           loop_var: ch_number
-          ignore_errors: yes
-      
-      
-      when: "'string indices must be integers' not in numbers"
+    #- set_fact:
+    #    #query: "short_descriptionLIKEdevice silencing^end_date<javascript:gs.beginningOfCurrentMinute()^end_date>javascript:gs.endOfYesterday()/change_request" 
+    #    query: "short_descriptionLIKEDevice silencing^state=-1^end_dateRELATIVELT@minute@ahead@10^end_date>=javascript:gs.beginningOfLast15Minutes()/change_request"
+#
+    #- name: fetch change tickets for post validation
+    #  action: Fetch_change_tickets query1="{{ query }}"
+    #  register: result
+    #- debug: var=result.response
+    #- set_fact:
+    #    numbers: "{{ result.response }}"
+    #- debug: var=numbers
+    #- block:
+    #    - debug:
+    #        msg: "Call post validation role"
+    #    - include_tasks: bots/Device silencing/Post_Validation.yml
+    #      loop: "{{ numbers }}"
+    #      loop_control: 
+    #       loop_var: ch_number
+    #      ignore_errors: yes
+    #  
+    #  
+    #  when: "'string indices must be integers' not in numbers"
 ##
 
 
