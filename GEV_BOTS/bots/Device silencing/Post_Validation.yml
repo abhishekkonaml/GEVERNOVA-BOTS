@@ -40,7 +40,7 @@
     - name: retrieve key of dictionary(hostname) to create incidents for unreachable devices
       set_fact:
         unreachable_list: "{{ ci_dict | dict2items | selectattr('value', 'equalto', 'Unreachable') | map(attribute='key') | list}}"
-    - debug: var=CI_list
+    - debug: var=unreachable_list
     - name: loop through list for incident creation
       action: Incident_creation ci='{{ item }}' change_number='{{ change_number }}'
       loop: "{{ unreachable_list }}"
