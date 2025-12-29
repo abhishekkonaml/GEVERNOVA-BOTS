@@ -29,8 +29,10 @@ class ActionModule(ActionBase):
             command=self._task.args["command"].strip()
             incidentno=self._task.args['incidentno']
             notesupdate=self._task.args['notesupdate']
-            cisco_username=decoding1.decoding1('NTAyODI4MTkw')
-            cisco_password=decoding1.decoding1('Q0JiekBIN1gxdlBCbXo=')
+            #cisco_username=decoding1.decoding1('NTAyODI4MTkw')
+            #cisco_password=decoding1.decoding1('Q0JiekBIN1gxdlBCbXo=')
+            cisco_username=decoding1.decoding1('NTAxNTI5NTI4')
+            cisco_password=decoding1.decoding1('V2hpejIwMTJDMTBzZQ==')
             if "gdn" not in hostname1:
                hostname=hostname1+".gdn.ge.com"
             else:
