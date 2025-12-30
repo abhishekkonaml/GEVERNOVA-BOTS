@@ -4,8 +4,8 @@ from requests.exceptions import RequestException, SSLError
 # Configuration
 app_id = "Intelligeni"
 safe = "1801_00_NMG_SN_VN-NET-OPS"
-#username = "504018887"
-username ="504020320"
+username = "504018887"
+#username ="504020320"
 ccp1_url = "alpcts000000240.rd.ds.ge.com"
 ccp2_url = "CGHCTS000000118.rd.ds.ge.com"
 cert = ("/etc/pki/tls/certs/intelligeni.gevernova.net.crt", "/etc/pki/tls/private/bots.intelligeni.gevernova.net.key")  # Replace with your actual paths
