@@ -17,6 +17,7 @@ class ActionModule(ActionBase):
         try: 
             
             Query=self._task.args["query1"]
+            query_reassigned=self._task.args["query2"]
             incobj=Incidents()
             fetch_all_tickets_with_parent=incobj.get_incident_details_by_query(Query)
             
@@ -25,7 +26,8 @@ class ActionModule(ActionBase):
                 Number=incident_ticket['number']
                 Incident_list.append(Number)
             if(len(Incident_list) <= 18):
-                return {'status': 'success', 'response': Incident_list}
+                fetch_bot_reassigned_tickets=incobj.get_incident_details_by_query(query_reassigned)
+                return {'status': 'success', 'response': fetch_bot_reassigned_tickets}
             else:
                 return 'More than 18 tickets got closed'
         except Exception as e:
