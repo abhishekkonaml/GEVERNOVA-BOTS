@@ -3,7 +3,9 @@
    hosts: localhost
    tasks:
      - set_fact:
+        # to fetch closed tickets
         query: "resolved_atONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()^assignment_group=609fb9273b426690e2d5cbc964e45a7a"
+        # To fetch reassigned tickets
         query2: "Tmi_value=HQ CTO Network BOT^inc_resolved_atONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()^mi_definition=39d43745c0a808ae0062603b77018b90^inc_assignment_group=306e23c52b1cee903439fb5dce91bf1f^inc_assignment_group=306e23c52b1cee903439fb5dce91bf1f"
      - name: fetch  closed tickets
        action: Fetch_tickets_for_Child_tagging query1="{{ query }}" query2="{{ query2 }}"
