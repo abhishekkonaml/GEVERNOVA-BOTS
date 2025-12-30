@@ -22,12 +22,17 @@ class ActionModule(ActionBase):
             fetch_all_tickets_with_parent=incobj.get_incident_details_by_query(Query)
             
             Incident_list=[]
+            reassigned_list=[]
             for incident_ticket in fetch_all_tickets_with_parent:
                 Number=incident_ticket['number']
                 Incident_list.append(Number)
             if(len(Incident_list) <= 18):
                 fetch_bot_reassigned_tickets=incobj.get_incident_details_by_query(query_reassigned)
-                return {'status': 'success', 'response': fetch_bot_reassigned_tickets}
+                for ticket in fetch_bot_reassigned_tickets:
+                    Number=ticket['Number']
+                    reassigned_list.append(Number)
+
+                return {'status': 'success', 'response': reassigned_list}
             else:
                 return 'More than 18 tickets got closed'
         except Exception as e:
