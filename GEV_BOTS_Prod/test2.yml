@@ -18,7 +18,7 @@
         
        
        
-       when: "'string indices must be integers' not in numbers"
+       when: "'More than 18 tickets got closed' not in numbers"
      
       
      

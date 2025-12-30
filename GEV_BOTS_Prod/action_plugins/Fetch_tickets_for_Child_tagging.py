@@ -24,10 +24,9 @@ class ActionModule(ActionBase):
             for incident_ticket in fetch_all_tickets_with_parent:
                 Number=incident_ticket['number']
                 Incident_list.append(Number)
-            if(len(Incident_list) <= 8):
-                result='Trigger email'
-            
-    
-            return {'status': 'success', 'response': result}
+            if(len(Incident_list) <= 18):
+                return {'status': 'success', 'response': Incident_list}
+            else:
+                return 'More than 18 tickets got closed'
         except Exception as e:
             return {'status': 'failed','response':str(e)}
