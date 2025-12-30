@@ -31,8 +31,12 @@ class ActionModule(ActionBase):
             notesupdate=self._task.args['notesupdate']
             #cisco_username=decoding1.decoding1('NTA0MDE4ODg3')
             #cisco_password=decoding1.decoding1('QjB0czg3LVJP')
-            cisco_username=decoding1.decoding1('NTAxNTI5NTI4')
-            cisco_password=decoding1.decoding1('V2hpejIwMTJDMTBzZQ==')
+            #geit credentials
+            #cisco_username=decoding1.decoding1('NTAxNTI5NTI4')
+            #cisco_password=decoding1.decoding1('V2hpejIwMTJDMTBzZQ==')
+            #nbassure credentials
+            cisco_username=decoding1.decoding1('NTA0MDIwMzIw')
+            cisco_password=decoding1.decoding1('TmJAc3N1cmU4Ny1STw==')
             if "gdn" not in hostname1:
                hostname=hostname1+".gdn.ge.com"
             else:
