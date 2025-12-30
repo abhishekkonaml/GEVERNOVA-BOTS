@@ -1,4 +1,9 @@
 ---
- - name: Testing the playbook
-   debug: var=tower_id
+ - name: Cyberark credentials
+   hosts: localhost
+   tasks:
+    - name: Fetch credentials
+      action: CyberArkcredentials
+      register: fetched_details
+    - debug: var=fetched_details
    
