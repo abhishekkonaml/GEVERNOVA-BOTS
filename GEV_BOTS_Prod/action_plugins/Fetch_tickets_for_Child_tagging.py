@@ -24,10 +24,9 @@ class ActionModule(ActionBase):
             for incident_ticket in fetch_all_tickets_with_parent:
                 Number=incident_ticket['number']
                 Incident_list.append(Number)
-            if(len(Incident_list) == 0):
-                result='No device silencing tickets'
-            else:
-                result=Incident_list
+            if(len(Incident_list) <= 8):
+                result='Trigger email'
+            
     
             return {'status': 'success', 'response': result}
         except Exception as e:

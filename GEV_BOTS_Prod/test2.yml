@@ -1,9 +1,24 @@
 ---
- - name: Cyberark credentials
+ - name: Child Tagging script
    hosts: localhost
    tasks:
-    - name: Fetch credentials
-      action: CyberArkcredentials
-      register: fetched_details
-    - debug: var=fetched_details
-   
+     - set_fact:
+        query: "assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionNOT LIKE[Child]^state=2^parent_incidentISNOTEMPTY"
+        #query: "assignment_group=306e23c52b1cee903439fb5dce91bf1f^state=2^parent_incidentISNOTEMPTY^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
+     - name: fetch  closed tickets
+       action: Fetch_tickets_for_Child_tagging query1="{{ query }}"
+       register: result
+     - debug: var=result.response
+     - set_fact:
+        numbers: "{{ result.response }}"
+     - debug: var=numbers
+     - block:
+        - debug:
+            msg: "trigger email"
+        
+       
+       
+       when: "'string indices must be integers' not in numbers"
+     
+      
+     
