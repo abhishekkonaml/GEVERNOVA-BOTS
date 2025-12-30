@@ -43,8 +43,8 @@ def fetch_secrets_from_url(base_url):
  
 # Try primary first, fallback to secondary if needed
 secrets = fetch_secrets_from_url(ccp1_url)
-'''if not secrets:
-    secrets = fetch_secrets_from_url(ccp2_url)'''
+if not secrets:
+    secrets = fetch_secrets_from_url(ccp2_url)
 
 
 print(secrets)
