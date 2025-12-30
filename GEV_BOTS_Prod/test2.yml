@@ -3,7 +3,7 @@
    hosts: localhost
    tasks:
      - set_fact:
-        query: "assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionNOT LIKE[Child]^state=2^parent_incidentISNOTEMPTY"
+        query: "resolved_atONYesterday@javascript:gs.beginningOfYesterday()@javascript:gs.endOfYesterday()^assignment_group=609fb9273b426690e2d5cbc964e45a7a"
         #query: "assignment_group=306e23c52b1cee903439fb5dce91bf1f^state=2^parent_incidentISNOTEMPTY^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
      - name: fetch  closed tickets
        action: Fetch_tickets_for_Child_tagging query1="{{ query }}"
