@@ -31,6 +31,7 @@ class ActionModule(ActionBase):
                 for ticket in fetch_bot_reassigned_tickets:
                     Number=ticket['number']
                     reassigned_list.append(Number)
+                    print(len(reassigned_list))
 
                 return {'status': 'success', 'response': reassigned_list}
             else:
