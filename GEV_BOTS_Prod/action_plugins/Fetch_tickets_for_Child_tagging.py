@@ -29,7 +29,7 @@ class ActionModule(ActionBase):
             if(len(Incident_list) <= 18):
                 fetch_bot_reassigned_tickets=incobj.get_incident_details_by_query(query_reassigned)
                 for ticket in fetch_bot_reassigned_tickets:
-                    Number=ticket['Number']
+                    Number=ticket['number']
                     reassigned_list.append(Number)
 
                 return {'status': 'success', 'response': reassigned_list}
