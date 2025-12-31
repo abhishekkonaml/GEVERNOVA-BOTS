@@ -3,12 +3,12 @@
         - debug: var=version_status_register
         - name: Fetch Uptime Data When Uptime Is Exists In Uptime Data
           set_fact:
-           ReloadUptimeResult: "{{ (version_status_register | regex_search('uptime is [0-9]{,3}\\s\\w+')).lower() }}"
+           ReloadUptimeResult: "{{ (version_status_register | regex_search('uptime is [0-9]{,4}\\s\\w+')).lower() }}"
           when: "(version_status_register is defined) and ('uptime is' in version_status_register)"
           
         - name: Fetch Uptime Data When Processor Is Exists In Uptime Data
           set_fact:
-           ReloadUptimeResult: "{{ (version_status_register | regex_search('processor is [0-9]{,3}\\s\\w+')).lower() }}"
+           ReloadUptimeResult: "{{ (version_status_register | regex_search('processor is [0-9]{,4}\\s\\w+')).lower() }}"
           when: "(version_status_register is defined) and ('processor is' in version_status_register)"
           
         - name: Uptime Message
