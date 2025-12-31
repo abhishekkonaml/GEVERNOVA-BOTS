@@ -32,8 +32,8 @@ class ActionModule(ActionBase):
                      
                      response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                      print({'TicketNo' : incident_no, 'Problem': 'StatusAlert', 'Status': response1})
-           query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 45 minutes@javascript:gs.beginningOfLast45Minutes()@javascript:gs.endOfLast45Minutes()"
-           #query2="sys_created_onBETWEENjavascript:gs.dateGenerate('2025-12-30','00:00:00')@javascript:gs.dateGenerate('2025-12-30','23:59:59')^assignment_group=609fb9273b426690e2d5cbc964e45a7a^state=2"
+           #query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 45 minutes@javascript:gs.beginningOfLast45Minutes()@javascript:gs.endOfLast45Minutes()"
+           query2="sys_created_onBETWEENjavascript:gs.dateGenerate('2025-12-30','00:00:00')@javascript:gs.dateGenerate('2025-12-30','23:59:59')^assignment_group=609fb9273b426690e2d5cbc964e45a7a^state=2"
            query3="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2^sys_created_onONLast 45 minutes@javascript:gs.beginningOfLast45Minutes()@javascript:gs.endOfLast45Minutes()"
            fetch_statusflap_tickets=incobj.get_incident_details_by_query(query3)
            if type(fetch_statusflap_tickets)==list:
