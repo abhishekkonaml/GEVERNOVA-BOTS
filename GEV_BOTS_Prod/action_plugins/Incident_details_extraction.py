@@ -37,7 +37,7 @@ class ActionModule(ActionBase):
                   #host_pattern="host (.*) is experiencing"
                   host_pattern="- (.*)Network Interfaces"
                   #interface_pattern="packets on (.*) \["
-                  interface_pattern="Network Interfaces-(.*) \["
+                  interface_pattern="StatusFlapNetwork interface (.*) \["
                   hostname=re.findall(host_pattern,description)
                   interface=re.findall(interface_pattern,description)
                   
@@ -67,7 +67,7 @@ class ActionModule(ActionBase):
                   #host_pattern="host (.*) is experiencing"
                   host_pattern="- (.*)Network Interfaces"
                   #interface_pattern="packets on (.*) \["
-                  interface_pattern="Network Interfaces-(.*) \["
+                  interface_pattern="StatusInterface (.*) \["
                   hostname=re.findall(host_pattern,description)
                   interface=re.findall(interface_pattern,description)
                   
