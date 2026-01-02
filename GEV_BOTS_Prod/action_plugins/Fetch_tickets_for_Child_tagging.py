@@ -17,18 +17,24 @@ class ActionModule(ActionBase):
         try: 
             
             Query=self._task.args["query1"]
+            query_reassigned=self._task.args["query2"]
             incobj=Incidents()
             fetch_all_tickets_with_parent=incobj.get_incident_details_by_query(Query)
             
             Incident_list=[]
+            reassigned_list=[]
             for incident_ticket in fetch_all_tickets_with_parent:
                 Number=incident_ticket['number']
                 Incident_list.append(Number)
-            if(len(Incident_list) == 0):
-                result='No device silencing tickets'
+            if(len(Incident_list) <= 18):
+                fetch_bot_reassigned_tickets=incobj.get_incident_details_by_query(query_reassigned)
+                for ticket in fetch_bot_reassigned_tickets:
+                    Number=ticket['number']
+                    reassigned_list.append(Number)
+                    print(len(reassigned_list))
+
+                return {'status': 'success', 'response': reassigned_list}
             else:
-                result=Incident_list
-    
-            return {'status': 'success', 'response': result}
+                return 'More than 18 tickets got closed'
         except Exception as e:
             return {'status': 'failed','response':str(e)}
