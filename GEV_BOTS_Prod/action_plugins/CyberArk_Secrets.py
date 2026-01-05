@@ -21,6 +21,7 @@ class ActionModule(ActionBase):
         url = f"https://{base_url}{endpoint_path}"
         try:
            headers = { "Content-Type": "application/json" }
+           proxies={ "http": '', "https": '' }
            print(f"Trying: {url}")
            with open('sample.cert','w') as f:
                 f.write(certs)
@@ -44,7 +45,7 @@ class ActionModule(ActionBase):
             ccp2_url=task_vars["ccp2_url"]
             certs=task_vars['certs']
             certs_key=task_vars['certs_key']
-            proxies={ "http": '', "https": '' }
+            
             # Target API path
             endpoint_path = "/AIMWebService/api/Accounts"
             params = { "AppID": app_id, "Safe": safe,"username": username }
