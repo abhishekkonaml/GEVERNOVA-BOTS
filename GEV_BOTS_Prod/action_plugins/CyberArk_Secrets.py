@@ -27,7 +27,7 @@ class ActionModule(ActionBase):
                 f.write(certs)
            with open('sample.key','w') as f:
                 f.write(certs_key)
-           response = requests.get(url, params=params, headers=headers, cert=('sample.cert','sample.key'), timeout=10,proxies=proxies)
+           response = requests.get(url, params=params, headers=headers, cert=('sample.crt','sample.key'), timeout=10,proxies=proxies)
            response.raise_for_status()
            os.remove('sample.cert')
            os.remove('sample.key')
