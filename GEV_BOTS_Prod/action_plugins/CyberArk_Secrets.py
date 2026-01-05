@@ -24,6 +24,6 @@ class ActionModule(ActionBase):
             cyber_password=task_vars["cyber_password"]
             print(cyber_username)
             print(cyber_password)
-            return { 'status': Success,'response': 'Credentials Printed' }
+            return { 'status': 'Success','response': 'Credentials Printed' }
         except Exception as e:
             return { 'status': 'Failed', 'error': str(e) }
