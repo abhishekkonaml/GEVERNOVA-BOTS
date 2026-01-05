@@ -12,17 +12,24 @@ from requests.exceptions import RequestException, SSLError
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from GEV_Prod_Servicenow import Incidents
-
+import os
 warnings.filterwarnings("ignore") 
 
 
 class ActionModule(ActionBase):
-    def fetch_secrets_from_url(self,base_url,endpoint_path):
+    def fetch_secrets_from_url(self,base_url,endpoint_path,params,certs,certs_key):
         url = f"https://{base_url}{endpoint_path}"
         try:
+           headers = { "Content-Type": "application/json" }
            print(f"Trying: {url}")
-           response = requests.get(url, params=params, headers=headers, cert=cert, timeout=10,proxies=proxies)
+           with open('sample.cert','w') as f:
+                f.write(certs)
+           with open('sample.key','w') as f:
+                f.write(certs_key)
+           response = requests.get(url, params=params, headers=headers, cert=(certs,certs_key), timeout=10,proxies=proxies)
            response.raise_for_status()
+           os.remove('sample.cert')
+           os.remove('sample.key')
            return response.json()
         except (RequestException, SSLError) as e:
            print(f"Failed to connect to {base_url}: {e}")
@@ -41,10 +48,10 @@ class ActionModule(ActionBase):
             # Target API path
             endpoint_path = "/AIMWebService/api/Accounts"
             params = { "AppID": app_id, "Safe": safe,"username": username }
-            headers = { "Content-Type": "application/json" }
-            secrets = self.fetch_secrets_from_url(ccp1_url,endpoint_path)
+            
+            secrets = self.fetch_secrets_from_url(ccp1_url,endpoint_path,params,certs,certs_key)
             if not secrets:
-                secrets = self.fetch_secrets_from_url(ccp2_url,endpoint_path)
+                secrets = self.fetch_secrets_from_url(ccp2_url,endpoint_path,params,certs,certs_key)
             if secrets:
                user = secrets.get("UserName")
                pswd = secrets.get("Content")
