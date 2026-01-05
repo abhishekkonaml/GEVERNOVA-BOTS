@@ -29,7 +29,7 @@ class ActionModule(ActionBase):
                 f.write(certs_key)
            
            with open('sample.crt','r') as f:
-               certs = f.read()
+               certs = f.read() 
            print(certs)
            print("=-"*25)
            response = requests.get(url, params=params, headers=headers, cert=('sample.crt','sample.key'), timeout=10,proxies=proxies)
