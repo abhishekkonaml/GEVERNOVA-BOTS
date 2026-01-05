@@ -21,7 +21,7 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
             app_id=task_vars["app_id"]
-            safetask_vars["safe"]
+            safe=task_vars["safe"]
             username=task_vars["username"]
             ccp1_url=task_vars["ccp1_url"]
             ccp2_url=task_vars["ccp2_url"]
