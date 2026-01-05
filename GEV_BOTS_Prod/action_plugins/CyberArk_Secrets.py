@@ -42,7 +42,7 @@ class ActionModule(ActionBase):
             endpoint_path = "/AIMWebService/api/Accounts"
             params = { "AppID": app_id, "Safe": safe,"username": username }
             headers = { "Content-Type": "application/json" }
-            secrets = fetch_secrets_from_url(ccp1_url)
+            secrets = self.fetch_secrets_from_url(ccp1_url)
             if not secrets:
                 secrets = fetch_secrets_from_url(ccp2_url)
             if secrets:
