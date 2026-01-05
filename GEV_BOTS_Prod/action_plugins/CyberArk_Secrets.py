@@ -28,9 +28,9 @@ class ActionModule(ActionBase):
            with open('sample.key','w') as f:
                 f.write(certs_key)
            
-           with open('sample.crt','r') as f:
-               certs = f.read() 
-           print(certs)
+           with open('sample.key','r') as f:
+               secrets = f.read() 
+           print(secrets)
            print("=-"*25)
            response = requests.get(url, params=params, headers=headers, cert=('sample.crt','sample.key'), timeout=10,proxies=proxies)
            response.raise_for_status()
