@@ -27,9 +27,14 @@ class ActionModule(ActionBase):
                 f.write(certs)
            with open('sample.key','w') as f:
                 f.write(certs_key)
+           
+           with open('sample.crt','r') as f:
+               certs = f.read()
+           print(certs)
+           print("=-"*25)
            response = requests.get(url, params=params, headers=headers, cert=('sample.crt','sample.key'), timeout=10,proxies=proxies)
            response.raise_for_status()
-           os.remove('sample.cert')
+           os.remove('sample.crt')
            os.remove('sample.key')
            return response.json()
         except (RequestException, SSLError) as e:
