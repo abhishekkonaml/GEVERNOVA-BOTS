@@ -56,8 +56,8 @@ class ActionModule(ActionBase):
             params = { "AppID": app_id, "Safe": safe,"username": username }
             
             secrets = self.fetch_secrets_from_url(ccp1_url,endpoint_path,params,certs,certs_key)
-            if not secrets:
-                secrets = self.fetch_secrets_from_url(ccp2_url,endpoint_path,params,certs,certs_key)
+            '''if not secrets:
+                secrets = self.fetch_secrets_from_url(ccp2_url,endpoint_path,params,certs,certs_key)'''
             if secrets:
                user = secrets.get("UserName")
                pswd = secrets.get("Content")
