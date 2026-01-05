@@ -17,6 +17,16 @@ warnings.filterwarnings("ignore")
 
 
 class ActionModule(ActionBase):
+    def clean_pem(pem: str) -> str:
+        return "\n".join(
+               line.strip()
+        for line in pem
+            .replace("\\n", "\n")
+            .replace("\r", "")
+            .strip()
+            .split("\n")
+        if line.strip()
+    ) + "\n"
     def fetch_secrets_from_url(self,base_url,endpoint_path,params,certs,certs_key):
         url = f"https://{base_url}{endpoint_path}"
         try:
@@ -24,9 +34,9 @@ class ActionModule(ActionBase):
            proxies={ "http": '', "https": '' }
            print(f"Trying: {url}")
            with open('sample.crt','w') as f:
-                f.write(certs)
+                f.write(self.clean(certs))
            with open('sample.key','w') as f:
-                f.write(certs_key)
+                f.write(self.clean(certs_key))
            
            
            
