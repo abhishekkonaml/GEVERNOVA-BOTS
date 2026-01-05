@@ -38,7 +38,8 @@ class ActionModule(ActionBase):
            with open('sample.key','w') as f:
                 f.write(self.clean_pem(certs_key))
            
-           
+           with open('sample.crt','r') as f:
+                print(f"Certificate File Content:\n{f.read()}")
            
            response = requests.get(url, params=params, headers=headers, cert=('sample.crt','sample.key'), timeout=10,proxies=proxies)
            response.raise_for_status()
