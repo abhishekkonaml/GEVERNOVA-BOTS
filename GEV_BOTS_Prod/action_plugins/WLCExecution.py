@@ -34,6 +34,8 @@ class ActionModule(ActionBase):
             #geit crede
             #cisco_username=decoding1.decoding1('NTAxNTI5NTI4')
             #cisco_password=decoding1.decoding1('V2hpejIwMTJDMTBzZQ==')
+            #cisco_username='504018887'
+            #cisco_password=task_vars["cyber_password"]
             #nbassure credentials
             cisco_username=decoding1.decoding1('NTA0MDIwMzIw')
             cisco_password=decoding1.decoding1('TmJAc3N1cmU4Ny1STw==')

@@ -29,10 +29,13 @@ class ActionModule(ActionBase):
             command=self._task.args["command"]
             incidentno=self._task.args['incidentno']
             notesupdate=self._task.args['notesupdate']
+            
             # geit credentials
             #cisco_username=decoding1.decoding1('NTA0MDIwMzIw')
             #cisco_password=decoding1.decoding1('V2hpejIwMTJDMTBzZQ==')
             #nbassure credentials
+            #cisco_username='504018887'
+            #cisco_password=task_vars["cyber_password"]
             cisco_username=decoding1.decoding1('NTA0MDE4ODg3')
             cisco_password=decoding1.decoding1('QjB0czg4LVJP')
             if "gdn" not in hostname1:

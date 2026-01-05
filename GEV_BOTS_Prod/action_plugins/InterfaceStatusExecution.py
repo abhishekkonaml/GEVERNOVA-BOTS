@@ -37,6 +37,8 @@ class ActionModule(ActionBase):
             #nbassure credentials
             #cisco_username=decoding1.decoding1('NTA0MDIwMzIw')
             #cisco_password=decoding1.decoding1('TmJAc3N1cmU4Ny1STw==')
+            #cisco_username='504018887'
+            #cisco_password=task_vars["cyber_password"]
             cisco_username=decoding1.decoding1('NTA0MDE4ODg3')
             cisco_password=decoding1.decoding1('QjB0czg4LVJP')
             if "gdn" not in hostname1:
