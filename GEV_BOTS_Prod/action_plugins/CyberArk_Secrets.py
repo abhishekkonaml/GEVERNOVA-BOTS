@@ -20,6 +20,12 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-            print()
+            app_id=task_vars["app_id"]
+            safetask_vars["safe"]
+            username=task_vars["username"]
+            ccp1_url=task_vars["ccp1_url"]
+            ccp2_url=task_vars["ccp2_url"]
+            print(app_id,safe,username,ccp1_url,ccp2_url)
+            return {'status': 'success', 'result': 'Parameters fetched successfully'}
         except Exception as e:
             return {'status': 'failed', 'result': str(e)}
