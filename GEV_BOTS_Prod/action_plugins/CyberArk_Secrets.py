@@ -17,6 +17,16 @@ warnings.filterwarnings("ignore")
 
 
 class ActionModule(ActionBase):
+    def fetch_secrets_from_url(self,base_url):
+        url = f"https://{base_url}{endpoint_path}"
+        try:
+           print(f"Trying: {url}")
+           response = requests.get(url, params=params, headers=headers, cert=cert, timeout=10,proxies=proxies)
+           response.raise_for_status()
+           return response.json()
+        except (RequestException, SSLError) as e:
+           print(f"Failed to connect to {base_url}: {e}")
+           return None
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
@@ -27,7 +37,37 @@ class ActionModule(ActionBase):
             ccp2_url=task_vars["ccp2_url"]
             certs=task_vars['certs']
             certs_key=task_vars['certs_key']
-            print(app_id,safe,username,ccp1_url,ccp2_url,certs,certs_key)
+            proxies={ "http": '', "https": '' }
+            # Target API path
+            endpoint_path = "/AIMWebService/api/Accounts"
+            params = { "AppID": app_id, "Safe": safe,"username": username }
+            headers = { "Content-Type": "application/json" }
+            secrets = fetch_secrets_from_url(ccp1_url)
+            if not secrets:
+                secrets = fetch_secrets_from_url(ccp2_url)
+            if secrets:
+               user = secrets.get("UserName")
+               pswd = secrets.get("Content")
+               print("-----------------------------------------------------------------------------")
+               print(f"Account Information from CyberArk:\nUsername = {user}\nPassword = {pswd}")
+               print("-----------------------------------------------------------------------------")
+            else:
+                print("Failed to retrieve secrets from both endpoints.")
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+            
             return {'status': 'success', 'result': 'Parameters fetched successfully'}
         except Exception as e:
             return {'status': 'failed', 'result': str(e)}
