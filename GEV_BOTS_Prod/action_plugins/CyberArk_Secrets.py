@@ -17,7 +17,7 @@ warnings.filterwarnings("ignore")
 
 
 class ActionModule(ActionBase):
-    def fetch_secrets_from_url(self,base_url):
+    def fetch_secrets_from_url(self,base_url,endpoint_path):
         url = f"https://{base_url}{endpoint_path}"
         try:
            print(f"Trying: {url}")
@@ -42,9 +42,9 @@ class ActionModule(ActionBase):
             endpoint_path = "/AIMWebService/api/Accounts"
             params = { "AppID": app_id, "Safe": safe,"username": username }
             headers = { "Content-Type": "application/json" }
-            secrets = self.fetch_secrets_from_url(ccp1_url)
+            secrets = self.fetch_secrets_from_url(ccp1_url,endpoint_path)
             if not secrets:
-                secrets = fetch_secrets_from_url(ccp2_url)
+                secrets = self.fetch_secrets_from_url(ccp2_url,endpoint_path)
             if secrets:
                user = secrets.get("UserName")
                pswd = secrets.get("Content")
