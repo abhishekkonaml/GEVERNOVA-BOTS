@@ -17,7 +17,7 @@ warnings.filterwarnings("ignore")
 
 
 class ActionModule(ActionBase):
-    def clean_pem(pem: str) -> str:
+    def clean_pem(self,pem: str) -> str:
         return "\n".join(
                line.strip()
         for line in pem
