@@ -23,7 +23,7 @@ class ActionModule(ActionBase):
            headers = { "Content-Type": "application/json" }
            proxies={ "http": '', "https": '' }
            print(f"Trying: {url}")
-           with open('sample.cert','w') as f:
+           with open('sample.crt','w') as f:
                 f.write(certs)
            with open('sample.key','w') as f:
                 f.write(certs_key)
