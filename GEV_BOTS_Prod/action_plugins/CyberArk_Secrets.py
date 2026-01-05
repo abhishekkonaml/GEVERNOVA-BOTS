@@ -34,9 +34,9 @@ class ActionModule(ActionBase):
            proxies={ "http": '', "https": '' }
            print(f"Trying: {url}")
            with open('sample.crt','w') as f:
-                f.write(self.clean(certs))
+                f.write(self.clean_pem(certs))
            with open('sample.key','w') as f:
-                f.write(self.clean(certs_key))
+                f.write(self.clean_pem(certs_key))
            
            
            
