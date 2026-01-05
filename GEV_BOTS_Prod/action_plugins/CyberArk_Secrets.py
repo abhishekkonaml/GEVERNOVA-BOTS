@@ -25,7 +25,9 @@ class ActionModule(ActionBase):
             username=task_vars["username"]
             ccp1_url=task_vars["ccp1_url"]
             ccp2_url=task_vars["ccp2_url"]
-            print(app_id,safe,username,ccp1_url,ccp2_url)
+            certs=task_vars['certs']
+            certs_key=task_vars['certs_key']
+            print(app_id,safe,username,ccp1_url,ccp2_url,certs,certs_key)
             return {'status': 'success', 'result': 'Parameters fetched successfully'}
         except Exception as e:
             return {'status': 'failed', 'result': str(e)}
