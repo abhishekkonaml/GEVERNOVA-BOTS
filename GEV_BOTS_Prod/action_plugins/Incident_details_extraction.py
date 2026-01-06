@@ -36,6 +36,7 @@ class ActionModule(ActionBase):
                if 'network interface' in description.lower() and "statusflap" in description.lower(): 
                   #host_pattern="host (.*) is experiencing"
                   host_pattern="- (.*)Network Interfaces"
+                  description=description.replace('\\n','')
                   #interface_pattern="packets on (.*) \["
                   interface_pattern="StatusFlapNetwork interface (.*) \["
                   hostname=re.findall(host_pattern,description)
@@ -65,6 +66,7 @@ class ActionModule(ActionBase):
                #Usecase2 - StatusAlert
                elif 'network interface' in description.lower() and "statusflap" not in description.lower() and "status": 
                   #host_pattern="host (.*) is experiencing"
+                  description=description.replace('\\n','')
                   host_pattern="- (.*)Network Interfaces"
                   #interface_pattern="packets on (.*) \["
                   interface_pattern="StatusInterface (.*) \["
