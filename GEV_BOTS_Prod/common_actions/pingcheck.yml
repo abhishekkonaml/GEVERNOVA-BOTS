@@ -1,6 +1,14 @@
 ---
- - set_fact:
-      hostname1: "{{ incident_hostname }}.gdn.ge.com"
+ - block:
+    - set_fact:
+         hostname1: "{{ incident_hostname }}.gdn.ge.com"
+   when: "'gdn.ge.com' not in incident_hostname"
+ - block:
+    - set_fact:
+         hostname1: "{{ incident_hostname }}"
+   when: "'gdn.ge.com' in incident_hostname"
+
+ - debug: var=hostname1
 
     
 
