@@ -74,16 +74,18 @@
                - name: Ping Counter Value when Uptime is < 30
                  set_fact:
                    PingCounterValue: 6
-               - debug:
-                   msg: "reassign ticket"
-               - action: update_notes incident='{{ incident_no }}'  work_notes='[code]<h3>Summary:\n </h3>1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime of the device is less than 30 minutes. <br>[/code]'
-                 register: update_notes
-               - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
-                 register: update_notes
+               - name: login to device
+                 include_tasks: bots/NodedownAndNodestopped/WaitBeforeClosing.yml
+              #  - debug:
+              #      msg: "reassign ticket"
+              #  - action: update_notes incident='{{ incident_no }}'  work_notes='[code]<h3>Summary:\n </h3>1. Ping is successful <br> 2. Device logs are attached <br> 3. Uptime of the device is less than 30 minutes. <br>[/code]'
+              #    register: update_notes
+              #  - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3>Unable to troubleshoot, hence reassigned </h3>[/code]'
+              #    register: update_notes
             
-               - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
-                 register: reassignment_ticket_register
-               - debug: var=reassignment_ticket_register
+              #  - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+              #    register: reassignment_ticket_register
+              #  - debug: var=reassignment_ticket_register
                - meta: end_play
               when: UpTimeNumericValue | int < 30
               
