@@ -39,7 +39,7 @@ class ActionModule(ActionBase):
                   #description=description.replace('\\n','')
                   #interface_pattern="packets on (.*) \["
                   #interface_pattern="StatusFlapNetwork interface (.*) \["
-                  interface_pattern="Network interface (.*) \["
+                  interface_pattern="interface (.*) \["
                   hostname=re.findall(host_pattern,description)
                   interface=re.findall(interface_pattern,description)
                   
