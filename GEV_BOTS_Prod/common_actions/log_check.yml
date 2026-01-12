@@ -18,6 +18,15 @@
       
   when: "'No Logs found' in log_results"
 - block:
+    - set_fact:
+        InputNotes: |-
+                 [code] 
+                        <h3> LOG RESULTS:  BOT UNABLE TO QUERY THE LOGS HENCE SKIPPING THIS STEP. </h3> [/code]
+    - action: update_notes incident='{{ incident_no }}' work_notes='{{ InputNotes }}'
+      register: update_notes
+    - debug: var=update_notes
+  when: "('incomplete' in log_results) or ('invalid' in log_results)"
+- block:
    - shell: echo "{{ log_results }}" > log.txt
    - shell: cat log.txt | tail -10
      register: last_ten_log_register
@@ -89,4 +98,4 @@
      - meta: end_play
      when: "'Success' not in uptime_result" 
          
-  when: "'No Logs found' not in log_results"
+  when: "('No Logs found' not in log_results) and ('incomplete' not in log_results) and ('invalid' not in log_results)"
