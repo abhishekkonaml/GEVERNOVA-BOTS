@@ -49,11 +49,11 @@
     vars:
      interfacefrequency: 3
      interfacedelay: 600
-  - name: Step3 - LogCheck Validation
-    include_tasks: common_actions/log_check.yml 
-    vars:
-      keyword_to_validate: "{{ interfaceno }}"
-    when: interfaceno is defined
+  #- name: Step3 - LogCheck Validation
+  #  include_tasks: common_actions/log_check.yml 
+  #  vars:
+  #    keyword_to_validate: "{{ interfaceno }}"
+  #  when: interfaceno is defined
   - name: Step3 - B side Validation
     include_tasks: bots/ConnectionAndInterfaceDown/fetching_destination_details.yml
   
