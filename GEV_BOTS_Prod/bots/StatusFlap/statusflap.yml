@@ -48,11 +48,16 @@
     vars:
      interfacefrequency: 3
      interfacedelay: 600
-  - name: Step3 - LogCheck Validation
-    include_tasks: common_actions/log_check.yml 
-    vars:
-      keyword_to_validate: "{{ interfaceno }}"
-    when: interfaceno is defined
+  #- name: Step3 - LogCheck Validation
+  #  include_tasks: common_actions/log_check.yml 
+  #  vars:
+  #    keyword_to_validate: "{{ interfaceno }}"
+  #  when: interfaceno is defined
+  - set_fact:
+      bot_notes: |-
+                 Skipping B side validation since it is an Access point"
+  - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+    register: update_notes
   - name: AP Connected status
     include_tasks: bots/StatusFlap/failure_ap_connected_status.yml
   - set_fact:
