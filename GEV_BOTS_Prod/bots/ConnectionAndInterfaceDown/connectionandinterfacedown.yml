@@ -48,7 +48,10 @@
     include_tasks: common_actions/interfacestatuscheck.yml
     vars:
      interfacefrequency: 3
-     interfacedelay: 600
+     interfacedelay: 600 
+  - name: Sleep for  seconds
+    pause:
+      seconds: 1800
   #- name: Step3 - LogCheck Validation
   #  include_tasks: common_actions/log_check.yml 
   #  vars:
