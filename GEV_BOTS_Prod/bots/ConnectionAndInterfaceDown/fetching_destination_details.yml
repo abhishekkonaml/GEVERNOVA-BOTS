@@ -272,21 +272,21 @@
                    [/code] 
    - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
      register: update_notes
-   - name: Add work notes - 2
-     action: worknotesupdate work_notes='{{ bot_notes }}'
-     register: worknotesupdate
+   # name: Add work notes - 2
+   # action: worknotesupdate work_notes='{{ bot_notes }}'
+   # register: worknotesupdate
   
-   - debug: var=worknotesupdate
-   - name: save_output
-     set_fact:
-        aa_start_save: ''
-        botname: '{{bot_name}}'
-        retcode: 'MBRETCD001'
-        retdesc: 'Test Success'
-        success_type: 't1'
-        assignment_group: "{{assigngrp|default('')}}"
-        assign_to: "{{assignto|default('')}}"
-        zz_end_save: ''
+   # debug: var=worknotesupdate
+   # name: save_output
+   # set_fact:
+   #    aa_start_save: ''
+   #    botname: '{{bot_name}}'
+   #    retcode: 'MBRETCD001'
+   #    retdesc: 'Test Success'
+   #    success_type: 't1'
+   #    assignment_group: "{{assigngrp|default('')}}"
+   #    assign_to: "{{assignto|default('')}}"
+   #    zz_end_save: ''
     
    - action: closeincident incident='{{ incident_no }}'
      register: closeregister
