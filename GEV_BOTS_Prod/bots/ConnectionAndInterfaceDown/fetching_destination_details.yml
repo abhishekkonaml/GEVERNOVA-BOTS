@@ -324,22 +324,22 @@
    - debug: var=worknotesupdate
    - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
      register: update_notes
-   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
-     register: reassignment_ticket
+   #- action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+   #  register: reassignment_ticket
    - action: closeincident incident='{{ incident_no }}'
      register: closeregister
    - debug: var=closeregister
-   - name: save_output
-     set_fact:
-        aa_start_save: ''
-        botname: '{{bot_name}}'
-        retcode: 'MBRETCD002'
-        retdesc: 'B side MAC not exist in Source MAC address table hence reassigned.'
-        assignment_group: "{{assigngrp|default('')}}"
-        assign_to: "{{assignto|default('')}}"
-        zz_end_save: ''
-   - action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
-   - meta: end_play 
+   #- name: save_output
+   #  set_fact:
+   #     aa_start_save: ''
+   #     botname: '{{bot_name}}'
+   #     retcode: 'MBRETCD002'
+   #     retdesc: 'B side MAC not exist in Source MAC address table hence reassigned.'
+   #     assignment_group: "{{assigngrp|default('')}}"
+   #     assign_to: "{{assignto|default('')}}"
+   #     zz_end_save: ''
+   #- action: reassignment_ticket incident='{{ incident_no }}' group='{{ assignment_group }}'
+   #- meta: end_play 
 
    when: 'DestinationDeviceInterfaceMAC1 not in SourceHasDestMac'
 
