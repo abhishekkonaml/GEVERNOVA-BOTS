@@ -23,8 +23,8 @@
         
     
     - set_fact:
-       query: "short_descriptionLIKEdevice silencing^state=-1^assigned_to=6b90abba3350ea1475eb1532cd5c7b17/change_request" 
-       #query: "short_descriptionLIKEDevice silencing^state=-1^end_dateRELATIVELT@minute@ahead@10^end_date>=javascript:gs.beginningOfLast15Minutes()/change_request"
+       #query: "short_descriptionLIKEdevice silencing^state=-1^assigned_to=6b90abba3350ea1475eb1532cd5c7b17/change_request" 
+       query: "short_descriptionLIKEDevice silencing^state=-1^end_dateRELATIVELT@minute@ahead@10^end_date>=javascript:gs.beginningOfLast15Minutes()/change_request"
 
     - name: fetch change tickets for post validation
       action: Fetch_change_tickets query1="{{ query }}"

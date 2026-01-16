@@ -255,7 +255,8 @@ class CMDB:
           
       def get_ci_affected_details_change(self,ch_number):
           #url="https://api.gevernova.com/servicenow_change/record/{}".format(query)
-          url='https://api.gevernova.com/servicenow_task_cmdb/querytable/number={}/change_request?sso=503434319'.format(ch_number)
+          #url='https://api.gevernova.com/servicenow_task_cmdb/querytable/number={}/change_request?sso=503434319'.format(ch_number)
+          url='https://api.gevernova.com/servicenow_change/record/{}'.format(ch_number)
           token='Bearer {}'.format(self.access_token)
           headers = {
                'Authorization': token,

@@ -35,7 +35,7 @@ class ActionModule(ActionBase):
             
         except:
             devices = "error"
-            return {'status': 'failed', 'output': res}
+            return {'status': 'failed', 'output': devices}
 
         
    
