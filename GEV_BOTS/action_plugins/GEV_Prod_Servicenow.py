@@ -172,7 +172,7 @@ class CMDB:
       def __init__(self):
         url = "https://fssfed.ge.com/fss/as/token.oauth2?grant_type=client_credentials&scope=api"
         headers = {
-          'Authorization': 'Basic ckdnMVd4V280Rko2SnpZZ2lUY3VnU1pqVzEzdmk1UVBjYnZjTnUxTUF0ZkZRM0xBOjA5enR1UUk4NlZMcVV5TEFOYW5taERuNGRaQXc1UTlYeENkSE5Pb0FpcTAxd0lOTU5JMTdDZFVibXMwRzRNMXQ=',
+          'Authorization': 'Basic c2x2TmZYYUFOV3JMUXhTbUhoUjN2ZWdKSkxUMnA1dFVNeXFXd2JBVWh6RVZCdTQ4OlJzNlpOZWo1eFFBV3hBMGJ2d2x5aGFPdERhSG9jbUVUc0kxU0hBZWtMWmx4T3FYYVlXYUJMekhaOGpsMXpRdEM=',
           
           'Content-Type': 'application/json',
           'Accept': 'application/json',

@@ -24,7 +24,7 @@ class ActionModule(ActionBase):
 
         chobj=CMDB()
         res=chobj.get_ci_affected_details_change(Change_number)
-        print(res)
+        #print(res)
         try:
             devices=[]
             result = res['result'][0]['affected_ci_list']
