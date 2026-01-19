@@ -63,7 +63,7 @@
   #  when: interfaceno is defined
   - set_fact:
       bot_notes: |-
-                 Skipping B side validation since it is an Access point"
+                 [code] <b> Skipping B side validation since it is an Access point. </b> <br> [/code]
   - action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
     register: update_notes
   - name: AP Connected status
