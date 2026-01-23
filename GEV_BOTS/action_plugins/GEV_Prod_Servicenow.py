@@ -320,6 +320,34 @@ class CMDB:
                return ("Failed - {}".format(response.json()['error']['message']))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
+      def change_assigned_to(self,ch_number,work_notes,SSOID):
+        token='Bearer {}'.format(self.access_token)
+        url1="https://api.gevernova.com/servicenow_change/" 
+        payload = json.dumps({
+                              "update": {
+                                "partnerInfo": {
+                                  "name": "com.microland.intelligenie",
+                                  "externalRecord": ""
+                                },
+                                "number": ch_number,
+                        
+                                "work_notes": work_notes,
+        				              "assigned_to" : SSOID
+                              }
+                            })
+        headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                    'Cookie': 'glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                  }
+        try: 
+            response = requests.request("PUT", url1, headers=headers,verify=False,data=payload)
+            if response.status_code == 201:
+               return (response.json()['result'])
+            else:
+               return ("Failed - {}".format(response.json()))
+        except Exception as e:
+               return ("Failed - Something went wrong - {}".format(str(e)))
       
       def state_change(self,ch_number,state):
         token='Bearer {}'.format(self.access_token)
@@ -348,6 +376,8 @@ class CMDB:
                return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
+        
+
         
 
 
