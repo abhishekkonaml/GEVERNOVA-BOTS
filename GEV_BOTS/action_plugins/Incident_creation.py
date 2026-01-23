@@ -17,10 +17,10 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
             cmdb=self._task.args["ci"]
-            cmdb_ci= cmdb + 'gdn.ge.com'
+            cmdb_ci= cmdb 
             ch_number=self._task.args["change_number"]
-            short_description='{} is unreachable.Node stopped responding to poll'.format(cmdb_ci)
-            description='''{} is unreachable.Node stopped responding to poll.
+            short_description='{} is unreachable.Node down after device silencing.'.format(cmdb_ci)
+            description='''{} is unreachable.Node down after device silencing.
                                  It's a notification alert generated as part of the device silencing change : {}'''.format(cmdb_ci,ch_number)
 
             work_notes='It is a notification alert generated as part of the device silencing change'
