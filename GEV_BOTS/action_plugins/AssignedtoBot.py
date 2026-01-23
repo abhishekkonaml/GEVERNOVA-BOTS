@@ -8,7 +8,8 @@ import base64
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from GEV_DEV_Servicenow import Incidents
+#from GEV_DEV_Servicenow import Incidents
+from GEV_Prod_Servicenow import CMDB
 
 warnings.filterwarnings("ignore") 
 
@@ -17,10 +18,12 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-           incident=self._task.args['incident']
-           incobj=Incidents()
-           result=incobj.assigned_to_bot(incident)
+           ch_number=self._task.args['change_no']
+           work_notes=self.task.args['work_note']
+           #SSOid=self.task.args['ssoid']
+           chobj=CMDB()
+           res=chobj.change_assigned_to(ch_number,work_notes)
            
-           return {'status': 'success','result': result}
+           return {'status': 'success','result': res}
         except Exception as e:
             return {'status': 'failed', 'result': str(e)}

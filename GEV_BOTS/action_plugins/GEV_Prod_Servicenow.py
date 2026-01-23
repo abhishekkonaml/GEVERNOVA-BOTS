@@ -320,7 +320,7 @@ class CMDB:
                return ("Failed - {}".format(response.json()['error']['message']))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
-      def change_assigned_to(self,ch_number,work_notes,SSOID):
+      def change_assigned_to(self,ch_number,work_notes):
         token='Bearer {}'.format(self.access_token)
         url1="https://api.gevernova.com/servicenow_change/" 
         payload = json.dumps({
@@ -332,7 +332,7 @@ class CMDB:
                                 "number": ch_number,
                         
                                 "work_notes": work_notes,
-        				              "assigned_to" : SSOID
+        				              "assigned_to" : 504018887
                               }
                             })
         headers = {
