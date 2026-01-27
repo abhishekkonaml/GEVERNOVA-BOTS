@@ -1,6 +1,6 @@
 ---
- - name: Testing CyberArk Credentials
+ - name: Fetching GEV Token
    hosts: localhost
    tasks:
    - debug: 
-        msg: "{{ generic_username }}"
+        msg: "{{ generic_token1 }}"
