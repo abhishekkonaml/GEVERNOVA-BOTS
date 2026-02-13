@@ -1,23 +1,24 @@
 - name: test
   hosts: localhost
   tasks:
-   #  - name: fetch change tickets for pre validation
-   #    action: Fetch_change_tickets query1="short_descriptionLIKEdevice silencing^start_date<=javascript:gs.beginningOfLast15Minutes()^start_date>javascript:gs.beginningOfLast30Minutes()^state=-2/change_request"
+    - name: fetch change tickets for pre validation
+      #action: Fetch_change_tickets query1="short_descriptionLIKEdevice silencing^start_date<=javascript:gs.beginningOfLast15Minutes()^start_date>javascript:gs.beginningOfLast30Minutes()^state=-2/change_request"
+      action: Fetch_change_tickets query1="short_descriptionLIKEdevice silencing^start_date<=javascript:gs.endOfCurrentMinute()^start_dateRELATIVEGT@minute@ago@15^state=-2/change_request"
                                              
-   #    register: result
-   #  - debug: var=result.response
-   #  - set_fact:
-   #     numbers: "{{ result.response }}"
-   #  - debug: var=numbers
-   #  - block:
-   #      - debug:
-   #          msg: "Call prevalidation role"
-   #      - include_tasks: bots/Device silencing/Pre_Validation.yml
-   #        loop: "{{ numbers }}"
-   #        loop_control: 
-   #          loop_var: ch_number
-   #        ignore_errors: yes
-   #    when: "'string indices must be integers' not in numbers"
+      register: result
+    - debug: var=result.response
+    - set_fact:
+       numbers: "{{ result.response }}"
+    - debug: var=numbers
+    - block:
+        - debug:
+            msg: "Call prevalidation role"
+        - include_tasks: bots/Device silencing/Pre_Validation.yml
+          loop: "{{ numbers }}"
+          loop_control: 
+            loop_var: ch_number
+          ignore_errors: yes
+      when: "'string indices must be integers' not in numbers"
 #
 
         
