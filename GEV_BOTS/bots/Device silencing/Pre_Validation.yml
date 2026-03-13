@@ -2,7 +2,7 @@
     - set_fact:
         change_number: "{{ ch_number }}"
     - name: Assign tickets to bot
-      action: AssignedtoBot ch_number='{{ change_number }}' work_notes='Assigning change to bot for validation'
+      action: AssignedtoBot change_no='{{ change_number }}' work_note='Assigning change to bot for validation'
       register: assign_result
     - debug: var=assign_result
     - set_fact:
