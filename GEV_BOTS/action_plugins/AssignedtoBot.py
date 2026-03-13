@@ -19,7 +19,7 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
            ch_number=self._task.args['change_no']
-           work_notes=self.task.args['work_note']
+           work_notes=self._task.args['work_note']
            #SSOid=self.task.args['ssoid']
            chobj=CMDB()
            res=chobj.change_assigned_to(ch_number,work_notes)
