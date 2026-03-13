@@ -3,6 +3,8 @@
         change_number: "{{ ch_number }}"
     - name: Assign tickets to bot
       action: AssignedtoBot ch_number='{{ change_number }}' work_notes='Assigning change to bot for validation'
+      register: assign_result
+    - debug: var=assign_result
     - set_fact:
         notes: |
               [code] <h3> PRE VALIDATION: Checking health status of affected CI </h3> [/code]
