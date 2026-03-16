@@ -16,18 +16,21 @@
      # Triggering the Bot
      - block:
        #Assigning to Bot group and id
-       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}'
-         register: assigned_status_register
-       - debug: var=assigned_status_register
+       
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
           incident_interface: "{{ fetched_details.interface }}"
           botname: "{{ fetched_details.botname }}"
           ap_name: "{{ fetched_details.ap_name }}"
+          update_description: "{{ fetched_details.updated_desc }}"
        - debug: var=incident_hostname
        - debug: var=incident_interface
        - debug: var=botname
        - debug: var=ap_name
+       - debug: var=update_description
+       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}'
+         register: assigned_status_register
+       - debug: var=assigned_status_register
        - debug:
            msg: "calling Status Flap role"
        - name: Call Status Flap role 

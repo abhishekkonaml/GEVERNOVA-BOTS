@@ -30,10 +30,15 @@ class ActionModule(ActionBase):
             if type(incident_details)==list:
                description=incident_details[0]['short_description']
                
+               
+               
                #Bot Classification Logic
                
                # Usecase-1: Connection Down Bot 
                if 'network interface' in description.lower() and "statusflap" in description.lower(): 
+                  KB_Article='[GEVKB0015490]'
+                  desc=description[:-16]
+                  updated_desc=KB_Article + desc
                   #host_pattern="host (.*) is experiencing"
                   host_pattern="- (.*)Network Interfaces"
                   #description=description.replace('\\n','')
@@ -63,10 +68,14 @@ class ActionModule(ActionBase):
                   if hostname == '' and interface=='':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
                  
-                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusFlap','ap_name':ap_name}
+                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusFlap','ap_name':ap_name, 'updated_desc': updated_desc}
                
                #Usecase2 - StatusAlert
                elif 'network interface' in description.lower() and "statusflap" not in description.lower() and "status": 
+                  KB_Article='[GEVKB0017428]'
+                  desc=description[:-16]
+                  updated_desc=KB_Article + desc
+                  
                   #host_pattern="host (.*) is experiencing"
                   #description=description.replace('\\n','')
                   host_pattern="- (.*)Network Interfaces"
@@ -88,15 +97,19 @@ class ActionModule(ActionBase):
                   if hostname == '' and interface=='':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
                  
-                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusAlert'}
+                  return {'status':'success','hostname':hostname,'interface':interface,'description':description,'botname': 'StatusAlert','updated_desc': updated_desc}
 
 
                elif 'down' in description.lower():
+                  KB_Articele='[GEVKB0015329]'
+                  desc=description[:-16]
+                  updated_desc=KB_Article + desc
+                  
                   hostname=''
                   hostname=incident_details[0]['cmdb_ci']
                   if hostname == '':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
-                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Node down'}
+                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Node down','updated_desc': updated_desc}
 
                   
                # When no bot found
