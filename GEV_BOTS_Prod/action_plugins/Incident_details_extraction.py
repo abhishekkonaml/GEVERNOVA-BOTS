@@ -101,7 +101,7 @@ class ActionModule(ActionBase):
 
 
                elif 'down' in description.lower():
-                  KB_Articele='[GEVKB0015329]'
+                  KB_Article='[GEVKB0015329]'
                   desc=description[:-16]
                   updated_desc=KB_Article + desc
                   
