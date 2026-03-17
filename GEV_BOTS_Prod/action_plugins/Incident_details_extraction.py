@@ -37,7 +37,7 @@ class ActionModule(ActionBase):
                # Usecase-1: Connection Down Bot 
                if 'network interface' in description.lower() and "statusflap" in description.lower(): 
                   KB_Article='[GEVKB0015490]'
-                  desc=description[:-25]
+                  desc=description[:145]
                   updated_desc=KB_Article + desc
                   #host_pattern="host (.*) is experiencing"
                   host_pattern="- (.*)Network Interfaces"
@@ -73,7 +73,7 @@ class ActionModule(ActionBase):
                #Usecase2 - StatusAlert
                elif 'network interface' in description.lower() and "statusflap" not in description.lower() and "status": 
                   KB_Article='[GEVKB0017428]'
-                  desc=description[:-25]
+                  desc=description[:145]
                   updated_desc=KB_Article + desc
                   
                   #host_pattern="host (.*) is experiencing"
@@ -102,7 +102,7 @@ class ActionModule(ActionBase):
 
                elif 'down' in description.lower():
                   KB_Article='[GEVKB0015329]'
-                  desc=description[:-20]
+                  desc=description[:145]
                   updated_desc=KB_Article + desc
                   
                   hostname=''
