@@ -84,7 +84,7 @@ class Incidents:
                return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
-    def assigned_to_bot(self,incidentnumber,jobid):
+    def assigned_to_bot(self,incidentnumber,jobid,update_desc):
         token='Bearer {}'.format(self.access_token)
         url1="https://api.gevernova.com/servicenow_incident/" 
         payload = json.dumps({
@@ -97,7 +97,8 @@ class Incidents:
                                 "work_notes": "[code] <h3> The Ticket has been assigned to Intelligeni Bot - {} </h3> [/code]".format(jobid),
                                 "assignment_group": "HQ CTO Network BOT",
                                 "assigned_to": "504018887",
-                                "state":2
+                                "state":2,
+                                "short_description": update_desc
                               }
                             })
         headers = {

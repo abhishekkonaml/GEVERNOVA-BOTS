@@ -19,8 +19,9 @@ class ActionModule(ActionBase):
         try: 
            incident=self._task.args['incident']
            jobid=self._task.args['jobid']
+           update_desc=self._task.args['update_desc']
            incobj=Incidents()
-           result=incobj.assigned_to_bot(incident,jobid)
+           result=incobj.assigned_to_bot(incident,jobid,update_desc)
            
            return {'status': 'success','result': result}
         except Exception as e:
