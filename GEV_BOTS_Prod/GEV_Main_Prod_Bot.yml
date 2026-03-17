@@ -39,7 +39,7 @@
 
 
      - block:
-       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}'
+       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }} update_desc='{{ update_description }}'
          register: assigned_status_register
        - debug: var=assigned_status_register
        - set_fact:
@@ -61,7 +61,7 @@
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
           botname: "{{ fetched_details.botname }}"
-       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}'
+       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }} update_desc='{{ update_description }}'
          register: assigned_status_register
        - debug: var=assigned_status_register  
        - debug: var=incident_hostname
