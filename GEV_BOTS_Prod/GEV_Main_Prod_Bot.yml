@@ -39,17 +39,20 @@
 
 
      - block:
-       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }} update_desc='{{ update_description }}'
-         register: assigned_status_register
-       - debug: var=assigned_status_register
+       
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
           incident_interface: "{{ fetched_details.interface }}"
           botname: "{{ fetched_details.botname }}"
+          update_description: "{{ fetched_details.updated_desc }}"
           
        - debug: var=incident_hostname
        - debug: var=incident_interface
        - debug: var=botname
+       - debug: var=update_description
+       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }} update_desc='{{ update_description }}'
+         register: assigned_status_register
+       - debug: var=assigned_status_register
        - set_fact:
             bot_name: "StatusAlert"
        - debug:
@@ -61,11 +64,14 @@
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
           botname: "{{ fetched_details.botname }}"
+          update_description: "{{ fetched_details.updated_desc }}"
        - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }} update_desc='{{ update_description }}'
          register: assigned_status_register
+       
        - debug: var=assigned_status_register  
        - debug: var=incident_hostname
        - debug: var=botname
+       - debug: var=update_description
        
        - debug:
            msg: "calling node down role"
