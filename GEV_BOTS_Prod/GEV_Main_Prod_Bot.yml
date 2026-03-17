@@ -28,7 +28,7 @@
        - debug: var=botname
        - debug: var=ap_name
        - debug: var=update_description
-       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }} update_desc='{{ update_description }}''
+       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}' update_desc='{{ update_description }}'
          register: assigned_status_register
        - debug: var=assigned_status_register
        - debug:
@@ -50,7 +50,7 @@
        - debug: var=incident_interface
        - debug: var=botname
        - debug: var=update_description
-       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }} update_desc='{{ update_description }}'
+       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}' update_desc='{{ update_description }}'
          register: assigned_status_register
        - debug: var=assigned_status_register
        - set_fact:
@@ -65,7 +65,7 @@
           incident_hostname: "{{ fetched_details.hostname }}"
           botname: "{{ fetched_details.botname }}"
           update_description: "{{ fetched_details.updated_desc }}"
-       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }} update_desc='{{ update_description }}'
+       - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}' update_desc='{{ update_description }}'
          register: assigned_status_register
        
        - debug: var=assigned_status_register  
