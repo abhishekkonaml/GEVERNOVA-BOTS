@@ -56,8 +56,9 @@ def send_mail(ch_number,send_to,cc, assigned_to):
                 
         try: 
            smtp = smtplib.SMTP(server)
-           smtp.sendmail(send_from, send_to, msg.as_string())
+           res=smtp.sendmail(send_from, send_to, msg.as_string())
            smtp.close()
+           print(res)
            return "Mail sent successfully"
         except Exception as e:
            print(str(e))
@@ -73,8 +74,8 @@ def send_mail(ch_number,send_to,cc, assigned_to):
 #Created last 30 minutes
 
 #Test query
-#query="sys_created_onBETWEENjavascript:gs.dateGenerate('2026-03-17','00:00:00')@javascript:gs.endOfToday()^assignment_group=306e23c52b1cee903439fb5dce91bf1f"
-query="sys_created_onONLast hour@javascript:gs.beginningOfLastHour()@javascript:gs.endOfLastHour()^assignment_group=306e23c52b1cee903439fb5dce91bf1f^ORassignment_group=306e23c52b1cee903439fb5dce91bf1b^ORassignment_group=497afd07fbe5ae507768f8f94eefdc1a^ORassignment_group=365f383f3346e290df8f27382e5c7bde^ORassignment_group=529f15f92b7f1e10432cf2f9b891bfbe^ORassignment_group=6ea5b102fbb9e2109993f89c5eefdc4e^ORassignment_group=420aed69fb266e107768f8f94eefdc39"
+query="sys_created_onONLast hour@javascript:gs.beginningOfLastHour()@javascript:gs.endOfLastHour()^assignment_group=306e23c52b1cee903439fb5dce91bf1f^ORassignment_group=306e23c52b1cee903439fb5dce91bf1b^ORassignment_group=497afd07fbe5ae507768f8f94eefdc1a^ORassignment_group=365f383f3346e290df8f27382e5c7bde^ORassignment_group=682dd4c5338936108ccdbf173e5c7b7e^ORassignment_group=529f15f92b7f1e10432cf2f9b891bfbe^ORassignment_group=6ea5b102fbb9e2109993f89c5eefdc4e"
+#query="sys_created_onONLast hour@javascript:gs.beginningOfLastHour()@javascript:gs.endOfLastHour()^assignment_group=306e23c52b1cee903439fb5dce91bf1f^ORassignment_group=306e23c52b1cee903439fb5dce91bf1b^ORassignment_group=497afd07fbe5ae507768f8f94eefdc1a^ORassignment_group=365f383f3346e290df8f27382e5c7bde^ORassignment_group=529f15f92b7f1e10432cf2f9b891bfbe^ORassignment_group=6ea5b102fbb9e2109993f89c5eefdc4e^ORassignment_group=420aed69fb266e107768f8f94eefdc39"
 print("Fetching tickets...............")
 change_tickets=chobj.get_change_details_by_query(query)
 print(f'change_tickets are: {change_tickets}')
