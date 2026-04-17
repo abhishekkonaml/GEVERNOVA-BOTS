@@ -19,7 +19,7 @@ class ActionModule(ActionBase):
         try:
            incobj=Incidents() 
            coreobj=CoreApp()
-           query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^sys_created_onONLast 15 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()^state=1^ORstate=2"
+           query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^sys_created_onONLast 45 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()^state=1^ORstate=2"
            #query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^state=1^ORstate=2"
            
            fetch_status_tickets=incobj.get_incident_details_by_query(query1)
