@@ -53,7 +53,7 @@
         final_notes: "{{ping_result_list | join('\n\n') }}"
       ignore_errors: yes
 
-    - name: final rping results
+    - name: final ping results
       debug:
         var: final_notes
       ignore_errors: yes

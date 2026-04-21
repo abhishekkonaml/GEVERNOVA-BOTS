@@ -11,7 +11,7 @@
               [code] <h3> PING RESULTS: {{ hostname }} </h3> [/code]
               {{ ping_result1.stdout }}
  - set_fact:
-     ping_result_list: "{{ ping_result_list | default([]) | [ping_result] }}"
+     ping_result_list: "{{ ping_result_list | default([]) + [ping_result] }}"
    ignore_errors: yes
    
  - block:
