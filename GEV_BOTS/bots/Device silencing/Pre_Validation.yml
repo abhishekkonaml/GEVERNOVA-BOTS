@@ -57,6 +57,10 @@
       debug:
         var: final_notes
       ignore_errors: yes
+    - name: update all device notes
+      action: update_notes_change change_number='{{ change_number }}' work_notes='{{ final_notes }}'
+      register: notes_result
+    - debug: var=notes_result
 
     - name: convert dictionary to html table
       set_fact:
