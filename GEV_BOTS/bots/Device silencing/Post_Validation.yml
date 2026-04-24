@@ -50,7 +50,9 @@
       set_fact:
          ci_dict: {}
          
-    
+    - name: Initialize empty list for notes
+      set_fact:
+        ping_result_list: [] 
 
     - name: ping device
       include_tasks: common_actions/DeviceSilencing_ping.yml
@@ -65,6 +67,21 @@
       debug: 
         var: ci_dict
       ignore_errors: yes
+      
+    - name: convert list to string
+      set_fact:  
+        final_notes: "{{ping_result_list | join('\n\n') }}"
+      ignore_errors: yes
+
+    - name: final ping results
+      debug:
+        var: final_notes
+      ignore_errors: yes
+    - name: update all device notes
+      action: update_notes_change change_number='{{ change_number }}' work_notes='{{ final_notes }}'
+      register: notes_result
+    - debug: var=notes_result
+
     - name: retrieve key of dictionary(hostname) to create incidents for unreachable devices
       set_fact:
         unreachable_list: "{{ ci_dict | dict2items | selectattr('value', 'equalto', 'Unreachable') | map(attribute='key') | list}}"
