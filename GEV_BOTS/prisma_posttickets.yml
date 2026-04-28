@@ -3,7 +3,7 @@
   tasks:
     - set_fact:
         #query: 'short_descriptionLIKEdevice silencing^start_date<=javascript:gs.beginningOfLast15Minutes()^start_date>javascript:gs.beginningOfLast30Minutes()^state=-2/change_request'
-        query: 'short_descriptionLIKEInformational Change^end_date<=javascript:gs.endOfCurrentMinute()^state=-1^end_date>=javascript:gs.beginningOfLast15Minutes()/change_request'
+        query: 'short_descriptionLIKEInformational Change^end_date>=javascript:gs.beginningOfLast30Minutes()^end_date>=javascript:gs.beginningOfLast15Minutes()^state=-1/change_request'
                                              
     - name: fetch change tickets to move from Implement to review
       action: Fetch_change_tickets query1="{{ query }}"
