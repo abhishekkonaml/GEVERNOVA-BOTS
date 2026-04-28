@@ -2,7 +2,7 @@
     - set_fact:
         change_number: "{{ ch_number }}"
     - name: change state from implement to review
-      action: Change_state change='{{ change_number }}' state='review'
+      action: Change_state change='{{ change_number }}' state='review' assigned_to_implementation=504018887 assigned_to_test=503415988
       register: op
       ignore_errors: yes
     - debug: var=op

@@ -16,6 +16,8 @@ class ActionModule(ActionBase):
         try: 
            ch_number=self._task.args["change"]
            ch_state=self._task.args["state"]
+           assigned_to_implementation=self._task.args["assigned_to_implementation"]
+           assigned_to_test=self._task.args["assigned_to_test"]
            
            if(ch_state == 'implement'):
                chobj=CMDB()
@@ -33,7 +35,7 @@ class ActionModule(ActionBase):
                flag_test=0
                for i in data:
                    if(i.get('change_task_type') == 'Implementation'):
-                       assigned=504018887
+                       assigned=assigned_to_implementation  
                        implementation_task_number = i['number']
                        res_implementation=chobj.close_change_tasks(implementation_task_number,assigned)
                        print(res_implementation)
@@ -42,7 +44,7 @@ class ActionModule(ActionBase):
                if(flag_implementation == 1):
                    for i in data:
                        if(i.get('change_task_type') == 'Testing'):
-                           assigned=503415988
+                           assigned=assigned_to_test
                            test_task_number = i['number']
                            res_test=chobj.close_change_tasks(test_task_number,assigned)
                            print(res_test)
