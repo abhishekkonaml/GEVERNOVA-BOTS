@@ -50,6 +50,14 @@ class ActionModule(ActionBase):
                            print(res_test)
                            if('Failed' not in res_test):
                                flag_test=1
+                   for i in data:
+                       if(i.get('change_task_type') == 'Planning'):
+                           assigned= 560048172 
+                           test_task_number = i['number']
+                           res_test=chobj.close_change_tasks(test_task_number,assigned)
+                           print(res_test)
+                           if('Failed' not in res_test):
+                               flag_test=1
                if(flag_implementation ==1 and flag_test ==1):
                    output=chobj.state_change(ch_number,'review')
                else:
