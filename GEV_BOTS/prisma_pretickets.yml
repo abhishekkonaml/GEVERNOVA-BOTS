@@ -1,4 +1,4 @@
-- name: test
+- name: Prisma ticket fetching
   hosts: localhost
   tasks:
     - set_fact:
