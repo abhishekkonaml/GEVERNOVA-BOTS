@@ -58,11 +58,11 @@ class ActionModule(ActionBase):
                            print(res_test)
                            if('Failed' not in res_test):
                                flag_test=1
-               output=chobj.state_change(ch_number,'review')
-               #if(flag_implementation ==1 and flag_test ==1):
-               #    output=chobj.state_change(ch_number,'review')
-               #else:
-               #    output='Unable to close tasks and move change to review state'
+               #output=chobj.state_change(ch_number,'review')
+               if(flag_implementation ==1 and flag_test ==1):
+                   output=chobj.state_change(ch_number,'review')
+               else:
+                   output='Unable to close tasks and move change to review state'
                    
   
                
