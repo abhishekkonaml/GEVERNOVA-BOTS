@@ -1,9 +1,10 @@
-- name: test
+- name: Prisma ticket fetching
   hosts: localhost
   tasks:
     - set_fact:
         #query: 'short_descriptionLIKEdevice silencing^start_date<=javascript:gs.beginningOfLast15Minutes()^start_date>javascript:gs.beginningOfLast30Minutes()^state=-2/change_request'
-        query: 'short_descriptionLIKEInformational Change^start_dateRELATIVELT@minute@ahead@15^start_date>javascript:gs.beginningOfLast30Minutes()^state=-2/change_request'
+        
+        query: 'short_descriptionLIKEInformational Change^start_date<javascript:gs.beginningOfLast15Minutes()^start_date>javascript:gs.beginningOfLast30Minutes()^state=-2/change_request'
                                              
     - name: fetch change tickets to move from scheduled to implement
       action: Fetch_change_tickets query1="{{ query }}"
