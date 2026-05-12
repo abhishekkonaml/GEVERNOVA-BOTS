@@ -3,7 +3,7 @@
         change_number: "{{ ch_number }}"
     - set_fact:
         notes: |
-              [code] <h3> implementation completed. </h3> [/code]
+              [code] <h3> implementation completed. Closing Change tasks </h3> [/code]
     - name: update notes
       action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
       register: notes_result
