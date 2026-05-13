@@ -3,7 +3,8 @@
   tasks:
     - set_fact:
         #query: 'short_descriptionLIKEInformational Change^end_date<javascript:gs.beginningOfCurrentMinute()^state=-1^end_date>javascript:gs.beginningOfLast15Minutes()/change_request'
-        query: 'short_descriptionSTARTSWITHInformational Change^end_date<=javascript:gs.endOfCurrentMinute()^state=-1^end_date>=javascript:gs.beginningOfLast15Minutes()/change_request'
+        #query: 'short_descriptionSTARTSWITHInformational Change^end_date<=javascript:gs.endOfCurrentMinute()^state=-1^end_date>=javascript:gs.beginningOfLast15Minutes()/change_request'
+        query: 'state=-1^end_date>javascript:gs.endOfCurrentMinute()^end_dateRELATIVELT@minute@ahead@15^short_descriptionLIKEInformational Change/change_request'
                 
                                              
     - name: fetch change tickets to move from Implement to review
