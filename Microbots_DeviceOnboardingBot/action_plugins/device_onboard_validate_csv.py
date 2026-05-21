@@ -26,7 +26,8 @@ class ActionModule(ActionBase):
             ## Latest csv file to process
             destPath = src_path + '/Processed_CSV_Files/'
             destPath_UP = src_path + '/Unprocessed_CSV_Files/'
-            
+            print(src_path)
+            print("=-=-=-"*35)
             files = Path(src_path).glob('*.csv')
             latest = max(files, key=lambda f: f.stat().st_mtime)
             deviceDataFile = str(latest)
