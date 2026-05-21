@@ -36,7 +36,8 @@ class ActionModule(ActionBase):
                 return dict(success=True, failed=False, changed=False, msg=errMsg)
 
             srcFileName = deviceDataFile.split("/")[-1]
-
+            print(srcFileName)
+            print("*"*35)
             destPathWithFile = destPath + srcFileName
             destPathWithFile_UP = destPath_UP + srcFileName
             infoMsg = 'Device data file to process: ' + deviceDataFile
