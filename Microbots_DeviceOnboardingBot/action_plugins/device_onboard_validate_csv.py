@@ -31,13 +31,14 @@ class ActionModule(ActionBase):
             files = Path(src_path).glob('*.csv')
             latest = max(files, key=lambda f: f.stat().st_mtime)
             deviceDataFile = str(latest)
+            print(deviceDataFile)
+            print("*"*35)
             if (not os.path.isfile(deviceDataFile)):
                 errMsg = "There are no CSV files to process"
                 return dict(success=True, failed=False, changed=False, msg=errMsg)
 
             srcFileName = deviceDataFile.split("/")[-1]
-            print(srcFileName)
-            print("*"*35)
+            
             destPathWithFile = destPath + srcFileName
             destPathWithFile_UP = destPath_UP + srcFileName
             infoMsg = 'Device data file to process: ' + deviceDataFile
