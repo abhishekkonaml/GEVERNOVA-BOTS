@@ -29,9 +29,10 @@ class ActionModule(ActionBase):
             print(src_path)
             print("=-=-=-"*35)
             files = Path(src_path).glob('*.csv')
-            print(files)
-            print("*"*35)
+            
             latest = max(files, key=lambda f: f.stat().st_mtime)
+            print(latest)
+            print("*"*35)
             deviceDataFile = str(latest)
             print(deviceDataFile)
             
