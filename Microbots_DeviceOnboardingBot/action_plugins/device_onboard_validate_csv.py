@@ -29,10 +29,12 @@ class ActionModule(ActionBase):
             print(src_path)
             print("=-=-=-"*35)
             files = Path(src_path).glob('*.csv')
+            print(files)
+            print("*"*35)
             latest = max(files, key=lambda f: f.stat().st_mtime)
             deviceDataFile = str(latest)
             print(deviceDataFile)
-            print("*"*35)
+            
             if (not os.path.isfile(deviceDataFile)):
                 errMsg = "There are no CSV files to process"
                 return dict(success=True, failed=False, changed=False, msg=errMsg)
