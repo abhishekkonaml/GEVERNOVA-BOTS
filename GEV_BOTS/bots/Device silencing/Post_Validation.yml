@@ -85,12 +85,63 @@
     - name: retrieve key of dictionary(hostname) to create incidents for unreachable devices
       set_fact:
         unreachable_list: "{{ ci_dict | dict2items | selectattr('value', 'equalto', 'Unreachable') | map(attribute='key') | list}}"
+
+
     - debug: var=unreachable_list
-    - name: loop through list for incident creation
-      action: Incident_creation ci='{{ item }}' change_number='{{ change_number }}'
-      loop: "{{ unreachable_list }}"
+
+    - name: Get Unreachable list count
+      set_fact:
+       unreachable_count: "{{ unreachable_list | length }}"
+      ignore_errors: yes
+    - debug: var=unreachable_count
+
+    - name: Variables when multiple devices are unreachable
+      set_fact:
+        primary_device: "{{ unreachable_list[0] }}"
+        remaining_device: "{{ unreachable_list[1:] }}"
+      when: unreachable_count > 1
+
+    - debug:
+        msg:
+          - "primary_device: {{ primary_device }}"
+          - "remaining_device: {{ remaining_device }}"
+      when: unreachable_count > 1
+    - block:
+      - name: create multiline notes
+        set_fact:
+          remaining_device_notes: |
+              It is a notification alert generated as part of the device silencing change
+              Devices unreachable after silencing are:
+              {{ remaining_device }}
+      - name: Create single incident for multiple devices
+        action: Incident_creation ci='{{ primary_device }}' change_number='{{ change_number }}' notes='{{ remaining_device_notes }}'
+        register: created_incidents
+      when: unreachable_count > 1
+
+
+    # when only one unreachable device is present
+    - name: Create single incident for multiple devices
+      action: Incident_creation ci='{{ unreachable_list[0] }}' change_number='{{ change_number }}' notes='It is a notification alert generated as part of the device silencing change'
       register: created_incidents
-    - debug: var=created_incidents
+      when: unreachable_count == 1
+
+    - debug: 
+        var=created_incidents
+      when: unreachable_count > 0
+
+    - name: when no unreachable devices
+      debug: 
+        msg: "No unreachable device found. No Incident is created"
+      when: unreachable_count == 0
+
+    
+
+    
+    # - name: loop through list for incident creation
+    #   action: Incident_creation ci='{{ item }}' change_number='{{ change_number }}'
+    #   loop: "{{ unreachable_list }}"
+    #   register: created_incidents
+    # - debug: var=created_incidents
 
 
     
