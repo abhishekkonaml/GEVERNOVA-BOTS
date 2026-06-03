@@ -14,18 +14,29 @@
      ping_result_list: "{{ ping_result_list | default([]) + [ping_result] }}"
    ignore_errors: yes
    
+#  - block:
+#    - set_fact:
+#        ci_dict: "{{ affected_device_status | combine({ hostname: 'Reachable'}) }}"
+#      ignore_errors: yes
+     
+#    when: "'64 bytes' in ping_result1.stdout"
+#  - block:
+#    - set_fact:
+#        ci_dict: "{{ affected_device_status | combine({ hostname: 'Unreachable'}) }}"
+#      ignore_errors: yes
+#    when: "'64 bytes' not in ping_result1.stdout"
+
  - block:
    - set_fact:
-       ci_dict: "{{ affected_device_status | combine({ hostname: 'Reachable'}) }}"
+       ci_dict: "{{ ci_dict | default({}) | combine({ hostname: 'Reachable'}) }}"
      ignore_errors: yes
      
    when: "'64 bytes' in ping_result1.stdout"
  - block:
    - set_fact:
-       ci_dict: "{{ affected_device_status | combine({ hostname: 'Unreachable'}) }}"
+       ci_dict: "{{ ci_dict | default({}) | combine({ hostname: 'Unreachable'}) }}"
      ignore_errors: yes
-   when: "'64 bytes' not in ping_result1.stdout"
-     
+   when: "'64 bytes' not in ping_result1.stdout"     
 
  
 

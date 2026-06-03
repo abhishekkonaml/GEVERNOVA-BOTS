@@ -59,8 +59,8 @@
       loop: "{{ CI_list }}"
       loop_control:
         loop_var: CI
-      vars:
-        affected_device_status: "{{ ci_dict }}"
+      # vars:
+      #   affected_device_status: "{{ ci_dict }}"
       
       ignore_errors: yes
     - name: affected device output
@@ -91,7 +91,7 @@
 
     - name: Get Unreachable list count
       set_fact:
-       unreachable_count: "{{ unreachable_list | length }}"
+       unreachable_count: "{{ unreachable_list | length  | int }}"
       ignore_errors: yes
     - debug: var=unreachable_count
 
