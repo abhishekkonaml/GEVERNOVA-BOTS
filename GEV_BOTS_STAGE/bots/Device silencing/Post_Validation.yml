@@ -1,0 +1,231 @@
+---
+    - set_fact:
+        change_number: "{{ ch_number }}"
+    - name: change state from implement to review
+      action: Change_state change='{{ change_number }}' state='review' assigned_to_implementation=504018887 assigned_to_test=503415988
+      register: op
+      ignore_errors: yes
+    - debug: var=op
+    - block:
+        - set_fact:
+           notes: |
+              [code] <h3> Closed change tasks. <br> Updated change ticket status from Implement to Review. </h3> [/code]
+            
+        - name: update notes
+          action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
+          register: notes_result
+          ignore_errors: yes
+        - debug: var=notes_result
+      when: "'Unable to close tasks and move change to review state' not in op.result"
+    - block:
+        - set_fact:
+           notes: |
+              [code] <h3> Unable to close change tasks. <br> Unable to move ticket from Implement to review </h3> [/code]
+            
+        - name: update notes
+          action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
+          register: notes_result
+          ignore_errors: yes
+        - debug: var=notes_result
+      when: "'Unable to close tasks and move change to review state' in op.result"
+
+    - set_fact:
+        notes: |
+              [code] <h3> POST VALIDATION: Checking health status of affected CI </h3> [/code]
+            
+    - name: update notes
+      action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
+      register: notes_result
+    - name: fetch affected Ci
+      action: Prevalidation Change='{{ change_number }}' 
+      register: Affected_CI_reg
+      ignore_errors: yes
+    - debug: var=Affected_CI_reg.output
+    - set_fact:
+        CI_list: "{{ Affected_CI_reg.output }}"
+      ignore_errors: yes
+    - debug: var=CI_list
+
+    - name: Initialize empty dictionary
+      set_fact:
+         ci_dict: {}
+         
+    - name: Initialize empty list for notes
+      set_fact:
+        ping_result_list: [] 
+
+    - name: ping device
+      include_tasks: common_actions/DeviceSilencing_ping.yml
+      loop: "{{ CI_list }}"
+      loop_control:
+        loop_var: CI
+      # vars:
+      #   affected_device_status: "{{ ci_dict }}"
+      
+      ignore_errors: yes
+    - name: affected device output
+      debug: 
+        var: ci_dict
+      ignore_errors: yes
+      
+    - name: convert list to string
+      set_fact:  
+        final_notes: "{{ping_result_list | join('\n\n') }}"
+      ignore_errors: yes
+
+    - name: final ping results
+      debug:
+        var: final_notes
+      ignore_errors: yes
+    - name: update all device notes
+      action: update_notes_change change_number='{{ change_number }}' work_notes='{{ final_notes }}'
+      register: notes_result
+    - debug: var=notes_result
+
+    - name: retrieve key of dictionary(hostname) to create incidents for unreachable devices
+      set_fact:
+        unreachable_list: "{{ ci_dict | dict2items | selectattr('value', 'equalto', 'Unreachable') | map(attribute='key') | list}}"
+
+
+    - debug: var=unreachable_list
+
+    - name: Get Unreachable list count
+      set_fact:
+       unreachable_count: "{{ unreachable_list | length  | int }}"
+      ignore_errors: yes
+    - debug: var=unreachable_count
+
+    - name: Variables when multiple devices are unreachable
+      set_fact:
+        primary_device: "{{ unreachable_list[0] }}"
+        remaining_device: "{{ unreachable_list[1:] }}"
+      when: unreachable_count > 1
+
+    - debug:
+        msg:
+          - "primary_device: {{ primary_device }}"
+          - "remaining_device: {{ remaining_device }}"
+      when: unreachable_count > 1
+    - block:
+      - name: create multiline notes
+        set_fact:
+          remaining_device_notes: |
+              It is a notification alert generated as part of the device silencing change
+              Devices unreachable after silencing are:
+              {{ remaining_device }}
+      - name: Create single incident for multiple devices
+        action: Incident_creation ci='{{ primary_device }}' change_number='{{ change_number }}' notes='{{ remaining_device_notes }}'
+        register: created_incidents
+      when: unreachable_count > 1
+
+
+    # when only one unreachable device is present
+    - name: Create single incident for multiple devices
+      action: Incident_creation ci='{{ unreachable_list[0] }}' change_number='{{ change_number }}' notes='It is a notification alert generated as part of the device silencing change'
+      register: created_incidents
+      when: unreachable_count == 1
+
+    - debug: 
+        var=created_incidents
+      when: unreachable_count > 0
+
+    - name: when no unreachable devices
+      debug: 
+        msg: "No unreachable device found. No Incident is created"
+      when: unreachable_count == 0
+
+    
+
+    
+    # - name: loop through list for incident creation
+    #   action: Incident_creation ci='{{ item }}' change_number='{{ change_number }}'
+    #   loop: "{{ unreachable_list }}"
+    #   register: created_incidents
+    # - debug: var=created_incidents
+
+
+    
+
+    - name: convert dictionary to html table
+      set_fact:
+         html_code: | 
+           [code]
+           <table border="1" cellpadding="6" cellspacing="0">
+           <thead>
+           <h3> Post Validation Summary:</h3>
+           <table border="1"> 
+           <tr>
+                     
+                      <th style="text-align:center;background-color:#008080;color:white"> Devices  </th> 
+                      <th style="text-align:center;background-color:#008080;color:white"> Status </th>
+           </tr>
+
+           </thead>
+           <tbody>
+
+              {% for name, status in ci_dict.items() %}
+           <tr>
+           <td>{{ name }}</td>
+           <td>{{ status }}</td>
+           </tr>
+
+              {% endfor %}
+           </tbody>
+           </table>
+           [/code]
+      ignore_errors: yes
+    - name: update notes
+      action: update_notes_change change_number='{{ change_number }}' work_notes='{{ html_code }}'
+      register: notes_result
+      ignore_errors: yes
+    - debug: var=notes_result
+
+    # - name: change state from implement to review
+    #   action: Change_state change='{{ change_number }}' state='review'
+    #   register: op
+    #   ignore_errors: yes
+    # - debug: var=op
+    # - block:
+    #     - set_fact:
+    #        notes: |
+    #           [code] <h3> Closed change tasks. <br> Updated change ticket status from Implement to Review. </h3> [/code]
+            
+    #     - name: update notes
+    #       action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
+    #       register: notes_result
+    #       ignore_errors: yes
+    #     - debug: var=notes_result
+    #   when: "'Unable to close tasks and move change to review state' not in op.result"
+    # - block:
+    #     - set_fact:
+    #        notes: |
+    #           [code] <h3> Unable to close change tasks. <br> Unable to move ticket from Implement to review </h3> [/code]
+            
+    #     - name: update notes
+    #       action: update_notes_change change_number='{{ change_number }}' work_notes='{{ notes }}'
+    #       register: notes_result
+    #       ignore_errors: yes
+    #     - debug: var=notes_result
+    #   when: "'Unable to close tasks and move change to review state' in op.result"
+
+
+
+  
+    - block:
+        - debug: 
+            msg: "No ci to validate"
+      when: CI_list | length == 0
+    - block:
+        - debug: 
+            msg: "No ci to validate"
+      when: "'error' in CI_list"
+
+
+
+
+
+
+
+    
+
+

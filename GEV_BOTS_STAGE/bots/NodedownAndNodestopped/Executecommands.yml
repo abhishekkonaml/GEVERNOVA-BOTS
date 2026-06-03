@@ -1,0 +1,35 @@
+
+- name: check connectivity
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: clock_status_register
+  ignore_errors: true
+  
+- block:
+    - debug:
+        msg: "Unable to connect to host end the play"
+    - meta: end_play
+  when: "'Hostname not known' in clock_status_register"
+
+- name: log check
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: log_status_register
+  ignore_errors: true
+
+- block:
+    - debug: 
+        msg: "Unable to execute showlog end play"
+    - meta: end_play
+  when: "'Unable to execute show log command' in log_status_register"
+
+- name: execute commands
+  action: CommandExecution hostname='{{ incident_hostname }}' command='{{ item }}' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: command_status_register
+  ignore_errors: true
+  loop: "{{ 'sh ip in brief', 'sh ip pro summ', 'show proc cpu | ex 0.00' }}"
+
+- name: check uptime
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show version' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: version_status_register
+  ignore_errors: true
+  
+

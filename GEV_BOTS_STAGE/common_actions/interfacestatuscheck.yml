@@ -1,0 +1,51 @@
+- set_fact:
+     command1: "sh int {{ incident_interface }}"
+     command2: "sh cdp nei {{ incident_interface }} detail"
+- name: Interface status check
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  register: interface_status_register
+  until: ("is up" in interface_status_register.Output)
+  ignore_errors: true
+  retries: "{{ interfacefrequency}}"
+  delay: "{{ interfacedelay }}"
+
+- set_fact:
+    Interfaceresult: "{{ interface_status_register.Output }}"
+
+- name: Interface Neighbor status
+  action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' incidentno='{{ incident_no }}' notesupdate='yes'
+  register: interface_nei_register
+- set_fact:
+       interface_nei_result: "{{ interface_nei_register.Output }}"
+- debug: var=interface_nei_result
+- block:
+  - set_fact:
+       bot_notes: |
+                 [code] 
+                  <h3>Summary: </h3> 
+                  1. Ping is successful. <br>
+                  2.Interface is down after three attempts hence reassigned. <br>
+                  [/code]
+  - debug:    
+      msg: "Interface is down hence reassigned"
+  #- action: update_notes incident='{{ incident_no }}' work_notes='{{ bot_notes }}'
+  #  register: update_notes
+  #- debug: var=update_notes
+  - name: Add work notes - 2
+    action: worknotesupdate work_notes='{{ bot_notes }}'
+    register: worknotesupdate
+  
+  - debug: var=worknotesupdate
+  - name: save_output
+    set_fact:
+        aa_start_save: ''
+        botname: '{{bot_name}}'
+        retcode: 'MBRETCD002'
+        retdesc: 'Interface is down after three attempts hence reassigned'
+        assignment_group: "{{assigngrp|default('')}}"
+        assign_to: "{{assignto|default('')}}"
+        zz_end_save: ''
+  
+  - meta: end_play 
+  when: "('is up' not in Interfaceresult)"
+

@@ -1,0 +1,25 @@
+- name: Prisma ticket fetching
+  hosts: localhost
+  tasks:
+    - set_fact:
+        query: 'short_descriptionLIKEInformational Change^start_dateRELATIVELT@minute@ago@10^state=-2^start_dateRELATIVEGT@minute@ago@20/change_request'
+        #query: 'state=-2^short_descriptionLIKEInformational change/change_request'
+        
+                                             
+    - name: fetch change tickets to move from scheduled to implement
+      action: Fetch_change_tickets query1="{{ query }}"
+      register: result
+    - debug: var=result.response
+    - set_fact:
+        numbers: "{{ result.response }}"
+    - debug: var=numbers
+    - block:
+        - debug:
+            msg: "Move tickets from implement to review"
+        - include_tasks: bots/Prisma migration/scheduled_to_implement.yml
+          loop: "{{ numbers }}"
+          loop_control: 
+            loop_var: ch_number
+          ignore_errors: yes
+      when: "'string indices must be integers' not in numbers"
+
