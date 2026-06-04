@@ -125,8 +125,15 @@
       register: created_incidents
       when: unreachable_count | int == 1
 
-    - debug: 
-        var=created_incidents
+    - block:
+        - debug: 
+            var=created_incidents
+        - set_fact:
+            incident_created_notes: |
+               Incident is created for unreachable devices = {{ created_incidents }}
+        - name: update created incident notes
+          action: update_notes_change change_number='{{ change_number }}' work_notes='{{ incident_created_notes }}'
+          register: notes_result 
       when: unreachable_count | int > 0
 
     - name: when no unreachable devices
