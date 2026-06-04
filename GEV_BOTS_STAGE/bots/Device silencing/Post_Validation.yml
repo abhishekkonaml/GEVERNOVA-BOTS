@@ -99,13 +99,13 @@
       set_fact:
         primary_device: "{{ unreachable_list[0] }}"
         remaining_device: "{{ unreachable_list[1:] }}"
-      when: unreachable_count > 1
+      when: unreachable_count | int > 1
 
     - debug:
         msg:
           - "primary_device: {{ primary_device }}"
           - "remaining_device: {{ remaining_device }}"
-      when: unreachable_count > 1
+      when: unreachable_count | int > 1
     - block:
       - name: create multiline notes
         set_fact:
@@ -116,23 +116,23 @@
       - name: Create single incident for multiple devices
         action: Incident_creation ci='{{ primary_device }}' change_number='{{ change_number }}' notes='{{ remaining_device_notes }}'
         register: created_incidents
-      when: unreachable_count > 1
+      when: unreachable_count | int > 1
 
 
     # when only one unreachable device is present
     - name: Create single incident for multiple devices
       action: Incident_creation ci='{{ unreachable_list[0] }}' change_number='{{ change_number }}' notes='It is a notification alert generated as part of the device silencing change'
       register: created_incidents
-      when: unreachable_count == 1
+      when: unreachable_count | int == 1
 
     - debug: 
         var=created_incidents
-      when: unreachable_count > 0
+      when: unreachable_count | int > 0
 
     - name: when no unreachable devices
       debug: 
         msg: "No unreachable device found. No Incident is created"
-      when: unreachable_count == 0
+      when: unreachable_count | int == 0
 
     
 
