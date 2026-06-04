@@ -2,8 +2,8 @@
   hosts: localhost
   tasks:
     - set_fact:
-        #query: 'short_descriptionLIKEdevice silencing^start_date<=javascript:gs.beginningOfLast15Minutes()^start_date>javascript:gs.beginningOfLast30Minutes()^state=-2/change_request'
-        query: 'short_descriptionLIKEdevice silencing^start_date<=javascript:gs.endOfCurrentMinute()^start_dateRELATIVEGT@minute@ago@15^state=-2/change_request'
+        query: 'short_descriptionLIKEdevice silencing^start_dateONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^state=-2/change_request'
+        #query: 'short_descriptionLIKEdevice silencing^start_date<=javascript:gs.endOfCurrentMinute()^start_dateRELATIVEGT@minute@ago@15^state=-2/change_request'
                                              
     - name: fetch change tickets for pre validation
       action: Fetch_change_tickets query1="{{ query }}"
