@@ -13,13 +13,13 @@
     - set_fact:
         numbers: "{{ result.response }}"
     - debug: var=numbers
-    - block:
-        - debug:
-            msg: "Move tickets from implement to review"
-        - include_tasks: bots/Prisma migration/scheduled_to_implement.yml
-          loop: "{{ numbers }}"
-          loop_control: 
-            loop_var: ch_number
-          ignore_errors: yes
-      when: "'string indices must be integers' not in numbers"
+    # - block:
+    #     - debug:
+    #         msg: "Move tickets from implement to review"
+    #     - include_tasks: bots/Prisma migration/scheduled_to_implement.yml
+    #       loop: "{{ numbers }}"
+    #       loop_control: 
+    #         loop_var: ch_number
+    #       ignore_errors: yes
+    #   when: "'string indices must be integers' not in numbers"
 
