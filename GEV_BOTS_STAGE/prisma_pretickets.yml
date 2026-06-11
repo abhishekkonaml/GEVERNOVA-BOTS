@@ -2,9 +2,9 @@
   hosts: localhost
   tasks:
     - set_fact:
-        query: 'short_descriptionLIKEInformational Change^start_dateRELATIVELT@minute@ago@10^state=-2^start_dateRELATIVEGT@minute@ago@20/change_request'
+        #query: 'short_descriptionLIKEInformational Change^start_dateRELATIVELT@minute@ago@10^state=-2^start_dateRELATIVEGT@minute@ago@20/change_request'
         #test query
-        #query: 'short_descriptionLIKEInformational change^state=-2^start_dateONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()/change_request'
+        query: 'short_descriptionLIKEInformational change^state=-2^start_dateONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()/change_request'
         
                                              
     - name: fetch change tickets to move from scheduled to implement
