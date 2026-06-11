@@ -93,6 +93,13 @@ class ActionModule(ActionBase):
                   if hostname == '':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
                   return {'status':'success','hostname':hostname,'description':description,'botname': 'Node down'}
+               
+               elif 'temperature sensors' in description.lower():
+                  hostname=''
+                  hostname=incident_details[0]['cmdb_ci']
+                  if hostname == '':
+                     return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
+                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Temperature Sensor'}
 
                   
                # When no bot found

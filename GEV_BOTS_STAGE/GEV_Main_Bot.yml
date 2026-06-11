@@ -70,6 +70,23 @@
          include_tasks: bots/NodedownAndNodestopped/main.yml
        
        when: "'Node down' in fetched_details.botname"
+
+     - block:
+       - set_fact:
+          incident_hostname: "{{ fetched_details.hostname }}"
+          botname: "{{ fetched_details.botname }}"
+       - action: AssignedtoBot incident='{{ incident_no }}'
+         register: assigned_status_register
+       - debug: var=assigned_status_register  
+       - debug: var=incident_hostname
+       - debug: var=botname
+       
+       - debug:
+           msg: "calling temperature sensor role"
+       - name: call node down role
+         include_tasks: bots/Temperature_Sensor/main.yml
+       
+       when: "'Temperature Sensor' in fetched_details.botname"
      when: "'success' in fetched_details.status"
    - block:
      - debug: msg='No Records found with the given Incident number'
