@@ -7,7 +7,7 @@
       #bot_name: "ML_Test_SnowIntegration"
       
    tasks:
-   - debug: vars=incident_no
+   - debug: var=incident_no
    # Fetching Incident Details
    - name: Bot Execution started
      action: Incident_details_extraction incident_no='{{ incident_no }}'
