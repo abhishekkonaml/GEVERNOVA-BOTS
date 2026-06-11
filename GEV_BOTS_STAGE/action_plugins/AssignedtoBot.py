@@ -9,7 +9,7 @@ import base64
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 #from GEV_DEV_Servicenow import Incidents
-from GEV_Prod_Servicenow import CMDB
+from GEV_Stage_Servicenow import CMDB
 
 warnings.filterwarnings("ignore") 
 
