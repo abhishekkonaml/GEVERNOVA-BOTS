@@ -6,8 +6,9 @@
    register: update_notes
 
  - block:
+     command: "show sysenv temp"
    when: "'Temperature Sensor' in fetched_details.description"
  - name: check connectivity
-   action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
+   action: CommandExecution hostname='{{ incident_hostname }}' command='{{ command }}' incidentno='{{ incident_no }}' notesupdate='yes' 
    register: clock_status_register
    ignore_errors: true
