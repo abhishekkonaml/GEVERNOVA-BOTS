@@ -78,6 +78,11 @@ class ActionModule(ActionBase):
                 result=result.lower().replace('\r\n',"")
                 result=result.replace('\r\n',"")
             result=result.replace('>',"")
+
+            if(command == 'show sysenv temp'):
+                result=result.lower().replace('\r\n',"")
+                result=result.replace('\r\n',"")
+
             
             
             ChartserverConnection.close()
