@@ -40,7 +40,13 @@
          | default('0', true)
          | float
        }}
-
+ - name: Fail if any sensor value could not be parsed
+   ansible.builtin.fail:
+     msg: "Failed to parse one or more sensor temps from output."
+   when: >
+     (system_temp_1 == 0 and (temp_lines is search('(?i)system\\s*temp\\s*1'))) or
+     (system_temp_2 == 0 and (temp_lines is search('(?i)system\\s*temp\\s*2'))) or
+     (cpu_temp == 0 and (temp_lines is search('(?i)cpu\\s*temp')))
  - name: Debug OK (optional)
    ansible.builtin.debug:
      msg: >-
