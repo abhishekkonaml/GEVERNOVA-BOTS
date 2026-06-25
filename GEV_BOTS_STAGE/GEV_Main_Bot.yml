@@ -76,7 +76,7 @@
        - set_fact:
           incident_hostname: "{{ fetched_details.hostname }}"
           botname: "{{ fetched_details.botname }}"
-       - action: AssignedtoBot incident='{{ incident_no }}'
+       - action: AssignedtoBot incident='{{ incident_no }}' jobid= '12334' update_desc='Test'
          register: assigned_status_register
        - debug: var=assigned_status_register  
        - debug: var=incident_hostname
