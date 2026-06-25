@@ -13,8 +13,9 @@
    ignore_errors: true
 
  - debug: var=temp_status_register
- - set_fact: 
-     temp_lines: temp_status_register.Output
+ - name: Set temp_lines from command output
+   ansible.builtin.set_fact:
+    temp_lines: "{{ temp_status_register | default(temp_status_register.Output | default('')) }}"
 
  - debug: var=temp_lines                
  - name: Parse temperatures into dict (safe - no "first item sequence empty")
@@ -23,24 +24,21 @@
    ansible.builtin.set_fact:
      system_temp_1: >-
        {{
-         (temp_lines
-           | regex_search('(?i)system\\s*temp\\s*1\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
-           | default('0')
-         ) | float
+         (temp_lines | regex_search('(?i)system\\s*temp\\s*1\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1') )
+         | default('0', true)
+         | float
        }}
      system_temp_2: >-
        {{
-         (temp_lines
-           | regex_search('(?i)system\\s*temp\\s*2\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
-           | default('0')
-         ) | float
+         (temp_lines | regex_search('(?i)system\\s*temp\\s*2\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1') )
+         | default('0', true)
+         | float
        }}
      cpu_temp: >-
        {{
-         (temp_lines
-           | regex_search('(?i)cpu\\s*temp\\s*([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
-           | default('0')
-         ) | float
+         (temp_lines | regex_search('(?i)cpu\\s*temp\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1') )
+         | default('0', true)
+         | float
        }}
 
  - name: Debug OK (optional)
