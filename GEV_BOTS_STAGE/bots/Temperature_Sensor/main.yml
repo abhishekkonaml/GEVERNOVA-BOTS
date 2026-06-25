@@ -4,7 +4,10 @@
  - debug: var={{ fetched_details.description}}
  - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> You can expect the next update within 30 minutes.</h3>[/code]'
    register: update_notes
+
+ - block:
+   when: "'Temperature Sensor' in fetched_details.description"
  - name: check connectivity
-   action: CommandExecution hostname='{{ incident_hostname }}' command='show environment temperature' incidentno='{{ incident_no }}' notesupdate='yes' 
+   action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
    register: clock_status_register
    ignore_errors: true
