@@ -16,65 +16,41 @@
  - set_fact: 
      temp_lines: temp_status_register.Output
 
- - name: Parse temperatures into dict
+ - debug: var=temp_lines                
+ - name: Parse temperatures into dict (safe - no "first item sequence empty")
    vars:
-        # Try to capture the first numeric value after the sensor name, regardless of spacing/case.
-        # Example matched strings:
-        #  "system temp 1                  39.00 ..."
-        #  "System Temp 1                  35.00 Celsius ..."
-        parse_value_regex_map: >-
-          {{
-            {
-              'system temp 1': '(?i)^\\s*(?:system\\s*temp\\s*1)\\s+([0-9]+(?:\\.[0-9]+)?)\\b',
-              'system temp 2': '(?i)^\\s*(?:system\\s*temp\\s*2)\\s+([0-9]+(?:\\.[0-9]+)?)\\b',
-              'cpu temp':      '(?i)^\\s*(?:cpu\\s*temp)\\s+([0-9]+(?:\\.[0-9]+)?)\\b'
-            }
-          }}
-
+     temp_threshold: "{{ temp_threshold | default(75.0) }}"
    ansible.builtin.set_fact:
-        temps:
-          system_temp_1: >-
-            {{
-              (
-                temp_lines
-                | select('match', '(?i)^\\s*system\\s*temp\\s*1\\b')
-                | map('regex_search', parse_value_regex_map['system temp 1'])
-                | select('defined')
-                | list
-                | first
-              ) | float
-            }}
-          system_temp_2: >-
-            {{
-              (
-                temp_lines
-                | select('match', '(?i)^\\s*system\\s*temp\\s*2\\b')
-                | map('regex_search', parse_value_regex_map['system temp 2'])
-                | select('defined')
-                | list
-                | first
-              ) | float
-            }}
-          cpu_temp: >-
-            {{
-              (
-                temp_lines
-                | select('match', '(?i)^\\s*cpu\\s*temp\\b')
-                | map('regex_search', parse_value_regex_map['cpu temp'])
-                | select('defined')
-                | list
-                | first
-              ) | float
-            }}
+     system_temp_1: >-
+       {{
+         (temp_lines
+           | regex_search('(?i)system\\s*temp\\s*1\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
+           | default('0')
+         ) | float
+       }}
+     system_temp_2: >-
+       {{
+         (temp_lines
+           | regex_search('(?i)system\\s*temp\\s*2\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
+           | default('0')
+         ) | float
+       }}
+     cpu_temp: >-
+       {{
+         (temp_lines
+           | regex_search('(?i)cpu\\s*temp\\s*([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
+           | default('0')
+         ) | float
+       }}
 
  - name: Debug OK (optional)
    ansible.builtin.debug:
-        msg: >-
-          Temperatures OK:
-          system temp 1={{ temps.system_temp_1 }},
-          system temp 2={{ temps.system_temp_2 }},
-          cpu temp={{ temps.cpu_temp }}
+     msg: >-
+       Temperatures parsed:
+       system temp 1={{ system_temp_1 }},
+       system temp 2={{ system_temp_2 }},
+       cpu temp={{ cpu_temp }}
    when: >
-        temps.system_temp_1 < temp_threshold and
-        temps.system_temp_2 < temp_threshold and
-        temps.cpu_temp < temp_threshold
+     system_temp_1 < temp_threshold and
+     system_temp_2 < temp_threshold and
+     cpu_temp < temp_threshold
