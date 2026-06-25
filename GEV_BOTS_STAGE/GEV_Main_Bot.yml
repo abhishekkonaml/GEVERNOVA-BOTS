@@ -84,7 +84,7 @@
        
        - debug:
            msg: "calling temperature sensor role"
-       - name: call node down role
+       - name: call temperature sensor role
          include_tasks: bots/Temperature_Sensor/main.yml
        
        when: "'Temperature Sensor' in fetched_details.botname"
