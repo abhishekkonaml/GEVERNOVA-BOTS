@@ -1,1 +1,4 @@
 ---
+ - debug: 
+     msg: "Temperatire sensor Bot"
+ - debug: var={{ fetched_details.description}}
