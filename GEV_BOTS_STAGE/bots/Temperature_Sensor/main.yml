@@ -28,7 +28,7 @@
    ansible.builtin.set_fact:
         system_temp_1: >-
           {{ temp_text.split('\n')
-              | select ('search', '(?i)system\s*temp\s*1') | list |first |dafault('') }} 
+              | select ('search', '(?i)system\s*temp\s*1') | list |first |default('') }} 
              
  - name: extract numeric values
    ansible.builtin.set_fact:
