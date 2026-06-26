@@ -55,7 +55,7 @@
    - set_fact: 
       final_status: "Bypass"
      when: "('wd' in temp[1]) or ('wa' in temp[1]) or ('wg' in temp[1]) or ('wn' in temp[1])"
-   when: "(destination_result != '') and ('entries displayed : 0' not in destination_result )"
+   when: "(destination_result != '') and ('entries displayed : 0' not in destination_result ) and  ('No Logs found' in destination_result)"
    
  - block:
    - debug: var=final_status
