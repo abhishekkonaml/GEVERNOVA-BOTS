@@ -15,31 +15,45 @@
  - debug: var=temp_status_register
  - name: Set temp_lines from command output
    ansible.builtin.set_fact:
-    temp_lines: "{{ temp_status_register | default(temp_status_register.Output | default('')) }}"
+    temp_lines: "{{ temp_status_register.Output | default('') }}"
 
  - debug: var=temp_lines                
  - name: Parse temperatures into dict (safe - no "first item sequence empty")
    vars:
      temp_threshold: "{{ temp_threshold | default(75.0) }}"
+
+
    ansible.builtin.set_fact:
-     system_temp_1: >-
-       {{
-         (temp_lines | regex_search('(?i)system\\s*temp\\s*1\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1') )
-         | default('0', true)
-         | float
-       }}
-     system_temp_2: >-
-       {{
-         (temp_lines | regex_search('(?i)system\\s*temp\\s*2\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1') )
-         | default('0', true)
-         | float
-       }}
-     cpu_temp: >-
-       {{
-         (temp_lines | regex_search('(?i)cpu\\s*temp\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1') )
-         | default('0', true)
-         | float
-       }}
+    system_temp_1: >-
+      {{
+        (
+          temp_lines
+          | regex_search('(?im)system\\s*temp\\s*1.*?(?:\\b([0-9]+(?:\\.[0-9]+)?)\\b)')
+          | default('', true)
+          | regex_search('([0-9]+(?:\\.[0-9]+)?)\\b')
+          | default('0', true)
+        ) | float
+      }}
+    system_temp_2: >-
+      {{
+        (
+          temp_lines
+          | regex_search('(?im)system\\s*temp\\s*2.*?(?:\\b([0-9]+(?:\\.[0-9]+)?)\\b)')
+          | default('', true)
+          | regex_search('([0-9]+(?:\\.[0-9]+)?)\\b')
+          | default('0', true)
+        ) | float
+      }}
+    cpu_temp: >-
+      {{
+        (
+          temp_lines
+          | regex_search('(?im)cpu\\s*temp.*?(?:\\b([0-9]+(?:\\.[0-9]+)?)\\b)')
+          | default('', true)
+          | regex_search('([0-9]+(?:\\.[0-9]+)?)\\b')
+          | default('0', true)
+        ) | float
+      }}
  - name: Fail if any sensor value could not be parsed
    ansible.builtin.fail:
      msg: "Failed to parse one or more sensor temps from output."
