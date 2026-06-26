@@ -32,12 +32,13 @@
              
  - name: extract numeric values
    ansible.builtin.set_fact:
-     systemp_temp_1_str: "{{ system_temp_1 | regex_findall('[0-9]+(?:\\.[0-9]+)?') | first | default('') }}"    
+     system_temp_1_str: "{{ system_temp_1 | regex_findall('[0-9]+(?:\\.[0-9]+)?') | first | default('') }}"    
  - name: Mark whether each value was available
    ansible.builtin.set_fact:
         system_temp_1_available: "{{ system_temp_1_str | length > 0 }}"
 
  - debug: var=system_temp_1_str
+ - debug: var=system_temp_1_available
 
 #  - name: Convert to floats only when available
 #    ansible.builtin.set_fact:
