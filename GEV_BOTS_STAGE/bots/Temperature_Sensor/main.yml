@@ -6,7 +6,8 @@
    register: update_notes
 
 
-
+ - set_fact:
+     incident_hostname: "CSSfdMUSalpdc01a"
  - name: check connectivity
    action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
    register: temp_status_register
