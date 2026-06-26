@@ -16,74 +16,62 @@
    ansible.builtin.set_fact:
     temp_threshold: "{{ temp_threshold | default(75.0) }}"
  - debug: var=temp_status_register
- - name: Set raw output text (source of truth)
+
+
+ - name: Set temp_text from command output (source of truth)
    ansible.builtin.set_fact:
-    temp_text: "{{ temp_status_register.Output | default('') }}"
+        temp_text: "{{ temp_status_register.Output | default('') }}"
 
- - name: Parse temperatures and print status per sensor
+ - name: Extract values next to System Temp 1 / System Temp 2 / CPU Temp
    ansible.builtin.set_fact:
-    system_temp_1_val: >-
-      {{
-        (temp_text
-          | regex_search('(?im)^\\s*System\\s*Temp\\s*1\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
-        ) | default('', true)
-      }}
-    system_temp_2_val: >-
-      {{
-        (temp_text
-          | regex_search('(?im)^\\s*System\\s*Temp\\s*2\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
-        ) | default('', true)
-      }}
-    cpu_temp_val: >-
-      {{
-        (temp_text
-          | regex_search('(?im)^\\s*CPU\\s*Temp\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
-        ) | default('', true)
-      }}
-
- - name: Report system temp 1
+        system_temp_1_str: >-
+          {{
+            (temp_text
+              | regex_search('(?im)^\\s*system\\s*temp\\s*1\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
+            )
+            | default('', true)
+          }}
+        system_temp_2_str: >-
+          {{
+            (temp_text
+              | regex_search('(?im)^\\s*system\\s*temp\\s*2\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
+            )
+            | default('', true)
+          }}
+        cpu_temp_str: >-
+          {{
+            (temp_text
+              | regex_search('(?im)^\\s*cpu\\s*temp\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
+            )
+            | default('', true)
+          }}
+ - name: Mark whether each value was available
+   ansible.builtin.set_fact:
+        system_temp_1_available: "{{ system_temp_1_str | length > 0 }}"
+        system_temp_2_available: "{{ system_temp_2_str | length > 0 }}"
+        cpu_temp_available: "{{ cpu_temp_str | length > 0 }}"
+ - name: Convert to floats only when available
+   ansible.builtin.set_fact:
+        system_temp_1: "{{ (system_temp_1_str | float) if system_temp_1_available else omit }}"
+        system_temp_2: "{{ (system_temp_2_str | float) if system_temp_2_available else omit }}"
+        cpu_temp: "{{ (cpu_temp_str | float) if cpu_temp_available else omit }}"
+ - name: Decide output (edge cases)
    ansible.builtin.debug:
-    msg: >-
-      System Temp 1: {{
-        (system_temp_1_val | length == 0) | ternary('not available',
-          ( (system_temp_1_val | float < temp_threshold) | ternary(
-            'less than threshold', '>= threshold'
-          ))
-        )
-      }}
+        msg: >-
+          {%- if temp_text | trim == '' or not (system_temp_1_available and system_temp_2_available and cpu_temp_available) -%}
+          Unable to fetch values
+          {%- else -%}
+          {%- set max_val = [system_temp_1, system_temp_2, cpu_temp] | max -%}
+          {%- if max_val < temp_threshold -%}
+          Close ticket (all temperatures are below {{ temp_threshold }})
+          {%- else -%}
+          Reassign (at least one temperature is >= {{ temp_threshold }})
+          {%- endif -%}
+          {%- endif -%}
 
- - name: Report system temp 2
-   ansible.builtin.debug:
-    msg: >-
-      System Temp 2: {{
-        (system_temp_2_val | length == 0) | ternary('not available',
-          ( (system_temp_2_val | float < temp_threshold) | ternary(
-            'less than threshold', '>= threshold'
-          ))
-        )
-      }}
-
- - name: Report cpu temp
-   ansible.builtin.debug:
-    msg: >-
-      CPU Temp: {{
-        (cpu_temp_val | length == 0) | ternary('not available',
-          ( (cpu_temp_val | float < temp_threshold) | ternary(
-            'less than threshold', '>= threshold'
-          ))
-        )
-      }}
-
-# Optional: fail only if we have values and any are >= threshold
- - name: Fail if any available sensor is >= threshold
+ # Optional: fail the task if values are not available
+ - name: Fail when unable to fetch values (optional)
    ansible.builtin.fail:
-    msg: >-
-      Temperature threshold check failed.
-      system_temp_1={{ system_temp_1_val | default('NA') }},
-      system_temp_2={{ system_temp_2_val | default('NA') }},
-      cpu_temp={{ cpu_temp_val | default('NA') }},
-      threshold={{ temp_threshold }}
-   when: >
-    ((system_temp_1_val | length > 0 and (system_temp_1_val | float) >= temp_threshold) or
-     (system_temp_2_val | length > 0 and (system_temp_2_val | float) >= temp_threshold) or
-     (cpu_temp_val | length > 0 and (cpu_temp_val | float) >= temp_threshold))
+        msg: "Unable to fetch values (one or more sensors missing in output)."
+   when: temp_text | trim == '' or not (system_temp_1_available and system_temp_2_available and cpu_temp_available)
+   ignore_errors: true
