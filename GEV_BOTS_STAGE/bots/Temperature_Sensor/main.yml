@@ -22,28 +22,25 @@
    ansible.builtin.set_fact:
         temp_text: "{{ temp_status_register.Output | default('') }}"
 
- - name: Extract values next to System Temp 1 / System Temp 2 / CPU Temp
+ - name: Extract sensor values (strings) - no ^ anchors (works on single-line output)
    ansible.builtin.set_fact:
         system_temp_1_str: >-
           {{
             (temp_text
-              | regex_search('(?im)^\\s*system\\s*temp\\s*1\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
-            )
-            | default('', true)
+              | regex_search('(?i)system\\s*temp\\s*1\\b\\s+([0-9]+(?:\\.[0-9]+)?)')
+            ) | default('', true)
           }}
         system_temp_2_str: >-
           {{
             (temp_text
-              | regex_search('(?im)^\\s*system\\s*temp\\s*2\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
-            )
-            | default('', true)
+              | regex_search('(?i)system\\s*temp\\s*2\\b\\s+([0-9]+(?:\\.[0-9]+)?)')
+            ) | default('', true)
           }}
         cpu_temp_str: >-
           {{
             (temp_text
-              | regex_search('(?im)^\\s*cpu\\s*temp\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
-            )
-            | default('', true)
+              | regex_search('(?i)cpu\\s*temp\\b\\s+([0-9]+(?:\\.[0-9]+)?)')
+            ) | default('', true)
           }}
  - name: Mark whether each value was available
    ansible.builtin.set_fact:
