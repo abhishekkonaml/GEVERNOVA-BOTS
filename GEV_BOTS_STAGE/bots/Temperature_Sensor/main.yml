@@ -16,58 +16,74 @@
    ansible.builtin.set_fact:
     temp_threshold: "{{ temp_threshold | default(75.0) }}"
  - debug: var=temp_status_register
- - name: Set temp_lines from command output
+ - name: Set raw output text (source of truth)
    ansible.builtin.set_fact:
-    temp_lines: "{{ temp_status_register.Output | default('') }}"
+    temp_text: "{{ temp_status_register.Output | default('') }}"
 
- - debug: var=temp_lines                
- - name: Parse temperatures into dict (safe - no "first item sequence empty")
+ - name: Parse temperatures and print status per sensor
    ansible.builtin.set_fact:
-    system_temp_1: >-
+    system_temp_1_val: >-
       {{
-        (
-          temp_lines
-          | regex_search('(?im)system\\s*temp\\s*1.*?(?:\\b([0-9]+(?:\\.[0-9]+)?)\\b)')
-          | default('', true)
-          | regex_search('([0-9]+(?:\\.[0-9]+)?)\\b')
-          | default('0', true)
-        ) | float
+        (temp_text
+          | regex_search('(?im)^\\s*System\\s*Temp\\s*1\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
+        ) | default('', true)
       }}
-    system_temp_2: >-
+    system_temp_2_val: >-
       {{
-        (
-          temp_lines
-          | regex_search('(?im)system\\s*temp\\s*2.*?(?:\\b([0-9]+(?:\\.[0-9]+)?)\\b)')
-          | default('', true)
-          | regex_search('([0-9]+(?:\\.[0-9]+)?)\\b')
-          | default('0', true)
-        ) | float
+        (temp_text
+          | regex_search('(?im)^\\s*System\\s*Temp\\s*2\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
+        ) | default('', true)
       }}
-    cpu_temp: >-
+    cpu_temp_val: >-
       {{
-        (
-          temp_lines
-          | regex_search('(?im)cpu\\s*temp.*?(?:\\b([0-9]+(?:\\.[0-9]+)?)\\b)')
-          | default('', true)
-          | regex_search('([0-9]+(?:\\.[0-9]+)?)\\b')
-          | default('0', true)
-        ) | float
+        (temp_text
+          | regex_search('(?im)^\\s*CPU\\s*Temp\\s+([0-9]+(?:\\.[0-9]+)?)\\b', '\\1')
+        ) | default('', true)
       }}
- - name: Fail if any sensor value could not be parsed
-   ansible.builtin.fail:
-     msg: "Failed to parse one or more sensor temps from output."
-   when: >
-     (system_temp_1 == 0 and (temp_lines is search('(?i)system\\s*temp\\s*1'))) or
-     (system_temp_2 == 0 and (temp_lines is search('(?i)system\\s*temp\\s*2'))) or
-     (cpu_temp == 0 and (temp_lines is search('(?i)cpu\\s*temp')))
- - name: Debug OK (optional)
+
+ - name: Report system temp 1
    ansible.builtin.debug:
-     msg: >-
-       Temperatures parsed:
-       system temp 1={{ system_temp_1 }},
-       system temp 2={{ system_temp_2 }},
-       cpu temp={{ cpu_temp }}
+    msg: >-
+      System Temp 1: {{
+        (system_temp_1_val | length == 0) | ternary('not available',
+          ( (system_temp_1_val | float < temp_threshold) | ternary(
+            'less than threshold', '>= threshold'
+          ))
+        )
+      }}
+
+ - name: Report system temp 2
+   ansible.builtin.debug:
+    msg: >-
+      System Temp 2: {{
+        (system_temp_2_val | length == 0) | ternary('not available',
+          ( (system_temp_2_val | float < temp_threshold) | ternary(
+            'less than threshold', '>= threshold'
+          ))
+        )
+      }}
+
+ - name: Report cpu temp
+   ansible.builtin.debug:
+    msg: >-
+      CPU Temp: {{
+        (cpu_temp_val | length == 0) | ternary('not available',
+          ( (cpu_temp_val | float < temp_threshold) | ternary(
+            'less than threshold', '>= threshold'
+          ))
+        )
+      }}
+
+# Optional: fail only if we have values and any are >= threshold
+ - name: Fail if any available sensor is >= threshold
+   ansible.builtin.fail:
+    msg: >-
+      Temperature threshold check failed.
+      system_temp_1={{ system_temp_1_val | default('NA') }},
+      system_temp_2={{ system_temp_2_val | default('NA') }},
+      cpu_temp={{ cpu_temp_val | default('NA') }},
+      threshold={{ temp_threshold }}
    when: >
-     system_temp_1 < temp_threshold and
-     system_temp_2 < temp_threshold and
-     cpu_temp < temp_threshold
+    ((system_temp_1_val | length > 0 and (system_temp_1_val | float) >= temp_threshold) or
+     (system_temp_2_val | length > 0 and (system_temp_2_val | float) >= temp_threshold) or
+     (cpu_temp_val | length > 0 and (cpu_temp_val | float) >= temp_threshold))
