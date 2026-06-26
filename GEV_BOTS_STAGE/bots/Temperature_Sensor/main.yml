@@ -11,7 +11,9 @@
    action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
    register: temp_status_register
    ignore_errors: true
-
+ - name: Set temp_threshold globally for this run
+   ansible.builtin.set_fact:
+    temp_threshold: "{{ temp_threshold | default(75.0) }}"
  - debug: var=temp_status_register
  - name: Set temp_lines from command output
    ansible.builtin.set_fact:
@@ -19,10 +21,6 @@
 
  - debug: var=temp_lines                
  - name: Parse temperatures into dict (safe - no "first item sequence empty")
-   vars:
-     temp_threshold: "{{ temp_threshold | default(75.0) }}"
-
-
    ansible.builtin.set_fact:
     system_temp_1: >-
       {{
