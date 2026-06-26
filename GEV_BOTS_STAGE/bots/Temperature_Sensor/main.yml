@@ -24,21 +24,13 @@
  - debug: 
     var: temp_text
     verbosity: 0
- - name: Extract sensor values (strings) - no ^ anchors (works on single-line output)
+ - name: test
    ansible.builtin.set_fact:
-        system_temp_1: >-
-          {{ temp_text.replace('\r\n', '\n').replace('\r','\n').split('\n')
-              | select ('search', '(?i)system\s*temp\s*1') | list |first |default('') }} 
-             
- - name: extract numeric values
-   ansible.builtin.set_fact:
-     system_temp_1_str: "{{ system_temp_1 | regex_findall('[0-9]+(?:\\.[0-9]+)?') | first | default('') }}"    
- - name: Mark whether each value was available
-   ansible.builtin.set_fact:
-        system_temp_1_available: "{{ system_temp_1_str | length > 0 }}"
+    system_temp_1_str: "{{ temp_text | regex_search('System\\s+Temp\\s+1\\s+([0-9]+\\.[0-9]+)', '\\1', ignorecase=True) | first }}"   
+
 
  - debug: var=system_temp_1_str
- - debug: var=system_temp_1_available
+
 
 #  - name: Convert to floats only when available
 #    ansible.builtin.set_fact:
