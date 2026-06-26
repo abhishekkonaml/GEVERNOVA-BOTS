@@ -27,7 +27,7 @@
  - name: Extract sensor values (strings) - no ^ anchors (works on single-line output)
    ansible.builtin.set_fact:
         system_temp_1: >-
-          {{ temp_text.split('\n')
+          {{ temp_text.splitlines()
               | select ('search', '(?i)system\s*temp\s*1') | list |first |default('') }} 
              
  - name: extract numeric values
