@@ -27,20 +27,23 @@
         system_temp_1_str: >-
           {{
             (temp_text
-              | regex_search('(?i)system\\s*temp\\s*1\\b\\s+([0-9]+(?:\\.[0-9]+)?)', '\\1')
-            ) | default('', true)
+              | regex_search('(?i)system\\s*temp\\s*1\\b\\s+([0-9]+(?:\\.[0-9]+)?)', '\\1') 
+              | default([''], true)
+              )[0] | default('', true)
           }}
         system_temp_2_str: >-
           {{
             (temp_text
               | regex_search('(?i)system\\s*temp\\s*1\\b\\s+([0-9]+(?:\\.[0-9]+)?)', '\\1')
-            ) | default('', true)
+              | default([''], true)
+              )[0] | default('', true)
           }}
         cpu_temp_str: >-
           {{
             (temp_text
               | regex_search('(?i)cpu\\s*temp\\b\\s+([0-9]+(?:\\.[0-9]+)?)', '\\1')
-            ) | default('', true)
+              | default([''], true)
+              )[0] | default('', true)
           }}
  - name: Mark whether each value was available
    ansible.builtin.set_fact:
