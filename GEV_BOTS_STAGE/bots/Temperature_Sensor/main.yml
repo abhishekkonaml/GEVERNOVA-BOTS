@@ -21,19 +21,19 @@
  - name: Set temp_text from command output (source of truth)
    ansible.builtin.set_fact:
         temp_text: "dl: @ge vernova dt cto network firewall supportreport problems @gevernovadtctonetworkfirewallsupport@ge.com name:domain: gdn.ge.comlocation code:as-chn-ln-syg-110161-2xingu  ==================================================================================================:tacp-0 term len 0clinfr0329  invalid command:'term len 0'.:tacp-0 hardware informationname                          value       unit            type          status    maximum     minimum     system temp 1                  39.00        celsius         temperature    0         75.0         0           system temp 2                  40.50        celsius         temperature    0         75.0         0           cpu temp                       29.00        celsius         temperature    0         77.0         0           :tacp-0 "
-
+ - debug: var=temp_text
  - name: Extract sensor values (strings) - no ^ anchors (works on single-line output)
    ansible.builtin.set_fact:
         system_temp_1_str: >-
           {{
             (temp_text
-              | regex_search('(?i)system\\s*temp\\s*1\\b\\s+([0-9]+(?:\\.[0-9]+)?)')
+              | regex_search('(?i)system\\s*temp\\s*1\\b\\s+([0-9]+(?:\\.[0-9]+)?)', '\\1')
             ) | default('', true)
           }}
         system_temp_2_str: >-
           {{
             (temp_text
-              | regex_search('(?i)system\\s*temp\\s*2\\b\\s+([0-9]+(?:\\.[0-9]+)?)')
+              | regex_search('(?i)system\\s*temp\\s*1\\b\\s+([0-9]+(?:\\.[0-9]+)?)', '\\1')
             ) | default('', true)
           }}
         cpu_temp_str: >-
@@ -47,28 +47,31 @@
         system_temp_1_available: "{{ system_temp_1_str | length > 0 }}"
         system_temp_2_available: "{{ system_temp_2_str | length > 0 }}"
         cpu_temp_available: "{{ cpu_temp_str | length > 0 }}"
- - name: Convert to floats only when available
-   ansible.builtin.set_fact:
-        system_temp_1: "{{ (system_temp_1_str | float) if system_temp_1_available else omit }}"
-        system_temp_2: "{{ (system_temp_2_str | float) if system_temp_2_available else omit }}"
-        cpu_temp: "{{ (cpu_temp_str | float) if cpu_temp_available else omit }}"
- - name: Decide output (edge cases)
-   ansible.builtin.debug:
-        msg: >-
-          {%- if temp_text | trim == '' or not (system_temp_1_available and system_temp_2_available and cpu_temp_available) -%}
-          Unable to fetch values
-          {%- else -%}
-          {%- set max_val = [system_temp_1, system_temp_2, cpu_temp] | max -%}
-          {%- if max_val < temp_threshold -%}
-          Close ticket (all temperatures are below {{ temp_threshold }})
-          {%- else -%}
-          Reassign (at least one temperature is >= {{ temp_threshold }})
-          {%- endif -%}
-          {%- endif -%}
+ - debug: var=system_temp_1_str
+ - debug: var=system_temp_2_str
+ - debug: var=cpu_temp_str
+#  - name: Convert to floats only when available
+#    ansible.builtin.set_fact:
+#         system_temp_1: "{{ (system_temp_1_str | float) if system_temp_1_available else omit }}"
+#         system_temp_2: "{{ (system_temp_2_str | float) if system_temp_2_available else omit }}"
+#         cpu_temp: "{{ (cpu_temp_str | float) if cpu_temp_available else omit }}"
+#  - name: Decide output (edge cases)
+#    ansible.builtin.debug:
+#         msg: >-
+#           {%- if temp_text | trim == '' or not (system_temp_1_available and system_temp_2_available and cpu_temp_available) -%}
+#           Unable to fetch values
+#           {%- else -%}
+#           {%- set max_val = [system_temp_1, system_temp_2, cpu_temp] | max -%}
+#           {%- if max_val < temp_threshold -%}
+#           Close ticket (all temperatures are below {{ temp_threshold }})
+#           {%- else -%}
+#           Reassign (at least one temperature is >= {{ temp_threshold }})
+#           {%- endif -%}
+#           {%- endif -%}
 
- # Optional: fail the task if values are not available
- - name: Fail when unable to fetch values (optional)
-   ansible.builtin.fail:
-        msg: "Unable to fetch values (one or more sensors missing in output)."
-   when: temp_text | trim == '' or not (system_temp_1_available and system_temp_2_available and cpu_temp_available)
-   ignore_errors: true
+#  # Optional: fail the task if values are not available
+#  - name: Fail when unable to fetch values (optional)
+#    ansible.builtin.fail:
+#         msg: "Unable to fetch values (one or more sensors missing in output)."
+#    when: temp_text | trim == '' or not (system_temp_1_available and system_temp_2_available and cpu_temp_available)
+#    ignore_errors: true
