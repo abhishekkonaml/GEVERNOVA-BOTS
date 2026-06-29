@@ -56,6 +56,12 @@
     system_temp_2: "{{ system_temp_2_str | float }}"
     cpu_temp: "{{ CPU_temp_str | float }}"
    when: temp_fetch_success
+
+ - debug: 
+     msg: 
+       - "system_temp_1": "{{system_temp_1}}, type= {{ system_temp_1 | type_debug }}"
+       - "system_temp_2": "{{system_temp_2}}, type= {{ system_temp_2 | type_debug }}"
+       - "cpu_temp": cpu_temp}}, type= {{ cpu_temp | type_debug }}"
  - name: Unable to fetch temperature
    debug:
     msg: "Unable to fetch temperature"
@@ -66,9 +72,7 @@
     msg: "Raise Ticket"
    when:
     - temp_fetch_success
-    - system_temp_1 > 70
-      or system_temp_2 > 70
-      or cpu_temp > 70
+    - (system_temp_1 > 70 or system_temp_2 > 70 or cpu_temp > 70)
 
  - name: Close Ticket
    debug:
