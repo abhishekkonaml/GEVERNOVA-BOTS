@@ -12,9 +12,7 @@
    action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
    register: temp_status_register
    ignore_errors: true
- - name: Set temp_threshold globally for this run
-   ansible.builtin.set_fact:
-    temp_threshold: "{{ temp_threshold | default(75.0) }}"
+
  - debug: var=temp_status_register
  - set_fact:
      temp_text: "{{ temp_status_register.Output }}"
@@ -50,18 +48,6 @@
         (CPU_temp_str | default('') | trim != '')
       }}
 
- - name: Convert temperatures
-   ansible.builtin.set_fact:
-    system_temp_1: "{{ system_temp_1_str | float }}"
-    system_temp_2: "{{ system_temp_2_str | float }}"
-    cpu_temp: "{{ CPU_temp_str | float }}"
-   when: temp_fetch_success
-
- - debug: 
-     msg: 
-       - "system_temp_1": "{{system_temp_1}}, type= {{ system_temp_1 | type_debug }}"
-       - "system_temp_2": "{{system_temp_2}}, type= {{ system_temp_2 | type_debug }}"
-       - "cpu_temp": cpu_temp}}, type= {{ cpu_temp | type_debug }}"
  - name: Unable to fetch temperature
    debug:
     msg: "Unable to fetch temperature"
@@ -72,13 +58,14 @@
     msg: "Raise Ticket"
    when:
     - temp_fetch_success
-    - (system_temp_1 > 70 or system_temp_2 > 70 or cpu_temp > 70)
+    - >
+      (system_temp_1_str | float) > 70 or (system_temp_2_str | float) > 70 or (CPU_temp_str | float) > 70
 
  - name: Close Ticket
    debug:
     msg: "Close Ticket"
    when:
     - temp_fetch_success
-    - system_temp_1 <= 70
-    - system_temp_2 <= 70
-    - cpu_temp <= 70
+    - (system_temp_1_str | float) <= 70
+    - (system_temp_2_str | float) <= 70
+    - (CPU_temp_str | float) <= 70
