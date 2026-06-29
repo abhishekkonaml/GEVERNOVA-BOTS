@@ -40,7 +40,7 @@ class ActionModule(ActionBase):
             text='''
             Hi,
 
-This is an automated notification to inform you that the bot was unable to complete the closure of the change - {} request due to a access issue.
+This is an automated notification to inform you that the bot will be unable to complete the closure of the change - {} request due to a access issue.
 
 Kindly review the change and proceed with manual closure at your earliest convenience.
 

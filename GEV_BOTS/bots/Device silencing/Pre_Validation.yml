@@ -5,6 +5,25 @@
       action: AssignedtoBot change_no='{{ change_number }}' work_note='Assigning change to bot for validation'
       register: assign_result
     - debug: var=assign_result
+    - block:
+        - set_fact:
+           send_to_list:
+            - "{{ ArunKumar.R@gevernova.com }}"
+            - "{{ Koushik.Dutta@gevernova.com }}"
+            - "{{ Rajesh.Babu@gevernova.com }}"
+            - "{{ MohammedFaheem.Niyamathulla@gevernova.com }}"
+            - "{{ Amit.Srivastava1@gevernova.com }}"
+            - "{{ Sushruth.Devaray@gevernova.com }}"
+            - "{{ Aishwarya.Shet@gevernova.com }}"
+          ignore_errors: yes
+        - debug:
+            msg: "BOT ID is not part of group, send notifications"
+        - name: update notes
+          action: Email ch_number='{{ change_number }}' send_to='{{ send_to_list }}'
+          register: email_results
+          ignore_errors: yes
+
+      when: "'Failed' in assign_result.result"
     - set_fact:
         notes: |
               [code] <h3> PRE VALIDATION: Checking health status of affected CI </h3> [/code]
