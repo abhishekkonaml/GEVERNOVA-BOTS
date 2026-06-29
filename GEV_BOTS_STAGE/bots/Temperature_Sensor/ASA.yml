@@ -1,5 +1,5 @@
- - set_fact:
-     incident_hostname: "cssfeECHrumla01.gdn.ge.com"
+#  - set_fact:
+#      incident_hostname: "cssfeECHrumla01.gdn.ge.com"
 
  - name: Execute command
    action: CommandExecution hostname='{{ incident_hostname }}' command=' show environment temperature' incidentno='{{ incident_no }}' notesupdate='yes' 
@@ -9,6 +9,10 @@
  - debug: var=temp_status_register
  - set_fact:
      temp_text: "{{ temp_status_register.Output }}"
+
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ temp_text }}'
+   register: update_notes
+ - debug: var=update_notes
 
 
 #  - name: Set temp_text from command output (source of truth)
@@ -40,6 +44,11 @@
     processor_temp_str: "{{ processor_temp_list | first }}"
    ignore_errors: yes
 
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ processor_temp_str }}'
+   register: update_notes
+   ignore_errors: yes
+ - debug: var=update_notes
+
  - name: Check whether all temperatures were fetched
    ansible.builtin.set_fact:
     temp_fetch_success: >-
@@ -51,6 +60,9 @@
  - block: 
     - debug:
        msg: "Unable to fetch temperature"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Unable to fetch temperature values.</h3>[/code]'
+      register: update_notes
+    - debug: var=update_notes
     - meta: end_play
    when: not temp_fetch_success
 
@@ -58,6 +70,9 @@
  - block: 
     - debug:
        msg: "Raise Ticket"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Temperature values are above 70 C.</h3>[/code]'
+      register: update_notes
+    - debug: var=update_notes
     - meta: end_play
    when:
     - check_number == 4
@@ -67,6 +82,9 @@
  - block: 
     - debug:
         msg: "Close Ticket"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Temperature values are below 70 C. Closing this Incident.</h3>[/code]'
+      register: update_notes
+    - debug: var=update_notes
     - meta: end_play
    when:
     - check_number == 4

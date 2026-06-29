@@ -7,6 +7,10 @@
  - set_fact:
      temp_text: "{{ temp_status_register.Output }}"
 
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ temp_text }}'
+   register: update_notes
+ - debug: var=update_notes
+
 
 #  - name: Set temp_text from command output (source of truth)
 #    ansible.builtin.set_fact:
@@ -30,6 +34,16 @@
  - debug: var=system_temp_2_str
  - debug: var=CPU_temp_str
 
+ - set_fact:
+    Temperature_notes: |- 
+      [code]<h3> Temperature: </h3>[/code]
+      system_temp_1: "{{ system_temp_1_str }}"
+      system_temp_2: "{{ system_temp_2_str }}"
+      CPU_temp: "{{ CPU_temp_str }}"
+
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ Temperature_notes }}'
+   register: update_notes
+ - debug: var=update_notes
 
  - name: Check whether all temperatures were fetched
    ansible.builtin.set_fact:
@@ -44,22 +58,31 @@
  - block: 
     - debug:
        msg: "Unable to fetch temperature"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Unable to fetch temperature values.</h3>[/code]'
+      register: update_notes
+    - debug: var=update_notes
     - meta: end_play
    when: not temp_fetch_success
 
 
- - name: Raise Ticket
-   debug:
-    msg: "Raise Ticket"
+ - block: 
+    - debug:
+       msg: "Raise Ticket"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Temperature values are above 70 C.</h3>[/code]'
+      register: update_notes
+    - debug: var=update_notes
    when:
     - check_number == 4
     - temp_fetch_success
     - >
       (system_temp_1_str | float) > 70 or (system_temp_2_str | float) > 70 or (CPU_temp_str | float) > 70
 
- - name: Close Ticket
-   debug:
-    msg: "Close Ticket"
+ - block: 
+    - debug:
+       msg: "Close Ticket"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Temperature values are below 70 C. Closing this Incident.</h3>[/code]'
+      register: update_notes
+    - debug: var=update_notes
    when:
     - check_number == 4
     - temp_fetch_success
