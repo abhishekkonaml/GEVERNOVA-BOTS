@@ -8,38 +8,35 @@
 
 #  - set_fact:
 #      incident_hostname: "CSSfdMUSalpdc01a.gdn.ge.com"
- - name: check connectivity
-   action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
-   register: temp_status_register
-   ignore_errors: true
+#  - name: check connectivity
+#    action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
+#    register: temp_status_register
+#    ignore_errors: true
 
- - debug: var=temp_status_register
- - set_fact:
-     temp_text: "{{ temp_status_register.Output }}"
+#  - debug: var=temp_status_register
+#  - set_fact:
+#      temp_text: "{{ temp_status_register.Output }}"
 
 #===============FIRST CHECK======================
  - include_tasks: bots/Temperature_Sensor/Checkpoint.yml
    vars:
     check_number: 1
- - name: wait
-   wait_for:
-   timeout: 5
+ - pause: 
+     minutes: 1
 
 #==============SECOND CHECK======================
  - include_tasks: bots/Temperature_Sensor/Checkpoint.yml
    vars:
     check_number: 2
- - name: wait
-   wait_for:
-   timeout: 5
+ - pause: 
+     minutes: 1
 
 #===============THIRD CHECK======================
  - include_tasks: bots/Temperature_Sensor/Checkpoint.yml
    vars:
     check_number: 3
- - name: wait
-   wait_for:
-   timeout: 5
+ - pause: 
+     minutes: 1
 
 
 
