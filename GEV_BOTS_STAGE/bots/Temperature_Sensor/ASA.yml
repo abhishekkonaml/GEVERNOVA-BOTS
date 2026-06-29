@@ -22,13 +22,13 @@
      msg: "{{ temp_status_register.Output == None }}"
 
  - debug: var=temp_text
- 
+
  - name: Extract Processor 1 Temperature
    ansible.builtin.set_fact:
     processor_temp_str: >-
       {{
         temp_text |
-        regex_search(
+        regex_findall(
           '\s*processor\s+1:\s*([0-9.]+(?:\.[0-9]+)?)',
           '\\1',
           ignorecase=True
