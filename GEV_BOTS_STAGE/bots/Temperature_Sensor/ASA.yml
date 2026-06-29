@@ -8,15 +8,14 @@
 
  - debug: var=temp_status_register
  - set_fact:
-     temp_text: "{{ temp_status_register.Output }}"
+     temp_text: "{{ temp_status_register.Output | regex_replace('\\\\r\\\\n','\n') }}"
 
 
 #  - name: Set temp_text from command output (source of truth)
 #    ansible.builtin.set_fact:
 #         temp_text: "dl: @ge vernova dt cto network firewall supportreport problems @gevernovadtctonetworkfirewallsupport@ge.com name:domain: gdn.ge.comlocation code:as-chn-ln-syg-110161-2xingu  ==================================================================================================:tacp-0 term len 0clinfr0329  invalid command:'term len 0'.:tacp-0 hardware informationname                          value       unit            type          status    maximum     minimum     system temp 1                  39.00        celsius         temperature    0         75.0         0           system temp 2                  40.50        celsius         temperature    0         75.0         0           cpu temp                       29.00        celsius         temperature    0         77.0         0           :tacp-0 "
  - debug: 
-    var: temp_text
-    verbosity: 0
+    msg: "{{ temp_text | to_json }}"
  - name: Extract Processor 1 Temperature
    ansible.builtin.set_fact:
     processor_temp_str: >-
@@ -26,7 +25,7 @@
           'Processor\\s*1:\\s*([0-9]+\\.[0-9]+)',
           '\\1',
           ignorecase=True
-        )
+        ) | default('')
       }}
    ignore_errors: yes
  - debug: var=processor_temp_str
