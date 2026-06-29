@@ -10,9 +10,9 @@
  - set_fact:
      temp_text: "{{ temp_status_register.Output }}"
 
- - action: update_notes incident='{{ incident_no }}' work_notes='{{ temp_text }}'
-   register: update_notes
- - debug: var=update_notes
+#  - action: update_notes incident='{{ incident_no }}' work_notes='{{ temp_text }}'
+#    register: update_notes
+#  - debug: var=update_notes
 
 
 #  - name: Set temp_text from command output (source of truth)
