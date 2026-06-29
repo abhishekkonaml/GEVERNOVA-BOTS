@@ -1,6 +1,6 @@
  - set_fact:
      incident_hostname: "cssfeECHrumla01.gdn.ge.com"
-     
+
  - name: Execute command
    action: CommandExecution hostname='{{ incident_hostname }}' command=' show environment temperature' incidentno='{{ incident_no }}' notesupdate='yes' 
    register: temp_status_register
@@ -28,6 +28,7 @@
           ignorecase=True
         )
       }}
+   ignore_errors: yes
  - debug: var=processor_temp_str
 
 
