@@ -52,7 +52,7 @@
    debug:
     msg: "Raise Ticket"
    when:
-    - check_number == 3
+    - check_number == 4
     - temp_fetch_success
     - >
       (system_temp_1_str | float) > 70 or (system_temp_2_str | float) > 70 or (CPU_temp_str | float) > 70
@@ -61,7 +61,7 @@
    debug:
     msg: "Close Ticket"
    when:
-    - check_number == 3
+    - check_number == 4
     - temp_fetch_success
     - (system_temp_1_str | float) <= 70
     - (system_temp_2_str | float) <= 70
