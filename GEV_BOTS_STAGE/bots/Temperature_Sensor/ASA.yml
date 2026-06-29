@@ -15,7 +15,14 @@
 #    ansible.builtin.set_fact:
 #          temp_text:  "\\"===========================================================================\\\\r\\\\n\\\\r\\\\n\\\\r\\\\n==================================================================================================\\\\r\\\\n\\\\r\\\\nyou have logged into the system.\\\\r\\\\n\\\\r\\\\nge vernova dt cto enterprise site network device\\\\r\\\\ndl: @ge vernova dt cto network firewall support\\\\r\\\\nreport problems @gevernovadtctonetworkfirewallsupport@ge.com\\\\r\\\\n\\\\r\\\\nname:cssfeechrumla01\\\\r\\\\ndomain: gdn.ge.com\\\\r\\\\nlocation code: em-che-zh-rum-8153-hofwisen56\\\\r\\\\n\\\\r\\\\n\\\\r\\\\n==================================================================================================\\\\r\\\\ntype help or '?' for a list of available commands.\\\\r\\\\n\\\\rcssfeechrumla01/act term len 0\\\\r\\\\n                      ^\\\\r\\\\nerror: % invalid input detected at '^' marker.\\\\r\\\\n\\\\rcssfeechrumla01/act \\\\r\\\\n\\\\r\\\\ntemperature:\\\\r\\\\n-----------------------------------\\\\r\\\\n\\\\r\\\\n   processors:\\\\r\\\\n   --------------------------------\\\\r\\\\n   processor 1: 71.0 c - ok \\\\r\\\\n\\\\r\\\\n   chassis:\\\\r\\\\n   --------------------------------\\\\r\\\\n   ambient 1: 45.0 c - ok  (chassis back temperature)\\\\r\\\\n   ambient 2: 35.0 c - ok  (chassis front temperature)\\\\r\\\\n   ambient 3: 49.0 c - ok  (chassis back left temperature)\\\\r\\\\n\\\\r\\\\n   power supplies:\\\\r\\\\n   --------------------------------\\\\r\\\\n   left slot (ps0): 37 c - ok \\\\r\\\\n   right slot (ps1): n/a \\\\r\\\\n\\\\r\\\\n\\\\rcssfeechrumla01/act \\"
  - debug: 
-    msg: "{{ temp_text | type_debug }}"
+    msg: "{{ temp_status_register.Output | type_debug }}"
+
+ - debug: var=temp_status_register.Output
+ - debug:
+     msg: "{{ temp_status_register.Output == None }}"
+
+ - debug: var=temp_text
+ 
  - name: Extract Processor 1 Temperature
    ansible.builtin.set_fact:
     processor_temp_str: >-
