@@ -7,7 +7,7 @@
 
 
  - set_fact:
-     incident_hostname: "CSSfdMUSalpdc01a"
+     incident_hostname: "CSSfdMUSalpdc01a.gdn.ge.com"
  - name: check connectivity
    action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
    register: temp_status_register
