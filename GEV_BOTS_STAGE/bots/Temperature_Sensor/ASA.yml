@@ -8,7 +8,7 @@
 
  - debug: var=temp_status_register
  - set_fact:
-     temp_text: "{{ temp_status_register.Output | regex_replace('\\\\r\\\\n','\n') }}"
+     temp_text: "{{ temp_status_register.Output | regex_replace('\\\\r','') | regex_replace('\\\\n', '\n') }}"
 
 
 #  - name: Set temp_text from command output (source of truth)
