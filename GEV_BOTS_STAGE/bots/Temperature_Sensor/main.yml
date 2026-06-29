@@ -8,19 +8,19 @@
 
 #  - set_fact:
 #      incident_hostname: "CSSfdMUSalpdc01a"
- - name: check connectivity
-   action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
-   register: temp_status_register
-   ignore_errors: true
+#  - name: check connectivity
+#    action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
+#    register: temp_status_register
+#    ignore_errors: true
 
- - debug: var=temp_status_register
- - set_fact:
-     temp_text: "{{ temp_status_register.Output }}"
+#  - debug: var=temp_status_register
+#  - set_fact:
+#      temp_text: "{{ temp_status_register.Output }}"
 
 
-#  - name: Set temp_text from command output (source of truth)
-#    ansible.builtin.set_fact:
-#         temp_text: "dl: @ge vernova dt cto network firewall supportreport problems @gevernovadtctonetworkfirewallsupport@ge.com name:domain: gdn.ge.comlocation code:as-chn-ln-syg-110161-2xingu  ==================================================================================================:tacp-0 term len 0clinfr0329  invalid command:'term len 0'.:tacp-0 hardware informationname                          value       unit            type          status    maximum     minimum     system temp 1                  39.00        celsius         temperature    0         75.0         0           system temp 2                  40.50        celsius         temperature    0         75.0         0           cpu temp                       29.00        celsius         temperature    0         77.0         0           :tacp-0 "
+ - name: Set temp_text from command output (source of truth)
+   ansible.builtin.set_fact:
+        temp_text: "dl: @ge vernova dt cto network firewall supportreport problems @gevernovadtctonetworkfirewallsupport@ge.com name:domain: gdn.ge.comlocation code:as-chn-ln-syg-110161-2xingu  ==================================================================================================:tacp-0 term len 0clinfr0329  invalid command:'term len 0'.:tacp-0 hardware informationname                          value       unit            type          status    maximum     minimum     system temp 1                  39.00        celsius         temperature    0         75.0         0           system temp 2                  40.50        celsius         temperature    0         75.0         0           cpu temp                       29.00        celsius         temperature    0         77.0         0           :tacp-0 "
  - debug: 
     var: temp_text
     verbosity: 0
