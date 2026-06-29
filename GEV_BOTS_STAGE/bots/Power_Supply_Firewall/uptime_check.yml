@@ -1,5 +1,5 @@
 - name: check connectivity
   action: CommandExecution hostname='{{ incident_hostname }}' command='show version' incidentno='{{ incident_no }}' notesupdate='yes' 
-  register: clock_status_register
+  register: uptime_status_register
   ignore_errors: true
-- debug: var=clock_status_register
+- debug: var=uptime_status_register
