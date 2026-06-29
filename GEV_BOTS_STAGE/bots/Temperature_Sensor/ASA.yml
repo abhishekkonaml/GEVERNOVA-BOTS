@@ -22,7 +22,7 @@
       {{
         temp_text |
         regex_search(
-          'Processor\\s*1:\\s*([0-9]+\\.[0-9]+)',
+          'Processor\\s+1:\\s*([0-9]+(?:\\.[0-9]+)',
           '\\1',
           ignorecase=True
         ) | default('')
@@ -61,5 +61,5 @@
    when:
     - check_number == 4
     - temp_fetch_success
-    - (system_temp_1_str | float) > 75
+    - (system_temp_1_str | float) <= 75
 
