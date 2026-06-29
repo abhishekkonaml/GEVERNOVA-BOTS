@@ -1,15 +1,26 @@
 ---
  - debug: 
      msg: "Running test Temperatire sensor Bot"
- - debug: var={{ fetched_details.description}}
+ - set_fact::
+     ticket_description: "{{ fetched_details.description }}"
+ - debug: var=ticket_description
+ 
  - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> You can expect the next update within 30 minutes.</h3>[/code]'
    register: update_notes
 
 
 
 
-#  - set_fact:
-#      incident_hostname: "CSSfdMUSalpdc01a.gdn.ge.com"
+ - block:
+    - debug:
+        msg: "Inside checkpoint flow"
+    - meta: end_play
+   when: "'Checkpoint' in ticket_description"
+ - block:
+     - debug:
+         msg: "Inside ASA flow"
+     - meta: end_play
+   when: "'ASA' in ticket_description"
 
 #===============FIRST CHECK======================
  - include_tasks: bots/Temperature_Sensor/ASA.yml
