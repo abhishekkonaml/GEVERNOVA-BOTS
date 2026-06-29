@@ -41,17 +41,18 @@
       }}
    ignore_errors: yes
 
- - name: Unable to fetch temperature
-   debug:
-    msg: "Unable to fetch temperature"
+ - block: 
+    - debug:
+       msg: "Unable to fetch temperature"
+    - meta: end_play
    when: not temp_fetch_success
- - name: update notes and end first and second checks
-   meta: end_play
-   when: check_number !=3
+
+
  - name: Raise Ticket
    debug:
     msg: "Raise Ticket"
    when:
+    - check_number == 3
     - temp_fetch_success
     - >
       (system_temp_1_str | float) > 70 or (system_temp_2_str | float) > 70 or (CPU_temp_str | float) > 70
@@ -60,6 +61,7 @@
    debug:
     msg: "Close Ticket"
    when:
+    - check_number == 3
     - temp_fetch_success
     - (system_temp_1_str | float) <= 70
     - (system_temp_2_str | float) <= 70
