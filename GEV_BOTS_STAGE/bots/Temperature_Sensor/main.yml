@@ -41,28 +41,40 @@
  - debug: var=CPU_temp_str
 
 
-#  - name: Convert to floats only when available
-#    ansible.builtin.set_fact:
-#         system_temp_1: "{{ (system_temp_1_str | float) if system_temp_1_available else omit }}"
-#         system_temp_2: "{{ (system_temp_2_str | float) if system_temp_2_available else omit }}"
-#         cpu_temp: "{{ (cpu_temp_str | float) if cpu_temp_available else omit }}"
-#  - name: Decide output (edge cases)
-#    ansible.builtin.debug:
-#         msg: >-
-#           {%- if temp_text | trim == '' or not (system_temp_1_available and system_temp_2_available and cpu_temp_available) -%}
-#           Unable to fetch values
-#           {%- else -%}
-#           {%- set max_val = [system_temp_1, system_temp_2, cpu_temp] | max -%}
-#           {%- if max_val < temp_threshold -%}
-#           Close ticket (all temperatures are below {{ temp_threshold }})
-#           {%- else -%}
-#           Reassign (at least one temperature is >= {{ temp_threshold }})
-#           {%- endif -%}
-#           {%- endif -%}
+ - name: Check whether all temperatures were fetched
+   ansible.builtin.set_fact:
+    temp_fetch_success: >-
+      {{
+        (system_temp_1_str | default('') | trim != '') and
+        (system_temp_2_str | default('') | trim != '') and
+        (CPU_temp_str | default('') | trim != '')
+      }}
 
-#  # Optional: fail the task if values are not available
-#  - name: Fail when unable to fetch values (optional)
-#    ansible.builtin.fail:
-#         msg: "Unable to fetch values (one or more sensors missing in output)."
-#    when: temp_text | trim == '' or not (system_temp_1_available and system_temp_2_available and cpu_temp_available)
-#    ignore_errors: true
+ - name: Convert temperatures
+   ansible.builtin.set_fact:
+    system_temp_1: "{{ system_temp_1_str | float }}"
+    system_temp_2: "{{ system_temp_2_str | float }}"
+    cpu_temp: "{{ CPU_temp_str | float }}"
+   when: temp_fetch_success
+ - name: Unable to fetch temperature
+   debug:
+    msg: "Unable to fetch temperature"
+   when: not temp_fetch_success
+
+ - name: Raise Ticket
+   debug:
+    msg: "Raise Ticket"
+   when:
+    - temp_fetch_success
+    - system_temp_1 > 70
+      or system_temp_2 > 70
+      or cpu_temp > 70
+
+ - name: Close Ticket
+   debug:
+    msg: "Close Ticket"
+   when:
+    - temp_fetch_success
+    - system_temp_1 <= 70
+    - system_temp_2 <= 70
+    - cpu_temp <= 70
