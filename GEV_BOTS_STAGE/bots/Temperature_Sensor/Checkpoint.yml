@@ -1,4 +1,4 @@
- - name: check connectivity
+ - name: Execute command
    action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='yes' 
    register: temp_status_register
    ignore_errors: true
@@ -45,7 +45,9 @@
    debug:
     msg: "Unable to fetch temperature"
    when: not temp_fetch_success
-
+ - name: update notes and end first and second checks
+   meta: end_play
+   when: check_number !=3
  - name: Raise Ticket
    debug:
     msg: "Raise Ticket"
