@@ -47,17 +47,19 @@
    when: not temp_fetch_success
 
 
- - name: Raise Ticket
-   debug:
-    msg: "Raise Ticket"
+ - block: 
+    - debug:
+       msg: "Raise Ticket"
+    - meta: end_play
    when:
     - check_number == 4
     - temp_fetch_success
     - (system_temp_1_str | float) > 75
 
- - name: Close Ticket
-   debug:
-    msg: "Close Ticket"
+ - block: 
+    - debug:
+        msg: "Close Ticket"
+    - meta: end_play
    when:
     - check_number == 4
     - temp_fetch_success
