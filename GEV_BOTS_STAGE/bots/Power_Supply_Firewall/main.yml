@@ -1,0 +1,16 @@
+---
+ - debug: 
+     msg: "Running test power supply Bot"
+ - set_fact:
+     ticket_description: "{{ fetched_details.description }}"
+ - debug: var=ticket_description
+ 
+ - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> You can expect the next update within 30 minutes.</h3>[/code]'
+   register: update_notes
+
+ - name: Ping the device
+   include_tasks: common_actions/pingcheck.yml
+   vars: 
+    delay_time: 600
+
+
