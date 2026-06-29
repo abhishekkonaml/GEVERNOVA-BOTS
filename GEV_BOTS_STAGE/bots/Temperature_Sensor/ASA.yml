@@ -30,7 +30,6 @@
         temp_text |
         regex_findall(
           '\s*processor\s+1:\s*([0-9.]+(?:\.[0-9]+)?)',
-          '\\1',
           ignorecase=True
         ) 
       }}
