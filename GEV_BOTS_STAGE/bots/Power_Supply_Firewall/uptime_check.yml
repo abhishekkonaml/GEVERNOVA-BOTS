@@ -1,5 +1,30 @@
 - name: check connectivity
-  action: CommandExecution hostname='{{ incident_hostname }}' command='show version' incidentno='{{ incident_no }}' notesupdate='yes' 
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show version' incidentno='{{ incident_no }}' notesupdate='no' 
   register: uptime_status_register
   ignore_errors: true
 - debug: var=uptime_status_register
+
+- action: update_notes incident='{{ incident_no }}' work_notes='{{ uptime_status_register.Output }}'
+  register: update_notes
+
+- set_fact:
+     temp_text: "{{ uptime_status_register.Output }}"
+
+- debug: var=temp_text
+
+- name: Extract Processor 1 Temperature
+  ansible.builtin.set_fact:
+    processor_temp_list: >-
+      {{
+        temp_text |
+        regex_findall(
+          '(?m)^(?P<incident_hostname>\S+)\s+up\s+(?:(?P<days>\d+)\s+days?\s+)?(?:(?P<hours>\d+)\s+hours?\s+)?(?:(?P<minutes>\d+)\s+minutes?\s+)?(?:(?P<seconds>\d+)\s+seconds?)?\b',
+          ignorecase=True
+        ) 
+      }}
+  ignore_errors: yes
+- debug: var=processor_temp_list
+
+- set_fact:
+    processor_temp_str: "{{ processor_temp_list | first }}"
+  ignore_errors: yes
