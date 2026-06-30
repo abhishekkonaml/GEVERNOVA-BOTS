@@ -12,5 +12,5 @@
    include_tasks: common_actions/pingcheck.yml
    vars: 
     delay_time: 600
-
+    frequency: 3
 
