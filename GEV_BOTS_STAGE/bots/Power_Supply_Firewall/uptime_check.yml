@@ -17,7 +17,7 @@
     asa_uptime_match: >-
       {{
         (temp_text | default(''))
-        | regex_search (
+        | regex_findall (
             '(?m)^(?P<incident_hostname>\S+)\\s+up\\s+'
             ~ '(?:(?P<days>\\d+)\\s+days?\\s+)?'
             ~ '(?:(?P<hours>\\d+)\\s+hours?\\s+)?'
@@ -29,7 +29,10 @@
   ignore_errors: yes
 - debug: var=asa_uptime_match
 
-
+- name: Pick first match (if exists)
+  set_fact:
+    asa_uptime_match: "{{ uptime_matches[0] if uptime_matches|length > 0 else {} }}"
+    
 - name: Compute uptime total minutes and print category
   set_fact:
     uptime_days: "{{ (asa_uptime_match.days | default('0')) | int }}"
