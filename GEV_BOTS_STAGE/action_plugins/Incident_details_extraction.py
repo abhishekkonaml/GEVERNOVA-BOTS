@@ -101,7 +101,7 @@ class ActionModule(ActionBase):
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
                   return {'status':'success','hostname':hostname,'description':description,'botname': 'Temperature Sensor'}
                
-               elif 'Power Supply' in description.lower():
+               elif 'power supply' in description.lower():
                   hostname=''
                   hostname=incident_details[0]['cmdb_ci']
                   if hostname == '':
