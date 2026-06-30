@@ -12,26 +12,42 @@
 
 - debug: var=temp_text
 
-- name: Normalize line endings
+- name: Normalize ASA output newlines
   set_fact:
-    asa_text_norm: "{{ (temp_text | default('')) | regex_replace('\\r\\n', '\n') }}"
-#(?m)^(?P<host>\S+)\s+up\s+(?:(?P<days>\d+)\s+days?\s+)?(?:(?P<hours>\d+)\s+hours?\s+)?(?:(?P<minutes>\d+)\s+minutes?\s+)?(?:(?P<seconds>\d+)\s+seconds?)?\b
-- name: Extract ASA uptime line
-  set_fact:
-    asa_uptime_match: >-
+    asa_text_norm: >-
       {{
-        (asa_text_norm | default(''))
-        | regex_findall (
-            '(?m)^(?P<incident_hostname>\S+)\\s+up\\s+'
-            ~ '(?:(?P<days>\\d+)\\s+days?\\s+)?'
-            ~ '(?:(?P<hours>\\d+)\\s+hours?\\s+)?'
-            ~ '(?:(?P<minutes>\\d+)\\s+minutes?\\s+)?'
-            ~ '(?:(?P<seconds>\\d+)\\s+seconds?)?\\b',
-            multiline=True
-          )
+        (temp_text | default(''))
+        | regex_replace('\\\\r\\\\n', '\n')
+        | regex_replace('\r\n', '\n')
+        | regex_replace('\r', '\n')
       }}
-  ignore_errors: yes
-- debug: var=asa_uptime_match
+
+- name: Get first device uptime line (dynamic host) - exclude failover cluster line
+  set_fact:
+    uptime_line: >-
+      {{
+        (asa_text_norm.split('\n') | select('search', ' up ') | reject('search', '^failover\\s+cluster\\s+up\\b') | list | first | default(''))
+      }}
+
+- debug:
+    msg: "uptime_line='{{ uptime_line }}'"
+#(?m)^(?P<host>\S+)\s+up\s+(?:(?P<days>\d+)\s+days?\s+)?(?:(?P<hours>\d+)\s+hours?\s+)?(?:(?P<minutes>\d+)\s+minutes?\s+)?(?:(?P<seconds>\d+)\s+seconds?)?\b
+# - name: Extract ASA uptime line
+#   set_fact:
+#     asa_uptime_match: >-
+#       {{
+#         (asa_text_norm | default(''))
+#         | regex_findall (
+#             '(?m)^(?P<incident_hostname>\S+)\\s+up\\s+'
+#             ~ '(?:(?P<days>\\d+)\\s+days?\\s+)?'
+#             ~ '(?:(?P<hours>\\d+)\\s+hours?\\s+)?'
+#             ~ '(?:(?P<minutes>\\d+)\\s+minutes?\\s+)?'
+#             ~ '(?:(?P<seconds>\\d+)\\s+seconds?)?\\b',
+#             multiline=True
+#           )
+#       }}
+#   ignore_errors: yes
+#- debug: var=asa_uptime_match
 
 - name: Pick first match (if exists)
   set_fact:
