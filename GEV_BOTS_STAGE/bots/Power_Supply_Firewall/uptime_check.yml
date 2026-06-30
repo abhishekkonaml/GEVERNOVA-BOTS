@@ -18,7 +18,7 @@
       {{
         (temp_text | default(''))
         | regex_search(
-            '^(?!failover\\b)(?P<host>\\S+)\\s+up\\s+'
+            '^(?m)^(?P<incident_hostname>\S+)\\s+up\\s+'
             ~ '(?:(?P<days>\\d+)\\s+days?\\s+)?'
             ~ '(?:(?P<hours>\\d+)\\s+hours?\\s+)?'
             ~ '(?:(?P<minutes>\\d+)\\s+minutes?\\s+)?'
