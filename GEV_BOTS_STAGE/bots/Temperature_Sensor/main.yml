@@ -20,28 +20,28 @@
       vars:
         check_number: 1
     - pause: 
-       minutes: 1
+       minutes: 20
 
 #==============SECOND CHECK======================
     - include_tasks: bots/Temperature_Sensor/Checkpoint.yml
       vars:
         check_number: 2
     - pause: 
-       minutes: 1
+       minutes: 20
 
 #===============THIRD CHECK======================
     - include_tasks: bots/Temperature_Sensor/Checkpoint.yml
       vars:
         check_number: 3
     - pause: 
-       minutes: 1
+       minutes: 20
 
 #===============THIRD CHECK======================
     - include_tasks: bots/Temperature_Sensor/Checkpoint.yml
       vars:
         check_number: 4
-    - pause: 
-       minutes: 1
+    # - pause: 
+    #    minutes: 1
     - meta: end_play
    when: "'Checkpoint' in ticket_description"
  - block:
