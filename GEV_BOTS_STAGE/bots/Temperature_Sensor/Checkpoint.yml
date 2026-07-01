@@ -42,9 +42,7 @@
       CPU_temp: "{{ CPU_temp_str }}"
    ignore_errors: yes
 
- - action: update_notes incident='{{ incident_no }}' work_notes='{{ Temperature_notes }}'
-   register: update_notes
- - debug: var=update_notes
+
 
  - name: Check whether all temperatures were fetched
    ansible.builtin.set_fact:
@@ -55,6 +53,12 @@
         (CPU_temp_str | default('') | trim != '')
       }}
    ignore_errors: yes
+
+ - block:
+    - action: update_notes incident='{{ incident_no }}' work_notes='{{ Temperature_notes }}'
+      register: update_notes
+    - debug: var=update_notes
+   when: temp_fetch_success
 
  - block: 
     - debug:
