@@ -40,6 +40,7 @@
       system_temp_1: "{{ system_temp_1_str }}"
       system_temp_2: "{{ system_temp_2_str }}"
       CPU_temp: "{{ CPU_temp_str }}"
+   ignore_errors: yes
 
  - action: update_notes incident='{{ incident_no }}' work_notes='{{ Temperature_notes }}'
    register: update_notes
