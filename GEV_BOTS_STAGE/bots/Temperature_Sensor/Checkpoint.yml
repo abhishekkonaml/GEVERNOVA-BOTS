@@ -66,7 +66,7 @@
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Unable to fetch temperature values.</h3>[/code]'
       register: update_notes
     - debug: var=update_notes
-    - action: reassignment_ticket incidentnumber='{{ incident_no }}' group='{{ HQ CTO Network Firewall Support }}'
+    - action: reassignment_ticket incidentnumber='{{ incident_no }}' group='HQ CTO Network Firewall Support'
     - meta: end_play
 
    when: not temp_fetch_success
@@ -78,7 +78,7 @@
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Temperature values are above 70 C.</h3>[/code]'
       register: update_notes
     - debug: var=update_notes
-    - action: reassignment_ticket incidentnumber='{{ incident_no }}' group='{{ HQ CTO Network Firewall Support }}'
+    - action: reassignment_ticket incidentnumber='{{ incident_no }}' group='HQ CTO Network Firewall Support'
     - meta: end_play
    when:
     - check_number == 4
