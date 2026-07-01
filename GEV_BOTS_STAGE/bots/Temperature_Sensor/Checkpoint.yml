@@ -88,6 +88,8 @@
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Temperature values are below 70 C. Closing this Incident.</h3>[/code]'
       register: update_notes
     - debug: var=update_notes
+    - action: closeincident incident='{{ incident_no }}'
+    - meta: end_play
    when:
     - check_number == 4
     - temp_fetch_success
