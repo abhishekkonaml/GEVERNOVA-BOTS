@@ -10,9 +10,9 @@
  - set_fact:
      temp_text: "{{ temp_status_register.Output }}"
 
-#  - action: update_notes incident='{{ incident_no }}' work_notes='{{ temp_text }}'
-#    register: update_notes
-#  - debug: var=update_notes
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ temp_text }}'
+   register: update_notes
+ - debug: var=update_notes
 
 
 #  - name: Set temp_text from command output (source of truth)
@@ -43,8 +43,12 @@
  - set_fact:
     processor_temp_str: "{{ processor_temp_list | first }}"
    ignore_errors: yes
+ - set_fact:
+    Temperature_notes: |- 
+      [code]<h3> Temperature: </h3>[/code]
+      processor_temp: "{{ processor_temp_str }}"
 
- - action: update_notes incident='{{ incident_no }}' work_notes='{{ processor_temp_str }}'
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ Temperature_notes }}'
    register: update_notes
    ignore_errors: yes
  - debug: var=update_notes
