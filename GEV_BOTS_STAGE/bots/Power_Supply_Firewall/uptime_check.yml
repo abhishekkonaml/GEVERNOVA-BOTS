@@ -1,48 +1,19 @@
-# - name: check connectivity
-#   action: CommandExecution hostname='{{ incident_hostname }}' command='show version' incidentno='{{ incident_no }}' notesupdate='no' 
-#   register: uptime_status_register
-#   ignore_errors: true
-# - debug: var=uptime_status_register
+- name: check connectivity
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show version' incidentno='{{ incident_no }}' notesupdate='no' 
+  register: uptime_status_register
+  ignore_errors: true
+- debug: var=uptime_status_register
 
-# - action: update_notes incident='{{ incident_no }}' work_notes='{{ uptime_status_register.Output }}'
-#   register: update_notes
+- action: update_notes incident='{{ incident_no }}' work_notes='{{ uptime_status_register.Output }}'
+  register: update_notes
 
-- set_fact:
-     temp_text: "\r\n\r\ncisco adaptive security appliance software version 9.8(4)35 \r\nfirepower extensible operating system version 2.2(2.143)\r\n\r\ncompiled on thu 08-apr-21 22:38 gmt by builders\r\nsystem image file is \"disk0:/asa984-35-smp-k8.bin\"\r\nconfig file at boot was \"startup-config\"\r\n\r\npowfesinnoida51a up 122 days 21 hours\r\nfailover cluster up 289 days 23 hours\r\n\r\nhardware:   asa5545, 12288 mb ram, cpu lynnfield 2660 mhz, 1 cpu (8 cores)\r\n            asa: 6452 mb ram, 1 cpu (1 core)\r\ninternal ata compact flash, 8192mb\r\nbios flash mx25l6445e @ 0xffbb0000, 8192kb\r\n\r\nencryption hardware device : cisco asa crypto on-board accelerator (revision 0x1)\r\n                             boot microcode        : cnpx-mc-boot-2.00\r\n                             ssl/ike microcode     : cnpx-mc-ssl-sb-plus-0005\r\n                             ipsec microcode       : cnpx-mc-ipsec-main-0026\r\n                             number of accelerators:…"
+# - set_fact:
+#      temp_text: "\r\n\r\ncisco adaptive security appliance software version 9.8(4)35 \r\nfirepower extensible operating system version 2.2(2.143)\r\n\r\ncompiled on thu 08-apr-21 22:38 gmt by builders\r\nsystem image file is \"disk0:/asa984-35-smp-k8.bin\"\r\nconfig file at boot was \"startup-config\"\r\n\r\npowfesinnoida51a up 122 days 21 hours\r\nfailover cluster up 289 days 23 hours\r\n\r\nhardware:   asa5545, 12288 mb ram, cpu lynnfield 2660 mhz, 1 cpu (8 cores)\r\n            asa: 6452 mb ram, 1 cpu (1 core)\r\ninternal ata compact flash, 8192mb\r\nbios flash mx25l6445e @ 0xffbb0000, 8192kb\r\n\r\nencryption hardware device : cisco asa crypto on-board accelerator (revision 0x1)\r\n                             boot microcode        : cnpx-mc-boot-2.00\r\n                             ssl/ike microcode     : cnpx-mc-ssl-sb-plus-0005\r\n                             ipsec microcode       : cnpx-mc-ipsec-main-0026\r\n                             number of accelerators:…"
 
 - debug: var=temp_text
 
-- name: Normalize ASA output newlines
-  set_fact:
-    asa_text_norm: >-
-      {{
-        (temp_text | default(''))
-        | regex_replace('\\\\r\\\\n', '\n')
-        | regex_replace('\r\n', '\n')
-        | regex_replace('\r', '\n')
-      }}
 
-- name: Get first device uptime line (dynamic host) - exclude failover cluster line
-  set_fact:
-    uptime_line: >-
-      {{
-        (asa_text_norm.split('\n') | select('search', ' up ') | reject('search', '^failover\\s+cluster\\s+up\\b') | list | first | default(''))
-      }}
 
-- debug:
-    msg: "uptime_line='{{ uptime_line }}'"
-
-- name: Parse uptime units from uptime_line
-  set_fact:
-    uptime_days:    "{{ (uptime_line | regex_search('(?i)(\\d+)\\s+days?')) | default('0') | int }}"
-    uptime_hours:   "{{ (uptime_line | regex_search('(?i)(\\d+)\\s+hours?')) | default('0') | int }}"
-    uptime_minutes: "{{ (uptime_line | regex_search('(?i)(\\d+)\\s+minutes?')) | default('0') | int }}"
-    uptime_seconds: "{{ (uptime_line | regex_search('(?i)(\\d+)\\s+seconds?')) | default('0') | int }}"
-
-- name: Compute total uptime minutes
-  set_fact:
-    uptime_total_minutes: >-
-      {{ (uptime_days * 24 * 60) + (uptime_hours * 60) + uptime_minutes + (uptime_seconds / 60) }}
 #(?m)^(?P<host>\S+)\s+up\s+(?:(?P<days>\d+)\s+days?\s+)?(?:(?P<hours>\d+)\s+hours?\s+)?(?:(?P<minutes>\d+)\s+minutes?\s+)?(?:(?P<seconds>\d+)\s+seconds?)?\b
 # - name: Extract ASA uptime line
 #   set_fact:
@@ -60,12 +31,12 @@
 #       }}
 #   ignore_errors: yes
 #- debug: var=asa_uptime_match
-- block:
-    - debug:
-        msg: "uptime greater than 30 minutes ({{ uptime_total_minutes | round(2) }} minutes)"
-  when: uptime_total_minutes > 30
+# - block:
+#     - debug:
+#         msg: "uptime greater than 30 minutes ({{ uptime_total_minutes | round(2) }} minutes)"
+#   when: uptime_total_minutes > 30
 
-- block:
-    - debug:
-        msg: "uptime less than or equal to 30 minutes ({{ uptime_total_minutes | round(2) }} minutes)"
-  when: uptime_total_minutes <= 30
+# - block:
+#     - debug:
+#         msg: "uptime less than or equal to 30 minutes ({{ uptime_total_minutes | round(2) }} minutes)"
+#   when: uptime_total_minutes <= 30
