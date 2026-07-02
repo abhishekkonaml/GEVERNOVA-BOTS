@@ -61,7 +61,8 @@
        msg: "Unable to fetch uptime"
     - meta: end_play
     
-  when: uptime == ""
+  when: 
+    - uptime is not defined or uptime == ""
 
 
 - block: 
