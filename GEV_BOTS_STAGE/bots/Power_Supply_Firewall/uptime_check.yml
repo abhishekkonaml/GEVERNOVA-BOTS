@@ -34,8 +34,8 @@
     uptime: >-
       {{
         temp_text_replaced
-        | regex_search(hostname ~ '\\s+up\\s+(.*?)\\\\r\\\\n' ,'\\1')
-        |default('')
+        | regex_search(hostname ~ '\\s+up\\s+([^\\\\]+)' ,'\\1')
+        |default('', true)
 
         
       }}
