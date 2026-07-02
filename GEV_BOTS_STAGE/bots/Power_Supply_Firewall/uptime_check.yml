@@ -31,9 +31,10 @@
   set_fact:
     uptime: >-
       {{
-        temp_text
-        | regex_search(hostname ~ '\\s+up\\s+([^\\\\r\\\\n]+)' ,'\\1')
-        |default('', true)
+        (temp_text
+        | regex_search(hostname ~ '\\s+up\\s+([^\\\\]+)' ,'\\1')
+        | first
+        )|default('', true)
 
         
       }}
