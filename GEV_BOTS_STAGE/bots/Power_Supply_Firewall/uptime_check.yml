@@ -31,9 +31,8 @@
     uptime: >-
       {{
         (temp_text_replaced
-        | regex_search(hostname ~ '\\s+up\\s+(.+)', '\\1')
-        | first
-        | default('')
+        | regex_findall(hostname ~ '\\s+up\\s+(.*?)\\\\n')
+        |[0]
       }}
 
 - name: Display uptime
