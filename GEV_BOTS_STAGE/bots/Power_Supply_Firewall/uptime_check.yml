@@ -16,11 +16,14 @@
 #     msg: "{{ temp_text | to_nice_json }}"
 
 - set_fact:
-    temp_text_replaced: "{{ temp_text | replace('\\r\\n', '\n')}}"
+    temp_text_replaced: "{{ temp_text | replace('\\\\r\\\\n', 'NEWLINE')}}"
 
 - debug: var=temp_text_replaced
 - debug: 
     msg: "{{temp_text_replaced | regex_findall('powfesinnoida51b.*')}}"
+
+- debug:
+    msg: "{{ temp_text_replaced | type_debug }}"
 
 - name: Extract hostname
   set_fact:
