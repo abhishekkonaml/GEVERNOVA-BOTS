@@ -20,7 +20,7 @@
 
 - debug: var=temp_text_replaced
 - debug: 
-    msg: "{{temp_text_replaced | regex_findall('powfesinnoida51b.*')}}"
+    msg: "{{temp_text_replaced | regex_findall(hostname ~ '.{0,50}') }}"
 
 - debug:
     msg: "{{ temp_text_replaced | type_debug }}"
