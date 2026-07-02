@@ -27,21 +27,25 @@
         | default([])
         | first
         |default('', true)
-
-        
+    
       }}
+  ignore_errors: yes
 
 - name: Display uptime
-  debug:
-    msg: "{{ uptime }}"
+  debug: var=uptime
+  ignore_errors: yes
 
-- set_fact:
+- name: extract exact date time
+  set_fact:
     days: "{{ (uptime | regex_search('(\\d+)\\s+day', '\\1') | default(['0']) | first) | int }}"
     hours: "{{ (uptime | regex_search('(\\d+)\\s+hour', '\\1') | default(['0']) | first) | int }}"
     minutes: "{{ (uptime | regex_search('(\\d+)\\s+minute', '\\1') | default(['0']) | first) | int }}"
     seconds: "{{ (uptime | regex_search('(\\d+)\\s+second', '\\1') | default(['0']) | first) | int }}"
+  when: uptime != ""
+  ignore_errors: yes
 
-- set_fact:
+- name: calculate total time in seconds
+  set_fact:
     uptime_seconds: >-
       {{
         (days | int * 86400) +
@@ -49,14 +53,26 @@
         (minutes | int * 60) +
         (seconds | int)
       }}
+  when: uptime != ""
+  ignore_errors: yes
+
+- block:
+    - debug:
+       msg: "Unable to fetch uptime"
+    - meta: end_play
+    
+  when: uptime == ""
 
 
-- name: Close ticket
-  debug:
-    msg: "Close Ticket"
+- block: 
+   - debug:
+       msg: "Close Ticket"
+   - meta: end_play
+  
   when: uptime_seconds | int >= 7200
 
-- name: Reassign ticket
-  debug:
-    msg: "Reassign Ticket"
+- block: 
+    - debug:
+       msg: "Close Ticket"
+    - meta: end_play
   when: uptime_seconds | int < 7200
