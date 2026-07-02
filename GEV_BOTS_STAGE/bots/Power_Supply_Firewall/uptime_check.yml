@@ -12,11 +12,11 @@
 # - set_fact:
 #      temp_text: "{{ uptime_status_register.Output }}"
 - debug: var=temp_text
-- debug: 
-    msg: "{{ temp_text | to_nice_json }}"
+# - debug: 
+#     msg: "{{ temp_text | to_nice_json }}"
 
 - set_fact:
-    temp_text_replaced: "{{ temp_text | replace('\\n\\n', '\n')}}"
+    temp_text_replaced: "{{ temp_text | replace('\\r\\n', '\n')}}"
 
 - debug: var=temp_text_replaced
 
@@ -29,7 +29,8 @@
     uptime: >-
       {{
         (temp_text_replaced
-        | regex_search(hostname ~ '\\s+up\\s+([^\\\\r\\\\n]+)', '\\1')
+        | regex_search(hostname ~ '\\s+up\\s+(.+)', '\\1')
+        | first
         | default('')
       }}
 
