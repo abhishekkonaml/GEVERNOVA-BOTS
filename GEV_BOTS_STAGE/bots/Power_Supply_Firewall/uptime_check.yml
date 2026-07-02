@@ -23,7 +23,7 @@
     uptime: >-
       {{
         (temp_text
-        | regex_findall('(?m)^' ~ hostname ~ '\\s+up\\s+(.+)$')
+        | regex_findall(hostname ~ '\\s+up\\s+([^\\\\r\\\\n]+)')
         | first
         | default('')
       }}
