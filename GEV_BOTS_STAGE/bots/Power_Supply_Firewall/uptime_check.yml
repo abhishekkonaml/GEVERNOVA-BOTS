@@ -46,8 +46,8 @@
     uptime: >-
       {{
         temp_text_replaced
-        | regex_search('powfesinnoida51b\\s+up\\s+([^\\\\]+)' ,'\\1')
-        |default('', true)
+        | regex_findall('powfesinnoida51b\\s+up\\s+([^\\\\]+)')
+
 
         
       }}
