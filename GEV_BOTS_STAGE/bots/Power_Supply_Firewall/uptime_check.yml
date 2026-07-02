@@ -1,5 +1,4 @@
-- set_fact:
-      incident_hostname: "cssfeECHrumla01-02"
+
 - name: check connectivity
   action: CommandExecution hostname='{{ incident_hostname }}' command='show version' incidentno='{{ incident_no }}' notesupdate='no' 
   register: uptime_status_register
@@ -19,14 +18,17 @@
   set_fact:
     hostname: "{{ incident_hostname }}"
 
-
+# - name: normalise temp_text
+#   set_fact:
+#      temp_text_clean: >-
+#        {{ temp_text | replace('\\r\\n', '\n') | replace('\\n', '\n') | replace('\\r','\n')}}
 - name: Extract uptime corresponding to the hostname
   set_fact:
     uptime: >-
       {{
         temp_text
-        | regex_search(hostname ~ '\s+up\s+([^\r\n\\\\]+)', '\1' )
-        | default([])
+        | regex_search('(?<![\\w])' ~ (hostname | trim) ~ '\\s+up\\s+([^\\\\r\\\\n]+)', '\1' )
+        | default([], true)
         | first
         |default('', true)
     
