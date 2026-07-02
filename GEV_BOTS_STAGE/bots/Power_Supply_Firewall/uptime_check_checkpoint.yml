@@ -1,6 +1,6 @@
 ---
 - set_fact:
-     incident_hostname: "POWfeMUSparpa51a:"
+     incident_hostname: "POWfeMUSparpa51a"
 - name: check connectivity
   action: CommandExecution hostname='{{ incident_hostname }}' command='show uptime' incidentno='{{ incident_no }}' notesupdate='no' 
   register: uptime_status_register
