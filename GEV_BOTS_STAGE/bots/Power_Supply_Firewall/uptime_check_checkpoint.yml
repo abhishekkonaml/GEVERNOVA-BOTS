@@ -19,7 +19,10 @@
     uptime: >-
       {{
         temp_text
-        | regex_search(\d+\s+days?\s+\d+\s+hours?\s+\d+\s+minutes?)
+        | regex_search('(\d+\s+days?\s+\d+\s+hours?\s+\d+\s+minutes?)', '\1')
+        | default([], true)
+        | first
+        | default('', true)
     
       }}
   ignore_errors: yes
