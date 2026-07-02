@@ -20,9 +20,9 @@
 # - set_fact:
 #     temp_text_replaced: "{{ temp_text | replace('\\\\r\\\\n', 'NEWLINE')}}"
 
-- debug: var=temp_text_replaced
+- debug: var=temp_text
 - debug: 
-    msg: "{{temp_text_replaced | regex_findall(hostname ~ '.{0,50}') }}"
+    msg: "{{temp_text | regex_findall(hostname ~ '.{0,50}') }}"
 
 
 
@@ -31,7 +31,7 @@
   set_fact:
     uptime: >-
       {{
-        temp_text_replaced
+        temp_text
         | regex_search(hostname ~ '\\s+up\\s+([^\\\\r\\\\n]+)' ,'\\1')
         |default('', true)
 
