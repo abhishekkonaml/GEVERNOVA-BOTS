@@ -27,7 +27,7 @@
     uptime: >-
       {{
         temp_text
-        | regex_search('(?<![\\w])' ~ (hostname | trim) ~ '\\s+up\\s+([^\\\\r\\\\n]+)', '\1' )
+        | regex_search(hostname ~ '\s+up\s+([^\r\n\\\\]+)', '\1' )
         | default([], true)
         | first
         |default('', true)
