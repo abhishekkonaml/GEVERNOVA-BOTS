@@ -17,28 +17,14 @@
 - name: Extract hostname
   set_fact:
     hostname: "{{ incident_hostname }}"
-- set_fact:
-    temp_text_replaced: "{{ temp_text | replace('\\\\r\\\\n', 'NEWLINE')}}"
+# - set_fact:
+#     temp_text_replaced: "{{ temp_text | replace('\\\\r\\\\n', 'NEWLINE')}}"
 
 - debug: var=temp_text_replaced
 - debug: 
     msg: "{{temp_text_replaced | regex_findall(hostname ~ '.{0,50}') }}"
 
-- debug:
-    msg: "{{ temp_text_replaced | type_debug }}"
 
-
-
-# - name: Extract uptime corresponding to the hostname
-#   set_fact:
-#     uptime: >-
-#       {{
-#         temp_text_replaced
-#         | regex_search(hostname ~ '\\s+up\\s+([^\\\\]+)' ,'\\1')
-#         |default('', true)
-
-        
-#       }}
 
 
 - name: Extract uptime corresponding to the hostname
@@ -46,11 +32,13 @@
     uptime: >-
       {{
         temp_text_replaced
-        | regex_findall('powfesinnoida51b\\s+up\\s+([^\\\\]+)')
-
+        | regex_search(hostname ~ '\\s+up\\s+([^\\\\r\\\\n]+)' ,'\\1')
+        |default('', true)
 
         
       }}
+
+
 
 - name: Display uptime
   debug:
