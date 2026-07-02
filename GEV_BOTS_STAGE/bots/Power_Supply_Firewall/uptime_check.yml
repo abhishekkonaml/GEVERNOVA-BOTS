@@ -29,12 +29,24 @@
 
 
 
+# - name: Extract uptime corresponding to the hostname
+#   set_fact:
+#     uptime: >-
+#       {{
+#         temp_text_replaced
+#         | regex_search(hostname ~ '\\s+up\\s+([^\\\\]+)' ,'\\1')
+#         |default('', true)
+
+        
+#       }}
+
+
 - name: Extract uptime corresponding to the hostname
   set_fact:
     uptime: >-
       {{
         temp_text_replaced
-        | regex_search(hostname ~ '\\s+up\\s+([^\\\\]+)' ,'\\1')
+        | regex_search('powfesinnoida51b\\s+up\\s+([^\\\\]+)' ,'\\1')
         |default('', true)
 
         
