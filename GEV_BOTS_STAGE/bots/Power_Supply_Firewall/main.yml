@@ -15,4 +15,4 @@
     frequency: 3
 
  - name: login to device
-   include_tasks: bots/Power_Supply_Firewall/uptime_check.yml
+   include_tasks: bots/Power_Supply_Firewall/uptime_check_checkpoint.yml

@@ -1,0 +1,72 @@
+---
+- set_fact:
+     incident_hostname: "POWfeMUSparpa51a:"
+- name: check connectivity
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show uptime' incidentno='{{ incident_no }}' notesupdate='no' 
+  register: uptime_status_register
+  ignore_errors: true
+- debug: var=uptime_status_register
+
+- action: update_notes incident='{{ incident_no }}' work_notes='{{ uptime_status_register.Output }}'
+  register: update_notes
+
+- set_fact:
+     temp_text: "{{ uptime_status_register.Output }}"
+- debug: var=temp_text
+
+- name: Extract uptime corresponding to the hostname
+  set_fact:
+    uptime: >-
+      {{
+        temp_text
+        | regex_search(\d+\s+days?\s+\d+\s+hours?\s+\d+\s+minutes?)
+    
+      }}
+  ignore_errors: yes
+
+- name: Display uptime
+  debug: var=uptime
+  ignore_errors: yes
+
+- name: extract exact date time
+  set_fact:
+    days: "{{ (uptime | regex_search('(\\d+)\\s+day', '\\1') | default(['0'], true) | first) | int }}"
+    hours: "{{ (uptime | regex_search('(\\d+)\\s+hour', '\\1') | default(['0'], true) | first) | int }}"
+    minutes: "{{ (uptime | regex_search('(\\d+)\\s+minute', '\\1') | default(['0'], true) | first) | int }}"
+    seconds: "{{ (uptime | regex_search('(\\d+)\\s+second', '\\1') | default(['0'], true) | first) | int }}"
+  when: uptime != ""
+  ignore_errors: yes
+
+- name: calculate total time in seconds
+  set_fact:
+    uptime_seconds: >-
+      {{
+        ((days| default(0) | int) * 86400) +
+        ((hours |default(0)| int) * 3600) +
+        ((minutes | default(0) | int) * 60) +
+        (seconds |default(0) int)
+      }}
+  when: uptime != ""
+  ignore_errors: yes
+
+- block:
+    - debug:
+       msg: "Unable to fetch uptime"
+    - meta: end_play
+    
+  when: 
+    - uptime is not defined or uptime == ""
+
+
+- block: 
+   - debug:
+       msg: "Close Ticket"
+   - meta: end_play
+  
+  when: (uptime_seconds| default(0) | int) >= 7200
+
+- block: 
+    - debug:
+       msg: "Close Ticket"
+    - meta: end_play
+  when: (uptime_seconds | default(0) |int) < 7200
