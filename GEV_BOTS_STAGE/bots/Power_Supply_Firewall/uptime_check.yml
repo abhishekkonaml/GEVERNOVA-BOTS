@@ -10,7 +10,27 @@
 # - set_fact:
 #      temp_text: "\r\n\r\ncisco adaptive security appliance software version 9.8(4)35 \r\nfirepower extensible operating system version 2.2(2.143)\r\n\r\ncompiled on thu 08-apr-21 22:38 gmt by builders\r\nsystem image file is \"disk0:/asa984-35-smp-k8.bin\"\r\nconfig file at boot was \"startup-config\"\r\n\r\npowfesinnoida51a up 122 days 21 hours\r\nfailover cluster up 289 days 23 hours\r\n\r\nhardware:   asa5545, 12288 mb ram, cpu lynnfield 2660 mhz, 1 cpu (8 cores)\r\n            asa: 6452 mb ram, 1 cpu (1 core)\r\ninternal ata compact flash, 8192mb\r\nbios flash mx25l6445e @ 0xffbb0000, 8192kb\r\n\r\nencryption hardware device : cisco asa crypto on-board accelerator (revision 0x1)\r\n                             boot microcode        : cnpx-mc-boot-2.00\r\n                             ssl/ike microcode     : cnpx-mc-ssl-sb-plus-0005\r\n                             ipsec microcode       : cnpx-mc-ipsec-main-0026\r\n                             number of accelerators:…"
 
+- set_fact:
+     temp_text: "{{ uptime_status_register.Output }}"
 - debug: var=temp_text
+
+- name: Extract hostname
+  set_fact:
+    hostname: "{{ incident_hostname }}"
+
+- name: Extract uptime corresponding to the hostname
+  set_fact:
+    uptime: >-
+      {{
+        (temp_text
+        | regex_search('(?m)^' ~ (hostname | regex_escape) ~ '\\s+up\\s+(.+)$', '\\1'))
+        | first
+        | default('')
+      }}
+
+- name: Display uptime
+  debug:
+    msg: "{{ uptime }}"
 
 
 
