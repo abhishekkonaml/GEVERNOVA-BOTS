@@ -1,3 +1,5 @@
+- set_fact:
+      incident_hostname: "cssfeECHrumla01-02"
 - name: check connectivity
   action: CommandExecution hostname='{{ incident_hostname }}' command='show version' incidentno='{{ incident_no }}' notesupdate='no' 
   register: uptime_status_register
