@@ -41,10 +41,10 @@
 
 - name: extract exact date time
   set_fact:
-    days: "{{ (uptime | regex_search('(\\d+)\\s+day', '\\1') | default(['0']) | first) | int }}"
-    hours: "{{ (uptime | regex_search('(\\d+)\\s+hour', '\\1') | default(['0']) | first) | int }}"
-    minutes: "{{ (uptime | regex_search('(\\d+)\\s+minute', '\\1') | default(['0']) | first) | int }}"
-    seconds: "{{ (uptime | regex_search('(\\d+)\\s+second', '\\1') | default(['0']) | first) | int }}"
+    days: "{{ (uptime | regex_search('(\\d+)\\s+day', '\\1') | default(['0'], true) | first) | int }}"
+    hours: "{{ (uptime | regex_search('(\\d+)\\s+hour', '\\1') | default(['0'], true) | first) | int }}"
+    minutes: "{{ (uptime | regex_search('(\\d+)\\s+minute', '\\1') | default(['0'], true) | first) | int }}"
+    seconds: "{{ (uptime | regex_search('(\\d+)\\s+second', '\\1') | default(['0'], true) | first) | int }}"
   when: uptime != ""
   ignore_errors: yes
 
@@ -52,10 +52,10 @@
   set_fact:
     uptime_seconds: >-
       {{
-        (days | int * 86400) +
-        (hours | int * 3600) +
-        (minutes | int * 60) +
-        (seconds | int)
+        ((days| default(0) | int) * 86400) +
+        ((hours |default(0)| int) * 3600) +
+        ((minutes | default(0) | int) * 60) +
+        (seconds |default(0) int)
       }}
   when: uptime != ""
   ignore_errors: yes
@@ -74,10 +74,10 @@
        msg: "Close Ticket"
    - meta: end_play
   
-  when: uptime_seconds | int >= 7200
+  when: (uptime_seconds| default(0) | int) >= 7200
 
 - block: 
     - debug:
        msg: "Close Ticket"
     - meta: end_play
-  when: uptime_seconds | int < 7200
+  when: (uptime_seconds | default(0) |int) < 7200
