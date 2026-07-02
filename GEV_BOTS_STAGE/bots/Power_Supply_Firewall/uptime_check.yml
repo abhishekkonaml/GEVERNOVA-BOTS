@@ -14,7 +14,9 @@
 - debug: var=temp_text
 # - debug: 
 #     msg: "{{ temp_text | to_nice_json }}"
-
+- name: Extract hostname
+  set_fact:
+    hostname: "{{ incident_hostname }}"
 - set_fact:
     temp_text_replaced: "{{ temp_text | replace('\\\\r\\\\n', 'NEWLINE')}}"
 
@@ -25,9 +27,7 @@
 - debug:
     msg: "{{ temp_text_replaced | type_debug }}"
 
-- name: Extract hostname
-  set_fact:
-    hostname: "{{ incident_hostname }}"
+
 
 - name: Extract uptime corresponding to the hostname
   set_fact:
