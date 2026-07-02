@@ -19,6 +19,8 @@
     temp_text_replaced: "{{ temp_text | replace('\\r\\n', '\n')}}"
 
 - debug: var=temp_text_replaced
+- debug: 
+    msg: "{{temp_text_replaced | regex_findall('powfesinnoida51b.*')}}"
 
 - name: Extract hostname
   set_fact:
