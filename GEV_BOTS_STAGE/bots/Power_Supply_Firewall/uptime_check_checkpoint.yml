@@ -1,17 +1,19 @@
 ---
-- set_fact:
-     incident_hostname: "POWfeMUSparpa51a"
-- name: check connectivity
-  action: CommandExecution hostname='{{ incident_hostname }}' command='show uptime' incidentno='{{ incident_no }}' notesupdate='no' 
-  register: uptime_status_register
-  ignore_errors: true
-- debug: var=uptime_status_register
+# - set_fact:
+#      incident_hostname: "POWfeMUSparpa51a"
+# - name: check connectivity
+#   action: CommandExecution hostname='{{ incident_hostname }}' command='show uptime' incidentno='{{ incident_no }}' notesupdate='no' 
+#   register: uptime_status_register
+#   ignore_errors: true
+# - debug: var=uptime_status_register
 
-- action: update_notes incident='{{ incident_no }}' work_notes='{{ uptime_status_register.Output }}'
-  register: update_notes
+# - action: update_notes incident='{{ incident_no }}' work_notes='{{ uptime_status_register.Output }}'
+#   register: update_notes
 
+# - set_fact:
+#      temp_text: "{{ uptime_status_register.Output }}"
 - set_fact:
-     temp_text: "{{ uptime_status_register.Output }}"
+     temp_text: "\\r\\nyou have logged into the system.\\r\\n \\r\\nge vernova dt cto enterprise site network device\\r\\ndl: @ge vernova dt cto network firewall support\\r\\nreport problems @gevernovadtctonetworkfirewallsupport@ge.com\\r\\n \\r\\nname:\\r\\ndomain: gdn.ge.com\\r\\nlocation code:am-usa-nj-prs-07054-700parsippany\\r\\n \\r\\n \\r\\n==================================================================================================\\r\\nterm len 0\\r\\n\\r\\n:tacp-0 term len 0\\r\\nclinfr0329  invalid command:'term len 0'.\\r\\n:tacp-0 \\r\\n 172 days 17 hours 13 minutes\\r\\n:tacp-0 "
 - debug: var=temp_text
 
 - name: Extract uptime corresponding to the hostname
