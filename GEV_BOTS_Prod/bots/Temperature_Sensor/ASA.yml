@@ -1,0 +1,101 @@
+#  - set_fact:
+#      incident_hostname: "cssfeECHrumla01.gdn.ge.com"
+
+ - name: Execute command
+   action: CommandExecution hostname='{{ incident_hostname }}' command=' show environment temperature' incidentno='{{ incident_no }}' notesupdate='yes' 
+   register: temp_status_register
+   ignore_errors: true
+
+ - debug: var=temp_status_register
+ - set_fact:
+     temp_text: "{{ temp_status_register.Output }}"
+
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ temp_text }}'
+   register: update_notes
+ - debug: var=update_notes
+
+
+#  - name: Set temp_text from command output (source of truth)
+#    ansible.builtin.set_fact:
+#          temp_text:  "\\"===========================================================================\\\\r\\\\n\\\\r\\\\n\\\\r\\\\n==================================================================================================\\\\r\\\\n\\\\r\\\\nyou have logged into the system.\\\\r\\\\n\\\\r\\\\nge vernova dt cto enterprise site network device\\\\r\\\\ndl: @ge vernova dt cto network firewall support\\\\r\\\\nreport problems @gevernovadtctonetworkfirewallsupport@ge.com\\\\r\\\\n\\\\r\\\\nname:cssfeechrumla01\\\\r\\\\ndomain: gdn.ge.com\\\\r\\\\nlocation code: em-che-zh-rum-8153-hofwisen56\\\\r\\\\n\\\\r\\\\n\\\\r\\\\n==================================================================================================\\\\r\\\\ntype help or '?' for a list of available commands.\\\\r\\\\n\\\\rcssfeechrumla01/act term len 0\\\\r\\\\n                      ^\\\\r\\\\nerror: % invalid input detected at '^' marker.\\\\r\\\\n\\\\rcssfeechrumla01/act \\\\r\\\\n\\\\r\\\\ntemperature:\\\\r\\\\n-----------------------------------\\\\r\\\\n\\\\r\\\\n   processors:\\\\r\\\\n   --------------------------------\\\\r\\\\n   processor 1: 71.0 c - ok \\\\r\\\\n\\\\r\\\\n   chassis:\\\\r\\\\n   --------------------------------\\\\r\\\\n   ambient 1: 45.0 c - ok  (chassis back temperature)\\\\r\\\\n   ambient 2: 35.0 c - ok  (chassis front temperature)\\\\r\\\\n   ambient 3: 49.0 c - ok  (chassis back left temperature)\\\\r\\\\n\\\\r\\\\n   power supplies:\\\\r\\\\n   --------------------------------\\\\r\\\\n   left slot (ps0): 37 c - ok \\\\r\\\\n   right slot (ps1): n/a \\\\r\\\\n\\\\r\\\\n\\\\rcssfeechrumla01/act \\"
+#  - debug: 
+#     msg: "{{ temp_status_register.Output | type_debug }}"
+
+#  - debug: var=temp_status_register.Output
+#  - debug:
+#      msg: "{{ temp_status_register.Output == None }}"
+
+ - debug: var=temp_text
+
+ - name: Extract Processor 1 Temperature
+   ansible.builtin.set_fact:
+    processor_temp_list: >-
+      {{
+        temp_text |
+        regex_findall(
+          '\s*processor\s+1:\s*([0-9.]+(?:\.[0-9]+)?)',
+          ignorecase=True
+        ) 
+      }}
+   ignore_errors: yes
+ - debug: var=processor_temp_list
+
+ - set_fact:
+    processor_temp_str: "{{ processor_temp_list | first }}"
+   ignore_errors: yes
+ - set_fact:
+    Temperature_notes: |- 
+      [code]<h3> Temperature: </h3>[/code]
+      processor_temp: "{{ processor_temp_str }}"
+
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ Temperature_notes }}'
+   register: update_notes
+   ignore_errors: yes
+ - debug: var=update_notes
+
+ - name: Check whether all temperatures were fetched
+   ansible.builtin.set_fact:
+    temp_fetch_success: >-
+      {{
+        processor_temp_str | default('') | trim != ''
+      }}
+   ignore_errors: yes
+
+ - block: 
+    - debug:
+       msg: "Unable to fetch temperature"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Unable to fetch temperature values.</h3>[/code]'
+      register: update_notes
+    - debug: var=update_notes
+    - action: reassignment_ticket incidentnumber='{{ incident_no }}' group='HQ CTO Network Firewall Support'
+    - meta: end_play
+
+   when: not temp_fetch_success
+
+
+ - block: 
+    - debug:
+       msg: "Raise Ticket"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Temperature values are above 70 C.</h3>[/code]'
+      register: update_notes
+    - debug: var=update_notes
+    - action: closeincident incident='{{ incident_no }}'
+    - meta: end_play
+   when:
+    - check_number == 4
+    - temp_fetch_success
+    - (processor_temp_str | float) > 75
+
+ - block: 
+    - debug:
+        msg: "Close Ticket"
+    - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Temperature values are below 70 C. Closing this Incident.</h3>[/code]'
+      register: update_notes
+    - debug: var=update_notes
+    - action: reassignment_ticket incidentnumber='{{ incident_no }}' group='HQ CTO Network Firewall Support'
+    - meta: end_play
+   when:
+    - check_number == 4
+    - temp_fetch_success
+    - (processor_temp_str | float) <= 75
+

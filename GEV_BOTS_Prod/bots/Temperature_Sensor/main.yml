@@ -1,0 +1,83 @@
+---
+ - debug: 
+     msg: "Running test Temperatire sensor Bot"
+ - set_fact:
+     ticket_description: "{{ fetched_details.description }}"
+ - debug: var=ticket_description
+ 
+ - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> You can expect the next update within 30 minutes.</h3>[/code]'
+   register: update_notes
+
+
+
+
+ - block:
+    - debug:
+        msg: "Inside checkpoint flow"
+
+#    ===============FIRST CHECK======================
+    - include_tasks: bots/Temperature_Sensor/Checkpoint.yml
+      vars:
+        check_number: 1
+    - pause: 
+       minutes: 20
+
+#==============SECOND CHECK======================
+    - include_tasks: bots/Temperature_Sensor/Checkpoint.yml
+      vars:
+        check_number: 2
+    - pause: 
+       minutes: 20
+
+#===============THIRD CHECK======================
+    - include_tasks: bots/Temperature_Sensor/Checkpoint.yml
+      vars:
+        check_number: 3
+    - pause: 
+       minutes: 20
+
+#===============THIRD CHECK======================
+    - include_tasks: bots/Temperature_Sensor/Checkpoint.yml
+      vars:
+        check_number: 4
+    # - pause: 
+    #    minutes: 1
+    - meta: end_play
+   when: "'Checkpoint' in ticket_description"
+ - block:
+     - debug:
+         msg: "Inside ASA flow"
+          #===============FIRST CHECK======================
+     - include_tasks: bots/Temperature_Sensor/ASA.yml
+       vars:
+        check_number: 1
+     - pause: 
+        minutes: 20
+
+#==============SECOND CHECK======================
+     - include_tasks: bots/Temperature_Sensor/ASA.yml
+       vars:
+        check_number: 2
+     - pause: 
+        minutes: 20
+
+#===============THIRD CHECK======================
+     - include_tasks: bots/Temperature_Sensor/ASA.yml
+       vars:
+        check_number: 3
+     - pause: 
+        minutes: 20
+
+#===============THIRD CHECK======================
+     - include_tasks: bots/Temperature_Sensor/ASA.yml
+       vars:
+        check_number: 4
+    #  - pause: 
+    #     minutes: 1
+     - meta: end_play
+   when: "'ASA' in ticket_description"
+
+
+
+
+
