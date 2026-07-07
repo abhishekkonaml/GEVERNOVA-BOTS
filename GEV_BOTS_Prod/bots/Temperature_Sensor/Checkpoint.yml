@@ -74,7 +74,7 @@
 
  - block: 
     - debug:
-       msg: "Raise Ticket"
+       msg: "reasisgn Ticket"
     - action: update_notes incident='{{ incident_no }}' work_notes='[code]<h3> Temperature values are above 70 C.</h3>[/code]'
       register: update_notes
     - debug: var=update_notes
