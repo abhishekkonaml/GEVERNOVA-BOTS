@@ -29,7 +29,7 @@ class ActionModule(ActionBase):
             print("----------"*25)
             if type(incident_details)==list:
                description=incident_details[0]['short_description']
-               
+               assignment_group=incident_details[0]['assignment_group']
                
                
                #Bot Classification Logic
