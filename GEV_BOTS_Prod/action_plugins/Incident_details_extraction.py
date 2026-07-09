@@ -31,11 +31,19 @@ class ActionModule(ActionBase):
                description=incident_details[0]['short_description']
                assignment_group=incident_details[0]['assignment_group']
                
-               
                #Bot Classification Logic
+               #Renewables node down bot
+               if assignment_group == 'HQ DT CTO Network Core 3PR' and 'down' in description.lower():
+                  hostname=''
+                  hostname=incident_details[0]['cmdb_ci']
+                  if hostname == '':
+                     return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
+                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Renewables Node down','updated_desc': updated_desc}
+               
+               
                
                # Usecase-1: Connection Down Bot 
-               if 'network interface' in description.lower() and "statusflap" in description.lower(): 
+               elif 'network interface' in description.lower() and "statusflap" in description.lower(): 
                   KB_Article='[GEVKB0017428]'
                   desc=description[:145]
                   updated_desc=KB_Article + desc
