@@ -11,8 +11,9 @@
      result: |
               [code] <h3> PING RESULTS: </h3> [/code]
               {{ ping_result1.stdout }}
- 
+
  - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
+
  - name:  when ping fails
    block:
    - set_fact: 
@@ -32,7 +33,7 @@
    - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
    when: "'64 bytes' in ping_result1.stdout"
   
-
+ #check for ticket status and move to pending
 
 
 
