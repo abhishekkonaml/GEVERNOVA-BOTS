@@ -28,9 +28,9 @@
        - debug: var=botname
        - debug: var=ap_name
        - debug: var=update_description
-       - action: AssignedtoRenewablesBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}' update_desc='{{ update_description }}'
-         register: assigned_status_register
-       - debug: var=assigned_status_register
+      #  - action: AssignedtoRenewablesBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}' update_desc='{{ update_description }}'
+      #    register: assigned_status_register
+      #  - debug: var=assigned_status_register
        - debug:
            msg: "calling Renwables node down role"
 
