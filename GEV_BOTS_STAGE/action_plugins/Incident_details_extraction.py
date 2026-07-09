@@ -32,7 +32,7 @@ class ActionModule(ActionBase):
                assignment_group=incident_details[0]['assignment_group']
                #Bot Classification Logic
                #Renewables node down bot
-               if assignment_group == 'HQ DT CTO Network Core 3PR' and 'down' in description.lower():
+               if assignment_group == 'GE Renewables Network Connectivity Team' and 'down' in description.lower():
                   hostname=''
                   hostname=incident_details[0]['cmdb_ci']
                   updated_desc=description
