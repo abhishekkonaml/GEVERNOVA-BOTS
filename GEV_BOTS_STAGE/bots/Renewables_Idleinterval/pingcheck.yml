@@ -1,0 +1,43 @@
+---
+ - set_fact:
+      hostname1: "{{ incident_hostname }}.gdn.ge.com"
+      #hostname1: "EMTwcSIDjakar01.gdn.ge.com"
+ - name: Source Ping check 
+   shell: ping -c 2 {{ hostname1 }}
+   register: ping_result1
+   ignore_errors: true
+ - debug: var=ping_result1
+ - set_fact: 
+     result: |
+              [code] <h3> PING RESULTS: </h3> [/code]
+              {{ ping_result1.stdout }}
+ 
+ - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
+ - name:  when ping fails
+   block:
+   - set_fact: 
+      result: |
+              [code] <h3> Unable to reach device, moving ticket to pending state </h3> [/code]
+
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
+   - meta: end_play
+   when: "'64 bytes' not in ping_result1.stdout"
+
+ - name:  when ping success
+   block:
+   - set_fact: 
+      result: |
+              [code] <h3> Device is reachable proceeding with further checks </h3> [/code]
+
+   - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
+   when: "'64 bytes' in ping_result1.stdout"
+  
+
+
+
+
+ 
+
+    
+
+ 

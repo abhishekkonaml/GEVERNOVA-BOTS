@@ -1,0 +1,3 @@
+---
+ - name: Ping the device
+   include_tasks: GEV_BOTS_STAGE\bots\Renewables_Idleinterval\pingcheck.yml
