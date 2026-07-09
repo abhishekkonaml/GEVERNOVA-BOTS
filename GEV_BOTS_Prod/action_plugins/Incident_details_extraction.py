@@ -39,7 +39,7 @@ class ActionModule(ActionBase):
                   updated_desc=description
                   if hostname == '':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
-                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Renewables Node down','updated_desc': updated_desc}
+                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Renewables Idleinterval','updated_desc': updated_desc}
                
                
                
