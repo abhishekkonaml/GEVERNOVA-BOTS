@@ -17,6 +17,28 @@
      # Triggering the Bot
      - block:
        #Assigning to Bot group and id
+       
+       - set_fact:
+          incident_hostname: "{{ fetched_details.hostname }}"
+          botname: "{{ fetched_details.botname }}"
+          update_description: "{{ fetched_details.updated_desc }}"
+
+       
+ 
+       - debug: var=incident_hostname
+       - debug: var=botname
+       - debug: var=update_description
+      #  - action: AssignedtoRenewablesBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}' update_desc='{{ update_description }}'
+      #    register: assigned_status_register
+      #  - debug: var=assigned_status_register
+       - debug:
+           msg: "calling Renwables node down role"
+
+     when: "'Renewables Idleinterval' in fetched_details.botname"
+   - block:
+     # Triggering the Bot
+     - block:
+       #Assigning to Bot group and id
        - action: AssignedtoBot incident='{{ incident_no }}' jobid='1234' update_desc='{{ fetched_details.description }}'
          register: assigned_status_register
        - debug: var=assigned_status_register

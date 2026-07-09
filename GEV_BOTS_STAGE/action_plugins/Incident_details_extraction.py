@@ -29,11 +29,19 @@ class ActionModule(ActionBase):
             print("----------"*25)
             if type(incident_details)==list:
                description=incident_details[0]['description']
-               
+               assignment_group=incident_details[0]['assignment_group']
                #Bot Classification Logic
+               #Renewables node down bot
+               if assignment_group == 'HQ DT CTO Network Core 3PR' and 'down' in description.lower():
+                  hostname=''
+                  hostname=incident_details[0]['cmdb_ci']
+                  updated_desc=description
+                  if hostname == '':
+                     return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
+                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Renewables Idleinterval','updated_desc': updated_desc}
                
                # Usecase-1: Connection Down Bot 
-               if 'network interface' in description.lower() and "statusflap" in description.lower(): 
+               elif 'network interface' in description.lower() and "statusflap" in description.lower(): 
                   #host_pattern="host (.*) is experiencing"
                   host_pattern="- (.*)Network Interfaces"
                   #interface_pattern="packets on (.*) \["
