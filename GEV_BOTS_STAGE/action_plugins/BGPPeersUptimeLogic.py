@@ -67,7 +67,7 @@ class ActionModule(ActionBase):
                 result={'Hostname': hostname, 'status': 'failed','Output': result}
                 return result
 
-           
+            result=str(out.decode()).replace(command,"")
             if(command == 'Sh ip bgp vpnv4 vrf INSIDE Summary'):
                 result=result.lower().replace('\r\n',"")
                 result=result.replace('\r\n',"")
@@ -78,10 +78,7 @@ class ActionModule(ActionBase):
             
             
             ChartserverConnection.close()
-            if 'no' not in notesupdate:
-               result1='''[code]<h3>{}:</h3>[/code]
-                         {}'''.format(command,result)
-               incobj.update_notes(incidentno,result1)
+            
             result={'Hostname': hostname, 'status': 'success','Output':lines}
             return result
             
