@@ -2,7 +2,7 @@
   action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: clock_status_register
   ignore_errors: true
-
+- debug: var=clock_status_register
 - set_fact:
     clock_status_register_output: "{{ clock_status_register }}" 
 - action: update_notes incident='{{ incident_no }}' work_notes='{{ clock_status_register_output }}'
@@ -17,7 +17,7 @@
   action: CommandExecution hostname='{{ incident_hostname }}' command='Show Version' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: show_version_status_register
   ignore_errors: true
-
+- debug: var=show_version_status_register
 - set_fact:
     show_version_status_register_output: "{{ show_version_status_register }}" 
 - action: update_notes incident='{{ incident_no }}' work_notes='{{ show_version_status_register_output }}'
@@ -26,7 +26,7 @@
   action: CommandExecution hostname='{{ incident_hostname }}' command='Show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: show_log_status_register
   ignore_errors: true
-
+- debug: var=show_log_status_register
 - set_fact:
     show_log_status_register_output: "{{ show_log_status_register }}" 
 - action: update_notes incident='{{ incident_no }}' work_notes='{{ show_log_status_register_output }}'
