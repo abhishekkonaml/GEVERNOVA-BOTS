@@ -1,3 +1,5 @@
 ---
  - name: Ping the device
    include_tasks: bots/Renewables_Idleinterval/pingcheck.yml
+ - name: execute commands
+   include_tasks: bots/Renewables_Idleinterval/Idleinterval_checks.yml
