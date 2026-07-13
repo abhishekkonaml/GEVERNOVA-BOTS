@@ -33,10 +33,7 @@
     last_10_lines: >-
       {{ 
         (show_log_status_register.Output 
-        | replace('\r\n', '\n') 
-        | split('\n') 
-        | select('match', '.+') 
-        | list)[-10:] 
+        | regex_findall('^\d+:.*', multiline=True))[-10:] 
         | join('\n') 
       }}
 
