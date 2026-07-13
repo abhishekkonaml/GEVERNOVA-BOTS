@@ -28,17 +28,15 @@
   ignore_errors: true
 - debug: var=show_log_status_register
 
-- name: Extract last 10 lines, handling \r\n
+- name: Extract last 10 lines
   set_fact:
     last_10_lines: >-
       {{ 
-        show_log_status_register.Output 
+        (show_log_status_register.Output 
         | replace('\r\n', '\n') 
         | split('\n') 
         | select('match', '.+') 
-        | list 
-        | ansible.builtin.slice(-10) 
-        | last 
+        | list)[-10:] 
         | join('\n') 
       }}
 
