@@ -37,7 +37,8 @@
         | split('\n') 
         | select('match', '.+') 
         | list 
-        | last(10) 
+        | ansible.builtin.slice(-10) 
+        | last 
         | join('\n') 
       }}
 
