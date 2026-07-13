@@ -32,7 +32,7 @@
   set_fact:
     last_10_lines: >-
       {{ 
-        log_data.Output 
+        show_log_status_register.Output 
         | replace('\r\n', '\n') 
         | split('\n') 
         | select('match', '.+') 
