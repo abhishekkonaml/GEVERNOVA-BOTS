@@ -2,6 +2,10 @@
   action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: clock_status_register
   ignore_errors: true
+
+- set_fact:
+    clock_status_register_output: "{{ clock_status_register }}" 
+- action: update_notes incident='{{ incident_no }}' work_notes='{{ clock_status_register_output }}'
   
 - block:
     - debug:
@@ -10,7 +14,19 @@
   when: "'Hostname not known' in clock_status_register"
 
 - name: execute commands
-  action: CommandExecution hostname='{{ incident_hostname }}' command='{{ item }}' incidentno='{{ incident_no }}' notesupdate='yes' 
-  register: command_status_register
+  action: CommandExecution hostname='{{ incident_hostname }}' command='Show Version' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: show_version_status_register
   ignore_errors: true
-  loop: "{{ 'Show Version', 'Show Logging' }}"
+
+- set_fact:
+    show_version_status_register_output: "{{ show_version_status_register }}" 
+- action: update_notes incident='{{ incident_no }}' work_notes='{{ show_version_status_register_output }}'
+
+- name: execute commands
+  action: CommandExecution hostname='{{ incident_hostname }}' command='Show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: show_log_status_register
+  ignore_errors: true
+
+- set_fact:
+    show_log_status_register_output: "{{ show_log_status_register }}" 
+- action: update_notes incident='{{ incident_no }}' work_notes='{{ show_log_status_register_output }}'
