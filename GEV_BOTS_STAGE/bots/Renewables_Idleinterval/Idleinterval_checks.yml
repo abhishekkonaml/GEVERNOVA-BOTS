@@ -1,0 +1,16 @@
+- name: check connectivity
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: clock_status_register
+  ignore_errors: true
+  
+- block:
+    - debug:
+        msg: "Unable to connect to host end the play"
+    - meta: end_play
+  when: "'Hostname not known' in clock_status_register"
+
+- name: execute commands
+  action: CommandExecution hostname='{{ incident_hostname }}' command='{{ item }}' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: command_status_register
+  ignore_errors: true
+  loop: "{{ 'Show Version', 'Show Logging' }}"
