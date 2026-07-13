@@ -4,7 +4,7 @@
   ignore_errors: true
 - debug: var=clock_status_register
 - set_fact:
-    clock_status_register_output: "{{ clock_status_register }}" 
+    clock_status_register_output: "{{ clock_status_register.Output }}" 
 - action: update_notes incident='{{ incident_no }}' work_notes='{{ clock_status_register_output }}'
   
 - block:
@@ -19,7 +19,7 @@
   ignore_errors: true
 - debug: var=show_version_status_register
 - set_fact:
-    show_version_status_register_output: "{{ show_version_status_register }}" 
+    show_version_status_register_output: "{{ show_version_status_register.Output }}" 
 - action: update_notes incident='{{ incident_no }}' work_notes='{{ show_version_status_register_output }}'
 
 - name: execute commands
@@ -27,6 +27,21 @@
   register: show_log_status_register
   ignore_errors: true
 - debug: var=show_log_status_register
+
+- name: Extract last 10 lines, handling \r\n
+  set_fact:
+    last_10_lines: >-
+      {{ 
+        log_data.Output 
+        | replace('\r\n', '\n') 
+        | split('\n') 
+        | select('match', '.+') 
+        | list 
+        | last(10) 
+        | join('\n') 
+      }}
+
+- debug: var=last_10_lines
 - set_fact:
-    show_log_status_register_output: "{{ show_log_status_register }}" 
+    show_log_status_register_output: "{{ show_log_status_register.Output }}" 
 - action: update_notes incident='{{ incident_no }}' work_notes='{{ show_log_status_register_output }}'
