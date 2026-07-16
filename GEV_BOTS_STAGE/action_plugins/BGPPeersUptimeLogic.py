@@ -27,8 +27,7 @@ class ActionModule(ActionBase):
         try: 
             Bgppeeroutput=self._task.args["output"]
             neighbor_pattern = re.compile(
-        r"(\d{1,3}(?:\.\d{1,3}){3})\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+"
-        r"(never|\d+w\d+d|\d+w|\d+d\d+h|\d+d|\d+h|\d{1,3}:\d{2}:\d{2})"
+        r"(\d{1,3}(?:\.\d{1,3}){3})\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+(\S+)"
     )
             neighbours = []
             for match in neighbor_pattern.finditer(Bgppeeroutput):
