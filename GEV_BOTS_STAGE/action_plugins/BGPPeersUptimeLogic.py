@@ -26,40 +26,23 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
             Bgppeeroutput=self._task.args["output"]
-            neighbor_lines = re.findall(
-        r'^\s*(\d+\.\d+\.\d+\.\d+)\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+(\S+)\s+\d+',
-        Bgppeeroutput,
-        flags=re.MULTILINE
+            neighbor_pattern = re.compile(
+        r"(\d{1,3}(?:\.\d{1,3}){3})\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+"
+        r"(never|\d+w\d+d|\d+w|\d+d\d+h|\d+d|\d+h|\d{1,3}:\d{2}:\d{2})"
     )
-
-            if not neighbor_lines:
-                result="No neighbor"
-
-            uptimes = {}
+            neighbours = []
+            for match in neighbor_pattern.finditer(Bgppeeroutput):
+                ip, uptime_str = match.groups()
+                neighbours.append({
+                    "neighbor": ip,
+                    "uptime_str": uptime_str,
+                    "uptime_to_secs": uptime_to_seconds(uptime_str)
+                })
             
-            for neighbor_ip, updown in neighbor_lines:
-                # Sometimes token could be '-' or 'never'; handle that if needed
-                if updown in ('-', ''):
-                    seconds_up = 0
-                else:
-                    seconds_up = uptime_to_seconds(updown)
-                uptimes[neighbor_ip] = seconds_up
 
-            # Print uptimes (optional)
-            for ip, sec in uptimes.items():
-                print(f"{ip} uptime_seconds={sec}")
-            threshold_seconds = 2 * 3600  # 2 hours
-            any_below_threshold = any(sec < threshold_seconds for sec in uptimes.values())
-
-            if any_below_threshold:
-                print("reassign")
-                result="reassign"
-            else:
-                print("close")
-                result="close"
 
          
-            result={ 'status': 'success','Output':result, 'neighbor_lines': neighbor_lines}
+            result={ 'status': 'success','Output':result, 'neighbor_lines': neighbours}
             return result
             
         except Exception as e:
