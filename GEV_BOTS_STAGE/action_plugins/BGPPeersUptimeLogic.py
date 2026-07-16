@@ -25,88 +25,66 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-            hostname1=self._task.args["hostname"]
-            command=self._task.args["command"]
-            incidentno=self._task.args['incidentno']
-            notesupdate=self._task.args['notesupdate']
-            cisco_username=decoding1.decoding1('NTAxNTI5NTI4')
-            cisco_password=decoding1.decoding1('V2hpejIwMTJDMTBzZQ==')
-            if "gdn" not in hostname1:
-               hostname=hostname1+".gdn.ge.com"
+            Bgppeeroutput=self._task.args["output"]
+            neighbor_lines = re.findall(
+        r'^\s*(\d+\.\d+\.\d+\.\d+)\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+(\S+)\s+\d+',
+        Bgppeeroutput,
+        flags=re.MULTILINE
+    )
+
+            if not neighbor_lines:
+                result="No neighbor"
+
+            uptimes = {}
+            print(neighbor_lines)
+            for neighbor_ip, updown in neighbor_lines:
+                # Sometimes token could be '-' or 'never'; handle that if needed
+                if updown in ('-', ''):
+                    seconds_up = 0
+                else:
+                    seconds_up = uptime_to_seconds(updown)
+                uptimes[neighbor_ip] = seconds_up
+
+            # Print uptimes (optional)
+            for ip, sec in uptimes.items():
+                print(f"{ip} uptime_seconds={sec}")
+            threshold_seconds = 2 * 3600  # 2 hours
+            any_below_threshold = any(sec < threshold_seconds for sec in uptimes.values())
+
+            if any_below_threshold:
+                print("reassign")
+                result="reassign"
             else:
-                hostname=hostname1
-            ChartserverConnection = paramiko.SSHClient()
-            ChartserverConnection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ChartserverConnection.connect(hostname=hostname, username=cisco_username,password=cisco_password,look_for_keys=False,allow_agent=False)
-            channel = ChartserverConnection.invoke_shell()
-            channel.send('term len 0'+'\n')
-            while not channel.recv_ready():
-                  time.sleep(1)
-            
-            out= channel.recv(math.inf) 
-            channel.send(command+ '\n')
-            while not channel.recv_ready():
-                  time.sleep(1)
-            
-            out= channel.recv(math.inf)
-            if('not known' in str(out.decode())):
-                result = 'Hostname not known'
-                result={'Hostname': hostname, 'status': 'failed','Output': result}
-                return result
-            elif('Authentication failed.' in str(out.decode())):
-                result = 'Hostname not known'
-                result={'Hostname': hostname, 'status': 'failed','Output': result}
-                return result
-            
-            elif('Connection timedout' in str(out.decode())):
-                result = 'Hostname not known'
-                result={'Hostname': hostname, 'status': 'failed','Output': result}
-                return result
-            elif(('Invalid input detected' in str(out.decode())) and command == 'show logging'):
-                result = 'Unable to execute show log command'
-                result={'Hostname': hostname, 'status': 'failed','Output': result}
-                return result
+                print("close")
+                result="close"
 
-            result=str(out.decode()).replace(command,"")
-            if(command == 'Sh ip bgp vpnv4 vrf INSIDE Summary'):
-                result=result.lower().replace('\r\n',"")
-                result=result.replace('\r\n',"")
-            result=result.replace('>',"")
-            lines = re.findall(r'(\d{1,3}(?:\.\d{1,3}){3}).*?\s+(\S+)\s+\d+$', result, re.MULTILINE)
-
-
-            
-            
-            ChartserverConnection.close()
-            
-            result={'Hostname': hostname, 'status': 'success','Output':lines}
+         
+            result={ 'status': 'success','Output':result}
             return result
             
         except Exception as e:
-           result={'Hostname': hostname, 'status': 'failed','Output': str(e)}
+           result={'status': 'failed','Output': str(e)}
            return  result 
 
 
 
+def uptime_to_seconds(uptime_str: str) -> int:
+    """
+    Converts uptime like '4d17h' or '2h' into seconds.
+    Supports d/h/m/s combinations if present.
+    """
+    uptime_str = uptime_str.strip()
 
+    # e.g. 4d17h, 1d19h, 90m, 120s, 2h30m, etc.
+    pattern = r'(?:(\d+)\s*d)?\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*m)?\s*(?:(\d+)\s*s)?'
+    m = re.fullmatch(pattern, uptime_str)
+    if not m:
+        # Sometimes uptime can be like '00:10:23' depending on platform; handle minimally
+        # You can extend this if needed.
+        raise ValueError(f"Unrecognized uptime format: {uptime_str}")
 
-# def parse_uptime_to_minutes(time_str):
-#     """Converts various BGP uptime formats (1d15h, 12:16:00, 00:35:18) into minutes."""
-#     total_minutes = 0
-    
-#     # Handle XdYh format
-#     if 'd' in time_str or 'h' in time_str:
-#         days = re.search(r'(\d+)d', time_str)
-#         hours = re.search(r'(\d+)h', time_str)
-#         if days: total_minutes += int(days.group(1)) * 24 * 60
-#         if hours: total_minutes += int(hours.group(1)) * 60
-        
-#     # Handle HH:MM:SS format
-#     elif ':' in time_str:
-#         parts = [int(p) for p in time_str.split(':')]
-#         if len(parts) == 3: # HH:MM:SS
-#             total_minutes += (parts[0] * 60) + parts[1] + (parts[2] / 60)
-#         elif len(parts) == 2: # MM:SS
-#             total_minutes += parts[0] + (parts[1] / 60)
-            
-#     return total_minutes
+    days = int(m.group(1) or 0)
+    hours = int(m.group(2) or 0)
+    minutes = int(m.group(3) or 0)
+    seconds = int(m.group(4) or 0)
+    return days * 86400 + hours * 3600 + minutes * 60 + seconds
