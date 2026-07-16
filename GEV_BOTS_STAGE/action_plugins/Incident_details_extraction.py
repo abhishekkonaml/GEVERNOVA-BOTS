@@ -30,15 +30,17 @@ class ActionModule(ActionBase):
             if type(incident_details)==list:
                description=incident_details[0]['description']
                assignment_group=incident_details[0]['assignment_group']
+               
                #Bot Classification Logic
                #Renewables node down bot
                if assignment_group == 'GE Renewables Network Connectivity Team' and 'down' in description.lower():
                   hostname=''
                   hostname=incident_details[0]['cmdb_ci']
+                  created_on=incident_details[0]['sys_created_on']
                   updated_desc=description
                   if hostname == '':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
-                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Renewables Idleinterval','updated_desc': updated_desc}
+                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Renewables Idleinterval','updated_desc': updated_desc, 'created_on': created_on}
                
                # Usecase-1: Connection Down Bot 
                elif 'network interface' in description.lower() and "statusflap" in description.lower(): 

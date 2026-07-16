@@ -22,7 +22,7 @@
           incident_hostname: "{{ fetched_details.hostname }}"
           botname: "{{ fetched_details.botname }}"
           update_description: "{{ fetched_details.updated_desc }}"
-          created_time: "{{sys_created_on.updated_desc}}"
+          created_time: "{{fetched_details.created_on}}"
 
        
  
