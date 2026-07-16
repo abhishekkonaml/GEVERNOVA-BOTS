@@ -37,15 +37,34 @@ class ActionModule(ActionBase):
                     "uptime_str": uptime_str,
                     "uptime_to_secs": uptime_to_seconds(uptime_str)
                 })
+            TWO_HOURS= 2*60*60 #7200 seconds
+            all_stable = True
+            for n in neighbours:
+                secs=n["uptime_to_secs"]
+                if secs is None:
+                    all_stable = False
+                    n["status"]= "uptime not found"
+
+                elif secs < TWO_HOURS:
+                    all_stable = False
+                    n["status"] = "down"
+
+                else:
+                    n["status"] = "up"
+            if all_stable and neighbours:
+                result= "Close"
+            else:
+                result = "Reassign"
+
             
 
 
          
-            result={ 'status': 'success', 'neighbor_lines': neighbours}
+            result={ 'status': 'success', 'neighbor_lines': neighbours, 'result': result}
             return result
             
         except Exception as e:
-           result={'status': 'failed','Output': str(e)}
+           result={'status': 'failed','Output': f'failed- {str(e)}' }
            return  result 
 
 
@@ -63,7 +82,8 @@ def uptime_to_seconds(uptime_str: str) -> int:
     if not m:
         # Sometimes uptime can be like '00:10:23' depending on platform; handle minimally
         # You can extend this if needed.
-        raise ValueError(f"Unrecognized uptime format: {uptime_str}")
+        
+        return None
 
     days = int(m.group(1) or 0)
     hours = int(m.group(2) or 0)
