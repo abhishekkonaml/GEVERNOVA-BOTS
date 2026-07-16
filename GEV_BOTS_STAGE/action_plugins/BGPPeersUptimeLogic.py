@@ -36,7 +36,7 @@ class ActionModule(ActionBase):
                 result="No neighbor"
 
             uptimes = {}
-            print(neighbor_lines)
+            
             for neighbor_ip, updown in neighbor_lines:
                 # Sometimes token could be '-' or 'never'; handle that if needed
                 if updown in ('-', ''):
@@ -59,7 +59,7 @@ class ActionModule(ActionBase):
                 result="close"
 
          
-            result={ 'status': 'success','Output':result}
+            result={ 'status': 'success','Output':result, 'neighbor_lines': neighbor_lines}
             return result
             
         except Exception as e:
