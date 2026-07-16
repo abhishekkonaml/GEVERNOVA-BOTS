@@ -1,61 +1,62 @@
-- name: check connectivity
-  action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
-  register: clock_status_register
-  ignore_errors: true
-- debug: var=clock_status_register
-- set_fact:
-    clock_status_register_output: "{{ clock_status_register.Output }}" 
-- action: update_notes incident='{{ incident_no }}' work_notes='{{ clock_status_register_output }}'
-  
-- block:
-    - debug:
-        msg: "Unable to connect to host end the play"
-    - meta: end_play
-  when: "'Hostname not known' in clock_status_register"
-
-- name: execute commands
-  action: CommandExecution hostname='{{ incident_hostname }}' command='Show Version' incidentno='{{ incident_no }}' notesupdate='yes' 
-  register: show_version_status_register
-  ignore_errors: true
-- debug: var=show_version_status_register
-- set_fact:
-    show_version_status_register_output: "{{ show_version_status_register.Output }}" 
-- action: update_notes incident='{{ incident_no }}' work_notes='{{ show_version_status_register_output }}'
-
-- name: execute commands
-  action: CommandExecution hostname='{{ incident_hostname }}' command='Show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
-  register: show_log_status_register
-  ignore_errors: true
-- debug: var=show_log_status_register
-
-- name: Extract last 10 lines
-  set_fact:
-    last_10_lines: >-
-      {{ 
-        (show_log_status_register.Output 
-        | regex_findall('^\d+:.*', multiline=True))[-10:] 
-        | join('\n') 
-      }}
-
-- debug: var=last_10_lines
-- set_fact:
-    show_log_status_register_output: "{{ last_10_lines }}" 
-- action: update_notes incident='{{ incident_no }}' work_notes='{{ show_log_status_register_output }}'
-
-
-- name: execute commands
-  action: CommandExecution hostname='{{ incident_hostname }}' command='Sh ip bgp vpnv4 vrf INSIDE Summary' incidentno='{{ incident_no }}' notesupdate='yes' 
-  register: show_peer_uptime_status_register
-  ignore_errors: true
-- debug: var=show_peer_uptime_status_register
-- set_fact:
-    BGPpeerOutput: "{{ show_peer_uptime_status_register.Output }}"
-- action: update_notes incident='{{ incident_no }}' work_notes='{{ BGPpeerOutput }}'
-
-
+# - name: check connectivity
+#   action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
+#   register: clock_status_register
+#   ignore_errors: true
+# - debug: var=clock_status_register
 # - set_fact:
-#     BGPpeerOutput: "\\r\\nbgp router identifier 10.118.74.10, local as number 64999\\r\\nbgp table version is 429, main routing table version 429\\r\\n20 network entries using 3120 bytes of memory\\r\\n138 path entries using 12144 bytes of memory\\r\\n93/11 bgp path/bestpath attribute entries using 15624 bytes of memory\\r\\n16 bgp as-path entries using 608 bytes of memory\\r\\n21 bgp community entries using 600 bytes of memory\\r\\n1 bgp extended community entries using 24 bytes of memory\\r\\n0 bgp route-map cache entries using 0 bytes of memory\\r\\n0 bgp filter-list cache entries using 0 bytes of memory\\r\\nbgp using 32120 total bytes of memory\\r\\n68 received paths for inbound soft reconfiguration\\r\\nbgp activity 55/35 prefixes, 588/450 paths, scan interval 60 secs\\r\\n\\r\\nneighbor        v           as msgrcvd msgsent   tblver  inq outq up/down  state/pfxrcd\\r\\n10.118.72.1     4        65118   42947   42910      429    0    0 30m5s          17\\r\\n10.118.72.2     4        65118   42950   42917      429    0    0 4d17h          17\\r\\n10.118.72.3     4        65218   16470   16469      429    0    0 1d19h          17\\r\\n10.118.72.4     4        65218   42934   42929      429    0    0 4d17h          17\\r\\n"
-#     #BGPpeerOutput: "\\r\\nbgp router identifier 10.118.74.10, local as number 64999\\r\\nbgp table version is 429, main routing table version 429\\r\\n20 network entries using 3120 bytes of memory\\r\\n138 path entries using 12144 bytes of memory\\r\\n93/11 bgp path/bestpath attribute entries using 15624 bytes of memory\\r\\n16 bgp as-path entries using 608 bytes of memory\\r\\n21 bgp community entries using 600 bytes of memory\\r\\n1 bgp extended community entries using 24 bytes of memory\\r\\n0 bgp route-map cache entries using 0 bytes of memory\\r\\n0 bgp filter-list cache entries using 0 bytes of memory\\r\\nbgp using 32120 total bytes of memory\\r\\n68 received paths for inbound soft reconfiguration\\r\\nbgp activity 55/35 prefixes, 588/450 paths, scan interval 60 secs\\r\\n\\r\\nneighbor        v           as msgrcvd msgsent   tblver  inq outq up/down  state/pfxrcd\\r\\n10.118.72.1     4        65118   42947   42910      429    0    0 4d17h          17\\r\\n10.118.72.2     4        65118   42950   42917      429    0    0 4d17h          17\\r\\n10.118.72.3     4        65218   16470   16469      429    0    0 1d19h          17\\r\\n10.118.72.4     4        65218   42934   42929      429    0    0 4d17h          17\\r\\n"
+#     clock_status_register_output: "{{ clock_status_register.Output }}" 
+# - action: update_notes incident='{{ incident_no }}' work_notes='{{ clock_status_register_output }}'
+  
+# - block:
+#     - debug:
+#         msg: "Unable to connect to host end the play"
+#     - meta: end_play
+#   when: "'Hostname not known' in clock_status_register"
+
+# - name: execute commands
+#   action: CommandExecution hostname='{{ incident_hostname }}' command='Show Version' incidentno='{{ incident_no }}' notesupdate='yes' 
+#   register: show_version_status_register
+#   ignore_errors: true
+# - debug: var=show_version_status_register
+# - set_fact:
+#     show_version_status_register_output: "{{ show_version_status_register.Output }}" 
+# - action: update_notes incident='{{ incident_no }}' work_notes='{{ show_version_status_register_output }}'
+
+# - name: execute commands
+#   action: CommandExecution hostname='{{ incident_hostname }}' command='Show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
+#   register: show_log_status_register
+#   ignore_errors: true
+# - debug: var=show_log_status_register
+
+# - name: Extract last 10 lines
+#   set_fact:
+#     last_10_lines: >-
+#       {{ 
+#         (show_log_status_register.Output 
+#         | regex_findall('^\d+:.*', multiline=True))[-10:] 
+#         | join('\n') 
+#       }}
+
+# - debug: var=last_10_lines
+# - set_fact:
+#     show_log_status_register_output: "{{ last_10_lines }}" 
+# - action: update_notes incident='{{ incident_no }}' work_notes='{{ show_log_status_register_output }}'
+
+
+# - name: execute commands
+#   action: CommandExecution hostname='{{ incident_hostname }}' command='Sh ip bgp vpnv4 vrf INSIDE Summary' incidentno='{{ incident_no }}' notesupdate='yes' 
+#   register: show_peer_uptime_status_register
+#   ignore_errors: true
+# - debug: var=show_peer_uptime_status_register
+# - set_fact:
+#     BGPpeerOutput: "{{ show_peer_uptime_status_register.Output }}"
+# - action: update_notes incident='{{ incident_no }}' work_notes='{{ BGPpeerOutput }}'
+
+
+- set_fact:
+    created_time: "07-11-2026 06:42:37 AM"
+    BGPpeerOutput: "\\r\\nbgp router identifier 10.118.74.10, local as number 64999\\r\\nbgp table version is 429, main routing table version 429\\r\\n20 network entries using 3120 bytes of memory\\r\\n138 path entries using 12144 bytes of memory\\r\\n93/11 bgp path/bestpath attribute entries using 15624 bytes of memory\\r\\n16 bgp as-path entries using 608 bytes of memory\\r\\n21 bgp community entries using 600 bytes of memory\\r\\n1 bgp extended community entries using 24 bytes of memory\\r\\n0 bgp route-map cache entries using 0 bytes of memory\\r\\n0 bgp filter-list cache entries using 0 bytes of memory\\r\\nbgp using 32120 total bytes of memory\\r\\n68 received paths for inbound soft reconfiguration\\r\\nbgp activity 55/35 prefixes, 588/450 paths, scan interval 60 secs\\r\\n\\r\\nneighbor        v           as msgrcvd msgsent   tblver  inq outq up/down  state/pfxrcd\\r\\n10.118.72.1     4        65118   42947   42910      429    0    0 30m5s          17\\r\\n10.118.72.2     4        65118   42950   42917      429    0    0 4d17h          17\\r\\n10.118.72.3     4        65218   16470   16469      429    0    0 1d19h          17\\r\\n10.118.72.4     4        65218   42934   42929      429    0    0 4d17h          17\\r\\n"
+    #BGPpeerOutput: "\\r\\nbgp router identifier 10.118.74.10, local as number 64999\\r\\nbgp table version is 429, main routing table version 429\\r\\n20 network entries using 3120 bytes of memory\\r\\n138 path entries using 12144 bytes of memory\\r\\n93/11 bgp path/bestpath attribute entries using 15624 bytes of memory\\r\\n16 bgp as-path entries using 608 bytes of memory\\r\\n21 bgp community entries using 600 bytes of memory\\r\\n1 bgp extended community entries using 24 bytes of memory\\r\\n0 bgp route-map cache entries using 0 bytes of memory\\r\\n0 bgp filter-list cache entries using 0 bytes of memory\\r\\nbgp using 32120 total bytes of memory\\r\\n68 received paths for inbound soft reconfiguration\\r\\nbgp activity 55/35 prefixes, 588/450 paths, scan interval 60 secs\\r\\n\\r\\nneighbor        v           as msgrcvd msgsent   tblver  inq outq up/down  state/pfxrcd\\r\\n10.118.72.1     4        65118   42947   42910      429    0    0 4d17h          17\\r\\n10.118.72.2     4        65118   42950   42917      429    0    0 4d17h          17\\r\\n10.118.72.3     4        65218   16470   16469      429    0    0 1d19h          17\\r\\n10.118.72.4     4        65218   42934   42929      429    0    0 4d17h          17\\r\\n"
 
 - name: fetch uptime 
   action: BGPPeersUptimeLogic output='{{BGPpeerOutput}}' 
