@@ -66,5 +66,5 @@
 
 - name: check if its eligible to close
   action: Check_24hours_timestamp created_timestamp='{{ created_time }}'
-  register: 24hourscheck_output
-- debug: var=24hourscheck_output
+  register: hourscheck_output
+- debug: var=hourscheck_output
