@@ -42,7 +42,7 @@ class ActionModule(ActionBase):
 
 
          
-            result={ 'status': 'success','Output':result, 'neighbor_lines': neighbours}
+            result={ 'status': 'success', 'neighbor_lines': neighbours}
             return result
             
         except Exception as e:
