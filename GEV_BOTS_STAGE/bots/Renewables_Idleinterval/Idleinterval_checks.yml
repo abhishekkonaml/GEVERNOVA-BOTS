@@ -1,46 +1,46 @@
-# - name: check connectivity
-#   action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
-#   register: clock_status_register
-#   ignore_errors: true
-# - debug: var=clock_status_register
-# - set_fact:
-#     clock_status_register_output: "{{ clock_status_register.Output }}" 
-# - action: update_notes incident='{{ incident_no }}' work_notes='{{ clock_status_register_output }}'
+- name: check connectivity
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: clock_status_register
+  ignore_errors: true
+- debug: var=clock_status_register
+- set_fact:
+    clock_status_register_output: "{{ clock_status_register.Output }}" 
+- action: update_notes incident='{{ incident_no }}' work_notes='{{ clock_status_register_output }}'
   
-# - block:
-#     - debug:
-#         msg: "Unable to connect to host end the play"
-#     - meta: end_play
-#   when: "'Hostname not known' in clock_status_register"
+- block:
+    - debug:
+        msg: "Unable to connect to host end the play"
+    - meta: end_play
+  when: "'Hostname not known' in clock_status_register"
 
-# - name: execute commands
-#   action: CommandExecution hostname='{{ incident_hostname }}' command='Show Version' incidentno='{{ incident_no }}' notesupdate='yes' 
-#   register: show_version_status_register
-#   ignore_errors: true
-# - debug: var=show_version_status_register
-# - set_fact:
-#     show_version_status_register_output: "{{ show_version_status_register.Output }}" 
-# - action: update_notes incident='{{ incident_no }}' work_notes='{{ show_version_status_register_output }}'
+- name: execute commands
+  action: CommandExecution hostname='{{ incident_hostname }}' command='Show Version' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: show_version_status_register
+  ignore_errors: true
+- debug: var=show_version_status_register
+- set_fact:
+    show_version_status_register_output: "{{ show_version_status_register.Output }}" 
+- action: update_notes incident='{{ incident_no }}' work_notes='{{ show_version_status_register_output }}'
 
-# - name: execute commands
-#   action: CommandExecution hostname='{{ incident_hostname }}' command='Show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
-#   register: show_log_status_register
-#   ignore_errors: true
-# - debug: var=show_log_status_register
+- name: execute commands
+  action: CommandExecution hostname='{{ incident_hostname }}' command='Show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
+  register: show_log_status_register
+  ignore_errors: true
+- debug: var=show_log_status_register
 
-# - name: Extract last 10 lines
-#   set_fact:
-#     last_10_lines: >-
-#       {{ 
-#         (show_log_status_register.Output 
-#         | regex_findall('^\d+:.*', multiline=True))[-10:] 
-#         | join('\n') 
-#       }}
+- name: Extract last 10 lines
+  set_fact:
+    last_10_lines: >-
+      {{ 
+        (show_log_status_register.Output 
+        | regex_findall('^\d+:.*', multiline=True))[-10:] 
+        | join('\n') 
+      }}
 
-# - debug: var=last_10_lines
-# - set_fact:
-#     show_log_status_register_output: "{{ last_10_lines }}" 
-# - action: update_notes incident='{{ incident_no }}' work_notes='{{ show_log_status_register_output }}'
+- debug: var=last_10_lines
+- set_fact:
+    show_log_status_register_output: "{{ last_10_lines }}" 
+- action: update_notes incident='{{ incident_no }}' work_notes='{{ show_log_status_register_output }}'
 
 
 - name: execute commands
