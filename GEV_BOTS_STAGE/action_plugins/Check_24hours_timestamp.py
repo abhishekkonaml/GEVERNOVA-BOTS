@@ -16,6 +16,7 @@ import os
 from GEV_DEV_Servicenow import Incidents
 import math
 from datetime import datetime, timedelta
+import pytz
 
 
 incobj=Incidents()
@@ -27,17 +28,21 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
             created_date_time=self._task.args["created_timestamp"]
-            given_dt = self.parse_dt(created_date_time)
-            now_dt = datetime.now()
+            ist=pytz.timezone("Asia/Kolkata")
+            #convert created tme to utc
+            given_dt = datetime.strptime(created_date_time.strip(), "%d-%m-%Y %I:%M:%S %p")
+            given_dt=ist.localize(given_dt)
+            given_dt_utc=given_dt.astimezone(pytz.UTC)
+            now_dt = datetime.now(pytz.UTC)
 
-            diff = abs(now_dt - given_dt)
+            diff = abs(now_dt - given_dt_utc)
 
             if diff > timedelta(hours=23):
                 decision='greater than 23'
             else:
                 decision= "lesser than 23"
          
-            result={ 'status': 'success', 'current_time': now_dt, 'created_time': created_date_time, 'difference': diff, 'output': decision}
+            result={ 'status': 'success', 'current_time': now_dt, 'created_time': given_dt, 'difference': diff, 'output': decision}
             return result
             
         except Exception as e:
