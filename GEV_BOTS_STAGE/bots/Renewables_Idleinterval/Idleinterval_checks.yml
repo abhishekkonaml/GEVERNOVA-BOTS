@@ -44,7 +44,7 @@
 
 
 - name: execute commands
-  action: BGPPeersUptimeLogic hostname='{{ incident_hostname }}' command='Sh ip bgp vpnv4 vrf INSIDE Summary' incidentno='{{ incident_no }}' notesupdate='yes' 
+  action: CommandExecution hostname='{{ incident_hostname }}' command='Sh ip bgp vpnv4 vrf INSIDE Summary' incidentno='{{ incident_no }}' notesupdate='yes' 
   register: show_peer_uptime_status_register
   ignore_errors: true
 - debug: var=show_peer_uptime_status_register
