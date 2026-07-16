@@ -30,7 +30,7 @@ class ActionModule(ActionBase):
             created_date_time=self._task.args["created_timestamp"]
             ist=pytz.timezone("Asia/Kolkata")
             #convert created tme to utc
-            given_dt = datetime.strptime(created_date_time.strip(), "%d-%m-%Y %I:%M:%S %p")
+            given_dt = datetime.strptime(created_date_time.strip(), "%m-%d-%Y %I:%M:%S %p")
             given_dt=ist.localize(given_dt)
             given_dt_utc=given_dt.astimezone(pytz.UTC)
             now_dt = datetime.now(pytz.UTC)
@@ -42,7 +42,7 @@ class ActionModule(ActionBase):
             else:
                 decision= "lesser than 23"
          
-            result={ 'status': 'success', 'current_time': now_dt, 'created_time': given_dt, 'difference': diff, 'output': decision}
+            result={ 'status': 'success', 'current_time': now_dt, 'created_time': given_dt_utc, 'difference': diff, 'output': decision}
             return result
             
         except Exception as e:
