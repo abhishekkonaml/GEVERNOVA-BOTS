@@ -43,6 +43,6 @@ class ActionModule(ActionBase):
         except Exception as e:
            result={'status': 'failed','Output': f'failed- {str(e)}' }
            return  result 
-def parse_dt(self, dt_str: str) -> datetime:
+    def parse_dt(self, dt_str: str) -> datetime:
         # Input format: '07-11-2026 06:42:37 AM'
         return datetime.strptime(dt_str.strip(), "%d-%m-%Y %I:%M:%S %p")
