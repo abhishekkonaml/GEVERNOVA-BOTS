@@ -32,6 +32,8 @@
       #  - debug: var=assigned_status_register
        - debug:
            msg: "calling Renwables node down role"
+       - name: Call Status Flap role 
+         include_tasks: bots/Renewables_Idleinterval/main.yml
 
        when: "'Renewables Idleinterval' in fetched_details.botname"
      - block:

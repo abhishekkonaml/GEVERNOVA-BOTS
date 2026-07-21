@@ -33,13 +33,15 @@ class ActionModule(ActionBase):
 
                #Bot Classification Logic
                #Renewables node down bot
-               if assignment_group == 'HQ DT CTO Network Core 3PR' and 'down' in description.lower():
+               #Renewables node down bot
+               if assignment_group == 'GE Renewables Network Connectivity Team' and 'down' in description.lower():
                   hostname=''
                   hostname=incident_details[0]['cmdb_ci']
+                  created_on=incident_details[0]['sys_created_on']
                   updated_desc=description
                   if hostname == '':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
-                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Renewables Idleinterval','updated_desc': updated_desc}
+                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Renewables Idleinterval','updated_desc': updated_desc, 'created_on': created_on}
                
                
                
