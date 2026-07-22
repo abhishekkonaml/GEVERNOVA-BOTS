@@ -17,10 +17,10 @@ class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
-           incident=self._task.args['incident']
+           incidentnumber=self._task.args['incident']
 
            incobj=Incidents()
-           result=incobj.Reassign_to_renewables_Engineer(incident)
+           result=incobj.Reassign_to_renewables_Engineer(incidentnumber)
            
            return {'status': 'success','result': result}
         except Exception as e:

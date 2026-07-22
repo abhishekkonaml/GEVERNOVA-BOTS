@@ -83,10 +83,10 @@
     - block: 
         - ansible.builtin.debug:
             msg: "reassign to engineer and send email."
-        - action: ReassigntoRenewableEngineer incident= "{{ incident_no }}"
+        - action: ReassigntoRenewableEngineer incidentnumber= "{{ incident_no }}"
           register: output
         - debug: var=output
-        
+
       when: uptime_result == 'Reassign' and hour_greater
 
     - name: Close + greater than 23 => close ticket
