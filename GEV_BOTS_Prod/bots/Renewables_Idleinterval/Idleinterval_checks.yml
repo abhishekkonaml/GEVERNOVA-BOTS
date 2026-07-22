@@ -71,12 +71,14 @@
 - debug: var=hourscheck_output
 
 - name: Decide next action based on uptime and hours checks
-  set_fact:
-    uptime_result: "{{ uptime_output.result | default('') }}"
-    hour_output: "{{ hourscheck_output.output | default('') | string }}"
-    hour_greater: "{{ 'greater than 23' in hour_output }}"
-    hour_lesser:  "{{ 'lesser than 23' in hour_output }}"
   block:
+    - name: Set evaluation facts
+      ansible.builtin.set_fact:
+        uptime_result: "{{ uptime_output.result | default('') }}"
+        hour_output: "{{ hourscheck_output.output | default('') | string }}"
+        hour_greater: "{{ 'greater than 23' in (hourscheck_output.output | default('') | string) }}"
+        hour_lesser: "{{ 'lesser than 23' in (hourscheck_output.output | default('') | string) }}"
+      ignore_errors: yes
 
     - name: Reassign + greater than 23 => reassign to syed and send email
       ansible.builtin.debug:
@@ -85,7 +87,7 @@
 
     - name: Close + greater than 23 => close ticket
       ansible.builtin.debug:
-        msg: "close ticket and end_play"
+        msg: "close ticket"
       when: uptime_result == 'Close' and hour_greater
 
     - name: Close + lesser than 23 => update notes and end play
@@ -100,7 +102,7 @@
       when: uptime_result == 'Reassign' and hour_lesser
 
 
-
   rescue:
-    - ansible.builtin.debug:
+    - name: No matching condition found or unexpected output format
+      ansible.builtin.debug:
         msg: "No matching condition found or unexpected output format."
