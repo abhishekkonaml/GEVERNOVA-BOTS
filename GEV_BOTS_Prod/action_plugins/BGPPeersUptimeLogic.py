@@ -14,7 +14,8 @@ from multiprocessing import Pool
 import csv
 import os
 import math
-
+import re
+from typing import Optional
 
 
 
@@ -68,24 +69,80 @@ class ActionModule(ActionBase):
 
 
 
-def uptime_to_seconds(uptime_str: str) -> int:
-    """
-    Converts uptime like '4d17h' or '2h' into seconds.
-    Supports d/h/m/s combinations if present.
-    """
-    uptime_str = uptime_str.strip()
 
-    # e.g. 4d17h, 1d19h, 90m, 120s, 2h30m, etc.
-    pattern = r'(?:(\d+)\s*d)?\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*m)?\s*(?:(\d+)\s*s)?'
-    m = re.fullmatch(pattern, uptime_str)
+
+def uptime_to_seconds(uptime_str: str) -> Optional[int]:
+    """
+    Converts uptime like:
+      - '4d17h', '2h30m', '90m', '120s'
+      - '01:14:40' (HH:MM:SS)
+      - '30:45' (MM:SS)
+      - '1:02:03:04' (D:HH:MM:SS)
+    into seconds.
+
+    Returns None if it can't parse the input.
+    """
+    if uptime_str is None:
+        return None
+
+    s = uptime_str.strip()
+    if not s:
+        return None
+
+    # 1) Colon-form: HH:MM:SS or MM:SS or D:HH:MM:SS
+    if ":" in s:
+        parts = s.split(":")
+        try:
+            nums = [int(p) for p in parts]
+        except ValueError:
+            return None
+
+        if len(nums) == 3:
+            # HH:MM:SS
+            h, m, sec = nums
+            return h * 3600 + m * 60 + sec
+        elif len(nums) == 2:
+            # MM:SS
+            m, sec = nums
+            return m * 60 + sec
+        elif len(nums) == 4:
+            # D:HH:MM:SS
+            d, h, m, sec = nums
+            return d * 86400 + h * 3600 + m * 60 + sec
+        else:
+            return None
+
+    # 2) Token-form: combinations of d/h/m/s, e.g. "2d22h", "30m6s", "2h 30m"
+    # Accepts optional spaces and supports missing units.
+    token_pattern = r'(?:(\d+)\s*d\s*)?(?:(\d+)\s*h\s*)?(?:(\d+)\s*m\s*)?(?:(\d+)\s*s\s*)?'
+    m = re.fullmatch(token_pattern, s, flags=re.IGNORECASE)
     if not m:
-        # Sometimes uptime can be like '00:10:23' depending on platform; handle minimally
-        # You can extend this if needed.
-        
         return None
 
     days = int(m.group(1) or 0)
     hours = int(m.group(2) or 0)
     minutes = int(m.group(3) or 0)
     seconds = int(m.group(4) or 0)
+
     return days * 86400 + hours * 3600 + minutes * 60 + seconds
+# def uptime_to_seconds(uptime_str: str) -> int:
+#     """
+#     Converts uptime like '4d17h' or '2h' into seconds.
+#     Supports d/h/m/s combinations if present.
+#     """
+#     uptime_str = uptime_str.strip()
+
+#     # e.g. 4d17h, 1d19h, 90m, 120s, 2h30m, etc.
+#     pattern = r'(?:(\d+)\s*d)?\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*m)?\s*(?:(\d+)\s*s)?'
+#     m = re.fullmatch(pattern, uptime_str)
+#     if not m:
+#         # Sometimes uptime can be like '00:10:23' depending on platform; handle minimally
+#         # You can extend this if needed.
+        
+#         return None
+
+#     days = int(m.group(1) or 0)
+#     hours = int(m.group(2) or 0)
+#     minutes = int(m.group(3) or 0)
+#     seconds = int(m.group(4) or 0)
+#     return days * 86400 + hours * 3600 + minutes * 60 + seconds

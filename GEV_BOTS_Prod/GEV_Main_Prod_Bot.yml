@@ -21,12 +21,14 @@
           incident_hostname: "{{ fetched_details.hostname }}"
           botname: "{{ fetched_details.botname }}"
           update_description: "{{ fetched_details.updated_desc }}"
+          created_time: "{{fetched_details.created_on}}"
 
        
  
        - debug: var=incident_hostname
        - debug: var=botname
        - debug: var=update_description
+       - debug: var=created_time
       #  - action: AssignedtoRenewablesBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}' update_desc='{{ update_description }}'
       #    register: assigned_status_register
       #  - debug: var=assigned_status_register
