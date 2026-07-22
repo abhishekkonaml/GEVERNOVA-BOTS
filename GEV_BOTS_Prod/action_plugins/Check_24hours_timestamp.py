@@ -13,13 +13,11 @@ import time
 from multiprocessing import Pool
 import csv
 import os
-from GEV_DEV_Servicenow import Incidents
 import math
 from datetime import datetime, timedelta
 import pytz
 
 
-incobj=Incidents()
 
 warnings.filterwarnings("ignore")
 
