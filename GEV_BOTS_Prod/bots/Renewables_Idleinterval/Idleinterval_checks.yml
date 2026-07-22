@@ -80,9 +80,13 @@
         hour_lesser: "{{ 'lesser than 23' in (hourscheck_output.output | default('') | string) }}"
       ignore_errors: yes
 
-    - name: Reassign + greater than 23 => reassign to syed and send email
-      ansible.builtin.debug:
-        msg: "reassign to syed and send email."
+    - block: 
+        - ansible.builtin.debug:
+            msg: "reassign to engineer and send email."
+        - action: ReassigntoRenewableEngineer incident= "{{ incident_no }}"
+          register: output
+        - debug: var=output
+        
       when: uptime_result == 'Reassign' and hour_greater
 
     - name: Close + greater than 23 => close ticket
