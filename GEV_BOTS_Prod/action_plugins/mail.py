@@ -45,7 +45,7 @@ class ActionModule(ActionBase):
 
 Please review and take the necessary action to resolve/close the ticket.</p>
 <p>
-<b>Ticket Details: </b>
+<b>Ticket Details: </b> <br>
 description: {}
 configuration_item: {}
 </p>
