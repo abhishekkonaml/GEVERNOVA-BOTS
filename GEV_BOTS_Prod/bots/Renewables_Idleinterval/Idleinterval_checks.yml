@@ -114,8 +114,12 @@
 - name: Debug type
   debug:
     msg: "incident type={{ incident_no | type_debug }}"
+
+- action: update_notes incident='{{ incident_no }}' work_notes='Test'
+  register: notes_update
+- debug: var=notes_update
 - ansible.builtin.debug:
    msg: "reassign to engineer and send email."
-- action: ReassigntoRenewableEngineer incident= '{{ incident_no }}'
+- action: ReassigntoRenewableEngineer incident='{{ incident_no }}'
   register: output
 - debug: var=output
