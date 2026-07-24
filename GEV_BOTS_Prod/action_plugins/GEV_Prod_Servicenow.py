@@ -153,7 +153,9 @@ class Incidents:
                                       "externalRecord": ""
                                     },
                                     "number": incidentnumber,
-                                    "state":3
+                                    "state":3,
+                                    "hold_reason": "Awaiting Information",
+                                    "follow_up":  "2026-07-27 05:11:10"
                               
                                   }
                                 })
