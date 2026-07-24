@@ -113,8 +113,16 @@
 
 
 
-- ansible.builtin.debug:
-   msg: "reassign to engineer and send email."
-- action: ReassigntoRenewableEngineer incident='{{ incident_no }}'
-  register: output
-- debug: var=output
+# - ansible.builtin.debug:
+#    msg: "reassign to engineer and send email."
+# - action: ReassigntoRenewableEngineer incident='{{ incident_no }}'
+#   register: output
+# - debug: var=output
+
+
+- name: send email notification
+  action: mail incident='{{ incident_no }}' hostname='{{ incident_hostname }}' short_description='{{ update_description }}'
+  register: mail_output
+
+- debug: var=mail_output
+  
