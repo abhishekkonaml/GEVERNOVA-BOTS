@@ -1,5 +1,5 @@
 - name: check connectivity
-  action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='yes' 
+  action: CommandExecution hostname='{{ incident_hostname }}' command='show clock' incidentno='{{ incident_no }}' notesupdate='no' 
   register: clock_status_register
   ignore_errors: true
 - debug: var=clock_status_register
@@ -14,7 +14,7 @@
   when: "'Hostname not known' in clock_status_register"
 
 - name: execute commands
-  action: CommandExecution hostname='{{ incident_hostname }}' command='Show Version' incidentno='{{ incident_no }}' notesupdate='yes' 
+  action: CommandExecution hostname='{{ incident_hostname }}' command='Show Version' incidentno='{{ incident_no }}' notesupdate='no' 
   register: show_version_status_register
   ignore_errors: true
 - debug: var=show_version_status_register
@@ -23,7 +23,7 @@
 - action: update_notes incident='{{ incident_no }}' work_notes='{{ show_version_status_register_output }}'
 
 - name: execute commands
-  action: CommandExecution hostname='{{ incident_hostname }}' command='Show logging' incidentno='{{ incident_no }}' notesupdate='yes' 
+  action: CommandExecution hostname='{{ incident_hostname }}' command='Show logging' incidentno='{{ incident_no }}' notesupdate='no' 
   register: show_log_status_register
   ignore_errors: true
 - debug: var=show_log_status_register
@@ -44,7 +44,7 @@
 
 
 - name: execute commands
-  action: CommandExecution hostname='{{ incident_hostname }}' command='Sh ip bgp vpnv4 vrf INSIDE Summary' incidentno='{{ incident_no }}' notesupdate='yes' 
+  action: CommandExecution hostname='{{ incident_hostname }}' command='Sh ip bgp vpnv4 vrf INSIDE Summary' incidentno='{{ incident_no }}' notesupdate='no' 
   register: show_peer_uptime_status_register
   ignore_errors: true
 - debug: var=show_peer_uptime_status_register
