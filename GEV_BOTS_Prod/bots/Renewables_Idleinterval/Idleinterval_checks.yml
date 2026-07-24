@@ -64,7 +64,7 @@
 - block:
     - debug:
         msg: "move ticket to on hold"
-  whem: current_status == 'In Progress' or current_status == 'New'
+  when: current_status == 'In Progress' or current_status == 'New'
 - name: fetch uptime 
   action: BGPPeersUptimeLogic output='{{BGPpeerOutput}}' 
   register: uptime_output
