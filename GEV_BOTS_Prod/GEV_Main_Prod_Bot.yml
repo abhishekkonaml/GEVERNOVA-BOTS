@@ -22,6 +22,7 @@
           botname: "{{ fetched_details.botname }}"
           update_description: "{{ fetched_details.updated_desc }}"
           created_time: "{{fetched_details.created_on}}"
+          state: "{{ fetched_details.state }}"
 
        
  

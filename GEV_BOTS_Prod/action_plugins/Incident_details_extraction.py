@@ -38,10 +38,11 @@ class ActionModule(ActionBase):
                   hostname=''
                   hostname=incident_details[0]['cmdb_ci']
                   created_on=incident_details[0]['sys_created_on']
+                  state=incident_details[0]['state']
                   updated_desc=description
                   if hostname == '':
                      return {'status': 'failed','reason': 'Bot failed to extract the details for execution'}
-                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Renewables Idleinterval','updated_desc': updated_desc, 'created_on': created_on}
+                  return {'status':'success','hostname':hostname,'description':description,'botname': 'Renewables Idleinterval','updated_desc': updated_desc, 'created_on': created_on, 'state': state}
                
                
                
