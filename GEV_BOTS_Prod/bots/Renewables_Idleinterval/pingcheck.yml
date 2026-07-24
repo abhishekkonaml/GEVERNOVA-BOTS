@@ -18,7 +18,7 @@
    block:
    - set_fact: 
       result: |
-              [code] <h3> Unable to reach device, moving ticket to pending state. Next update is after 1hr </h3> [/code]
+              [code] <h3> Unable to reach device. Next update is after 1hr </h3> [/code]
 
    - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
    - set_fact:
