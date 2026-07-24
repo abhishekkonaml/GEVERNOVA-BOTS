@@ -22,7 +22,7 @@
 
    - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
    - set_fact:
-     current_status: "{{ state }}"
+      current_status: "{{ state }}"
    - debug: var=current_status
    - block:
       - debug:
