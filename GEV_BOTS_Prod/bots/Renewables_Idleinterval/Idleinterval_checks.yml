@@ -113,6 +113,6 @@
 
 - ansible.builtin.debug:
    msg: "reassign to engineer and send email."
-- action: ReassigntoRenewableEngineer incident= GEVINC0777321
+- action: ReassigntoRenewableEngineer incident= '{{ incident_no }}'
   register: output
 - debug: var=output
