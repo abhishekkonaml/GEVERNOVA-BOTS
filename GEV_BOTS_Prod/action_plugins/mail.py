@@ -24,7 +24,7 @@ warnings.filterwarnings("ignore")
 
 
 class ActionModule(ActionBase):
-    def send_mail(incident_number,send_to,cc,configuration_item, short_dec):
+    def send_mail(self,incident_number,send_to,cc,configuration_item, short_dec):
         
         assert isinstance(send_to, list)
         server="smtprelay.gevernova.net"
@@ -83,7 +83,7 @@ configuration_item: {}
            send_to=["Aishwarya.Shet@microland.com"]
            cc=["Aishwarya.Shet@microland.com"]
     
-           mail_response=self.send_mail(self,incident_number,send_to,cc,configuration_item, short_dec)
+           mail_response=self.send_mail(incident_number,send_to,cc,configuration_item, short_dec)
 
            print(mail_response)
            return {'status': 'success','result': 'mail sent successfully'}
