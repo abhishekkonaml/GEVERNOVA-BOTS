@@ -16,11 +16,46 @@
 
  - name:  when ping fails
    block:
+   - name: check if its eligible to close
+     action: Check_24hours_timestamp created_timestamp='{{ created_time }}'
+     register: hourscheck_output
+   - debug: var=hourscheck_output
+
+   - name: Decide next action based on uptime and hours checks
+     block:
+      - name: Set evaluation facts
+        ansible.builtin.set_fact:
+         hour_output: "{{ hourscheck_output.output | default('') | string }}"
+         hour_greater: "{{ 'greater than 23' in (hourscheck_output.output | default('') | string) }}"
+         hour_lesser: "{{ 'lesser than 23' in (hourscheck_output.output | default('') | string) }}"
+        ignore_errors: yes
+      - block: 
+        - ansible.builtin.debug:
+            msg: "reassign to engineer and send email."
+        - action: ReassigntoRenewableEngineer incident='{{ incident_no }}'
+          register: output
+        - debug: var=output
+        
+        - name: send email notification
+          action: mail incident='{{ incident_no }}' hostname='{{ incident_hostname }}' short_description='{{ update_description }}'
+          register: mail_output
+
+        - debug: var=mail_output
+        - set_fact: 
+            result: |
+              [code] Unable to ping. Reassigning [/code]
+
+        - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
+        - meta: end_play
+
+        when: hour_greater
+
    - set_fact: 
       result: |
               [code] <h3> Unable to reach device. Next update is after 1hr </h3> [/code]
 
    - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
+
    - set_fact:
       current_status: "{{ state }}"
    - debug: var=current_status
@@ -31,6 +66,9 @@
         register: output
       - debug: var=output
      when: current_status == 'In Progress' or current_status == 'New'
+
+   
+
    - meta: end_play
    when: "'64 bytes' not in ping_result1.stdout"
 
