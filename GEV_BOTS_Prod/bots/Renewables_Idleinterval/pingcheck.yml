@@ -21,6 +21,16 @@
               [code] <h3> Unable to reach device, moving ticket to pending state </h3> [/code]
 
    - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
+   - set_fact:
+     current_status: "{{ state }}"
+   - debug: var=current_status
+   - block:
+      - debug:
+         msg: "move ticket to on hold"
+      - action: Change_incident_state incident='{{ incident_no }}'
+        register: output
+      - debug: var=output
+     when: current_status == 'In Progress' or current_status == 'New'
    - meta: end_play
    when: "'64 bytes' not in ping_result1.stdout"
 
