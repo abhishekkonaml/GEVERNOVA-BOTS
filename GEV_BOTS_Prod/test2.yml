@@ -1,14 +1,18 @@
 ---
- - name: Child Tagging script
+ - name: Test  script
    hosts: localhost
    tasks:
-     - set_fact:
-         incident_no: "GEVINC123"
-     - set_fact:
-         update_description: ""
-     - action: AssignedtoBot incident='{{ incident_no }}' jobid='{{ tower_job_id }} update_desc='{{ update_description }}''
-       register: assigned_status_register
-     - debug: var=assigned_status_register
+     - name: Epoch + 1 hour
+       set_fact:
+         now_plus_1h: "{{ (ansible_date_time.epoch | int) + 3600 }}"
+
+     - name: IST datetime string
+       set_fact:
+         now_plus_1h_ist: >-
+            {{ now_plus_1h | to_datetime('%s', timezone='Asia/Kolkata')
+                    | strftime('%Y-%m-%d %H:%M:%S') }}
+
+     - debug: var=now_plus_1h_ist
      
       
      
