@@ -21,7 +21,7 @@ class ActionModule(ActionBase):
            jobid=self._task.args['jobid']
            update_desc=self._task.args['update_desc']
            incobj=Incidents()
-           result=incobj.assigned_to_renewables_bot(incident,jobid,update_desc)
+           result=incobj.update_job_id(incident,jobid)
            
            return {'status': 'success','result': result}
         except Exception as e:

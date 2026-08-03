@@ -84,6 +84,7 @@ class Incidents:
                return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
+    
     def assigned_to_bot(self,incidentnumber,jobid,update_desc):
         token='Bearer {}'.format(self.access_token)
         url1="https://api.gevernova.com/servicenow_incident/" 
@@ -114,6 +115,34 @@ class Incidents:
                return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
+    def update_job_id(self,incidentnumber,jobid):
+            token='Bearer {}'.format(self.access_token)
+            url1="https://api.gevernova.com/servicenow_incident/" 
+            payload = json.dumps({
+                                  "update": {
+                                    "partnerInfo": {
+                                      "name": "com.microland.intelligenie",
+                                      "externalRecord": ""
+                                    },
+                                    "number": incidentnumber,
+                                    "work_notes": "The Ticket is in Intelligeni Bot queue- {}".format(jobid),
+                                    "state":2
+                          
+                                  }
+                                })
+            headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': token,
+                        'Cookie': 'glide_user_route=glide.ab96de1815d3b1b5951c142924425060'
+                      }
+            try: 
+                response = requests.request("PUT", url1, headers=headers,verify=False,data=payload)
+                if response.status_code == 201:
+                   return (response.json()['result'])
+                else:
+                   return ("Failed - {}".format(response.json()))
+            except Exception as e:
+                   return ("Failed - Something went wrong - {}".format(str(e)))
     def assigned_to_renewables_bot(self,incidentnumber,jobid,update_desc):
         token='Bearer {}'.format(self.access_token)
         url1="https://api.gevernova.com/servicenow_incident/" 

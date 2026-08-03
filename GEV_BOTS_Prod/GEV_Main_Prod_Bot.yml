@@ -30,9 +30,9 @@
        - debug: var=botname
        - debug: var=update_description
        - debug: var=created_time
-      #  - action: AssignedtoRenewablesBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}' update_desc='{{ update_description }}'
-      #    register: assigned_status_register
-      #  - debug: var=assigned_status_register
+       - action: AssignedtoRenewablesBot incident='{{ incident_no }}' jobid='{{ tower_job_id }}' 
+         register: assigned_status_register
+       - debug: var=assigned_status_register
        - debug:
            msg: "calling Renwables node down role"
        - name: Call Status Flap role 
