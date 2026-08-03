@@ -19,7 +19,6 @@ class ActionModule(ActionBase):
         try: 
            incident=self._task.args['incident']
            jobid=self._task.args['jobid']
-           update_desc=self._task.args['update_desc']
            incobj=Incidents()
            result=incobj.update_job_id(incident,jobid)
            
