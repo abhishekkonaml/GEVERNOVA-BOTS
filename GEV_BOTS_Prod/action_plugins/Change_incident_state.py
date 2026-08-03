@@ -17,7 +17,7 @@ class ActionModule(ActionBase):
            follow_up=self._task.args["follow_up"]
 
            incobj=Incidents()
-           return {'status': 'success', 'result': incobj.Change_to_OnHold_state(incident)}
+           return {'status': 'success', 'result': incobj.Change_to_OnHold_state(incident,follow_up)}
         except Exception as e:
            return {'status': 'failed', 'result': str(e)}
 
