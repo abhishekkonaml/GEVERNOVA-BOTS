@@ -172,7 +172,7 @@ class Incidents:
                return ("Failed - {}".format(response.json()))
         except Exception as e:
                return ("Failed - Something went wrong - {}".format(str(e)))
-    def Change_to_OnHold_state(self,incidentnumber):
+    def Change_to_OnHold_state(self,incidentnumber,follow_up):
             token='Bearer {}'.format(self.access_token)
             url1="https://api.gevernova.com/servicenow_incident/" 
             payload = json.dumps({
@@ -184,7 +184,7 @@ class Incidents:
                                     "number": incidentnumber,
                                     "state":3,
                                     "hold_reason": "Awaiting Information",
-                                    "follow_up":  "2026-07-27 05:11:10"
+                                    "follow_up":  follow_up
                               
                                   }
                                 })

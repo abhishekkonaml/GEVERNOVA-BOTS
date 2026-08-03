@@ -14,6 +14,7 @@ class ActionModule(ActionBase):
         super(ActionModule, self).run(tmp, task_vars)
         try: 
            incident=self._task.args["incident"]
+           follow_up=self._task.args["follow_up"]
 
            incobj=Incidents()
            return {'status': 'success', 'result': incobj.Change_to_OnHold_state(incident)}

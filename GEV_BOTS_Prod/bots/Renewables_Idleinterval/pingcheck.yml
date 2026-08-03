@@ -59,10 +59,20 @@
    - set_fact:
       current_status: "{{ state }}"
    - debug: var=current_status
+   
    - block:
       - debug:
          msg: "move ticket to on hold"
-      - action: Change_incident_state incident='{{ incident_no }}'
+      - name: Epoch + 1 hour
+        set_fact:
+         now_plus_1h: "{{ (ansible_date_time.epoch | int) + 3600 }}"
+
+      - name: IST datetime string
+        set_fact:
+         now_plus_1h_ist: >-
+            {{ now_plus_1h | to_datetime('%s', timezone='Asia/Kolkata')
+                    | strftime('%Y-%m-%d %H:%M:%S') }}
+      - action: Change_incident_state incident='{{ incident_no }}' follow_up='{{ now_plus_1h_ist }}'
         register: output
       - debug: var=output
      when: current_status == 'In Progress' or current_status == 'New'
