@@ -125,8 +125,8 @@ class Incidents:
                                       "externalRecord": ""
                                     },
                                     "number": incidentnumber,
-                                    "work_notes": "The Ticket is in Intelligeni Bot queue- {}".format(jobid),
-                                    "state":2
+                                    "work_notes": "The Ticket is in Intelligeni Bot queue- {}".format(jobid)
+                       
                           
                                   }
                                 })
