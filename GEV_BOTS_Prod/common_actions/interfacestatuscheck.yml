@@ -4,13 +4,15 @@
 - name: Interface status check
   action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
   register: interface_status_register
-  until: ("is up" in interface_status_register.Output)
   ignore_errors: true
-  retries: "{{ interfacefrequency}}"
-  delay: "{{ interfacedelay }}"
+  loop: "{{ range(1, 4) | list }}"
+  loop_control:
+    label: "Interface check attempt {{ item }}"
+    pause: 600
+  failed_when: false
 
 - set_fact:
-    Interfaceresult: "{{ interface_status_register.Output }}"
+    Interfaceresult: "{{ interface_status_register.results[-1].Output | default('') }}"
 
 - name: Interface Neighbor status
   action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command2 }}' incidentno='{{ incident_no }}' notesupdate='yes'

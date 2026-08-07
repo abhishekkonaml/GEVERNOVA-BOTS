@@ -37,17 +37,17 @@
   
   
   - debug: var=interfaceno
-
+ 
   
   - name: Step1 - Ping Check for the hostname
     include_tasks: common_actions/pingcheck.yml
     vars: 
-     frequency: 3
+     frequency: 2
      delay_time: 600
   - name: Step2 - Interface Status check
     include_tasks: common_actions/interfacestatuscheck.yml
     vars:
-     interfacefrequency: 3
+     interfacefrequency: 2
      interfacedelay: 600 
   - name: Sleep for  seconds
     pause:
