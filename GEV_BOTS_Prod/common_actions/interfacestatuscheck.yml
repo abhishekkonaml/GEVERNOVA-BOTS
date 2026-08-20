@@ -5,7 +5,7 @@
   action: InterfaceStatusExecution hostname='{{ incident_hostname }}' command='{{ command1 }}' incidentno='{{ incident_no }}' notesupdate='yes'
   register: interface_status_register
   ignore_errors: true
-  loop: "{{ range(1, 4) | list }}"
+  loop: "{{ range(1, 3) | list }}"
   loop_control:
     label: "Interface check attempt {{ item }}"
     pause: 600

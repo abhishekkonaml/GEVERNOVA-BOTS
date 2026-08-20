@@ -1,8 +1,9 @@
 ---
- - name: GEV Bots
+ - name: GEV Prod Bots
    hosts: localhost
    vars:
       incident_no: "{{ ticketNo }}"
+      assignment_group: "HQ CTO NETWORK ENTERPRISE SITE SUPPORT"
       #incident_no: "GEVINC123"
       #bot_name: "ML_Test_SnowIntegration"
       
