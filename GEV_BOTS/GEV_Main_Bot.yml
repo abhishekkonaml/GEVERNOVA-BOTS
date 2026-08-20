@@ -8,6 +8,7 @@
       
    tasks:
    # Fetching Incident Details
+   - debug: var=incident_no
    - name: Bot Execution started
      action: Incident_details_extraction incident_no='{{ incident_no }}'
      register: fetched_details
