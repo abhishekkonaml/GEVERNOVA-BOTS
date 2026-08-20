@@ -12,6 +12,7 @@ from GEV_Prod_Servicenow import Incidents
 from awx_trigger import AWX_Trigger
 warnings.filterwarnings("ignore") 
 from coreappapi import CoreApp
+from awx_trigger import trigger
 
 class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
@@ -19,6 +20,7 @@ class ActionModule(ActionBase):
         try:
            incobj=Incidents() 
            coreobj=CoreApp()
+           awx_trigger_obj=AWX_Trigger()
            query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^sys_created_onONLast 45 minutes@javascript:gs.beginningOfLast15Minutes()@javascript:gs.endOfLast15Minutes()^state=1^ORstate=2"
            #query1="assignment_group=306e23c52b1cee903439fb5dce91bf1f^descriptionLIKEstatus^descriptionNOT LIKEstatusflap^descriptionLIKEinterfaces^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^state=1^ORstate=2"
            
@@ -32,6 +34,8 @@ class ActionModule(ActionBase):
                      
                      response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                      print({'TicketNo' : incident_no, 'Problem': 'StatusAlert', 'Status': response1})
+                     response1=awx_trigger_obj.trigger(incident_no)
+                     print(response1)
            query2="state=1^ORstate=2^short_descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONLast 45 minutes@javascript:gs.beginningOfLast45Minutes()@javascript:gs.endOfLast45Minutes()"
            #query2="sys_created_onBETWEENjavascript:gs.dateGenerate('2025-12-30','00:00:00')@javascript:gs.dateGenerate('2025-12-30','23:59:59')^assignment_group=609fb9273b426690e2d5cbc964e45a7a^state=2"
            query3="assignment_group=306e23c52b1cee903439fb5dce91bf1f^short_descriptionLIKEstatusflap^state=1^ORstate=2^sys_created_onONLast 45 minutes@javascript:gs.beginningOfLast45Minutes()@javascript:gs.endOfLast45Minutes()"
@@ -45,6 +49,8 @@ class ActionModule(ActionBase):
                      
                      response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                      print({'TicketNo' : incident_no, 'Problem': 'StatusFlap', 'Status': response1})
+                     response1=awx_trigger_obj.trigger(incident_no)
+                     print(response1)
            #query2="state=2^ORstate=1^descriptionLIKEis down^assignment_group=306e23c52b1cee903439fb5dce91bf1f^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"
            fetch_idleinterval_tickets=incobj.get_incident_details_by_query(query2)
            #print(fetch_idleinterval_tickets)
@@ -57,6 +63,8 @@ class ActionModule(ActionBase):
                   #coreobj=CoreApp()
                   response1=coreobj.coreapp_trigger(incident_no,desc,org_assignment_group)
                   print({'TicketNo' : incident_no, 'Problem': 'IdleInterval','Status': response1})
+                  response1=awx_trigger_obj.trigger(incident_no)
+                  print(response1)
                   #break
            
            return {'status': 'success','response': 'Successfully triggered Eligible tickets'}

@@ -1,10 +1,13 @@
 import base64
 import requests
-import json
+import json 
+import decoding1
 class AWX_Trigger:
 
-      def trigger(self,awx_url,awx_uname,awx_pass,incident):
-           
+      def trigger(self,incident):
+            awx_url="https://bots.intelligeni.gevernova.net/api/v2/job_templates/12/launch/"
+            awx_uname=decoding1.decoding1("YWRtaW4=")
+            awx_pass=decoding1.decoding1("YWRtaW4xMjM=")
             awx_creds = awx_uname + ":" + awx_pass
             awx_creds_enc = awx_creds.encode('utf-8')
            
