@@ -5,7 +5,7 @@ import decoding1
 class AWX_Trigger:
 
       def trigger(self,incident):
-            awx_url="https://bots.intelligeni.gevernova.net/api/v2/job_templates/22/launch/"
+            awx_url="https://bots.intelligeni.gevernova.net/api/v2/job_templates/19/launch/"
             proxies = {
                         "http": None,
                         "https": None,
