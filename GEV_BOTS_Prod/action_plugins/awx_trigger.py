@@ -22,7 +22,7 @@ class AWX_Trigger:
                         }
             awx_body={
                       "extra_vars": {
-                               "fetch_incident_no": incident
+                               "incident_no": incident
                              }
                       }
             
