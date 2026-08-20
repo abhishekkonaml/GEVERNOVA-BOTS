@@ -6,6 +6,10 @@ class AWX_Trigger:
 
       def trigger(self,incident):
             awx_url="https://bots.intelligeni.gevernova.net/api/v2/job_templates/12/launch/"
+            proxies={
+                     "http": "http://sra-proxy.gevernova.net:8080",
+   		            "https": "http://sra-proxy.gevernova.net:8080"
+                }
             awx_uname=decoding1.decoding1("YWRtaW4=")
             awx_pass=decoding1.decoding1("YWRtaW4xMjM=")
             awx_creds = awx_uname + ":" + awx_pass
@@ -24,7 +28,7 @@ class AWX_Trigger:
             
 
             try:           
-               response = requests.request("POST", awx_url, headers=headers,json=awx_body,verify=False)
+               response = requests.request("POST", awx_url, proxies=proxies, headers=headers,json=awx_body,verify=False)
                return response.json()
             except Exception as e:
                  return str(e)
