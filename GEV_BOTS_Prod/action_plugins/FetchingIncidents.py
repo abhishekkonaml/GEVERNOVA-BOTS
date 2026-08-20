@@ -12,7 +12,7 @@ from GEV_Prod_Servicenow import Incidents
 from awx_trigger import AWX_Trigger
 warnings.filterwarnings("ignore") 
 from coreappapi import CoreApp
-from awx_trigger import trigger
+from awx_trigger import AWX_Trigger
 
 class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
