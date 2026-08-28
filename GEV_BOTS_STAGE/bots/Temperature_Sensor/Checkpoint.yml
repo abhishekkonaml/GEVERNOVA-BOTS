@@ -26,10 +26,20 @@
    ansible.builtin.set_fact:
     system_temp_2_str: "{{ temp_text | regex_search('System\\s+Temp\\s+2\\s+([0-9]+\\.[0-9]+)', '\\1', ignorecase=True) | first }}" 
    ignore_errors: yes
+#  - name: test
+#    ansible.builtin.set_fact:
+#     CPU_temp_str:  "{{ temp_text | regex_search('CPU\\s+Temp\\s+([0-9]+\\.[0-9]+)', '\\1', ignorecase=True) | first }}"
+#    ignore_errors: yes
  - name: test
    ansible.builtin.set_fact:
-    CPU_temp_str:  "{{ temp_text | regex_search('CPU\\s+Temp\\s+([0-9]+\\.[0-9]+)', '\\1', ignorecase=True) | first }}"
+    CPU_temp_str: >-
+      {{
+        temp_text
+        | regex_search('CPU\s+Temp\s*0?\s+([0-9]+\.[0-9]+)', '\\1', ignorecase=True)
+        | first
+      }}
    ignore_errors: yes
+ 
  - debug: var=system_temp_1_str
  - debug: var=system_temp_2_str
  - debug: var=CPU_temp_str
