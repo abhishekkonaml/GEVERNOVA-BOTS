@@ -1,7 +1,7 @@
-#  - name: Execute command
-#    action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='no' 
-#    register: temp_status_register
-#    ignore_errors: true
+ - name: Execute command
+   action: CommandExecution hostname='{{ incident_hostname }}' command='show sysenv temp' incidentno='{{ incident_no }}' notesupdate='no' 
+   register: temp_status_register
+   ignore_errors: true
 
  - debug: var=temp_status_register
  - set_fact:
@@ -30,19 +30,19 @@
    ansible.builtin.set_fact:
     system_temp_2_str: "{{ temp_text | regex_search('System\\s+Temp\\s+2\\s+([0-9]+\\.[0-9]+)', '\\1', ignorecase=True) | first }}" 
    ignore_errors: yes
-#  - name: test
-#    ansible.builtin.set_fact:
-#     CPU_temp_str:  "{{ temp_text | regex_search('CPU\\s+Temp\\s+([0-9]+\\.[0-9]+)', '\\1', ignorecase=True) | first }}"
-#    ignore_errors: yes
  - name: test
    ansible.builtin.set_fact:
-    CPU_temp_str: >-
-      {{
-        temp_text
-        | regex_search('CPU\\s+Temp\\d?\\s+([0-9]+\.[0-9]+)', '\\1', ignorecase=True)
-        | first
-      }}
+    CPU_temp_str:  "{{ temp_text | regex_search('CPU\\s+Temp\\s+([0-9]+\\.[0-9]+)', '\\1', ignorecase=True) | first }}"
    ignore_errors: yes
+#  - name: test
+#    ansible.builtin.set_fact:
+#     CPU_temp_str: >-
+#       {{
+#         temp_text
+#         | regex_search('CPU\\s+Temp\\d?\\s+([0-9]+\.[0-9]+)', '\\1', ignorecase=True)
+#         | first
+#       }}
+#    ignore_errors: yes
  
  - debug: var=system_temp_1_str
  - debug: var=system_temp_2_str
