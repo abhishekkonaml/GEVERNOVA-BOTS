@@ -38,7 +38,8 @@ class ActionModule(ActionBase):
                #Renewables node down bot
                if assignment_group == 'GE Renewables Network Connectivity Team' and 'down' in description.lower():
                   hostname=''
-                  hostname=incident_details[0]['cmdb_ci']
+                  hostname='RNWrtSINbhuru01'
+                  #hostname=incident_details[0]['cmdb_ci']
                   created_on=incident_details[0]['sys_created_on']
                   state=incident_details[0]['state']
                   updated_desc=description
