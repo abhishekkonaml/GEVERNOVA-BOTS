@@ -121,6 +121,10 @@
     - block: 
         - ansible.builtin.debug:
             msg: "close ticket"
+        - set_fact: 
+            result: |
+              [code] <h3> Device is up and reachable. Closing ticket </h3> [/code]
+        - action: update_notes incident='{{ incident_no }}' work_notes='{{ result }}'
         - action: closeincident incident='{{ incident_no }}'
           register: close_ticket
         - meta: end_play    
