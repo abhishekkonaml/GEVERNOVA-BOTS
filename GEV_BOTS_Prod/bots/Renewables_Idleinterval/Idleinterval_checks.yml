@@ -116,10 +116,14 @@
         - debug: var=mail_output
 
       when: uptime_result == 'Reassign' and hour_greater
-
-    - name: Close + greater than 23 => close ticket
-      ansible.builtin.debug:
-        msg: "close ticket"
+    
+#Close + greater than 23 => close ticket
+    - block: 
+        - ansible.builtin.debug:
+            msg: "close ticket"
+        - action: closeincident incident='{{ incident_no }}'
+          register: close_ticket
+        - meta: end_play    
       when: uptime_result == 'Close' and hour_greater
 
     - name: Close + lesser than 23 => update notes and end play
